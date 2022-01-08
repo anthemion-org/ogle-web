@@ -3,7 +3,7 @@
 // Copyright ©2022 Jeremy Kelly
 // www.anthemion.org
 
-import tDie from "./Die.js";
+import { tDie } from "./Die.js";
 import * as Dir4 from "../Util/Dir4.js";
 
 test("Create tDie: Underlined", () => {

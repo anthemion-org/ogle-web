@@ -3,7 +3,28 @@
 // Copyright ©2022 Jeremy Kelly
 // www.anthemion.org
 
-import { ForTest } from "./Pool.js";
+import { tPool, ForTest } from "./Pool.js";
+
+// tPool
+// -----
+
+test("tPool: Draw all", () => {
+	const oqPool = new tPool();
+
+	for (let oj = 0; oj < 25; ++oj)
+		oqPool.uDie();
+});
+
+test("tPool: Draw too many", () => {
+	const oqPool = new tPool();
+
+	for (let oj = 0; oj < 25; ++oj)
+		oqPool.uDie();
+	expect(() => oqPool.uDie()).toThrow();
+});
+
+// tPoolSub
+// --------
 
 test("tPoolSub: Draw all", () => {
 	const oqTexts = {
