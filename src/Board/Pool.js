@@ -9,7 +9,6 @@
 //
 
 import { tDie } from "./Die.js";
-import * as Rnd from "../Util/Rnd.js";
 import * as Dir4 from "../Util/Dir4.js";
 import * as Cfg from "../Cfg.js";
 
@@ -17,7 +16,15 @@ import * as Cfg from "../Cfg.js";
 // to produce a board. A fixed number of vowels will be found in any board, once
 // the entire board has been drawn.
 export class tPool {
-	constructor() {
+	constructor(aqGenRnd) {
+		if (!aqGenRnd)
+			throw new Error("tPoolSub.constructor: Rnadom number generator not set");
+
+		this.GenRnd = aqGenRnd;
+
+		// Ready sub-pools
+		// ---------------
+
 		// The desired vowel frequency.
 		const oRatioVow = 9 / 25;
 
@@ -27,7 +34,7 @@ export class tPool {
 		this.CtConson = Cfg.CtDie - this.CtVow;
 
 		// The vowel pool.
-		this.qSubVow = new tPoolSub({
+		this.qSubVow = new tPoolSub(aqGenRnd, {
 			E: 6,
 			A: 4, O: 4,
 			I: 3,
@@ -35,7 +42,7 @@ export class tPool {
 		});
 
 		// The consonant pool.
-		this.qSubConson = new tPoolSub({
+		this.qSubConson = new tPoolSub(aqGenRnd, {
 			T: 7, N: 7,
 			S: 6, H: 6, R: 6,
 			D: 4, L: 4,
@@ -52,7 +59,7 @@ export class tPool {
 		if (oCtText < 1)
 			throw new Error("tPool.uDie: Cannot draw text");
 
-		const ojDraw = Rnd.uInt(oCtText);
+		const ojDraw = this.GenRnd.uInt(oCtText);
 
 		let oText;
 		if (ojDraw < this.CtVow) {
@@ -64,7 +71,7 @@ export class tPool {
 			--this.CtConson;
 		}
 
-		const oDir = Dir4.uRnd();
+		const oDir = Dir4.uRnd(this.GenRnd);
 		return new tDie(oText, oDir);
 	}
 }
@@ -96,7 +103,12 @@ class tPoolSub {
 
 	// Creates a new pool containing text values drawn from the properties of
 	// aqEnts, with counts equal to the aqEnts values.
-	constructor(aqEnts) {
+	constructor(aqGenRnd, aqEnts) {
+		if (!aqGenRnd)
+			throw new Error("tPoolSub.constructor: Rnadom number generator not set");
+
+		this.GenRnd = aqGenRnd;
+
 		// The total value count available to be drawn.
 		this.Ct = tPoolSub.suCt(aqEnts);
 		// An object that associates text values with counts. These counts will be
@@ -108,7 +120,7 @@ class tPoolSub {
 	uDraw() {
 		// Replace this with a fractional draw index, so that text values can have
 		// non-integer counts? See the tPoolSub comments for more on this:
-		let ojDraw = Rnd.uInt(this.Ct);
+		let ojDraw = this.GenRnd.uInt(this.Ct);
 		for (const onText in this.qEnts) {
 			ojDraw -= this.qEnts[onText];
 			if (ojDraw < 0) {

@@ -5,10 +5,8 @@
 //
 // Import with:
 //
-//   import * as Dir4 from "../Util/Dir4.js";
+//   import * from "../Util/Dir4.js";
 //
-
-import * as Rnd from "./Rnd.js";
 
 // Stores properties representing the four cardinal directions.
 export const Vals = {
@@ -25,6 +23,6 @@ export function uCk(aDir) {
 }
 
 // Returns a random Vals member.
-export function uRnd() {
-	return Rnd.uEl(Object.values(Vals));
+export function uRnd(aqGenRnd) {
+	return aqGenRnd.uEl(Object.values(Vals));
 }
