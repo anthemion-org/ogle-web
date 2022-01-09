@@ -8,17 +8,31 @@
 //   import { tGenRnd } from "../Util/Rnd.js";
 //
 
+// tGenRnd
+// -------
+// We need a seedable generator to make our tests deterministic.
+
 // A seedable random number generator. This generator is not suitable for
 // cryptographic use.
 export class tGenRnd {
-	// Set aSeedText to a non-empty string to seed the generator.
+	// Set aSeedText to a non-empty string to seed the generator, or leave it
+	// undefined to seed it with the current time.
 	constructor(aSeedText) {
-		const ouGenSeed = uGenSeedXMUR3(aSeedText);
-		this.SeedNum = ouGenSeed();
+		if (aSeedText) {
+			const ouGenSeed = uGenSeedXMUR3(aSeedText);
+			this.SeedNum = ouGenSeed();
+		}
+		else this.SeedNum = Date.now();
+
 		this.GenNum = uGenNumMulberry32(this.SeedNum);
 	}
 
-	// Returns an integer less than aCeil, and greater than or equal to zero.
+	// Returns an number greater than or equal to zero, and less than one.
+	uVal() {
+		return this.GenNum();
+	}
+
+	// Returns an integer greater than or equal to zero, and less than aCeil.
 	uInt(aCeil) {
 		return Math.floor(this.GenNum() * aCeil);
 	}
@@ -31,17 +45,18 @@ export class tGenRnd {
 	}
 }
 
-// 'bryc' random number generation
-// -------------------------------
+// 'bryc' random number utilities
+// ------------------------------
+// These are adapted from:
+//
+//   https://github.com/bryc/code/blob/master/jshash/PRNGs.md
+//   https://stackoverflow.com/a/47593316/3728155
+//
+// Thank you 'bryc'!
 
 // Accepts a string of any length greater than zero, and returns a function. The
 // function generates numbers suitable for use as seeds.
 function uGenSeedXMUR3(aSeedText) {
-	// Adapted from 'xmur3' in:
-	//
-	//   https://github.com/bryc/code/blob/master/jshash/PRNGs.md
-	//   https://stackoverflow.com/a/47593316/3728155
-	//
 	if (!aSeedText.length)
 		throw new Error("Rnd uGenSeedXMUR3: Invalid source string");
 
@@ -59,11 +74,6 @@ function uGenSeedXMUR3(aSeedText) {
 // Accepts a numeric seed, and returns a function. The function generates random
 // numbers that are greater than or equal to zero, and less than one.
 function uGenNumMulberry32(aSeed) {
-	// Adapted from:
-	//
-	//   https://github.com/bryc/code/blob/master/jshash/PRNGs.md
-	//   https://stackoverflow.com/a/47593316/3728155
-	//
 	return function () {
 		aSeed |= 0;
 		aSeed = aSeed + 0x6D2B79F5 | 0;
