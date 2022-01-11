@@ -11,6 +11,7 @@
 import { tPool } from "./Pool.js";
 import * as Cfg from "../Cfg.js";
 
+// Generates and stores a single game board.
 export class tBoard {
 	// Creates a random board.
 	constructor() {

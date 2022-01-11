@@ -5,7 +5,7 @@
 //
 // Import with:
 //
-//   import * from "../Util/Dir4.js";
+//   import * as Dir4 from "../Util/Dir4.js";
 //
 
 // Stores properties representing the four cardinal directions.

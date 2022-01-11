@@ -24,35 +24,34 @@ export class tGenRnd {
 		}
 		else this.SeedNum = Date.now();
 
-		this.GenNum = uGenNumMulberry32(this.SeedNum);
+		this.GenBase = uGenNumMulberry32(this.SeedNum);
 	}
 
 	// Returns an number greater than or equal to zero, and less than one.
 	uVal() {
-		return this.GenNum();
+		return this.GenBase();
 	}
 
 	// Returns an integer greater than or equal to zero, and less than aCeil.
 	uInt(aCeil) {
-		return Math.floor(this.GenNum() * aCeil);
+		return Math.floor(this.GenBase() * aCeil);
 	}
 
-	// Returns a random array element from ayEls, throwing instead if it is empty.
-	uEl(ayEls) {
-		if (!ayEls.length)
+	// Returns a random array element from 'ay', throwing instead if it is empty.
+	uEl(ay) {
+		if (!ay.length)
 			throw new Error("tGenRnd.uEl: Empty array");
-		return ayEls[this.uInt(ayEls.length)];
+		return ay[this.uInt(ay.length)];
 	}
 }
 
 // 'bryc' random number utilities
 // ------------------------------
-// These are adapted from:
+// These functions are adapted from:
 //
 //   https://github.com/bryc/code/blob/master/jshash/PRNGs.md
 //   https://stackoverflow.com/a/47593316/3728155
 //
-// Thank you 'bryc'!
 
 // Accepts a string of any length greater than zero, and returns a function. The
 // function generates numbers suitable for use as seeds.

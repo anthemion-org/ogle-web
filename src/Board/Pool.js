@@ -18,7 +18,7 @@ import * as Cfg from "../Cfg.js";
 export class tPool {
 	constructor(aqGenRnd) {
 		if (!aqGenRnd)
-			throw new Error("tPoolSub.constructor: Rnadom number generator not set");
+			throw new Error("tPoolSub.constructor: Random number generator not set");
 
 		this.GenRnd = aqGenRnd;
 
