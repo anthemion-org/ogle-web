@@ -46,11 +46,11 @@ export class tLex {
 		// is good enough.
 		const ouCompare = Search.uCompareStr;
 
-		let [ oCkFound ] = Search.uBin(this.yWordsSearch, aWord, ouCompare);
-		if (oCkFound) return true;
+		let [ oCk ] = Search.uBin(this.yWordsSearch, aWord, ouCompare);
+		if (oCk) return true;
 
-		[ oCkFound ] = Search.uBin(this.yWordsUserPend, aWord, ouCompare);
-		return oCkFound;
+		[ oCk ] = Search.uBin(this.yWordsUserPend, aWord, ouCompare);
+		return oCk;
 	}
 
 	// Add user words...

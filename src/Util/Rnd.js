@@ -37,11 +37,11 @@ export class tGenRnd {
 		return Math.floor(this.GenBase() * aCeil);
 	}
 
-	// Returns a random array element from 'ay', throwing instead if it is empty.
-	uEl(ay) {
-		if (!ay.length)
+	// Returns a random array element from ayEls, throwing instead if it is empty.
+	uEl(ayEls) {
+		if (!ayEls.length)
 			throw new Error("tGenRnd.uEl: Empty array");
-		return ay[this.uInt(ay.length)];
+		return ayEls[this.uInt(ayEls.length)];
 	}
 }
 

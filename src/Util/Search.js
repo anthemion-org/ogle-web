@@ -36,34 +36,39 @@ export function uCompareStr(aL, aR) {
 // Search functions
 // ----------------
 
-// Uses a binary search to find aVal within array 'ay'. Set auComp to a custom
-// comparison function, or leave it undefined to compare elements as numbers.
-// Returns a two-element array containing a boolean value that tells whether
-// aVal was found, plus the index where a match was or would have been found.
+// Uses a binary search to find aVal within sorted array ayEls. Set auComp to a
+// custom comparison function, or leave it undefined to compare elements as
+// numbers. Returns a two-element array containing a boolean value that tells
+// whether aVal was found, plus the index where a match was or would have been
+// found.
 //
 // If provided, the comparison function must accept two arguments, and return a
 // negative number, zero, or a positive number to signal the first argument's
 // position relative to the second.
-export function uBin(ay, aVal, auCompare) {
-	// Adapted from the Bottenbruch algorithm at:
-	//
-	//   https://en.wikipedia.org/wiki/Binary_search_algorithm
-	//
-
-	if (!ay || !ay.length)
+export function uBin(ayEls, aVal, auCompare) {
+	if (!Array.isArray(ayEls))
 		throw new Error("Search uBin: Invalid array");
+	if (!ayEls.length) return [ false, 0 ];
 
 	if (!auCompare) auCompare = uCompareNum;
 
-	let ojL = 0;
-	let ojR = ay.length - 1;
-	while (ojL !== ojR) {
-		const ojM = Math.ceil((ojL + ojR) / 2);
-		if (auCompare(ay[ojM], aVal) > 0) ojR = ojM - 1;
-		else ojL = ojM;
+	let ojLo = 0;
+	let ojHi = ayEls.length - 1;
+	while (ojLo !== ojHi) {
+		const ojMid = Math.ceil((ojLo + ojHi) / 2);
+		const oPosMid = auCompare(ayEls[ojMid], aVal);
+		if (oPosMid < 0) {
+			ojLo = ojMid;
+			continue;
+		}
+		else if (oPosMid > 0) {
+			ojHi = ojMid - 1;
+			continue;
+		}
+		return [ true, ojMid ];
 	}
-	return [
-		auCompare(ay[ojL], aVal) !== 0,
-		ojL
-	];
+
+	const oPosEnd = auCompare(ayEls[ojLo], aVal);
+	const ojIns = (oPosEnd < 0) ? (ojLo + 1) : ojLo;
+	return [ !oPosEnd, ojIns ];
 }
