@@ -16,15 +16,29 @@ import * as Search from "../Util/Search.js";
 // the browser? [optimize]
 import yWordsOgle from "./WordsOgle.json";
 
+// tLex
+// ----
+// 'Searchable' words include built-in words, plus user-entered words that have
+// been merged. Only these words can be found with the Ogle word search.
+//
+// 'Known' words include built-in words and all user-entered words, including
+// unmerged words. These can be checked with uCkKnown, but they cannot
+// necessarily be found with a word search.
+
 export class tLex {
 	constructor() {
-		// All 'searchable' words, which include built-in words, plus user-entered
-		// words that have been merged. Only these words can be found with the Ogle
-		// word search.
+		// All 'searchable' words.
 		this.yWordsSearch = Array.from(yWordsOgle);
 
+		// Merge stored user words into the 'searchable' list:
+		const oyWordsUser = localStorage.yWordsUser
+			? JSON.parse(localStorage.yWordsUser)
+			: [];
+		this.yWordsSearch.push(...oyWordsUser);
+		this.yWordsSearch.sort(Search.uCompareStr);
+
 		// User-entered words that have yet to be merged.
-		this.yWordsUserPend = localStorage.yWordsUser;
+		this.yWordsUserPend = [];
 	}
 
 	// Returns the number of 'searchable' words.
@@ -35,25 +49,45 @@ export class tLex {
 	// Returns the 'searchable' word at the specified index.
 	uAtSearch(aj) {
 		if (isNaN(aj) || (aj < 0) || (aj >= this.yWordsSearch.length))
-			throw new Error("tLex.uAt: Invalid index");
+			throw new Error("tLex.uAtSearch: Invalid index");
 		return this.yWordsSearch[aj];
 	}
 
-	// Returns 'true' if the specified word is known. This includes searchable
-	// words, and user-entered words that have yet to be merged.
-	uCkAll(aWord) {
+	// Returns 'true' if the specified word is 'known'.
+	uCkKnown(aWord) {
 		// Ogle does not allow capital letters or accents, so this fast comparison
 		// is good enough.
 		const ouCompare = Search.uCompareStr;
 
-		let [ oCk ] = Search.uBin(this.yWordsSearch, aWord, ouCompare);
+		let [oCk] = Search.uBin(this.yWordsSearch, aWord, ouCompare);
 		if (oCk) return true;
 
-		[ oCk ] = Search.uBin(this.yWordsUserPend, aWord, ouCompare);
+		[oCk] = Search.uBin(this.yWordsUserPend, aWord, ouCompare);
 		return oCk;
 	}
 
-	// Add user words...
-	// Merge user words...
-	// Expose word elements...
+	// Adds the specified word to the user storage and the unmerged user word
+	// list.
+	uAdd_WordUser(aWord) {
+		const oyWordsUser = localStorage.yWordsUser
+			? JSON.parse(localStorage.yWordsUser)
+			: [];
+		oyWordsUser.push(aWord);
+		localStorage.yWordsUser = JSON.stringify(oyWordsUser);
+
+		this.yWordsUserPend.push(aWord);
+		// We must keep this sorted for uCkKnown:
+		this.yWordsUserPend.sort(Search.uCompareStr);
+	}
+
+	// Merges recent user words into the 'searchable' word list, then empties the
+	// unmerged user word list.
+	uMerge_WordsUser() {
+		if (!this.yWordsUserPend.length) return;
+
+		this.yWordsSearch.push(...this.yWordsUserPend);
+		this.yWordsSearch.sort(Search.uCompareStr);
+
+		this.yWordsUserPend = [];
+	}
 }
