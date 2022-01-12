@@ -8,7 +8,7 @@
 //   import { tBoard } from "../Board.js";
 //
 
-import { tPool } from "./Pool.js";
+import { tPoolDie } from "./PoolDie.js";
 import * as Cfg from "../Cfg.js";
 
 /** Generates and stores a single game board. */
@@ -18,11 +18,11 @@ export class tBoard {
 		/** An array of column arrays, which themselves contain tDie instances. */
 		this.yDice = [];
 
-		const oqPool = new tPool();
+		const oqPool = new tPoolDie();
 		for (let oX = 0; oX < Cfg.WthBoard; ++oX) {
 			const oyCol = [];
 			for (let oY = 0; oY < Cfg.HgtBoard; ++oY)
-				oyCol.push(oqPool.uDie())
+				oyCol.push(oqPool.uDraw())
 			this.yDice.push(oyCol);
 		}
 	}

@@ -31,7 +31,7 @@ Allow optional parameters, but avoid parameters that can have different types [t
 
 ### Classes versus closures
 
-A class like `tPool` could easily be replaced with a factory function that returns a die-generating function. Many JavaScript developers would consider that more idiomatic, but how is it actually better? The class implementation:
+A class like `tPoolDie` could easily be replaced with a factory function that returns a die-generating function. Many JavaScript developers would consider that more idiomatic, but how is it actually better? The class implementation:
 
 - Cleanly separates initialization code from output-generating code;
 

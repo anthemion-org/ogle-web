@@ -1,29 +1,30 @@
-// Pool.js
-// -------
+// PoolDie.js
+// ---------
 // Copyright ©2022 Jeremy Kelly
 // www.anthemion.org
 //
 // Import with:
 //
-//   import { tPool } from "../Pool.js";
+//   import { tPoolDie } from "../PoolDie.js";
 //
 
+import { tGenRnd } from "../Util/Rnd.js";
 import { tDie } from "./Die.js";
 import * as Dir4 from "../Util/Dir4.js";
 import * as Cfg from "../Cfg.js";
 
-/** Stores a 'pool' of text values, which can be drawn randomly as tDie
- *  instances to produce a board. A fixed number of vowels will be found in any
- *  board, once the entire board has been drawn. */
-export class tPool {
+/** Stores a pool of text values, which can be drawn randomly as tDie instances
+ *  to produce a board. A fixed number of vowels will be found in any board,
+ *  once the entire board has been drawn. */
+export class tPoolDie {
 	constructor(aqGenRnd) {
-		if (!aqGenRnd)
-			throw new Error("tPoolSub.constructor: Random number generator not set");
+		if (!aqGenRnd instanceof tGenRnd)
+			throw new Error("tPoolDie.constructor: Random number generator not set");
 
 		this.GenRnd = aqGenRnd;
 
-		// Ready sub-pools
-		// ---------------
+		// Ready text pools
+		// ----------------
 
 		/** The desired vowel frequency. */
 		const oRatioVow = 9 / 25;
@@ -33,16 +34,16 @@ export class tPool {
 		/** The number of consonants yet to be drawn. */
 		this.CtConson = Cfg.CtDie - this.CtVow;
 
-		/** The vowel pool. */
-		this.qSubVow = new tPoolSub(aqGenRnd, {
+		/** The vowel text pool. Not all of these are expected to be drawn. */
+		this.qTextsVow = new tPoolText(aqGenRnd, {
 			E: 6,
 			A: 4, O: 4,
 			I: 3,
 			U: 1, Y: 1
 		});
 
-		/** The consonant pool. */
-		this.qSubConson = new tPoolSub(aqGenRnd, {
+		/** The consonant text pool. Not all of these are expected to be drawn. */
+		this.qTextsConson = new tPoolText(aqGenRnd, {
 			T: 7, N: 7,
 			S: 6, H: 6, R: 6,
 			D: 4, L: 4,
@@ -54,20 +55,20 @@ export class tPool {
 
 	/** Selects and returns a random die instance, after decrementing the vowel or
 	 *  consonant count, as appropriate. */
-	uDie() {
+	uDraw() {
 		const oCtText = this.CtVow + this.CtConson;
 		if (oCtText < 1)
-			throw new Error("tPool.uDie: Cannot draw text");
+			throw new Error("tPoolDie.uDraw: Cannot draw text");
 
 		const ojDraw = this.GenRnd.uInt(oCtText);
 
 		let oText;
 		if (ojDraw < this.CtVow) {
-			oText = this.qSubVow.uDraw();
+			oText = this.qTextsVow.uDraw();
 			--this.CtVow;
 		}
 		else {
-			oText = this.qSubConson.uDraw();
+			oText = this.qTextsConson.uDraw();
 			--this.CtConson;
 		}
 
@@ -76,28 +77,29 @@ export class tPool {
 	}
 }
 
-/** Stores a 'pool' of text values, which can then be drawn one by one. Each
- *  value has a count, which is decremented when the value is drawn. When a
- *  count reaches zero, the associated value will be drawn no more. */
-class tPoolSub {
+/** Stores a pool of text values, which can then be drawn one by one. Each value
+ *  has a count, which is decremented when the value is drawn. When a count
+ *  reaches zero, the associated value will be drawn no more. */
+class tPoolText {
 	// Instead of storing and decrementing counts for each text, we could create a
-	// separate text object for each draw. This would be simpler, and the
+	// separate object for each possible draw. That would be simpler, and the
 	// performance would be acceptable, given the small pool sizes.
 	//
 	// It might be desirable later to support fractional counts, however. These
 	// would allow finer probability distinctions between letters like 'M' and
 	// 'W', which both have counts of 'two' at present. With integer counts,
 	// distinctions like this can be made only by increasing all the counts
-	// together, which is inconvenient, and which then allows the same letter to
-	// be drawn many times, since each draw has a much smaller effect on the
-	// remaining count.
+	// together, which is inconvenient. It also becomes necessary to increase the
+	// amount by which a count is decremented when the text is drawn; otherwise,
+	// the draw has a much smaller effect on the remaining count, and it becomes
+	// possible to draw the same text many times.
 
 	/** Returns the total value count in the specified entries object. */
 	static suCt(aoEnts) {
 		const ouSum = (aTtl, aVal) => (aTtl + aVal);
 		const oCt = Object.values(aoEnts).reduce(ouSum);
 		if (isNaN(oCt))
-			throw new Error("tPoolSub.suCt: Invalid count");
+			throw new Error("tPoolText.suCt: Invalid count");
 		return oCt;
 	}
 
@@ -105,12 +107,12 @@ class tPoolSub {
 	 *  aqEnts, with counts equal to the aqEnts values. */
 	constructor(aqGenRnd, aqEnts) {
 		if (!aqGenRnd)
-			throw new Error("tPoolSub.constructor: Rnadom number generator not set");
+			throw new Error("tPoolText.constructor: Rnadom number generator not set");
 
 		this.GenRnd = aqGenRnd;
 
 		/** The total value count available to be drawn. */
-		this.Ct = tPoolSub.suCt(aqEnts);
+		this.Ct = tPoolText.suCt(aqEnts);
 		/** An object that associates text values with counts. These counts will be
 		 *  decremented as the values are drawn. */
 		this.qEnts = { ...aqEnts };
@@ -119,7 +121,7 @@ class tPoolSub {
 	/** Selects and returns a random text value, after decrementing its count. */
 	uDraw() {
 		// Replace this with a fractional draw index, so that text values can have
-		// non-integer counts? See the tPoolSub comments for more on this:
+		// non-integer counts? See the tPoolText comments for more on this:
 		let ojDraw = this.GenRnd.uInt(this.Ct);
 		for (const onText in this.qEnts) {
 			ojDraw -= this.qEnts[onText];
@@ -129,10 +131,10 @@ class tPoolSub {
 				return onText;
 			}
 		}
-		throw new Error("tPoolSub.uDraw: Cannot draw text value");
+		throw new Error("tPoolText.uDraw: Cannot draw text value");
 	}
 }
 
 export const ForTest = {
-	tPoolSub
+	tPoolText
 };
