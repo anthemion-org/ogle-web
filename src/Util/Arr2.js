@@ -44,13 +44,13 @@ export class tArr2 {
 
 	// Returns the value at the specified tPt2 position.
 	uGet(aqPos) {
-		const oj = IdxCk(this, aqPos, "uGet");
+		const oj = uIdxCk(this, aqPos, "uGet");
 		return this.yEls[oj];
 	}
 
 	// Sets the value at the specified tPt2 position.
 	uSet(aqPos, aVal) {
-		const oj = IdxCk(this, aqPos, "uSet");
+		const oj = uIdxCk(this, aqPos, "uSet");
 		this.yEls[oj] = aVal;
 	}
 
@@ -60,7 +60,7 @@ export class tArr2 {
 	}
 }
 
-function IdxCk(aqArr, aqPos, aName) {
+function uIdxCk(aqArr, aqPos, aName) {
 	const oj = (aqPos.Y * aqArr.qSize.X) + aqPos.X;
 	if ((oj < 0) || (oj >= aqArr.yEls.length))
 		throw new Error("tArr2." + aName + ": Invalid position");

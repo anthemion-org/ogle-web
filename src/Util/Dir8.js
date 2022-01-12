@@ -31,3 +31,4 @@ export function uCk(aDir) {
 export function uRnd(aqGenRnd) {
 	return aqGenRnd.uEl(Object.values(Vals));
 }
+

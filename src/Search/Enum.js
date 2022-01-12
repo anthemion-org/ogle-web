@@ -32,19 +32,74 @@ export class tEnum {
 		// instance is the first.
 		this.qEnumPrev = aqEnumPrev ?? null;
 
-		const oTextPos = aqBoard.uDie(aqPos);
-		// The text selected by this instance and its predecessors.
-		this.Text = aqEnumPrev ? (aqEnumPrev.Text + oTextPos) : oTextPos;
-
-		// The index of the enumeration instance that should follow this one. This
-		// index will increment as Next is called.
-		this.jNext = 0;
-
 		let oqCksSelOrig = aqEnumPrev
 			? aqEnumPrev.qCksSel.uClone()
 			: new tArr2(Cfg.SizeBoard, { Def: false });
 		// An array of flags that mark the dice selected by this instance and its
 		// predecessors:
 		this.qCksSel = oqCksSelOrig;
+		this.qCksSel.uSet(aqPos, true);
+
+		// The index of the enumeration instance that should follow this one. This
+		// index will increment as uNext is called.
+		this.jNext = 0;
+
+		const oTextPos = aqBoard.uDie(aqPos);
+		// The text selected by this instance and its predecessors.
+		this.Text = aqEnumPrev ? (aqEnumPrev.Text + oTextPos) : oTextPos;
+	}
+
+	// Creates and returns a new instance covering a board position that is:
+	//
+	// ~ Adjacent to the one covered by this instance;
+	//
+	// ~ Not already part of this sequence; and,
+	//
+	// ~ Not previously returned by this instance.
+	//
+	// Returns 'null' if no such position exists.
+	//
+	// By creating a top-level instance for a given board position, and then
+	// recursively invoking uNext on that instance, plus every instance returned
+	// by uNext, all die sequences beginning with the first position can be
+	// enumerated.
+	uNext() {
+		const oqPosNext = this.uPosNext(this.jNext++);
+		return oqPosNext ? new tEnum(this.qBoard, oqPosNext, this) : null;
+	}
+
+	// Returns the first available adjacent position after skipping ajNext valid
+	// choices, starting with the position on the right, and proceding
+	// counter-clockwise. Returns 'null' if no such position exists.
+	uPosNext(ajNext) {
+		// The next index ranges from zero to seven:
+		if (ajNext > 7) return null;
+
+		for (let ojDir = 0; ojDir < 8; ++ojDir) {
+			const oOff = uOff(ojDir);
+			const oqPos = this.qPos.uSum(oOff);
+			if (Cfg.RectBoard.uCkContain(oqPos) && !this.qCksSel.uGet(oqPos)) {
+				if (ajNext < 1) return oqPos;
+				--ajNext;
+			}
+		}
+		return null;
+	}
+}
+
+// Returns the one-position offset for direction index ajDir, which ranges from
+// zero to seven.
+function uOff(ajDir) {
+	switch (ajDir) {
+		case 0: return new tPt2(1, 0);
+		case 1: return new tPt2(1, 1);
+		case 2: return new tPt2(0, 1);
+		case 3: return new tPt2(-1, 1);
+		case 4: return new tPt2(-1, 0);
+		case 5: return new tPt2(-1, -1);
+		case 6: return new tPt2(0, -1);
+		case 7: return new tPt2(1, -1);
+		default:
+			throw new Error("Enum uOff: Invalid index");
 	}
 }
