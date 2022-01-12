@@ -11,7 +11,7 @@ test("tLex.uCkKnown: Old and new user words", () => {
 
 	const oqLex = new tLex;
 
-	expect(oqLex.uCkKnown("aardvark")).toBe(true);
+	expect(oqLex.uCkKnown("abacus")).toBe(true);
 	expect(oqLex.uCkKnown(oWordUserOld)).toBe(true);
 
 	const oWordUserNew = "nnnnnnnn";

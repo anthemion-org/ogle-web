@@ -24,36 +24,42 @@ import yWordsOgle from "./WordsOgle.json";
 // 'Known' words include built-in words and all user-entered words, including
 // unmerged words. These can be checked with uCkKnown, but they cannot
 // necessarily be found with a word search.
+//
+// We distinguish these because the tLook search requires random access to the
+// searchable words, and we don't want to sort those every time the user adds a
+// new word, especially when it is already too late to include those words in
+// the current game. We do want to find the new words if the user re-enters them
+// in the same game, however.
 
+// Stores the Ogle lexicon, including built-in Ogle words, and user-entered
+// words.
 export class tLex {
 	constructor() {
-		// All 'searchable' words.
-		this.yWordsSearch = Array.from(yWordsOgle);
-
-		// Merge stored user words into the 'searchable' list:
 		const oyWordsUser = localStorage.yWordsUser
 			? JSON.parse(localStorage.yWordsUser)
 			: [];
-		this.yWordsSearch.push(...oyWordsUser);
+
+		// All searchable words.
+		this.yWordsSearch = Array.from(yWordsOgle).concat(oyWordsUser);
 		this.yWordsSearch.sort(Search.uCompareStr);
 
 		// User-entered words that have yet to be merged.
 		this.yWordsUserPend = [];
 	}
 
-	// Returns the number of 'searchable' words.
+	// Returns the number of searchable words.
 	uCtSearch() {
 		return this.yWordsSearch.length;
 	}
 
-	// Returns the 'searchable' word at the specified index.
+	// Returns the searchable word at the specified index.
 	uAtSearch(aj) {
 		if (isNaN(aj) || (aj < 0) || (aj >= this.yWordsSearch.length))
 			throw new Error("tLex.uAtSearch: Invalid index");
 		return this.yWordsSearch[aj];
 	}
 
-	// Returns 'true' if the specified word is 'known'.
+	// Returns 'true' if the specified word is known.
 	uCkKnown(aWord) {
 		// Ogle does not allow capital letters or accents, so this fast comparison
 		// is good enough.
@@ -80,7 +86,7 @@ export class tLex {
 		this.yWordsUserPend.sort(Search.uCompareStr);
 	}
 
-	// Merges recent user words into the 'searchable' word list, then empties the
+	// Merges recent user words into the searchable word list, then empties the
 	// unmerged user word list.
 	uMerge_WordsUser() {
 		if (!this.yWordsUserPend.length) return;

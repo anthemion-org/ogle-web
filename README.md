@@ -23,6 +23,11 @@ The project was created with _create-react-app_.
 
 ## Design notes
 
+Implicit duck typing sometimes, explicit parameter type checks other times [to do]
+
+Allow optional parameters, but avoid parameters that can have different types [to do]
+
+
 ### Classes versus closures
 
 A class like `tPool` could easily be replaced with a factory function that returns a die-generating function. Many JavaScript developers would consider that more idiomatic, but how is it actually better? The class implementation:
