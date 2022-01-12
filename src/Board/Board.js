@@ -11,11 +11,11 @@
 import { tPool } from "./Pool.js";
 import * as Cfg from "../Cfg.js";
 
-// Generates and stores a single game board.
+/** Generates and stores a single game board. */
 export class tBoard {
-	// Creates a random board.
+	/** Creates a random board. */
 	constructor() {
-		// An array of column arrays, which themselves contain tDie instances.
+		/** An array of column arrays, which themselves contain tDie instances. */
 		this.yDice = [];
 
 		const oqPool = new tPool();
@@ -27,8 +27,8 @@ export class tBoard {
 		}
 	}
 
-	// Returns the die at the specified tPt2 position, throwing if either
-	// coordinate is out of range.
+	/** Returns the die at the specified tPt2 position, throwing if either
+	 *  coordinate is out of range. */
 	uDie(aPos) {
 		if ((aPos.X === undefined) || (aPos.X < 0) || (aPos.X >= Cfg.WthBoard))
 			throw new Error("tBoard.uDie: Invalid X position");

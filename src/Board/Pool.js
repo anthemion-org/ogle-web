@@ -12,9 +12,9 @@ import { tDie } from "./Die.js";
 import * as Dir4 from "../Util/Dir4.js";
 import * as Cfg from "../Cfg.js";
 
-// Stores a 'pool' of text values, which can be drawn randomly as tDie instances
-// to produce a board. A fixed number of vowels will be found in any board, once
-// the entire board has been drawn.
+/** Stores a 'pool' of text values, which can be drawn randomly as tDie
+ *  instances to produce a board. A fixed number of vowels will be found in any
+ *  board, once the entire board has been drawn. */
 export class tPool {
 	constructor(aqGenRnd) {
 		if (!aqGenRnd)
@@ -25,15 +25,15 @@ export class tPool {
 		// Ready sub-pools
 		// ---------------
 
-		// The desired vowel frequency.
+		/** The desired vowel frequency. */
 		const oRatioVow = 9 / 25;
 
-		// The number of vowels yet to be drawn.
+		/** The number of vowels yet to be drawn. */
 		this.CtVow = Math.round(oRatioVow * Cfg.CtDie);
-		// The number of consonants yet to be drawn.
+		/** The number of consonants yet to be drawn. */
 		this.CtConson = Cfg.CtDie - this.CtVow;
 
-		// The vowel pool.
+		/** The vowel pool. */
 		this.qSubVow = new tPoolSub(aqGenRnd, {
 			E: 6,
 			A: 4, O: 4,
@@ -41,7 +41,7 @@ export class tPool {
 			U: 1, Y: 1
 		});
 
-		// The consonant pool.
+		/** The consonant pool. */
 		this.qSubConson = new tPoolSub(aqGenRnd, {
 			T: 7, N: 7,
 			S: 6, H: 6, R: 6,
@@ -52,8 +52,8 @@ export class tPool {
 		});
 	}
 
-	// Selects and returns a random die instance, after decrementing the vowel or
-	// consonant count, as appropriate.
+	/** Selects and returns a random die instance, after decrementing the vowel or
+	 *  consonant count, as appropriate. */
 	uDie() {
 		const oCtText = this.CtVow + this.CtConson;
 		if (oCtText < 1)
@@ -76,9 +76,9 @@ export class tPool {
 	}
 }
 
-// Stores a 'pool' of text values, which can then be drawn one by one. Each
-// value has a count, which is decremented when the value is drawn. When a count
-// reaches zero, the associated value will be drawn no more.
+/** Stores a 'pool' of text values, which can then be drawn one by one. Each
+ *  value has a count, which is decremented when the value is drawn. When a
+ *  count reaches zero, the associated value will be drawn no more. */
 class tPoolSub {
 	// Instead of storing and decrementing counts for each text, we could create a
 	// separate text object for each draw. This would be simpler, and the
@@ -92,7 +92,7 @@ class tPoolSub {
 	// be drawn many times, since each draw has a much smaller effect on the
 	// remaining count.
 
-	// Returns the total value count in the specified entries object.
+	/** Returns the total value count in the specified entries object. */
 	static suCt(aoEnts) {
 		const ouSum = (aTtl, aVal) => (aTtl + aVal);
 		const oCt = Object.values(aoEnts).reduce(ouSum);
@@ -101,22 +101,22 @@ class tPoolSub {
 		return oCt;
 	}
 
-	// Creates a new pool containing text values drawn from the properties of
-	// aqEnts, with counts equal to the aqEnts values.
+	/** Creates a new pool containing text values drawn from the properties of
+	 *  aqEnts, with counts equal to the aqEnts values. */
 	constructor(aqGenRnd, aqEnts) {
 		if (!aqGenRnd)
 			throw new Error("tPoolSub.constructor: Rnadom number generator not set");
 
 		this.GenRnd = aqGenRnd;
 
-		// The total value count available to be drawn.
+		/** The total value count available to be drawn. */
 		this.Ct = tPoolSub.suCt(aqEnts);
-		// An object that associates text values with counts. These counts will be
-		// decremented as the values are drawn.
+		/** An object that associates text values with counts. These counts will be
+		 *  decremented as the values are drawn. */
 		this.qEnts = { ...aqEnts };
 	}
 
-	// Selects and returns a random text value, after decrementing its count.
+	/** Selects and returns a random text value, after decrementing its count. */
 	uDraw() {
 		// Replace this with a fractional draw index, so that text values can have
 		// non-integer counts? See the tPoolSub comments for more on this:

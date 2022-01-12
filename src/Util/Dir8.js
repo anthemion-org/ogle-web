@@ -8,8 +8,8 @@
 //   import * as Dir8 from "../Util/Dir8.js";
 //
 
-// Stores properties representing the eight cardinal and intermediate
-// directions.
+/** Stores properties representing the eight cardinal and intermediate
+ *  directions. */
 export const Vals = {
 	E: "E",
 	NE: "NE",
@@ -22,12 +22,12 @@ export const Vals = {
 };
 Object.freeze(Vals);
 
-// Returns 'true' if the specified value is a Vals member.
+/** Returns 'true' if the specified value is a Vals member. */
 export function uCk(aDir) {
 	return Vals.hasOwnProperty(aDir);
 }
 
-// Returns a random Vals member.
+/** Returns a random Vals member. */
 export function uRnd(aqGenRnd) {
 	return aqGenRnd.uEl(Object.values(Vals));
 }

@@ -11,13 +11,13 @@
 // Comparison functions
 // --------------------
 
-// Compares numbers.
+/** Compares numbers. */
 export function uCompareNum(aL, aR) {
 	return (aL - aR);
 }
 
-// Compares strings by code point, so capital letters and accented letters are
-// sorted away from their lowercase and unaccented counterparts.
+/** Compares strings by code point, so capital letters and accented letters are
+ *  sorted away from their lowercase and unaccented counterparts. */
 export function uCompareStr(aL, aR) {
 	// Strings can also be compared with 'localeCompare':
 	//
@@ -36,15 +36,15 @@ export function uCompareStr(aL, aR) {
 // Search functions
 // ----------------
 
-// Uses a binary search to find aVal within sorted array ayEls. Set auComp to a
-// custom comparison function, or leave it undefined to compare elements as
-// numbers. Returns a two-element array containing a boolean value that tells
-// whether aVal was found, plus the index where a match was or would have been
-// found.
-//
-// If provided, the comparison function must accept two arguments, and return a
-// negative number, zero, or a positive number to signal the first argument's
-// position relative to the second.
+/** Uses a binary search to find aVal within sorted array ayEls. Set auComp to a
+ *  custom comparison function, or leave it undefined to compare elements as
+ *  numbers. Returns a two-element array containing a boolean value that tells
+ *  whether aVal was found, plus the index where a match was or would have been
+ *  found.
+ *
+ *  If provided, the comparison function must accept two arguments, and return a
+ *  negative number, zero, or a positive number to signal the first argument's
+ *  position relative to the second. */
 export function uBin(ayEls, aVal, auCompare) {
 	if (!Array.isArray(ayEls))
 		throw new Error("Search uBin: Invalid array");

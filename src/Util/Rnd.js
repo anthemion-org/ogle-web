@@ -12,11 +12,11 @@
 // -------
 // We need a seedable generator to make our tests deterministic.
 
-// A seedable random number generator. This generator is not suitable for
-// cryptographic use.
+/** A seedable random number generator. This generator is not suitable for
+ *  cryptographic use. */
 export class tGenRnd {
-	// Set aSeedText to a non-empty string to seed the generator, or leave it
-	// undefined to seed it with the current time.
+	/** Set aSeedText to a non-empty string to seed the generator, or leave it
+	 *  undefined to seed it with the current time. */
 	constructor(aSeedText) {
 		if (aSeedText) {
 			const ouGenSeed = uGenSeedXMUR3(aSeedText);
@@ -27,17 +27,18 @@ export class tGenRnd {
 		this.GenBase = uGenNumMulberry32(this.SeedNum);
 	}
 
-	// Returns an number greater than or equal to zero, and less than one.
+	/** Returns an number greater than or equal to zero, and less than one. */
 	uVal() {
 		return this.GenBase();
 	}
 
-	// Returns an integer greater than or equal to zero, and less than aCeil.
+	/** Returns an integer greater than or equal to zero, and less than aCeil. */
 	uInt(aCeil) {
 		return Math.floor(this.GenBase() * aCeil);
 	}
 
-	// Returns a random array element from ayEls, throwing instead if it is empty.
+	/** Returns a random array element from ayEls, throwing instead if it is
+	 *  empty. */
 	uEl(ayEls) {
 		if (!ayEls.length)
 			throw new Error("tGenRnd.uEl: Empty array");
@@ -53,8 +54,8 @@ export class tGenRnd {
 //   https://stackoverflow.com/a/47593316/3728155
 //
 
-// Accepts a string of any length greater than zero, and returns a function. The
-// function generates numbers suitable for use as seeds.
+/** Accepts a string of any length greater than zero, and returns a function.
+ *  The function generates numbers suitable for use as seeds. */
 function uGenSeedXMUR3(aSeedText) {
 	if (!aSeedText.length)
 		throw new Error("Rnd uGenSeedXMUR3: Invalid source string");
@@ -70,8 +71,8 @@ function uGenSeedXMUR3(aSeedText) {
 	}
 }
 
-// Accepts a numeric seed, and returns a function. The function generates random
-// numbers that are greater than or equal to zero, and less than one.
+/** Accepts a numeric seed, and returns a function. The function generates
+ *  random numbers that are greater than or equal to zero, and less than one. */
 function uGenNumMulberry32(aSeed) {
 	return function () {
 		aSeed |= 0;

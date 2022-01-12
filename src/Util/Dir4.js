@@ -8,7 +8,7 @@
 //   import * as Dir4 from "../Util/Dir4.js";
 //
 
-// Stores properties representing the four cardinal directions.
+/** Stores properties representing the four cardinal directions. */
 export const Vals = {
 	E: "E",
 	N: "N",
@@ -17,12 +17,12 @@ export const Vals = {
 };
 Object.freeze(Vals);
 
-// Returns 'true' if the specified value is a Vals member.
+/** Returns 'true' if the specified value is a Vals member. */
 export function uCk(aDir) {
 	return Vals.hasOwnProperty(aDir);
 }
 
-// Returns a random Vals member.
+/** Returns a random Vals member. */
 export function uRnd(aqGenRnd) {
 	return aqGenRnd.uEl(Object.values(Vals));
 }
