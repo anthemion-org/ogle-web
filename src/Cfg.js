@@ -22,3 +22,7 @@ export const RectBoard = new tRect(new tPt2(0, 0), SizeBoard);
 
 /** The total die count. */
 export const CtDie = WthBoard * HgtBoard;
+
+/** The shortest allowable word, in letters. Recall that the 'Qu' die counts as
+ *  two letters, not one. */
+export const LenWordMin = 4;
