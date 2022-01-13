@@ -5,10 +5,9 @@
 //
 // Import with:
 //
-//   import { tLookLex, OutsLook } from "./LookLex.js";
+//   import { tLookLex, pOutsLook } from "./LookLex.js";
 //
 
-import { tLex } from "./Lex.js";
 import * as Search from "../Util/Search.js";
 
 // tLookLex
@@ -17,11 +16,14 @@ import * as Search from "../Util/Search.js";
 /** Stores the state of a binary search within the lexicon, allowing that state
  *  to be extended and shared as the board is enumerated. */
 export class tLookLex {
+	/** Returns a new instance that searches for aText, while reusing the search
+	 *  state produced by a previous tLookLex instance. */
 	static suFromPrev(aqLook, aText) {
 		return new tLookLex(aqLook.qLex, aText, aqLook.jFore, aqLook.jAft);
 	}
 
-	/** Leave ajFore and ajAft undefined to start a new search. */
+	/** Creates an instances that searches lexicon aqLex for aText. Leave ajFore
+	 *  and ajAft undefined to start a new search. */
 	constructor(aqLex, aText, ajFore, ajAft) {
 		/** The lexicon to be searched. */
 		this.qLex = aqLex;
@@ -37,7 +39,7 @@ export class tLookLex {
 	 *  identified. If aCkStopFrag is 'true', the search will also stop when a
 	 *  fragment is identified. Returns the reason the search stopped. */
 	uExec(aCkStopFrag) {
-		if (this.qLex.uCtSearch() < 1) return OutsLook.Miss;
+		if (this.qLex.uCtSearch() < 1) return pOutsLook.Miss;
 
 		while (true) {
 			const ojMid = Math.floor((this.jFore + this.jAft) / 2);
@@ -48,8 +50,8 @@ export class tLookLex {
 			// Text sorts after oTextLex:
 			else if (oCompare > 0) this.jFore = ojMid;
 			else {
-				if (this.Text === oTextLex) return OutsLook.Match;
-				if (aCkStopFrag) return OutsLook.Frag;
+				if (this.Text === oTextLex) return pOutsLook.Match;
+				if (aCkStopFrag) return pOutsLook.Frag;
 				// oTextLex begins with the letters in Text, but it is longer, so the
 				// match (if any) must precede ojMid:
 				this.jAft = ojMid;
@@ -57,7 +59,7 @@ export class tLookLex {
 
 			// The word in the middle of the window has just been checked. If the
 			// window is now one word or less in size, no match will be found:
-			if ((this.jAft - this.jFore) <= 1) return OutsLook.Miss;
+			if ((this.jAft - this.jFore) <= 1) return pOutsLook.Miss;
 		}
 	}
 }
@@ -82,7 +84,7 @@ function uCompare(aTextLook, aTextLex) {
 }
 
 /** Stores properties representing word search outcomes. */
-export const OutsLook = {
+export const pOutsLook = {
 	/** The word was not found. */
 	Miss: "Miss",
 	/** A word was found that begins with the letters of the sought word, but is
@@ -91,4 +93,4 @@ export const OutsLook = {
 	/** An exact match was found. */
 	Match: "Match"
 };
-Object.freeze(OutsLook);
+Object.freeze(pOutsLook);

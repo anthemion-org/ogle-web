@@ -8,7 +8,6 @@
 //   import { tSelBoard } from "../SelBoard.js";
 //
 
-import { tBoard } from "../Board.js";
 import { tPt2 } from "../Util/Pt2.js";
 import { tArr2 } from "../Util/Arr2.js";
 import * as Cfg from "../Cfg.js";
@@ -28,6 +27,8 @@ import * as Cfg from "../Cfg.js";
  *  uNext, all die sequences beginning with the first position can be
  *  enumerated.*/
 export class tSelBoard {
+	/** Set aqSelPrev to the instance that should precede this instance in the
+	 *  selection, or leave it undefined to start a new selection. */
 	constructor(aqBoard, aqPos, aqSelPrev) {
 		/* The board that contains the selection. */
 		this.qBoard = aqBoard;
@@ -38,7 +39,7 @@ export class tSelBoard {
 		this.qSelPrev = aqSelPrev ?? null;
 
 		let oqCksAllPrev = aqSelPrev
-			? aqSelPrev.qCksSel.uClone()
+			? aqSelPrev.qCksAll.uClone()
 			: new tArr2(Cfg.SizeBoard, { Def: false });
 		/** A tArr2 array of booleans that mark the board positions selected by this
 		 *  instance and its predecessors: */
@@ -51,10 +52,11 @@ export class tSelBoard {
 		this.yPosiAll = oyPosiAllPrev;
 		this.yPosiAll.push(aqPos);
 
-		const oTextPos = aqBoard.uDie(aqPos);
-		/** The text selected by this instance and its predecessors. Recall that the
-		 *  'Qu' die counts as two letters, not one. */
-		this.TextAll = aqSelPrev ? (aqSelPrev.Text + oTextPos) : oTextPos;
+		const oqDiePos = aqBoard.uDie(aqPos);
+		const oTextPos = oqDiePos.Text.toLowerCase();
+		/** The text selected by this instance and its predecessors, in lowercase.
+		 *  Recall that the 'Qu' die counts as two letters, not one. */
+		this.TextAll = aqSelPrev ? (aqSelPrev.TextAll + oTextPos) : oTextPos;
 
 		/** The index of the selection neighbor that should follow this one. This
 		 *  index will increment as uNext is called. */
@@ -86,7 +88,7 @@ function uPosNext(aqSel, ajNeighNext) {
 	for (let ojDir = 0; ojDir < 8; ++ojDir) {
 		const oOff = uOff(ojDir);
 		const oqPos = aqSel.qPos.uSum(oOff);
-		if (Cfg.RectBoard.uCkContain(oqPos) && !aqSel.qCksSel.uGet(oqPos)) {
+		if (Cfg.RectBoard.uCkContain(oqPos) && !aqSel.qCksAll.uGet(oqPos)) {
 			if (ajNeighNext < 1) return oqPos;
 			--ajNeighNext;
 		}

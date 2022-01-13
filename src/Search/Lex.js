@@ -9,7 +9,6 @@
 //
 
 import * as Search from "../Util/Search.js";
-import * as Misc from "../Util/Misc.js";
 
 // This import adds almost one half-second to the test time. Is it that slow in
 // the browser? [optimize]

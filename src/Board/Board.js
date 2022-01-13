@@ -14,11 +14,11 @@ import * as Cfg from "../Cfg.js";
 /** Generates and stores a single game board. */
 export class tBoard {
 	/** Creates a random board. */
-	constructor() {
+	constructor(aqGenRnd) {
 		/** An array of column arrays, which themselves contain tDie instances. */
 		this.yDice = [];
 
-		const oqPool = new tPoolDie();
+		const oqPool = new tPoolDie(aqGenRnd);
 		for (let oX = 0; oX < Cfg.WthBoard; ++oX) {
 			const oyCol = [];
 			for (let oY = 0; oY < Cfg.HgtBoard; ++oY)

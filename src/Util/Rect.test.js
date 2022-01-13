@@ -23,3 +23,17 @@ test.each([
 	const oqRect = new tRect(oqLeftBtm, oqSize);
 	expect(oqRect.uCkContain(aqPos)).toBe(aCk);
 });
+
+test("tRect.uPosi", () => {
+	const oqLeftBtm = new tPt2(1, 1);
+	const oqSize = new tPt2(3, 4);
+	const oqRect = new tRect(oqLeftBtm, oqSize);
+	const oyPosi = [ ...oqRect.uPosi() ];
+
+	const oyPosiExp = [];
+	for (let oY = 1; oY < 5; ++oY)
+		for (let oX = 1; oX < 4; ++oX)
+			oyPosiExp.push(new tPt2(oX, oY));
+
+	expect(oyPosi).toEqual(oyPosiExp);
+});

@@ -8,8 +8,6 @@
 //   import { tArr2 } from "../Util/Arr2.js";
 //
 
-import { tPt2 } from "./Pt2.js";
-
 /** A rectangular array backed by a linear JavaScript array, for fast copying. */
 export class tArr2 {
 	/** Creates a new instance with the specified tPt2 size. If apOpts is defined,

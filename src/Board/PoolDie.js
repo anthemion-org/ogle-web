@@ -8,7 +8,6 @@
 //   import { tPoolDie } from "../PoolDie.js";
 //
 
-import { tGenRnd } from "../Util/Rnd.js";
 import { tDie } from "./Die.js";
 import * as Dir4 from "../Util/Dir4.js";
 import * as Cfg from "../Cfg.js";

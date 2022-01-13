@@ -21,7 +21,7 @@ test("tGenRnd: Mean", () => {
 
 	const oCt = 1000;
 	let oAvg = 0;
-	for (let oj = 0; oj < oCt; ++oj)
+	for (let o = 0; o < oCt; ++o)
 		oAvg += oqGen.uVal();
 	oAvg /= oCt;
 

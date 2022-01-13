@@ -36,4 +36,14 @@ export class tRect {
 		return (aqPos.X >= this.qLeftBtm.X) && (aqPos.X <= oqTopRight.X)
 			&& (aqPos.Y >= this.qLeftBtm.Y) && (aqPos.Y <= oqTopRight.Y);
 	}
+
+	/** Returns a generator object that iterates all tPt2 positions contained by
+	 *  this instance. Positions are iterated from left to right, and then from
+	 *  bottom to top. */
+	* uPosi() {
+		const oTopRight = this.uTopRight();
+		for (let oY = this.qLeftBtm.Y; oY <= oTopRight.Y; ++oY)
+			for (let oX = this.qLeftBtm.X; oX <= oTopRight.X; ++oX)
+				yield new tPt2(oX, oY);
+	}
 }
