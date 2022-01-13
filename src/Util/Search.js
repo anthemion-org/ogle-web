@@ -47,7 +47,7 @@ export function uCompareStr(aL, aR) {
  *  position relative to the second. */
 export function uBin(ayEls, aVal, auCompare) {
 	if (!Array.isArray(ayEls))
-		throw new Error("Search uBin: Invalid array");
+		throw Error("Search uBin: Invalid array");
 	if (!ayEls.length) return [ false, 0 ];
 
 	if (!auCompare) auCompare = uCompareNum;

@@ -5,10 +5,11 @@
 //
 // Import with:
 //
-//   import { tLex } from "../Lex.js";
+//   import { tLex } from "./Lex.js";
 //
 
 import * as Search from "../Util/Search.js";
+import * as Misc from "../Util/Misc.js";
 
 // This import adds almost one half-second to the test time. Is it that slow in
 // the browser? [optimize]
@@ -54,8 +55,10 @@ export class tLex {
 
 	/** Returns the searchable word at the specified index. */
 	uAtSearch(aj) {
-		if (isNaN(aj) || (aj < 0) || (aj >= this.yWordsSearch.length))
-			throw new Error("tLex.uAtSearch: Invalid index");
+		if (!Misc.uCkNumInt(aj))
+			throw Error("tLex.uAtSearch: Invalid index");
+		if ((aj < 0) || (aj >= this.yWordsSearch.length))
+			throw Error("tLex.uAtSearch: Index out of range");
 		return this.yWordsSearch[aj];
 	}
 

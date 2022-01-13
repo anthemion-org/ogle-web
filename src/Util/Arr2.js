@@ -18,7 +18,7 @@ export class tArr2 {
 	 *  left undefined. */
 	constructor(aqSize, apOpts) {
 		if (!aqSize instanceof tPt2)
-			throw new Error("tArr2.constructor: Invalid size");
+			throw Error("tArr2.constructor: Invalid size");
 
 		/** The dimensions of this instance. */
 		this.qSize = aqSize;
@@ -27,9 +27,9 @@ export class tArr2 {
 		const oCt = aqSize.X * aqSize.Y;
 		if (oySrc) {
 			if (!Array.isArray(oySrc))
-				throw new Error("tArr2.constructor: Invalid source");
+				throw Error("tArr2.constructor: Invalid source");
 			if (oySrc.length !== oCt)
-				throw new Error("tArr2.constructor: Source dimensions do not match");
+				throw Error("tArr2.constructor: Source dimensions do not match");
 
 			/** The linear JavaScript array that backs this instance. */
 			this.yEls = Array.from(oySrc);
@@ -63,6 +63,6 @@ export class tArr2 {
 function uIdxCk(aqArr, aqPos, aName) {
 	const oj = (aqPos.Y * aqArr.qSize.X) + aqPos.X;
 	if ((oj < 0) || (oj >= aqArr.yEls.length))
-		throw new Error("tArr2." + aName + ": Invalid position");
+		throw Error("tArr2." + aName + ": Invalid position");
 	return oj;
 }

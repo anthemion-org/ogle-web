@@ -19,7 +19,7 @@ import * as Cfg from "../Cfg.js";
 export class tPoolDie {
 	constructor(aqGenRnd) {
 		if (!aqGenRnd instanceof tGenRnd)
-			throw new Error("tPoolDie.constructor: Random number generator not set");
+			throw Error("tPoolDie.constructor: Invalid generator");
 
 		this.GenRnd = aqGenRnd;
 
@@ -58,7 +58,7 @@ export class tPoolDie {
 	uDraw() {
 		const oCtText = this.CtVow + this.CtConson;
 		if (oCtText < 1)
-			throw new Error("tPoolDie.uDraw: Cannot draw text");
+			throw Error("tPoolDie.uDraw: Cannot draw text");
 
 		const ojDraw = this.GenRnd.uInt(oCtText);
 
@@ -99,7 +99,7 @@ class tPoolText {
 		const ouSum = (aTtl, aVal) => (aTtl + aVal);
 		const oCt = Object.values(aoEnts).reduce(ouSum);
 		if (isNaN(oCt))
-			throw new Error("tPoolText.suCt: Invalid count");
+			throw Error("tPoolText.suCt: Invalid count");
 		return oCt;
 	}
 
@@ -107,7 +107,7 @@ class tPoolText {
 	 *  aqEnts, with counts equal to the aqEnts values. */
 	constructor(aqGenRnd, aqEnts) {
 		if (!aqGenRnd)
-			throw new Error("tPoolText.constructor: Rnadom number generator not set");
+			throw Error("tPoolText.constructor: Random number generator not set");
 
 		this.GenRnd = aqGenRnd;
 
@@ -131,7 +131,7 @@ class tPoolText {
 				return onText;
 			}
 		}
-		throw new Error("tPoolText.uDraw: Cannot draw text value");
+		throw Error("tPoolText.uDraw: Cannot draw text value");
 	}
 }
 

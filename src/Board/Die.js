@@ -23,6 +23,6 @@ export class tDie {
 		this.CkUnder = ["L", "T", "N", "Z", "W"].includes(aText);
 
 		if (!Dir4.uCk(this.Dir4))
-			throw new Error("tDie: Invalid direction");
+			throw Error("tDie: Invalid direction");
 	}
 }

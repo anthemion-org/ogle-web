@@ -41,7 +41,7 @@ export class tGenRnd {
 	 *  empty. */
 	uEl(ayEls) {
 		if (!ayEls.length)
-			throw new Error("tGenRnd.uEl: Empty array");
+			throw Error("tGenRnd.uEl: Empty array");
 		return ayEls[this.uInt(ayEls.length)];
 	}
 }
@@ -58,7 +58,7 @@ export class tGenRnd {
  *  The function generates numbers suitable for use as seeds. */
 function uGenSeedXMUR3(aSeedText) {
 	if (!aSeedText.length)
-		throw new Error("Rnd uGenSeedXMUR3: Invalid source string");
+		throw Error("Rnd uGenSeedXMUR3: Invalid source string");
 
 	for (var i = 0, h = 1779033703 ^ aSeedText.length; i < aSeedText.length; i++)
 		h = Math.imul(h ^ aSeedText.charCodeAt(i), 3432918353),

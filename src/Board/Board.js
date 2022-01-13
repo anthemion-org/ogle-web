@@ -31,9 +31,9 @@ export class tBoard {
 	 *  coordinate is out of range. */
 	uDie(aPos) {
 		if ((aPos.X === undefined) || (aPos.X < 0) || (aPos.X >= Cfg.WthBoard))
-			throw new Error("tBoard.uDie: Invalid X position");
+			throw Error("tBoard.uDie: Invalid X position");
 		if ((aPos.Y === undefined) || (aPos.Y < 0) || (aPos.Y >= Cfg.HgtBoard))
-			throw new Error("tBoard.uDie: Invalid Y position");
+			throw Error("tBoard.uDie: Invalid Y position");
 		return this.yDice[aPos.X][aPos.Y];
 	}
 }
