@@ -46,9 +46,7 @@ export function uCompareStr(aL, aR) {
  *  negative number, zero, or a positive number to signal the first argument's
  *  position relative to the second. */
 export function uBin(ayEls, aVal, auCompare) {
-	if (!Array.isArray(ayEls))
-		throw Error("Search uBin: Invalid array");
-	if (!ayEls.length) return [ false, 0 ];
+	if (ayEls.length < 1) return [ false, 0 ];
 
 	if (!auCompare) auCompare = uCompareNum;
 

@@ -14,11 +14,6 @@ import { tPt2 } from "./Pt2.js";
 export class tRect {
 	/** Creates an instance with the specified tPt2 position and size. */
 	constructor(aqLeftBtm, aqSize) {
-		if (!aqLeftBtm instanceof tPt2)
-			throw Error("tRect.constructor: Invalid position");
-		if (!aqSize instanceof tPt2)
-			throw Error("tRect.constructor: Invalid size");
-
 		/** The left-bottom corner of the rectangle. */
 		this.qLeftBtm = aqLeftBtm;
 		/** The size of the rectangle. */
@@ -37,9 +32,6 @@ export class tRect {
 
 	/** Returns 'true' if the specified position is contained by this instance. */
 	uCkContain(aqPos) {
-		if (!aqPos instanceof tPt2)
-			throw Error("tRect.uCkContain: Invalid point");
-
 		const oqTopRight = this.uTopRight();
 		return (aqPos.X >= this.qLeftBtm.X) && (aqPos.X <= oqTopRight.X)
 			&& (aqPos.Y >= this.qLeftBtm.Y) && (aqPos.Y <= oqTopRight.Y);

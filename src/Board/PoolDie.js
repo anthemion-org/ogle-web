@@ -18,9 +18,6 @@ import * as Cfg from "../Cfg.js";
  *  once the entire board has been drawn. */
 export class tPoolDie {
 	constructor(aqGenRnd) {
-		if (!aqGenRnd instanceof tGenRnd)
-			throw Error("tPoolDie.constructor: Invalid generator");
-
 		this.GenRnd = aqGenRnd;
 
 		// Ready text pools
@@ -58,7 +55,7 @@ export class tPoolDie {
 	uDraw() {
 		const oCtText = this.CtVow + this.CtConson;
 		if (oCtText < 1)
-			throw Error("tPoolDie.uDraw: Cannot draw text");
+			throw Error("tPoolDie.uDraw: Pool exhausted");
 
 		const ojDraw = this.GenRnd.uInt(oCtText);
 
@@ -106,9 +103,6 @@ class tPoolText {
 	/** Creates a new pool containing text values drawn from the properties of
 	 *  aqEnts, with counts equal to the aqEnts values. */
 	constructor(aqGenRnd, aqEnts) {
-		if (!aqGenRnd)
-			throw Error("tPoolText.constructor: Random number generator not set");
-
 		this.GenRnd = aqGenRnd;
 
 		/** The total value count available to be drawn. */
@@ -131,7 +125,7 @@ class tPoolText {
 				return onText;
 			}
 		}
-		throw Error("tPoolText.uDraw: Cannot draw text value");
+		throw Error("tPoolText.uDraw: Pool exhausted");
 	}
 }
 

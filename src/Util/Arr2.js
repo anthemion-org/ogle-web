@@ -17,17 +17,12 @@ export class tArr2 {
 	 *  to default value apOpts.Def. If it is not defined, the elements will be
 	 *  left undefined. */
 	constructor(aqSize, apOpts) {
-		if (!aqSize instanceof tPt2)
-			throw Error("tArr2.constructor: Invalid size");
-
 		/** The dimensions of this instance. */
 		this.qSize = aqSize;
 
 		const oySrc = apOpts?.ySrc;
 		const oCt = aqSize.X * aqSize.Y;
 		if (oySrc) {
-			if (!Array.isArray(oySrc))
-				throw Error("tArr2.constructor: Invalid source");
 			if (oySrc.length !== oCt)
 				throw Error("tArr2.constructor: Source dimensions do not match");
 

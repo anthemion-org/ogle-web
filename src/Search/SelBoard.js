@@ -29,11 +29,6 @@ import * as Cfg from "../Cfg.js";
  *  enumerated.*/
 export class tSelBoard {
 	constructor(aqBoard, aqPos, aqSelPrev) {
-		if (!aqBoard instanceof tBoard)
-			throw Error("tSelBoard: Invalid board");
-		if (!aqPos instanceof tPt2)
-			throw Error("tSelBoard: Invalid position");
-
 		/* The board that contains the selection. */
 		this.qBoard = aqBoard;
 		/* The board position selected by this instance. */
@@ -111,7 +106,6 @@ function uOff(ajDir) {
 		case 5: return new tPt2(-1, -1);
 		case 6: return new tPt2(0, -1);
 		case 7: return new tPt2(1, -1);
-		default:
-			throw Error("SelBoard uOff: Invalid index");
 	}
+	throw Error("SelBoard uOff: Invalid index");
 }

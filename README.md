@@ -25,6 +25,7 @@ The project was created with _create-react-app_.
 ## Design notes
 
 Implicit duck typing sometimes, explicit parameter type checks other times [to do]
+~ 'instanceof' fails silently when checking against imported class
 
 Allow optional parameters, but avoid parameters that can have different types [to do]
 

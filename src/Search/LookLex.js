@@ -23,15 +23,6 @@ export class tLookLex {
 
 	/** Leave ajFore and ajAft undefined to start a new search. */
 	constructor(aqLex, aText, ajFore, ajAft) {
-		if (!aqLex instanceof tLex)
-			throw Error("tLookLex.constructor: Invalid lexicon");
-		if (!aText instanceof String)
-			throw Error("tLookLex.constructor: Invalid text");
-		if (ajFore && (typeof ajFore !== "number"))
-			throw Error("tLookLex.constructor: Invalid 'before' index");
-		if (ajAft && (typeof ajAft !== "number"))
-			throw Error("tLookLex.constructor: Invalid 'after' index");
-
 		/** The lexicon to be searched. */
 		this.qLex = aqLex;
 		/** The text to be sought by this instance. */
@@ -75,11 +66,6 @@ export class tLookLex {
  *  before, a positive number if it sorts after, and zero if it matches the
  *  beginning or entirety of aTextLex. */
 function uCompare(aTextLook, aTextLex) {
-	if (!aTextLook instanceof String)
-		throw Error("tLookLex uCompare: Invalid lookup text");
-	if (!aTextLex instanceof String)
-		throw Error("tLookLex uCompare: Invalid lexicon text");
-
 	// aTextLook represents the current board selection. Because the selection
 	// grows as the board is enumerated, we must stop when the search identifies a
 	// set of potential future matches. Going further would narrow and focus the

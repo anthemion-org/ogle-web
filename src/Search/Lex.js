@@ -55,10 +55,8 @@ export class tLex {
 
 	/** Returns the searchable word at the specified index. */
 	uAtSearch(aj) {
-		if (!Misc.uCkNumInt(aj))
-			throw Error("tLex.uAtSearch: Invalid index");
 		if ((aj < 0) || (aj >= this.yWordsSearch.length))
-			throw Error("tLex.uAtSearch: Index out of range");
+			throw Error("tLex.uAtSearch: Invalid index");
 		return this.yWordsSearch[aj];
 	}
 
