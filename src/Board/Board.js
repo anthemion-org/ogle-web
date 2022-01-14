@@ -14,16 +14,16 @@ import * as Cfg from "../Cfg.js";
 /** Generates and stores a single game board. */
 export class tBoard {
 	/** Creates a random board. */
-	constructor(aqGenRnd) {
+	constructor(aGenRnd) {
 		/** An array of column arrays, which themselves contain tDie instances. */
-		this.yDice = [];
+		this.Dice = [];
 
-		const oqPool = new tPoolDie(aqGenRnd);
+		const oPool = new tPoolDie(aGenRnd);
 		for (let oX = 0; oX < Cfg.WthBoard; ++oX) {
-			const oyCol = [];
+			const oCol = [];
 			for (let oY = 0; oY < Cfg.HgtBoard; ++oY)
-				oyCol.push(oqPool.uDraw())
-			this.yDice.push(oyCol);
+				oCol.push(oPool.uDraw())
+			this.Dice.push(oCol);
 		}
 	}
 
@@ -34,6 +34,6 @@ export class tBoard {
 			throw Error("tBoard.uDie: Invalid X position");
 		if ((aPos.Y < 0) || (aPos.Y >= Cfg.HgtBoard))
 			throw Error("tBoard.uDie: Invalid Y position");
-		return this.yDice[aPos.X][aPos.Y];
+		return this.Dice[aPos.X][aPos.Y];
 	}
 }

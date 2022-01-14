@@ -16,8 +16,8 @@ import * as Cfg from "../Cfg.js";
  *  to produce a board. A fixed number of vowels will be found in any board,
  *  once the entire board has been drawn. */
 export class tPoolDie {
-	constructor(aqGenRnd) {
-		this.GenRnd = aqGenRnd;
+	constructor(aGenRnd) {
+		this.GenRnd = aGenRnd;
 
 		// Ready text pools
 		// ----------------
@@ -31,7 +31,7 @@ export class tPoolDie {
 		this.CtConson = Cfg.CtDie - this.CtVow;
 
 		/** The vowel text pool. Not all of these are expected to be drawn. */
-		this.qTextsVow = new tPoolText(aqGenRnd, {
+		this.TextsVow = new tPoolText(aGenRnd, {
 			E: 6,
 			A: 4, O: 4,
 			I: 3,
@@ -39,7 +39,7 @@ export class tPoolDie {
 		});
 
 		/** The consonant text pool. Not all of these are expected to be drawn. */
-		this.qTextsConson = new tPoolText(aqGenRnd, {
+		this.TextsConson = new tPoolText(aGenRnd, {
 			T: 7, N: 7,
 			S: 6, H: 6, R: 6,
 			D: 4, L: 4,
@@ -60,11 +60,11 @@ export class tPoolDie {
 
 		let oText;
 		if (ojDraw < this.CtVow) {
-			oText = this.qTextsVow.uDraw();
+			oText = this.TextsVow.uDraw();
 			--this.CtVow;
 		}
 		else {
-			oText = this.qTextsConson.uDraw();
+			oText = this.TextsConson.uDraw();
 			--this.CtConson;
 		}
 
@@ -100,15 +100,15 @@ class tPoolText {
 	}
 
 	/** Creates a new pool containing text values drawn from the properties of
-	 *  aqEnts, with counts equal to the aqEnts values. */
-	constructor(aqGenRnd, aqEnts) {
-		this.GenRnd = aqGenRnd;
+	 *  aEnts, with counts equal to the aEnts values. */
+	constructor(aGenRnd, aEnts) {
+		this.GenRnd = aGenRnd;
 
 		/** The total value count available to be drawn. */
-		this.Ct = tPoolText.suCt(aqEnts);
+		this.Ct = tPoolText.suCt(aEnts);
 		/** An object that associates text values with counts. These counts will be
 		 *  decremented as the values are drawn. */
-		this.qEnts = { ...aqEnts };
+		this.Ents = { ...aEnts };
 	}
 
 	/** Selects and returns a random text value, after decrementing its count. */
@@ -116,11 +116,11 @@ class tPoolText {
 		// Replace this with a fractional draw index, so that text values can have
 		// non-integer counts? See the tPoolText comments for more on this:
 		let ojDraw = this.GenRnd.uInt(this.Ct);
-		for (const onText in this.qEnts) {
-			ojDraw -= this.qEnts[onText];
+		for (const onText in this.Ents) {
+			ojDraw -= this.Ents[onText];
 			if (ojDraw < 0) {
 				--this.Ct;
-				--this.qEnts[onText];
+				--this.Ents[onText];
 				return onText;
 			}
 		}

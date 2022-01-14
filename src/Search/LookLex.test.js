@@ -3,26 +3,26 @@
 // Copyright ©2022 Jeremy Kelly
 // www.anthemion.org
 
-import { tLookLex, pOutsLook } from "./LookLex.js";
+import { tLookLex, OutsLook } from "./LookLex.js";
 import { tLex } from "./Lex.js";
 
 test("tLookLex: Enumeration", () => {
-	const oqLex = new tLex;
-	const oqLookOFull = new tLookLex(oqLex, "o");
-	expect(oqLookOFull.uExec(false)).toBe(pOutsLook.Miss);
+	const oLex = new tLex;
+	const oLookOFull = new tLookLex(oLex, "o");
+	expect(oLookOFull.uExec(false)).toBe(OutsLook.Miss);
 
-	const oqLookO = new tLookLex(oqLex, "o");
-	expect(oqLookO.uExec(true)).toBe(pOutsLook.Frag);
+	const oLookO = new tLookLex(oLex, "o");
+	expect(oLookO.uExec(true)).toBe(OutsLook.Frag);
 
-	const oqLookOG = tLookLex.suFromPrev(oqLookO, "og");
-	expect(oqLookOG.uExec(true)).toBe(pOutsLook.Frag);
+	const oLookOG = tLookLex.suFromPrev(oLookO, "og");
+	expect(oLookOG.uExec(true)).toBe(OutsLook.Frag);
 
-	const oqLookOGL = tLookLex.suFromPrev(oqLookOG, "ogl");
-	expect(oqLookOGL.uExec(true)).toBe(pOutsLook.Frag);
+	const oLookOGL = tLookLex.suFromPrev(oLookOG, "ogl");
+	expect(oLookOGL.uExec(true)).toBe(OutsLook.Frag);
 
-	const oqLookOGLE = tLookLex.suFromPrev(oqLookOGL, "ogle");
-	expect(oqLookOGLE.uExec(true)).toBe(pOutsLook.Frag);
+	const oLookOGLE = tLookLex.suFromPrev(oLookOGL, "ogle");
+	expect(oLookOGLE.uExec(true)).toBe(OutsLook.Frag);
 
-	const oqLookOGLES = tLookLex.suFromPrev(oqLookOGLE, "ogles");
-	expect(oqLookOGLES.uExec(true)).toBe(pOutsLook.Match);
+	const oLookOGLES = tLookLex.suFromPrev(oLookOGLE, "ogles");
+	expect(oLookOGLES.uExec(true)).toBe(OutsLook.Match);
 });

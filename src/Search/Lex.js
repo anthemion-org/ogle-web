@@ -14,7 +14,7 @@ import * as Search from "../Util/Search.js";
 // the browser? [optimize]
 //
 /** Words in the built-in Ogle lexicon. */
-import yWordsOgle from "./WordsOgle.json";
+import WordsOgle from "./WordsOgle.json";
 
 // tLex
 // ----
@@ -35,28 +35,28 @@ import yWordsOgle from "./WordsOgle.json";
  *  words. */
 export class tLex {
 	constructor() {
-		const oyWordsUser = localStorage.yWordsUser
-			? JSON.parse(localStorage.yWordsUser)
+		const oWordsUser = localStorage.WordsUser
+			? JSON.parse(localStorage.WordsUser)
 			: [];
 
 		/** All searchable words. */
-		this.yWordsSearch = Array.from(yWordsOgle).concat(oyWordsUser);
-		this.yWordsSearch.sort(Search.uCompareStr);
+		this.WordsSearch = Array.from(WordsOgle).concat(oWordsUser);
+		this.WordsSearch.sort(Search.uCompareStr);
 
 		/** User-entered words that have yet to be merged. */
-		this.yWordsUserPend = [];
+		this.WordsUserPend = [];
 	}
 
 	/** Returns the number of searchable words. */
 	uCtSearch() {
-		return this.yWordsSearch.length;
+		return this.WordsSearch.length;
 	}
 
 	/** Returns the searchable word at the specified index. */
 	uAtSearch(aj) {
-		if ((aj < 0) || (aj >= this.yWordsSearch.length))
+		if ((aj < 0) || (aj >= this.WordsSearch.length))
 			throw Error("tLex.uAtSearch: Invalid index");
-		return this.yWordsSearch[aj];
+		return this.WordsSearch[aj];
 	}
 
 	/** Returns 'true' if the specified word is known. */
@@ -65,35 +65,35 @@ export class tLex {
 		// is good enough:
 		const ouCompare = Search.uCompareStr;
 
-		let [oCk] = Search.uBin(this.yWordsSearch, aWord, ouCompare);
+		let [oCk] = Search.uBin(this.WordsSearch, aWord, ouCompare);
 		if (oCk) return true;
 
-		[oCk] = Search.uBin(this.yWordsUserPend, aWord, ouCompare);
+		[oCk] = Search.uBin(this.WordsUserPend, aWord, ouCompare);
 		return oCk;
 	}
 
 	/** Adds the specified word to the user storage and the unmerged user word
 	 *  list. */
 	uAdd_WordUser(aWord) {
-		const oyWordsUser = localStorage.yWordsUser
-			? JSON.parse(localStorage.yWordsUser)
+		const oWordsUser = localStorage.WordsUser
+			? JSON.parse(localStorage.WordsUser)
 			: [];
-		oyWordsUser.push(aWord);
-		localStorage.yWordsUser = JSON.stringify(oyWordsUser);
+		oWordsUser.push(aWord);
+		localStorage.WordsUser = JSON.stringify(oWordsUser);
 
-		this.yWordsUserPend.push(aWord);
+		this.WordsUserPend.push(aWord);
 		// We must keep this sorted for uCkKnown:
-		this.yWordsUserPend.sort(Search.uCompareStr);
+		this.WordsUserPend.sort(Search.uCompareStr);
 	}
 
 	/** Merges recent user words into the searchable word list, then empties the
 	 *  unmerged user word list. */
 	uMerge_WordsUser() {
-		if (!this.yWordsUserPend.length) return;
+		if (!this.WordsUserPend.length) return;
 
-		this.yWordsSearch.push(...this.yWordsUserPend);
-		this.yWordsSearch.sort(Search.uCompareStr);
+		this.WordsSearch.push(...this.WordsUserPend);
+		this.WordsSearch.sort(Search.uCompareStr);
 
-		this.yWordsUserPend = [];
+		this.WordsUserPend = [];
 	}
 }

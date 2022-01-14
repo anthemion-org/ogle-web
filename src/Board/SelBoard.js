@@ -27,40 +27,40 @@ import * as Cfg from "../Cfg.js";
  *  uNext, all die sequences beginning with the first position can be
  *  enumerated.*/
 export class tSelBoard {
-	/** Set aqSelPrev to the instance that should precede this instance in the
+	/** Set aSelPrev to the instance that should precede this instance in the
 	 *  selection, or leave it undefined to start a new selection. */
-	constructor(aqBoard, aqPos, aqSelPrev) {
+	constructor(aBoard, aPos, aSelPrev) {
 		/* The board that contains the selection. */
-		this.qBoard = aqBoard;
+		this.Board = aBoard;
 		/* The board position selected by this instance. */
-		this.qPos = aqPos;
+		this.Pos = aPos;
 		/** The selection instance that precedes this one, or 'null' if this
 		 *  instance is the first. */
-		this.qSelPrev = aqSelPrev ?? null;
+		this.SelPrev = aSelPrev ?? null;
 
-		let oqCksAllPrev = aqSelPrev
-			? aqSelPrev.qCksAll.uClone()
+		let oCksAllPrev = aSelPrev
+			? aSelPrev.CksAll.uClone()
 			: new tArr2(Cfg.SizeBoard, { Def: false });
 		/** A tArr2 array of booleans that mark the board positions selected by this
 		 *  instance and its predecessors: */
-		this.qCksAll = oqCksAllPrev;
-		this.qCksAll.uSet(aqPos, true);
+		this.CksAll = oCksAllPrev;
+		this.CksAll.uSet(aPos, true);
 
-		let oyPosiAllPrev = aqSelPrev ? Array.from(aqSelPrev.yPosiAll) : [];
+		let oPosiAllPrev = aSelPrev ? Array.from(aSelPrev.PosiAll) : [];
 		/** An array containing the tPt2 positions selected by this instance and its
 		 *  predecessors, in order of selection. */
-		this.yPosiAll = oyPosiAllPrev;
-		this.yPosiAll.push(aqPos);
+		this.PosiAll = oPosiAllPrev;
+		this.PosiAll.push(aPos);
 
-		const oqDiePos = aqBoard.uDie(aqPos);
-		const oTextPos = oqDiePos.Text.toLowerCase();
+		const oDiePos = aBoard.uDie(aPos);
+		const oTextPos = oDiePos.Text.toLowerCase();
 		/** The text selected by this instance and its predecessors, in lowercase.
 		 *  Recall that the 'Qu' die counts as two letters, not one. */
-		this.TextAll = aqSelPrev ? (aqSelPrev.TextAll + oTextPos) : oTextPos;
+		this.TextAll = aSelPrev ? (aSelPrev.TextAll + oTextPos) : oTextPos;
 
 		/** The index of the selection neighbor that should follow this one. This
 		 *  index will increment as uNext is called. */
-		this.jNeighNext = 0;
+		this.jNeigh = 0;
 	}
 
 	/** Creates and returns a new instance selecting a board position that is:
@@ -73,24 +73,24 @@ export class tSelBoard {
 	 *
 	 *  Returns 'null' if no such position exists. */
 	uNext() {
-		const oqPosNext = uPosNext(this, this.jNeighNext++);
-		return oqPosNext ? new tSelBoard(this.qBoard, oqPosNext, this) : null;
+		const oPosNext = uPosNext(this, this.jNeigh++);
+		return oPosNext ? new tSelBoard(this.Board, oPosNext, this) : null;
 	}
 }
 
 /** Returns the first available adjacent position after skipping ajNeighNext
  *  valid choices, starting with the position on the right, and proceding
  *  counter-clockwise. Returns 'null' if no such position exists. */
-function uPosNext(aqSel, ajNeighNext) {
+function uPosNext(aSel, ajNeigh) {
 	// The 'next' index ranges from zero to seven:
-	if (ajNeighNext > 7) return null;
+	if (ajNeigh > 7) return null;
 
 	for (let ojDir = 0; ojDir < 8; ++ojDir) {
 		const oOff = uOff(ojDir);
-		const oqPos = aqSel.qPos.uSum(oOff);
-		if (Cfg.RectBoard.uCkContain(oqPos) && !aqSel.qCksAll.uGet(oqPos)) {
-			if (ajNeighNext < 1) return oqPos;
-			--ajNeighNext;
+		const oPos = aSel.Pos.uSum(oOff);
+		if (Cfg.RectBoard.uCkContain(oPos) && !aSel.CksAll.uGet(oPos)) {
+			if (ajNeigh < 1) return oPos;
+			--ajNeigh;
 		}
 	}
 	return null;

@@ -7,29 +7,29 @@ import { tLex } from "./Lex.js";
 
 test("tLex.uCkKnown: Old and new user words", () => {
 	const oWordUserOld = "oooooooo";
-	localStorage.yWordsUser = JSON.stringify([ oWordUserOld ]);
+	localStorage.WordsUser = JSON.stringify([ oWordUserOld ]);
 
-	const oqLex = new tLex;
+	const oLex = new tLex;
 
-	expect(oqLex.uCkKnown("abacus")).toBe(true);
-	expect(oqLex.uCkKnown(oWordUserOld)).toBe(true);
+	expect(oLex.uCkKnown("abacus")).toBe(true);
+	expect(oLex.uCkKnown(oWordUserOld)).toBe(true);
 
 	const oWordUserNew = "nnnnnnnn";
-	expect(oqLex.uCkKnown(oWordUserNew)).toBe(false);
+	expect(oLex.uCkKnown(oWordUserNew)).toBe(false);
 
-	oqLex.uAdd_WordUser(oWordUserNew);
-	expect(oqLex.uCkKnown(oWordUserNew)).toBe(true);
+	oLex.uAdd_WordUser(oWordUserNew);
+	expect(oLex.uCkKnown(oWordUserNew)).toBe(true);
 });
 
 test("tLex.uCtSearch: Add user words and merge", () => {
-	localStorage.removeItem("yWordsUser");
+	localStorage.removeItem("WordsUser");
 
-	const oqLex = new tLex;
-	const oCtOrig = oqLex.uCtSearch();
+	const oLex = new tLex;
+	const oCtOrig = oLex.uCtSearch();
 
-	oqLex.uAdd_WordUser("aaaaaaaa");
-	oqLex.uAdd_WordUser("bbbbbbbb");
-	oqLex.uMerge_WordsUser();
+	oLex.uAdd_WordUser("aaaaaaaa");
+	oLex.uAdd_WordUser("bbbbbbbb");
+	oLex.uMerge_WordsUser();
 
-	expect(oqLex.uCtSearch()).toBe(oCtOrig + 2);
+	expect(oLex.uCtSearch()).toBe(oCtOrig + 2);
 });

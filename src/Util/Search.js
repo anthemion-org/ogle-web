@@ -36,7 +36,7 @@ export function uCompareStr(aL, aR) {
 // Search functions
 // ----------------
 
-/** Uses a binary search to find aVal within sorted array ayEls. Set auComp to a
+/** Uses a binary search to find aVal within sorted array aEls. Set auComp to a
  *  custom comparison function, or leave it undefined to compare elements as
  *  numbers. Returns a two-element array containing a boolean value that tells
  *  whether aVal was found, plus the index where a match was or would have been
@@ -45,16 +45,16 @@ export function uCompareStr(aL, aR) {
  *  If provided, the comparison function must accept two arguments, and return a
  *  negative number, zero, or a positive number to signal the first argument's
  *  position relative to the second. */
-export function uBin(ayEls, aVal, auCompare) {
-	if (ayEls.length < 1) return [ false, 0 ];
+export function uBin(aEls, aVal, auCompare) {
+	if (aEls.length < 1) return [ false, 0 ];
 
 	if (!auCompare) auCompare = uCompareNum;
 
 	let ojLo = 0;
-	let ojHi = ayEls.length - 1;
+	let ojHi = aEls.length - 1;
 	while (ojLo !== ojHi) {
 		const ojMid = Math.ceil((ojLo + ojHi) / 2);
-		const oPosMid = auCompare(ayEls[ojMid], aVal);
+		const oPosMid = auCompare(aEls[ojMid], aVal);
 		if (oPosMid < 0) {
 			ojLo = ojMid;
 			continue;
@@ -66,7 +66,7 @@ export function uBin(ayEls, aVal, auCompare) {
 		return [ true, ojMid ];
 	}
 
-	const oPosEnd = auCompare(ayEls[ojLo], aVal);
+	const oPosEnd = auCompare(aEls[ojLo], aVal);
 	const ojIns = (oPosEnd < 0) ? (ojLo + 1) : ojLo;
 	return [ !oPosEnd, ojIns ];
 }

@@ -17,12 +17,12 @@ test("tGenRnd: Create without seed", () => {
 });
 
 test("tGenRnd: Mean", () => {
-	const oqGen = new tGenRnd(SeedText);
+	const oGen = new tGenRnd(SeedText);
 
 	const oCt = 1000;
 	let oAvg = 0;
 	for (let o = 0; o < oCt; ++o)
-		oAvg += oqGen.uVal();
+		oAvg += oGen.uVal();
 	oAvg /= oCt;
 
 	// Just guessing on the tolerance here:
@@ -36,19 +36,19 @@ test("tGenRnd: Flatness", () => {
 	//
 	// Would it be better to calculate the variance?
 
-	const oqGen = new tGenRnd(SeedText);
+	const oGen = new tGenRnd(SeedText);
 
 	const oCtVal = 1000;
-	const oyVals = [];
+	const oVals = [];
 	for (let oj = 0; oj < oCtVal; ++oj)
-		oyVals.push(oqGen.uVal());
+		oVals.push(oGen.uVal());
 
-	oyVals.sort(Search.uCompareNum);
+	oVals.sort(Search.uCompareNum);
 
 	const oCtBin = 10;
 	const oCtValBin = oCtVal / oCtBin;
 	for (let oj = 0; oj < oCtBin; ++oj) {
-		const oVal = oyVals[oCtValBin * oj];
+		const oVal = oVals[oCtValBin * oj];
 		const oValExp = (1.0 / oCtBin) * oj;
 		// Just guessing on the tolerance here:
 		expect(oVal).toBeCloseTo(oValExp, 1);

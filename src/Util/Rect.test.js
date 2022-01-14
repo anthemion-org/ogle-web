@@ -17,23 +17,23 @@ test.each([
 	[ new tPt2(3, 4), false ],
 	[ new tPt2(4, 3), false ],
 	[ new tPt2(4, 4), false ]
-])("tRect.uCkContain", (aqPos, aCk) => {
-	const oqLeftBtm = new tPt2(1, 1);
-	const oqSize = new tPt2(3, 3);
-	const oqRect = new tRect(oqLeftBtm, oqSize);
-	expect(oqRect.uCkContain(aqPos)).toBe(aCk);
+])("tRect.uCkContain", (aPos, aCk) => {
+	const oLeftBtm = new tPt2(1, 1);
+	const oSize = new tPt2(3, 3);
+	const oRect = new tRect(oLeftBtm, oSize);
+	expect(oRect.uCkContain(aPos)).toBe(aCk);
 });
 
 test("tRect.uPosi", () => {
-	const oqLeftBtm = new tPt2(1, 1);
-	const oqSize = new tPt2(3, 4);
-	const oqRect = new tRect(oqLeftBtm, oqSize);
-	const oyPosi = [ ...oqRect.uPosi() ];
+	const oLeftBtm = new tPt2(1, 1);
+	const oSize = new tPt2(3, 4);
+	const oRect = new tRect(oLeftBtm, oSize);
+	const oPosi = [ ...oRect.uPosi() ];
 
-	const oyPosiExp = [];
+	const oPosiExp = [];
 	for (let oY = 1; oY < 5; ++oY)
 		for (let oX = 1; oX < 4; ++oX)
-			oyPosiExp.push(new tPt2(oX, oY));
+			oPosiExp.push(new tPt2(oX, oY));
 
-	expect(oyPosi).toEqual(oyPosiExp);
+	expect(oPosi).toEqual(oPosiExp);
 });

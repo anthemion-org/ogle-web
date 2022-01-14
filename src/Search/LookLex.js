@@ -5,7 +5,7 @@
 //
 // Import with:
 //
-//   import { tLookLex, pOutsLook } from "./LookLex.js";
+//   import { tLookLex,  } from "./LookLex.js";
 //
 
 import * as Search from "../Util/Search.js";
@@ -18,40 +18,40 @@ import * as Search from "../Util/Search.js";
 export class tLookLex {
 	/** Returns a new instance that searches for aText, while reusing the search
 	 *  state produced by a previous tLookLex instance. */
-	static suFromPrev(aqLook, aText) {
-		return new tLookLex(aqLook.qLex, aText, aqLook.jFore, aqLook.jAft);
+	static suFromPrev(aLook, aText) {
+		return new tLookLex(aLook.Lex, aText, aLook.jFore, aLook.jAft);
 	}
 
-	/** Creates an instances that searches lexicon aqLex for aText. Leave ajFore
+	/** Creates an instances that searches lexicon aLex for aText. Leave ajFore
 	 *  and ajAft undefined to start a new search. */
-	constructor(aqLex, aText, ajFore, ajAft) {
+	constructor(aLex, aText, ajFore, ajAft) {
 		/** The lexicon to be searched. */
-		this.qLex = aqLex;
+		this.Lex = aLex;
 		/** The text to be sought by this instance. */
 		this.Text = aText;
 		/** The lexicon index before the search window. */
 		this.jFore = ajFore ?? -1;
 		/** The lexicon index after the search window. */
-		this.jAft = ajAft ?? aqLex.uCtSearch();
+		this.jAft = ajAft ?? aLex.uCtSearch();
 	}
 
-	/** Searches qLex for Text, narrowing the window until a match or a miss is
+	/** Searches Lex for Text, narrowing the window until a match or a miss is
 	 *  identified. If aCkStopFrag is 'true', the search will also stop when a
 	 *  fragment is identified. Returns the reason the search stopped. */
 	uExec(aCkStopFrag) {
-		if (this.qLex.uCtSearch() < 1) return pOutsLook.Miss;
+		if (this.Lex.uCtSearch() < 1) return OutsLook.Miss;
 
 		while (true) {
 			const ojMid = Math.floor((this.jFore + this.jAft) / 2);
-			const oTextLex = this.qLex.uAtSearch(ojMid);
+			const oTextLex = this.Lex.uAtSearch(ojMid);
 			const oCompare = uCompare(this.Text, oTextLex);
 			// Text sorts before oTextLex:
 			if (oCompare < 0) this.jAft = ojMid;
 			// Text sorts after oTextLex:
 			else if (oCompare > 0) this.jFore = ojMid;
 			else {
-				if (this.Text === oTextLex) return pOutsLook.Match;
-				if (aCkStopFrag) return pOutsLook.Frag;
+				if (this.Text === oTextLex) return OutsLook.Match;
+				if (aCkStopFrag) return OutsLook.Frag;
 				// oTextLex begins with the letters in Text, but it is longer, so the
 				// match (if any) must precede ojMid:
 				this.jAft = ojMid;
@@ -59,7 +59,7 @@ export class tLookLex {
 
 			// The word in the middle of the window has just been checked. If the
 			// window is now one word or less in size, no match will be found:
-			if ((this.jAft - this.jFore) <= 1) return pOutsLook.Miss;
+			if ((this.jAft - this.jFore) <= 1) return OutsLook.Miss;
 		}
 	}
 }
@@ -84,7 +84,7 @@ function uCompare(aTextLook, aTextLex) {
 }
 
 /** Stores properties representing word search outcomes. */
-export const pOutsLook = {
+export const OutsLook = {
 	/** The word was not found. */
 	Miss: "Miss",
 	/** A word was found that begins with the letters of the sought word, but is
@@ -93,4 +93,4 @@ export const pOutsLook = {
 	/** An exact match was found. */
 	Match: "Match"
 };
-Object.freeze(pOutsLook);
+Object.freeze(OutsLook);

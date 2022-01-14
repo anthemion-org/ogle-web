@@ -13,7 +13,7 @@ const SeedTextDef = "OGLE";
 /** The raw word output expected from the first board produced by SeedTextDef.
  *  These will change if the seed, the random number generator, or the lexicon
  *  changes. */
-const yWordsExpDef = [
+const WordsExpDef = [
 	"neat", "neon", "neonatal", "neonatal", "neat", "eating", "entangle", "alto",
 	"atonal", "atone", "atone", "atone", "anti", "anting", "anal", "analog",
 	"analogy", "analogs", "aeon", "lanai", "lane", "lane", "lane", "entangle",
@@ -43,24 +43,24 @@ const yWordsExpDef = [
 ];
 
 test("SearchBoard uExec: Output", () => {
-	const oqGenRnd = new tGenRnd(SeedTextDef);
-	const oqBoard = new tBoard(oqGenRnd);
-	const oqLex = new tLex;
-	const oySelsWord = SearchBoard.uExec(oqBoard, oqLex);
-	const oyWords = oySelsWord.map(a => a.TextAll);
-	expect(oyWords).toEqual(yWordsExpDef);
+	const oGenRnd = new tGenRnd(SeedTextDef);
+	const oBoard = new tBoard(oGenRnd);
+	const oLex = new tLex;
+	const oSelsWord = SearchBoard.uExec(oBoard, oLex);
+	const oWords = oSelsWord.map(a => a.TextAll);
+	expect(oWords).toEqual(WordsExpDef);
 });
 
 test("SearchBoard uExec: Speed", () => {
-	const oqGenRnd = new tGenRnd(SeedTextDef);
+	const oGenRnd = new tGenRnd(SeedTextDef);
 	const oCt = 20;
 
 	const oTimeStart = Date.now();
 	for (let o = 0; o < oCt; ++o) {
-		const oqBoard = new tBoard(oqGenRnd);
-		const oqLex = new tLex;
-		const oySelsWord = SearchBoard.uExec(oqBoard, oqLex);
-		expect(oySelsWord.length).toBeGreaterThan(10);
+		const oBoard = new tBoard(oGenRnd);
+		const oLex = new tLex;
+		const oSelsWord = SearchBoard.uExec(oBoard, oLex);
+		expect(oSelsWord.length).toBeGreaterThan(10);
 	}
 	const oTimeEnd = Date.now();
 	const oTimePer = (oTimeEnd - oTimeStart) / oCt;

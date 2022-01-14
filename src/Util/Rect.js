@@ -13,28 +13,28 @@ import { tPt2 } from "./Pt2.js";
 /** Represents a rectangle with integer coordinates. */
 export class tRect {
 	/** Creates an instance with the specified tPt2 position and size. */
-	constructor(aqLeftBtm, aqSize) {
+	constructor(aLeftBtm, aSize) {
 		/** The left-bottom corner of the rectangle. */
-		this.qLeftBtm = aqLeftBtm;
+		this.LeftBtm = aLeftBtm;
 		/** The size of the rectangle. */
-		this.qSize = aqSize;
+		this.Size = aSize;
 	}
 
 	/** Returns the tPt2 position of the top-right corner. Because the rectangle
-	 *  has integer coordinates, this corner is 'qSize - (1, 1)' from qLeftBtm,
-	 *  not qSize from it. */
+	 *  has integer coordinates, this corner is 'Size - (1, 1)' from qLeftBtm,
+	 *  not Size from it. */
 	uTopRight() {
 		return new tPt2(
-			(this.qLeftBtm.X + this.qSize.X - 1),
-			(this.qLeftBtm.Y + this.qSize.Y - 1)
+			(this.LeftBtm.X + this.Size.X - 1),
+			(this.LeftBtm.Y + this.Size.Y - 1)
 		);
 	}
 
 	/** Returns 'true' if the specified position is contained by this instance. */
-	uCkContain(aqPos) {
-		const oqTopRight = this.uTopRight();
-		return (aqPos.X >= this.qLeftBtm.X) && (aqPos.X <= oqTopRight.X)
-			&& (aqPos.Y >= this.qLeftBtm.Y) && (aqPos.Y <= oqTopRight.Y);
+	uCkContain(aPos) {
+		const oTopRight = this.uTopRight();
+		return (aPos.X >= this.LeftBtm.X) && (aPos.X <= oTopRight.X)
+			&& (aPos.Y >= this.LeftBtm.Y) && (aPos.Y <= oTopRight.Y);
 	}
 
 	/** Returns a generator object that iterates all tPt2 positions contained by
@@ -42,8 +42,8 @@ export class tRect {
 	 *  bottom to top. */
 	* uPosi() {
 		const oTopRight = this.uTopRight();
-		for (let oY = this.qLeftBtm.Y; oY <= oTopRight.Y; ++oY)
-			for (let oX = this.qLeftBtm.X; oX <= oTopRight.X; ++oX)
+		for (let oY = this.LeftBtm.Y; oY <= oTopRight.Y; ++oY)
+			for (let oX = this.LeftBtm.X; oX <= oTopRight.X; ++oX)
 				yield new tPt2(oX, oY);
 	}
 }

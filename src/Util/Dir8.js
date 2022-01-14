@@ -28,7 +28,7 @@ export function uCk(aDir) {
 }
 
 /** Returns a random Vals member. */
-export function uRnd(aqGenRnd) {
-	return aqGenRnd.uEl(Object.values(Vals));
+export function uRnd(aGenRnd) {
+	return aGenRnd.uEl(Object.values(Vals));
 }
 

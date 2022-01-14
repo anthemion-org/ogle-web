@@ -12,49 +12,49 @@ const SeedText = "OGLE";
 // --------
 
 test("tPoolDie: Draw all", () => {
-	const oqGenRnd = new tGenRnd(SeedText);
-	const oqPoolDie = new tPoolDie(oqGenRnd);
+	const oGenRnd = new tGenRnd(SeedText);
+	const oPoolDie = new tPoolDie(oGenRnd);
 
 	for (let oj = 0; oj < 25; ++oj)
-		oqPoolDie.uDraw();
+		oPoolDie.uDraw();
 });
 
 test("tPoolDie: Draw too many", () => {
-	const oqGenRnd = new tGenRnd(SeedText);
-	const oqPoolDie = new tPoolDie(oqGenRnd);
+	const oGenRnd = new tGenRnd(SeedText);
+	const oPoolDie = new tPoolDie(oGenRnd);
 
 	for (let oj = 0; oj < 25; ++oj)
-		oqPoolDie.uDraw();
-	expect(() => oqPoolDie.uDraw()).toThrow();
+		oPoolDie.uDraw();
+	expect(() => oPoolDie.uDraw()).toThrow();
 });
 
 // tPoolText
 // ---------
 
 test("tPoolText: Draw all", () => {
-	const oqGenRnd = new tGenRnd(SeedText);
-	const oqTexts = {
+	const oGenRnd = new tGenRnd(SeedText);
+	const oTexts = {
 		A: 3,
 		B: 2,
 		C: 1
 	};
-	const oqPoolText = new ForTest.tPoolText(oqGenRnd, oqTexts);
+	const oPoolText = new ForTest.tPoolText(oGenRnd, oTexts);
 
-	expect(oqPoolText.Ct).toBe(6);
+	expect(oPoolText.Ct).toBe(6);
 	for (let oj = 0; oj < 6; ++oj)
-		oqPoolText.uDraw();
-	expect(oqPoolText.Ct).toBe(0);
+		oPoolText.uDraw();
+	expect(oPoolText.Ct).toBe(0);
 });
 
 test("tPoolText: Draw too many", () => {
-	const oqGenRnd = new tGenRnd(SeedText);
-	const oqTexts = {
+	const oGenRnd = new tGenRnd(SeedText);
+	const oTexts = {
 		A: 1,
 		B: 1
 	};
-	const oqPoolText = new ForTest.tPoolText(oqGenRnd, oqTexts);
+	const oPoolText = new ForTest.tPoolText(oGenRnd, oTexts);
 
-	oqPoolText.uDraw();
-	oqPoolText.uDraw();
-	expect(() => oqPoolText.uDraw()).toThrow();
+	oPoolText.uDraw();
+	oPoolText.uDraw();
+	expect(() => oPoolText.uDraw()).toThrow();
 });
