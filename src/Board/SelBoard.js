@@ -5,7 +5,7 @@
 //
 // Import with:
 //
-//   import { tSelBoard } from "../SelBoard.js";
+//   import { tSelBoard } from "./SelBoard.js";
 //
 
 import { tPt2 } from "../Util/Pt2.js";

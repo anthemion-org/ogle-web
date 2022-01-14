@@ -8,7 +8,7 @@ import { tBoard } from "../Board/Board.js";
 import { tLex } from "./Lex.js";
 import { tGenRnd } from "../Util/Rnd.js";
 
-/** A random number generator for test searches. */
+/** A random number generator seed for test searches. */
 const SeedTextDef = "OGLE";
 /** The raw word output expected from the first board produced by SeedTextDef.
  *  These will change if the seed, the random number generator, or the lexicon
@@ -19,26 +19,27 @@ const yWordsExpDef = [
 	"analogy", "analogs", "aeon", "lanai", "lane", "lane", "lane", "entangle",
 	"eels", "eating", "nans", "nags", "natal", "naming", "namings", "nogs",
 	"note", "noel", "noels", "noting", "neat", "neat", "natal", "tiny", "tins",
-	"ting", "tings", "tingle", "tans", "tansy", "tang", "tangy", "tangs", "tangle", "tango", "tags", "talk", "talks", "tale", "talon", "taming", "togs", "toga",
-	"tole", "tote", "totem", "tonal", "tone", "tone", "tone", "tonal", "mingy",
-	"mingle", "main", "mains", "many", "mans", "mangy", "mangle", "mango", "mags",
-	"magi", "malt", "male", "manta", "mane", "mane", "mane", "mana", "matins",
-	"mating", "matings", "peon", "pels", "pelt", "peen", "peen", "pent", "penal",
-	"penal", "pent", "penal", "penal", "peon", "peel", "peels", "peen", "peen",
-	"peen", "peal", "peat", "elks", "elating", "ogle", "angle", "aglet", "alto",
-	"aloe", "aloe", "alone", "alone", "alone", "anti", "anting", "anal", "atone",
-	"atone", "atone", "atonal", "amigo", "ingot", "ingot", "inane", "inane",
-	"inane", "imago", "melt", "melon", "mental", "mental", "tels", "temp",
-	"tepee", "teen", "teen", "tent", "tenting", "togs", "toga", "tole", "tonal",
-	"tone", "tone", "tone", "tonal", "toting", "total", "totals", "total",
-	"lepton", "lent", "lento", "loan", "loans", "loan", "loam", "logy", "logs",
-	"lone", "lone", "lone", "lain", "lags", "lane", "lane", "lane", "laming",
-	"gnat", "glee", "glen", "gloat", "glans", "glam", "goal", "goals", "goat",
-	"gone", "gone", "gone", "gain", "gains", "gait", "gals", "gale", "galena",
-	"gaol", "gaols", "gamin", "gamins", "gins", "giant", "nags", "natal", "slept",
-	"sleep", "slog", "slogan", "slogan", "slot", "sloe", "sloe", "slot", "slain",
-	"slang", "slangy", "slag", "slant", "slanting", "slat", "slating", "slam",
-	"snag", "snit"
+	"ting", "tings", "tingle", "tans", "tansy", "tang", "tangy", "tangs",
+	"tangle", "tango", "tags", "talk", "talks", "tale", "talon", "taming", "togs",
+	"toga", "tole", "tote", "totem", "tonal", "tone", "tone", "tone", "tonal",
+	"mingy", "mingle", "main", "mains", "many", "mans", "mangy", "mangle",
+	"mango", "mags", "magi", "malt", "male", "manta", "mane", "mane", "mane",
+	"mana", "matins", "mating", "matings", "peon", "pels", "pelt", "peen", "peen",
+	"pent", "penal", "penal", "pent", "penal", "penal", "peon", "peel", "peels",
+	"peen", "peen", "peen", "peal", "peat", "elks", "elating", "ogle", "angle",
+	"aglet", "alto", "aloe", "aloe", "alone", "alone", "alone", "anti", "anting",
+	"anal", "atone", "atone", "atone", "atonal", "amigo", "ingot", "ingot",
+	"inane", "inane", "inane", "imago", "melt", "melon", "mental", "mental",
+	"tels", "temp", "tepee", "teen", "teen", "tent", "tenting", "togs", "toga",
+	"tole", "tonal", "tone", "tone", "tone", "tonal", "toting", "total", "totals",
+	"total", "lepton", "lent", "lento", "loan", "loans", "loan", "loam", "logy",
+	"logs", "lone", "lone", "lone", "lain", "lags", "lane", "lane", "lane",
+	"laming", "gnat", "glee", "glen", "gloat", "glans", "glam", "goal", "goals",
+	"goat", "gone", "gone", "gone", "gain", "gains", "gait", "gals", "gale",
+	"galena", "gaol", "gaols", "gamin", "gamins", "gins", "giant", "nags",
+	"natal", "slept", "sleep", "slog", "slogan", "slogan", "slot", "sloe", "sloe",
+	"slot", "slain", "slang", "slangy", "slag", "slant", "slanting", "slat",
+	"slating", "slam", "snag", "snit"
 ];
 
 test("SearchBoard uExec: Output", () => {

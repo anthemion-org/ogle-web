@@ -9,7 +9,7 @@
 //
 
 import { tLookLex, pOutsLook } from "./LookLex.js";
-import { tSelBoard } from "./SelBoard.js";
+import { tSelBoard } from "../Board/SelBoard.js";
 import * as Cfg from "../Cfg.js";
 
 /** Returns an array of tSelBoard instances representing all words in aqBoard
@@ -18,8 +18,8 @@ export function uExec(aqBoard, aqLex) {
 	/** The word selections found during the search, including duplicates and
 	 *  followed words. */
 	const oySelsWord = [];
-	const oyPosi = Cfg.RectBoard.uPosi();
-	for (const oqPos of oyPosi) {
+	const oiPosi = Cfg.RectBoard.uPosi();
+	for (const oqPos of oiPosi) {
 		const oqSel = new tSelBoard(aqBoard, oqPos);
 		const oqLook = new tLookLex(aqLex, oqSel.TextAll);
 		// At this point, the board selection contains only one die, so it cannot
