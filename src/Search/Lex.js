@@ -9,6 +9,7 @@
 //
 
 import * as Search from "../Util/Search.js";
+import * as Store from "../Store.js";
 
 // This import adds almost one half-second to the test time. Is it that slow in
 // the browser? [optimize]
@@ -35,9 +36,7 @@ import WordsOgle from "./WordsOgle.json";
  *  words. */
 export class tLex {
 	constructor() {
-		const oWordsUser = localStorage.WordsUser
-			? JSON.parse(localStorage.WordsUser)
-			: [];
+		const oWordsUser = Store.uGet("WordsUser");
 
 		/** All searchable words. */
 		this.WordsSearch = Array.from(WordsOgle).concat(oWordsUser);
@@ -75,11 +74,9 @@ export class tLex {
 	/** Adds the specified word to the user storage and the unmerged user word
 	 *  list. */
 	uAdd_WordUser(aWord) {
-		const oWordsUser = localStorage.WordsUser
-			? JSON.parse(localStorage.WordsUser)
-			: [];
+		const oWordsUser = Store.uGet("WordsUser");
 		oWordsUser.push(aWord);
-		localStorage.WordsUser = JSON.stringify(oWordsUser);
+		Store.uSet("WordsUser", oWordsUser);
 
 		this.WordsUserPend.push(aWord);
 		// We must keep this sorted for uCkKnown:

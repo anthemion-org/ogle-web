@@ -50,12 +50,17 @@ The following creators contributed code or other resources to Ogle.
 React, et cetera [to do]
 
 
-### Random number generation
+### Sanitize CSS reset
+
+https://github.com/csstools/sanitize.css [to do]
+
+
+### 'bryc' random number utilities
 
 The _xmur3_ and _mullberry32_ random number utilities were developed by [bryc](https://github.com/bryc/code/blob/master/jshash/PRNGs.md). They are in the public domain.
 
 
-### Word list
+### SCOWL word list
 
 The Ogle word list derives from [SCOWL](http://wordlist.aspell.net/), copyright ©2000-2004 Kevin Atkinson. The use and distribution of SCOWL is subject to the terms of the SCOWL License:
 

@@ -4,10 +4,11 @@
 // www.anthemion.org
 
 import { tLex } from "./Lex.js";
+import * as Store from "../Store.js";
 
 test("tLex.uCkKnown: Old and new user words", () => {
 	const oWordUserOld = "oooooooo";
-	localStorage.WordsUser = JSON.stringify([ oWordUserOld ]);
+	Store.uSet("WordsUser", [oWordUserOld]);
 
 	const oLex = new tLex;
 
@@ -22,7 +23,7 @@ test("tLex.uCkKnown: Old and new user words", () => {
 });
 
 test("tLex.uCtSearch: Add user words and merge", () => {
-	localStorage.removeItem("WordsUser");
+	Store.uSet("WordsUser", []);
 
 	const oLex = new tLex;
 	const oCtOrig = oLex.uCtSearch();
