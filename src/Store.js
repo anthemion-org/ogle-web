@@ -7,9 +7,9 @@
 //
 //   import * as Store from "./Store.js";
 //
-// All Ogle user data will be stored in a single object referenced by the
-// localStorage property named by NameRoot. All values are stored in the root of
-// that object.
+// All Ogle user data is stored in a single object referenced by the
+// localStorage property named by nRoot. The values referenced by uGet and uSet
+// are stored in the root of that object.
 
 /** Returns the value or object with the specified name. */
 export function uGet(aName) {
@@ -43,13 +43,15 @@ function uDef() {
 	};
 }
 
-/** Reads and returns user data from the Ogle local storage object, or 'null' if
- *  there is no user data. */
+/** Reads and returns user data from the nRoot local storage object, or 'null'
+ *  if there is no user data. */
 function uRead() {
-	return localStorage[NameRoot] ? JSON.parse(localStorage[NameRoot]) : null;
+	return localStorage[NameRoot]
+		? JSON.parse(localStorage[NameRoot])
+		: null;
 }
 
-/** Writes the specified data to the Ogle local storage. */
+/** Writes the specified data to the nRoot local storage. */
 function uWrite(aData) {
 	localStorage[NameRoot] = JSON.stringify(aData);
 }

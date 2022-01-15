@@ -6,3 +6,132 @@
 @import "~sanitize.css";
 @import "~sanitize.css/typography.css";
 @import "~sanitize.css/forms.css";
+
+html {
+	background-color: hsl(0, 0%, 100%);;
+}
+
+body {
+	width: 50%;
+	height: 100vh;
+	background-color: hsl(0, 0%, 90%);
+	/* We want to 'capture' the top margin of the first contained element,
+	// otherwise the body background will start below the 'html' top. See here for
+	// more on this:
+	//
+	//   https://stackoverflow.com/questions/1762539/margin-on-child-element-moves-parent-element
+	*/
+	border-top: 1px solid transparent;
+	margin: 0 auto;
+	padding: 0 2rem 2rem 2rem;
+}
+
+form {
+}
+
+button, input[type="submit"] {
+	background-color: hsl(0, 0%, 100%);
+	padding: 0.5rem 1rem;
+	border: 1px solid transparent;
+	border-radius: 0.25rem;
+}
+
+button:focus, input[type="submit"]:focus {
+	outline: none;
+	border: 1px dashed #AAA;
+}
+
+button:hover, input[type="submit"]:hover {
+	background-color: hsl(0, 0%, 95%);
+}
+
+button:active, input[type="submit"]:active {
+	background-color: hsl(0, 0%, 85%);
+}
+
+/* ------------
+// Range inputs
+// ------------
+// By default, and contrary to all common sense, range inputs don't change in
+// value when the user clicks to one side of the thumb unless the click position
+// is closer to another valid position than it is to the current position. Add
+// click handler to inputs that derives new value from click position? [to do]
+//
+// Adapted from:
+//
+//   https://css-tricks.com/styling-cross-browser-compatible-range-inputs-css/
+*/
+
+input[type="range"] {
+	/* This hides the original slider, but it also hides the tick marks:*/
+	-webkit-appearance: none;
+	width: 100%;
+	background: transparent;
+	/* So that the layout doesn't shift when the focus border is displayed: */
+	border: 1px solid transparent;
+	padding: 1rem;
+	margin: 1rem 0;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+	-webkit-appearance: none;
+}
+
+input[type="range"]:focus {
+	outline: none;
+	border: 1px dashed #AAA;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	/* We want an odd number for Firefox, but Chrome makes the thumb one pixel
+	// larger than the indicated size: */
+	height: 10px;
+	width: 10px;
+	border: none;
+	border-radius: 5.5px;
+	background: black;
+	cursor: pointer;
+	margin-top: -4.5px;
+}
+
+input[type="range"]:hover::-webkit-slider-thumb {
+	background: hsl(0, 60%, 40%);
+}
+
+input[type="range"]::-moz-range-thumb {
+	/* Use an odd number so the thumb can be centered over the 1px track: */
+	height: 11px;
+	width: 11px;
+	border: none;
+	border-radius: 5.5px;
+	background: black;
+	cursor: pointer;
+}
+
+input[type="range"]:hover::-moz-range-thumb {
+	background: hsl(0, 60%, 40%);
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+	width: 100%;
+	/* Sometimes Chrome renders this as 2px, other times 1px: */
+	height: 1px;
+	background: #AAA;
+	cursor: pointer;
+}
+
+input[type="range"]:hover::-webkit-slider-runnable-track {
+	background: hsl(0, 60%, 40%);
+}
+
+input[type="range"]::-moz-range-track {
+	width: 100%;
+	height: 1px;
+	background: #AAA;
+	cursor: pointer;
+}
+
+input[type="range"]:hover::-moz-range-track {
+	background: hsl(0, 60%, 40%);
+}
