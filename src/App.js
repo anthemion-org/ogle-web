@@ -5,8 +5,9 @@
 
 import FrmSetup from "./UI/FrmSetup";
 import { tSetup } from "./Setup.js";
+import * as Store from "./Store.js";
 
-const Setup = new tSetup(1, 1);
+const Setup = tSetup.suFromData(Store.uGet("Setup"));
 
 function App() {
 	return (

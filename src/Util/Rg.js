@@ -10,6 +10,14 @@
 
 /** Represents an integer range. */
 export class tRg {
+	/** Creates and returns an instance after initializing it with untyped data. */
+	static suFromData(aData) {
+		// Recall that 'JSON.stringify' writes Infinity as 'null':
+		const oStart = (aData.Start === null) ? -Infinity : aData.Start;
+		const oEnd = (aData.End === null) ? Infinity : aData.End;
+		return new tRg(oStart, oEnd);
+	}
+
 	/** If aStart is greater than aEnd, the range will have zero length. */
 	constructor(aStart, aEnd) {
 		/** The lowest value in the range, or -Infinity if there is no lower limit. */

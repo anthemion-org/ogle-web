@@ -15,7 +15,7 @@ ES2019 [to do]
 Identifier naming conventions [to do]
 Coordinate origin in lower-left corner [to do]
 'ForTest' exports [to do]
-
+'Real' and 'nominal' data [to do]
 
 ## Project structure
 

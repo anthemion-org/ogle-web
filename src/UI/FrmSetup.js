@@ -10,20 +10,32 @@
 
 import "./FrmSetup.css";
 import { tSetup } from "../Setup.js";
+import * as Store from "../Store.js";
 import { tRg } from "../Util/Rg.js";
 import * as Text from "../Util/Text.js";
 import React from "react";
 
 // FrmSetup
 // --------
+// The component accepts a single tSetup instance, which stores 'real' data used
+// in other parts of the app. The Yields and Paces arrays associate 'nominal'
+// form input selections with specific real configurations. The form can be
+// changed to offer different real configurations without affecting any other
+// part of the app.
 
+/** Implements the Setup form, which is displayed when Ogle starts. The
+ *  following props are supported:
+ *
+ *  ~ Setup: A tSetup instance that stores the original user settings. This prop
+ *  is required.
+ */
 export default class FrmSetup extends React.Component {
 	constructor(aProps) {
 		super(aProps);
 
 		this.state = {
 			jYield: uIdxYield(aProps.Setup.Yield),
-			jPace: uIdxPace(aProps.Setup.Pace)
+			jPace: uIdxPace(aProps.Setup.PaceStart, aProps.Setup.PaceBonus)
 		};
 
 		this.uHandChg = this.uHandChg.bind(this);
@@ -41,12 +53,19 @@ export default class FrmSetup extends React.Component {
 		aEvt.preventDefault();
 	}
 
+	componentDidUpdate() {
+		const oYield = Yields[this.state.jYield][1];
+		const [o, oPaceStart, oPaceBonus] = Paces[this.state.jPace];
+		const oSetup = new tSetup(oYield, oPaceStart, oPaceBonus);
+		Store.uSet("Setup", oSetup);
+	}
+
 	render() {
 		return (
 			<form onSubmit={this.uHandSubmit}>
-				<div class="Box">
-					<label for="RgYield">Yield</label>
-					<div class="Name">
+				<div className="Box">
+					<label htmlFor="RgYield">Yield</label>
+					<div className="Name">
 						{uNameYield(this.state.jYield)}
 					</div>
 					<input id="RgYield" type="range" name="jYield"
@@ -57,9 +76,9 @@ export default class FrmSetup extends React.Component {
 					</div>
 				</div>
 
-				<div class="Box">
-					<label for="RgPace">Pace</label>
-					<div class="Name">
+				<div className="Box">
+					<label htmlFor="RgPace">Pace</label>
+					<div className="Name">
 						{uNamePace(this.state.jPace)}
 					</div>
 					<input id="RgPace" type="range" name="jPace"
@@ -81,6 +100,7 @@ export default class FrmSetup extends React.Component {
 
 /** The yield names and ranges produced by this form. */
 const Yields = [
+	// Each element stores the yield name and range:
 	["Sparse", new tRg(-Infinity, 50)],
 	["Middling", new tRg(50, 100)],
 	["Full", new tRg(100, Infinity)]
@@ -114,6 +134,7 @@ function uInstructYield(ajYield) {
 
 /** The pace names and values produced by this form. */
 const Paces = [
+	// Each element stores the pace name, the starting time, and the bonus time:
 	["Plodding", 48, 8],
 	["Slow", 36, 6],
 	["Unhurried", 30, 5],
@@ -129,7 +150,7 @@ const jPaceDef = 2;
  *  default index, if no match is found. */
 function uIdxPace(aPaceStart, aPaceBonus) {
 	for (let oj = 0; oj < Paces.length; ++oj) {
-		const [oPaceStart, oPaceBonus] = Paces[oj];
+		const [o, oPaceStart, oPaceBonus] = Paces[oj];
 		if ((oPaceStart === aPaceStart) && (oPaceBonus === aPaceBonus)) return oj;
 	}
 	return jPaceDef;
