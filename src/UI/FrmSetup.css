@@ -3,9 +3,13 @@
 // Copyright ©2022 Jeremy Kelly
 // www.anthemion.org */
 
-form > div {
+.Box {
 	background-color: hsl(0, 0%, 100%);;
 	border-radius: 0.25rem;
 	padding: 0.5rem 1rem;
 	margin: 0.5rem 0;
+}
+
+.Name {
+	float: right;
 }

@@ -4,13 +4,16 @@
 // www.anthemion.org
 
 import FrmSetup from "./UI/FrmSetup";
+import { tSetup } from "./Setup.js";
+
+const Setup = new tSetup(1, 1);
 
 function App() {
 	return (
 		<>
 			<h1>Ogle</h1>
 
-			<FrmSetup Yield={0} Pace={0} />
+			<FrmSetup Setup={Setup} />
 		</>
 	);
 }
