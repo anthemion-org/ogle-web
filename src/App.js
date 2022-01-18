@@ -11,10 +11,11 @@
 import * as Store from "./Store.js";
 import * as StApp from "./StApp.js";
 import { tSetup } from "./Setup.js";
-import FrmSetup from "./UI/FrmSetup";
-import PanAbout from "./UI/PanAbout";
+import ViewSetup from "./UI/ViewSetup";
+import ViewAbout from "./UI/ViewAbout";
 
 import React, { useReducer } from "react";
+import PropTypes from "prop-types";
 
 /** A reducer function that manages the top-level application state. */
 function uStNext(aSt, aAct) {
@@ -36,14 +37,19 @@ function View(aProps) {
 	switch (aProps.St.View) {
 		case StApp.Views.Setup: {
 			const oSetup = tSetup.suFromData(Store.uGet("Setup"));
-			return <FrmSetup Setup={oSetup} {...aProps} />;
+			return <ViewSetup Setup={oSetup} {...aProps} />;
 		}
 		case StApp.Views.About:
-			return <PanAbout {...aProps} />;
+			return <ViewAbout {...aProps} />;
 		default:
 			throw Error("uView: Invalid view");
 	}
 }
+
+View.propTypes = {
+	St: PropTypes.object.isRequired,
+	uDispatch: PropTypes.func.isRequired
+};
 
 /** The top-level component, to be placed in the Root element within
  *  'index.html'. */

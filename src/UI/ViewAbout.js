@@ -1,25 +1,22 @@
-// PanAbout.js
-// -----------
+// ViewAbout.js
+// ------------
 // Copyright ©2022 Jeremy Kelly
 // www.anthemion.org
 //
 // Import with:
 //
-//   import PanAbout from "./UI/PanAbout.js";
+//   import ViewAbout from "./UI/ViewAbout.js";
 //
 
-import "./PanAbout.css";
+import "./ViewAbout.css";
 import Logo from "./Logo.js";
 import * as View from "../StApp.js";
 import * as Cfg from "../Cfg.js";
 
 import React from "react";
 
-// PanAbout
-// --------
-
-/** Implements the About panel. */
-export default function PanAbout(aProps) {
+/** The About view. */
+export default function ViewAbout(aProps) {
 	function ouHandOK(aEvt) {
 		aProps.uDispatch(View.Views.Setup);
 	}
@@ -63,4 +60,3 @@ export default function PanAbout(aProps) {
 		</div>
 	);
 }
-

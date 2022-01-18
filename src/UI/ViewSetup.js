@@ -1,14 +1,14 @@
-// FrmSetup.js
-// -----------
+// ViewSetup.js
+// ------------
 // Copyright ©2022 Jeremy Kelly
 // www.anthemion.org
 //
 // Import with:
 //
-//   import FrmSetup from "./UI/FrmSetup.js";
+//   import ViewSetup from "./UI/ViewSetup.js";
 //
 
-import "./FrmSetup.css";
+import "./ViewSetup.css";
 import * as Store from "../Store.js";
 import * as View from "../StApp.js";
 import { tSetup } from "../Setup.js";
@@ -18,8 +18,8 @@ import * as Text from "../Util/Text.js";
 import React from "react";
 import PropTypes from "prop-types";
 
-// FrmSetup
-// --------
+// ViewSetup
+// ---------
 // The component accepts a single tSetup instance, which stores 'real' data used
 // in other parts of the app. The Yields and Paces arrays associate 'nominal'
 // form input selections with specific real configurations. The form can be
@@ -32,7 +32,7 @@ import PropTypes from "prop-types";
  *  ~ Setup: A tSetup instance that stores the original user settings. This prop
  *    is required.
  */
-export default class FrmSetup extends React.Component {
+export default class ViewSetup extends React.Component {
 	constructor(aProps) {
 		super(aProps);
 
@@ -112,7 +112,7 @@ export default class FrmSetup extends React.Component {
 	}
 }
 
-FrmSetup.propTypes = {
+ViewSetup.propTypes = {
 	Setup: PropTypes.instanceOf(tSetup).isRequired
 };
 
