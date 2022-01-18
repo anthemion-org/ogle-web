@@ -13,11 +13,10 @@ import { tRg } from "./Util/Rg.js";
 // tSetup
 // ------
 // In the desktop app, this type stored settings as indices that referenced
-// specific selections in the UI, and translated those on demand into concrete
-// data, such as word count ranges or time bonuses. That approach makes it
-// difficult to change settings options later, however, so this class stores
-// settings in concrete terms, and leaves the UI to map those onto specific UI
-// states.
+// specific selections in the UI, and translated those on demand into real data,
+// such as word count ranges or time bonuses. That approach makes it difficult
+// to change settings options later, however, so this class stores settings in
+// real terms, and leaves the UI to map those onto specific UI states.
 
 export class tSetup {
 	/** Creates and returns an instance after initializing it with untyped data. */

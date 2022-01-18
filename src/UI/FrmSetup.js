@@ -13,7 +13,9 @@ import { tSetup } from "../Setup.js";
 import * as Store from "../Store.js";
 import { tRg } from "../Util/Rg.js";
 import * as Text from "../Util/Text.js";
+
 import React from "react";
+import PropTypes from "prop-types";
 
 // FrmSetup
 // --------
@@ -34,7 +36,9 @@ export default class FrmSetup extends React.Component {
 		super(aProps);
 
 		this.state = {
+			/** The selected Yields index. */
 			jYield: uIdxYield(aProps.Setup.Yield),
+			/** The selected Paces index. */
 			jPace: uIdxPace(aProps.Setup.PaceStart, aProps.Setup.PaceBonus)
 		};
 
@@ -55,7 +59,7 @@ export default class FrmSetup extends React.Component {
 
 	componentDidUpdate() {
 		const oYield = Yields[this.state.jYield][1];
-		const [o, oPaceStart, oPaceBonus] = Paces[this.state.jPace];
+		const [, oPaceStart, oPaceBonus] = Paces[this.state.jPace];
 		const oSetup = new tSetup(oYield, oPaceStart, oPaceBonus);
 		Store.uSet("Setup", oSetup);
 	}
@@ -63,6 +67,8 @@ export default class FrmSetup extends React.Component {
 	render() {
 		return (
 			<form onSubmit={this.uHandSubmit}>
+				<h1>Ogle setup</h1>
+
 				<div className="Box">
 					<label htmlFor="RgYield">Yield</label>
 					<div className="Name">
@@ -89,18 +95,25 @@ export default class FrmSetup extends React.Component {
 					</div>
 				</div>
 
-				<input type="submit" value="Play" />
+				<div className="Btns">
+					<input type="submit" value="About" />
+					<input type="submit" className="Group" value="Play" />
+				</div>
 			</form>
 		);
 	}
 }
 
+FrmSetup.propTypes = {
+	Setup: PropTypes.instanceOf(tSetup).isRequired
+};
+
 // Yield data
 // ----------
 
-/** The yield names and ranges produced by this form. */
+/** The yield names and ranges offered by this form. Each element stores the
+ *  yield name and a tRg instance. */
 const Yields = [
-	// Each element stores the yield name and range:
 	["Sparse", new tRg(-Infinity, 50)],
 	["Middling", new tRg(50, 100)],
 	["Full", new tRg(100, Infinity)]
@@ -132,9 +145,9 @@ function uInstructYield(ajYield) {
 // Pace data
 // ---------
 
-/** The pace names and values produced by this form. */
+/** The pace names and values offered by this form. Each element stores the pace
+ *  name, the starting time, and the bonus time. */
 const Paces = [
-	// Each element stores the pace name, the starting time, and the bonus time:
 	["Plodding", 48, 8],
 	["Slow", 36, 6],
 	["Unhurried", 30, 5],
@@ -150,7 +163,7 @@ const jPaceDef = 2;
  *  default index, if no match is found. */
 function uIdxPace(aPaceStart, aPaceBonus) {
 	for (let oj = 0; oj < Paces.length; ++oj) {
-		const [o, oPaceStart, oPaceBonus] = Paces[oj];
+		const [, oPaceStart, oPaceBonus] = Paces[oj];
 		if ((oPaceStart === aPaceStart) && (oPaceBonus === aPaceBonus)) return oj;
 	}
 	return jPaceDef;

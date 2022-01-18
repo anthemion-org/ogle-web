@@ -26,7 +26,8 @@ body {
 	padding: 0 2rem 2rem 2rem;
 }
 
-form {
+a {
+	text-decoration: none;
 }
 
 button, input[type="submit"] {
@@ -47,6 +48,26 @@ button:hover, input[type="submit"]:hover {
 
 button:active, input[type="submit"]:active {
 	background-color: hsl(0, 0%, 85%);
+}
+
+/* Button rows
+// ----------- */
+
+.Btns {
+	display: flex;
+}
+
+.Btns * {
+	margin-left: 0.5rem;
+}
+
+.Btns *:first-child {
+	margin-left: 0;
+}
+
+/* Each application of this class starts a new button group. */
+.Btns *.Group {
+	margin-left: auto;
 }
 
 /* ------------
@@ -134,4 +155,29 @@ input[type="range"]::-moz-range-track {
 
 input[type="range"]:hover::-moz-range-track {
 	background: hsl(0, 60%, 40%);
+}
+
+/* Modifiers
+// --------- */
+
+.MargV1 {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.MargV2 {
+	margin-top: 1em;
+	margin-bottom: 1em;
+}
+
+.Bold {
+	font-weight: bold;
+}
+
+.Semibold {
+	font-weight: 600;
+}
+
+.Caps {
+	text-transform: uppercase;
 }

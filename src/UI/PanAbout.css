@@ -1,0 +1,23 @@
+/* PanAbout.css
+// ------------
+// Copyright ©2022 Jeremy Kelly
+// www.anthemion.org */
+
+.Pan {
+	text-align: center;
+	font-size: 115%;
+}
+
+#Logo {
+	width: 5rem;
+	height: 5rem;
+	margin: 2rem 0 0 0;
+}
+
+h1 {
+	margin: 1rem 0 0 0;
+}
+
+h3 {
+	margin: 0;
+}

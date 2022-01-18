@@ -1,5 +1,8 @@
 # Ogle: Word-finding game for the web
 
+SVG processing [to do]
+
+
 ## License
 
 Ogle has copyright ©2022 Jeremy Kelly.
@@ -12,10 +15,10 @@ Open-source license [to do]
 All class variables should be initialized and commented in the constructor. If meaningful values are not available at this point, the variables can be set to `null`.
 
 ES2019 [to do]
+
 Identifier naming conventions [to do]
+
 Coordinate origin in lower-left corner [to do]
-'ForTest' exports [to do]
-'Real' and 'nominal' data [to do]
 
 ## Project structure
 
@@ -24,10 +27,18 @@ The project was created with _create-react-app_.
 
 ## Design notes
 
+Class components versus hooks [to do]
+~ Classes can derive from PureComponent
+~ Classes require method binding
+
+'Real' and 'nominal' data [to do]
+
 Implicit duck typing sometimes, explicit parameter type checks other times [to do]
 ~ 'instanceof' fails silently when checking against imported class
 
 Allow optional parameters, but avoid parameters that can have different types [to do]
+
+'ForTest' exports [to do]
 
 
 ### Classes versus closures

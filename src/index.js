@@ -5,7 +5,7 @@
 
 import React from "react";
 import ReactDOM from "react-dom";
-import ReportPerform from "./ReportPerform";
+//import ReportPerform from "./ReportPerform";
 
 import App from "./App";
 import "./index.css";
@@ -18,5 +18,4 @@ ReactDOM.render(
 );
 
 // Write performance data to the browser console:
-//
-// ReportPerform(console.log);
+//ReportPerform(console.log);
