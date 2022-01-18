@@ -1,6 +1,7 @@
 # Ogle: Word-finding game for the web
 
 SVG processing [to do]
+~ Inkscape and 'optimized' SVG files
 
 
 ## License
@@ -19,6 +20,7 @@ ES2019 [to do]
 Identifier naming conventions [to do]
 
 Coordinate origin in lower-left corner [to do]
+
 
 ## Project structure
 

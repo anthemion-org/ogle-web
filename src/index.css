@@ -65,6 +65,10 @@ button:active, input[type="submit"]:active {
 	margin-left: 0;
 }
 
+.Btns.Ctr {
+	justify-content: center;
+}
+
 /* Each application of this class starts a new button group. */
 .Btns *.Group {
 	margin-left: auto;
@@ -168,6 +172,16 @@ input[type="range"]:hover::-moz-range-track {
 .MargV2 {
 	margin-top: 1em;
 	margin-bottom: 1em;
+}
+
+.MargV3 {
+	margin-top: 1.5em;
+	margin-bottom: 1.5em;
+}
+
+.MargV4 {
+	margin-top: 2em;
+	margin-bottom: 2em;
 }
 
 .Bold {

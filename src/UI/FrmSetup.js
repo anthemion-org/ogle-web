@@ -5,12 +5,13 @@
 //
 // Import with:
 //
-//   import FrmSetup from "./UI/FrmSetup";
+//   import FrmSetup from "./UI/FrmSetup.js";
 //
 
 import "./FrmSetup.css";
-import { tSetup } from "../Setup.js";
 import * as Store from "../Store.js";
+import * as View from "../StApp.js";
+import { tSetup } from "../Setup.js";
 import { tRg } from "../Util/Rg.js";
 import * as Text from "../Util/Text.js";
 
@@ -29,7 +30,7 @@ import PropTypes from "prop-types";
  *  following props are supported:
  *
  *  ~ Setup: A tSetup instance that stores the original user settings. This prop
- *  is required.
+ *    is required.
  */
 export default class FrmSetup extends React.Component {
 	constructor(aProps) {
@@ -42,7 +43,10 @@ export default class FrmSetup extends React.Component {
 			jPace: uIdxPace(aProps.Setup.PaceStart, aProps.Setup.PaceBonus)
 		};
 
+		this.uDispatch = aProps.uDispatch;
+
 		this.uHandChg = this.uHandChg.bind(this);
+		this.uHandAbout = this.uHandAbout.bind(this);
 		this.uHandSubmit = this.uHandSubmit.bind(this);
 	}
 
@@ -51,6 +55,10 @@ export default class FrmSetup extends React.Component {
 		const oVal = (oEl.type === "checkbox") ? oEl.checked : oEl.value;
 		const oState = { [aEvt.target.name]: oVal };
 		this.setState(oState);
+	}
+
+	uHandAbout(aEvt) {
+		this.uDispatch(View.Views.About);
 	}
 
 	uHandSubmit(aEvt) {
@@ -96,7 +104,7 @@ export default class FrmSetup extends React.Component {
 				</div>
 
 				<div className="Btns">
-					<input type="submit" value="About" />
+					<button onClick={this.uHandAbout}>About</button>
 					<input type="submit" className="Group" value="Play" />
 				</div>
 			</form>

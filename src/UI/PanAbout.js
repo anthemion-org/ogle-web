@@ -5,11 +5,12 @@
 //
 // Import with:
 //
-//   import PanAbout from "./UI/PanAbout";
+//   import PanAbout from "./UI/PanAbout.js";
 //
 
 import "./PanAbout.css";
 import Logo from "./Logo.js";
+import * as View from "../StApp.js";
 import * as Cfg from "../Cfg.js";
 
 import React from "react";
@@ -19,6 +20,10 @@ import React from "react";
 
 /** Implements the About panel. */
 export default function PanAbout(aProps) {
+	function ouHandOK(aEvt) {
+		aProps.uDispatch(View.Views.Setup);
+	}
+
 	return (
 		<div className="Pan">
 			<Logo id="Logo" />
@@ -50,6 +55,10 @@ export default function PanAbout(aProps) {
 			<div className="MargV2">
 				Send your questions to<br />
 				<a href="mailto://support@anthemion.org">support@anthemion.org</a>
+			</div>
+
+			<div className="Btns Ctr MargV3">
+				<button onClick={ouHandOK}>OK</button>
 			</div>
 		</div>
 	);
