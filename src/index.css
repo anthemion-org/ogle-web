@@ -55,6 +55,7 @@ button:active, input[type="submit"]:active {
 
 .Btns {
 	display: flex;
+	margin-top: 1rem;;
 }
 
 .Btns * {
