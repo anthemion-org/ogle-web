@@ -12,8 +12,6 @@ import "./ViewPlay.css";
 import * as Store from "../Store.js";
 import * as View from "../StApp.js";
 import { tSetup } from "../Setup.js";
-import { tRg } from "../Util/Rg.js";
-import * as Text from "../Util/Text.js";
 
 import React from "react";
 import PropTypes from "prop-types";
@@ -60,7 +58,7 @@ export default class ViewPlay extends React.Component {
 		if (!this.state.CkPause) return null;
 
 		return (
-			<div id="ScreenDlg">
+			<div className="ScreenDlg">
 				<div id="DlgPause">
 					<button onClick={this.uHandEnd}>End round</button>
 					<button onClick={this.uHandResume}>Resume</button>
@@ -71,7 +69,7 @@ export default class ViewPlay extends React.Component {
 
 	render() {
 		return (
-			<div className="ViewPlay">
+			<div id="ViewPlay">
 				<h1>Ogle</h1>
 
 				<button onClick={this.uHandPause}>Pause</button>

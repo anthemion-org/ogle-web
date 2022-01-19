@@ -3,7 +3,7 @@
 // Copyright ©2022 Jeremy Kelly
 // www.anthemion.org */
 
-#ScreenDlg {
+.ScreenDlg {
 	z-index: 1;
 	position: fixed;
 	left: 0;

@@ -23,7 +23,7 @@ export default function ViewAbout(aProps) {
 	}
 
 	return (
-		<div className="ViewAbout">
+		<div id="ViewAbout">
 			<Logo id="Logo" />
 			<h1>Ogle</h1>
 

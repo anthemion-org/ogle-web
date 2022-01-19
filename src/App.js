@@ -53,7 +53,7 @@ function View(aProps) {
 		}
 
 		default:
-			throw Error("uView: Invalid view");
+			throw Error("View: Invalid view");
 	}
 }
 

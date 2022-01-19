@@ -75,7 +75,7 @@ export default class ViewSetup extends React.Component {
 
 	render() {
 		return (
-			<form className="ViewSetup">
+			<form id="ViewSetup">
 				<h1>Ogle setup</h1>
 
 				<div className="Box">
