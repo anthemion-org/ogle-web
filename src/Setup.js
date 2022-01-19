@@ -19,6 +19,16 @@ import { tRg } from "./Util/Rg.js";
 // real terms, and leaves the UI to map those onto specific UI states.
 
 export class tSetup {
+	/** Creates and returns an instance containing default values. */
+	static suDef() {
+		// These values will be ignored by the Setup view unless they match the
+		// settings that view is able to display:
+		return new tSetup(
+			new tRg(100, Infinity),
+			30, 5
+		);
+	}
+
 	/** Creates and returns an instance after initializing it with untyped data. */
 	static suFromData(aData) {
 		return new tSetup(

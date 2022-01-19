@@ -13,6 +13,7 @@ import * as StApp from "./StApp.js";
 import { tSetup } from "./Setup.js";
 import ViewSetup from "./UI/ViewSetup";
 import ViewAbout from "./UI/ViewAbout";
+import ViewPlay from "./UI/ViewPlay";
 
 import React, { useReducer } from "react";
 import PropTypes from "prop-types";
@@ -21,7 +22,10 @@ import PropTypes from "prop-types";
 function uStNext(aSt, aAct) {
 	if (!StApp.Views[aAct])
 		throw Error("uStNext: Invalid action");
-	return { View: aAct };
+
+	const oSt = { View: aAct };
+	Store.uSet("St", oSt);
+	return oSt;
 }
 
 /** A component that displays the form or other view corresponding to the
@@ -39,8 +43,15 @@ function View(aProps) {
 			const oSetup = tSetup.suFromData(Store.uGet("Setup"));
 			return <ViewSetup Setup={oSetup} {...aProps} />;
 		}
+
 		case StApp.Views.About:
 			return <ViewAbout {...aProps} />;
+
+		case StApp.Views.Play: {
+			const oSetup = tSetup.suFromData(Store.uGet("Setup"));
+			return <ViewPlay Setup={oSetup} {...aProps} />;
+		}
+
 		default:
 			throw Error("uView: Invalid view");
 	}
@@ -54,7 +65,7 @@ View.propTypes = {
 /** The top-level component, to be placed in the Root element within
  *  'index.html'. */
 export default function App() {
-	const oStInit = { View: StApp.Views.Setup };
+	const oStInit = Store.uGet("St");
 	const [oSt, ouDispatch] = useReducer(uStNext, oStInit);
 
 	return (

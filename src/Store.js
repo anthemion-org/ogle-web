@@ -15,9 +15,12 @@
 // lost when their data is serialized. Clients of this class must convert the
 // untyped data with 'suFromData' methods in the source types.
 
+import * as StApp from "./StApp.js";
+import { tSetup } from "./Setup.js";
 import * as Cfg from "./Cfg.js";
 
-/** Returns the value or object with the specified name. */
+/** Returns the value or object with the specified name, or 'undefined' if no
+ *  value with that name has been stored. */
 export function uGet(aName) {
 	return Data[aName];
 }
@@ -37,6 +40,9 @@ const NameRoot = "Ogle";
 
 /** The current user data, or 'null' if it has not been read. */
 let Data = uRead();
+// So the default data is used only if the Ogle object is completely missing?
+// That makes it impossible to add new defaults without also deleting the other
+// data: [to do]
 if (!Data) {
 	Data = uDef();
 	uWrite(Data);
@@ -45,7 +51,9 @@ if (!Data) {
 /** Returns the default user data. */
 function uDef() {
 	return {
-		WordsUser: []
+		WordsUser: [],
+		St: { View: StApp.Views.Setup },
+		Setup: tSetup.suDef()
 	};
 }
 

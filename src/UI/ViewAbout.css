@@ -3,21 +3,21 @@
 // Copyright ©2022 Jeremy Kelly
 // www.anthemion.org */
 
-.Pan {
+.ViewAbout {
 	text-align: center;
 	font-size: 115%;
 }
 
-#Logo {
+.ViewAbout #Logo {
 	width: 5rem;
 	height: 5rem;
 	margin: 2rem 0 0 0;
 }
 
-h1 {
+.ViewAbout h1 {
 	margin: 1rem 0 0 0;
 }
 
-h3 {
+.ViewAbout h3 {
 	margin: 0;
 }

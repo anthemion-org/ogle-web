@@ -14,6 +14,7 @@ import * as View from "../StApp.js";
 import * as Cfg from "../Cfg.js";
 
 import React from "react";
+import PropTypes from "prop-types";
 
 /** The About view. */
 export default function ViewAbout(aProps) {
@@ -22,7 +23,7 @@ export default function ViewAbout(aProps) {
 	}
 
 	return (
-		<div className="Pan">
+		<div className="ViewAbout">
 			<Logo id="Logo" />
 			<h1>Ogle</h1>
 
@@ -60,3 +61,8 @@ export default function ViewAbout(aProps) {
 		</div>
 	);
 }
+
+ViewAbout.propTypes = {
+	St: PropTypes.object.isRequired,
+	uDispatch: PropTypes.func.isRequired
+};

@@ -26,8 +26,8 @@ import PropTypes from "prop-types";
 // changed to offer different real configurations without affecting any other
 // part of the app.
 
-/** Implements the Setup form, which is displayed when Ogle starts. The
- *  following props are supported:
+/** Implements the Setup view, which is displayed when Ogle starts. Along with
+ *  St and uDispatch, the following props are supported:
  *
  *  ~ Setup: A tSetup instance that stores the original user settings. This prop
  *    is required.
@@ -35,6 +35,7 @@ import PropTypes from "prop-types";
 export default class ViewSetup extends React.Component {
 	constructor(aProps) {
 		super(aProps);
+		this.uDispatch = aProps.uDispatch;
 
 		this.state = {
 			/** The selected Yields index. */
@@ -43,11 +44,9 @@ export default class ViewSetup extends React.Component {
 			jPace: uIdxPace(aProps.Setup.PaceStart, aProps.Setup.PaceBonus)
 		};
 
-		this.uDispatch = aProps.uDispatch;
-
 		this.uHandChg = this.uHandChg.bind(this);
 		this.uHandAbout = this.uHandAbout.bind(this);
-		this.uHandSubmit = this.uHandSubmit.bind(this);
+		this.uHandPlay = this.uHandPlay.bind(this);
 	}
 
 	uHandChg(aEvt) {
@@ -58,11 +57,13 @@ export default class ViewSetup extends React.Component {
 	}
 
 	uHandAbout(aEvt) {
+		aEvt.preventDefault();
 		this.uDispatch(View.Views.About);
 	}
 
-	uHandSubmit(aEvt) {
+	uHandPlay(aEvt) {
 		aEvt.preventDefault();
+		this.uDispatch(View.Views.Play);
 	}
 
 	componentDidUpdate() {
@@ -74,7 +75,7 @@ export default class ViewSetup extends React.Component {
 
 	render() {
 		return (
-			<form onSubmit={this.uHandSubmit}>
+			<form className="ViewSetup">
 				<h1>Ogle setup</h1>
 
 				<div className="Box">
@@ -105,7 +106,7 @@ export default class ViewSetup extends React.Component {
 
 				<div className="Btns">
 					<button onClick={this.uHandAbout}>About</button>
-					<input type="submit" className="Group" value="Play" />
+					<button className="Group" onClick={this.uHandPlay}>Play</button>
 				</div>
 			</form>
 		);
@@ -113,6 +114,8 @@ export default class ViewSetup extends React.Component {
 }
 
 ViewSetup.propTypes = {
+	St: PropTypes.object.isRequired,
+	uDispatch: PropTypes.func.isRequired,
 	Setup: PropTypes.instanceOf(tSetup).isRequired
 };
 
@@ -127,6 +130,8 @@ const Yields = [
 	["Full", new tRg(100, Infinity)]
 ];
 
+/** The yield setting to be selected if the stored yield does not match one of
+ *  the form settings. */
 const jYieldDef = 2;
 
 /** Returns the Yields index that matches aYield, or the default index, if no
@@ -165,6 +170,8 @@ const Paces = [
 	["Dizzying", 6, 1]
 ];
 
+/** The pace setting to be selected if the stored pace does not match one of the
+ *  form settings. */
 const jPaceDef = 2;
 
 /** Returns the Paces index that matches aPaceStart and aPaceBonus, or the

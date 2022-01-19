@@ -12,9 +12,11 @@
  *  are used to represent the general application state, and also as reducer
  *  action values that are used to request state transitions. */
 export const Views = {
-	/** Displays the Setup form. */
+	/** Displays the Setup view. */
 	Setup: "Setup",
-	/** Displays the About panel. */
-	About: "About"
+	/** Displays the About view. */
+	About: "About",
+	/** Displays the Play view. */
+	Play: "Play"
 };
 Object.freeze(Views);
