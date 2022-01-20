@@ -3,5 +3,10 @@
 // Copyright ©2022 Jeremy Kelly
 // www.anthemion.org */
 
-.LookDie {
+.LookDie:hover {
+	cursor: pointer;
+}
+
+.LookDie:hover .DecHov {
+	visibility: visible;
 }

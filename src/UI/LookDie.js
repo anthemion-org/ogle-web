@@ -43,11 +43,11 @@ export default class LookDie extends React.Component {
 	uText() {
 		if (this.props.Die.Text.length > 1)
 			return (
-				<text id="TextDbl"
+				<text className="TextDbl"
 					// Looks better when we shift this up slightly:
 					x="50" y="48.5"
 					fill="#000000"
-					fontFamily="Georgia" fontSize="50px" fontWeight="bold"
+					fontFamily="Georgia, serif" fontSize="50px" fontWeight="bold"
 					letterSpacing="0px"
 					stroke="#000000" strokeWidth="0px"
 					textAlign="center" textAnchor="middle"
@@ -58,10 +58,10 @@ export default class LookDie extends React.Component {
 			);
 
 		return (
-			<text id="TextSing"
+			<text className="TextSing"
 				x="50" y="50"
 				fill="#000000"
-				fontFamily="Georgia" fontSize="66px" fontWeight="bold"
+				fontFamily="Georgia, serif" fontSize="66px" fontWeight="bold"
 				letterSpacing="0px"
 				stroke="#000000" strokeWidth="0px"
 				textAlign="center" textAnchor="middle"
@@ -96,9 +96,20 @@ export default class LookDie extends React.Component {
 		const oDeg = Dir4.uDeg(this.props.Die.Dir4);
 		const oTextTrans = `rotate(${oDeg} 50 50)`;
 		return (
-			<g id="Text" transform={oTextTrans}>
+			<g className="Text" transform={oTextTrans}>
 				{this.uText()}
 				{this.uUnder()}
+
+				<circle className="DecHov"
+					visibility="hidden"
+					cx="50" cy="50"
+					r="40"
+					stroke="#000000"
+					strokeWidth="2"
+					strokeDasharray="3, 3"
+					color="#000000"
+					fill="none"
+				></circle>
 			</g>
 		);
 	}
@@ -144,29 +155,29 @@ export default class LookDie extends React.Component {
 					</clipPath>
 				</defs>
 
-				<g id="Crns">
-					<rect id="CrnSE"
+				<g className="Crns">
+					<rect className="CrnSE"
 						width="50" height="50"
 						x="50" y="50"
 						rx="0" ry="0"
 						fill="#C7B9AB"
 						clipPath="url(#ClipCrnSE)"
 					></rect>
-					<rect id="CrnSW"
+					<rect className="CrnSW"
 						width="50" height="50"
 						x="0" y="50"
 						rx="0" ry="0"
 						fill="#EBDDCE"
 						clipPath="url(#ClipCrnSW)"
 					></rect>
-					<rect id="CrnNE"
+					<rect className="CrnNE"
 						width="50" height="50"
 						x="50" y="0"
 						rx="0" ry="0"
 						fill="#EBDDCE"
 						clipPath="url(#ClipCrnNE)"
 					></rect>
-					<rect id="CrnNW"
+					<rect className="CrnNW"
 						width="50" height="50"
 						x="0" y="0"
 						rx="0" ry="0"
@@ -175,7 +186,7 @@ export default class LookDie extends React.Component {
 					></rect>
 				</g>
 
-				<rect id="Face"
+				<rect className="Face"
 					width="100" height="100"
 					rx="40" ry="40"
 					fill="#F5EFE9"
