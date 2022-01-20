@@ -12,6 +12,7 @@ import "./ViewPlay.css";
 import * as Store from "../Store.js";
 import * as View from "../StApp.js";
 import { tSetup } from "../Setup.js";
+import LookBoard from "./LookBoard.js";
 
 import React from "react";
 import PropTypes from "prop-types";
@@ -72,7 +73,11 @@ export default class ViewPlay extends React.Component {
 			<div id="ViewPlay">
 				<h1>Ogle</h1>
 
-				<button onClick={this.uHandPause}>Pause</button>
+				<LookBoard />
+
+				<div className="Btns">
+					<button onClick={this.uHandPause}>Pause</button>
+				</div>
 
 				{this.uDlgPause()}
 			</div>
