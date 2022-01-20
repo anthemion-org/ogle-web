@@ -10,3 +10,9 @@
 .LookDie:hover .DecHov {
 	visibility: visible;
 }
+
+path.From {
+	/* These cross from one die to another, and, by default, mousing over the path
+	// select the SVG that generated it, even outside the viewport: */
+	pointer-events: none;
+}

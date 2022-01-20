@@ -77,7 +77,7 @@ export default class LookDie extends React.Component {
 		if (!oCk) return null;
 
 		return (
-			<path
+			<path className="From"
 				fill="none"
 				stroke="#000000"
 				strokeDasharray="3, 3"
@@ -99,26 +99,17 @@ export default class LookDie extends React.Component {
 			<g className="Text" transform={oTextTrans}>
 				{this.uText()}
 				{this.uUnder()}
-
-				<circle className="DecHov"
-					visibility="hidden"
-					cx="50" cy="50"
-					r="40"
-					stroke="#000000"
-					strokeWidth="2"
-					strokeDasharray="3, 3"
-					color="#000000"
-					fill="none"
-				></circle>
 			</g>
 		);
 	}
 
 	render() {
 		return (
+			// We are setting 'overflow' to 'visible' so the die can draw selection
+			// connectors outside of its own viewport:
 			<svg className={this.uNamesClass()}
 				xmlns="http://www.w3.org/2000/svg"
-				viewBox="0 0 100 100"
+				viewBox="0 0 100 100" overflow="visible"
 			>
 				<defs>
 					<clipPath id="ClipCrnNW">
@@ -193,6 +184,17 @@ export default class LookDie extends React.Component {
 				></rect>
 
 				{this.uGroupText()}
+
+				<circle className="DecHov"
+					visibility="hidden"
+					cx="50" cy="50"
+					r="40"
+					stroke="#000000"
+					strokeWidth="2"
+					strokeDasharray="3, 3"
+					color="#000000"
+					fill="none"
+				></circle>
 			</svg >
 		);
 	}
