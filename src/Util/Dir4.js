@@ -22,6 +22,17 @@ export function uCk(aDir) {
 	return Vals.hasOwnProperty(aDir);
 }
 
+/** Returns the direction, in degrees, referenced by the specified Dir4 value. */
+export function uDeg(aDir) {
+	switch (aDir) {
+		case "E": return 0;
+		case "N": return 90;
+		case "W": return 180;
+		case "S": return 270;
+	}
+	throw Error("Dir4 uDeg: Invalid direction");
+}
+
 /** Returns a random Vals member. */
 export function uRnd(aGenRnd) {
 	return aGenRnd.uEl(Object.values(Vals));

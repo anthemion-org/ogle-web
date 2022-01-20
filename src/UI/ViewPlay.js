@@ -12,6 +12,7 @@ import "./ViewPlay.css";
 import * as Store from "../Store.js";
 import * as View from "../StApp.js";
 import { tSetup } from "../Setup.js";
+import { tBoard } from "../Board/Board.js";
 import LookBoard from "./LookBoard.js";
 
 import React from "react";
@@ -73,7 +74,7 @@ export default class ViewPlay extends React.Component {
 			<div id="ViewPlay">
 				<h1>Ogle</h1>
 
-				<LookBoard />
+				<LookBoard Board={this.props.Board} />
 
 				<div className="Btns">
 					<button onClick={this.uHandPause}>Pause</button>
@@ -88,5 +89,6 @@ export default class ViewPlay extends React.Component {
 ViewPlay.propTypes = {
 	St: PropTypes.object.isRequired,
 	uDispatch: PropTypes.func.isRequired,
-	Setup: PropTypes.instanceOf(tSetup).isRequired
+	Setup: PropTypes.instanceOf(tSetup).isRequired,
+	Board: PropTypes.instanceOf(tBoard).isRequired
 };

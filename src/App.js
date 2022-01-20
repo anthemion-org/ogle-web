@@ -11,12 +11,16 @@
 import * as Store from "./Store.js";
 import * as StApp from "./StApp.js";
 import { tSetup } from "./Setup.js";
+import { tBoard } from "./Board/Board.js";
 import ViewSetup from "./UI/ViewSetup";
 import ViewAbout from "./UI/ViewAbout";
 import ViewPlay from "./UI/ViewPlay";
+import { tGenRnd } from "./Util/Rnd.js";
 
 import React, { useReducer } from "react";
 import PropTypes from "prop-types";
+
+const GenRnd = new tGenRnd();
 
 /** A reducer function that manages the top-level application state. */
 function uStNext(aSt, aAct) {
@@ -49,7 +53,8 @@ function View(aProps) {
 
 		case StApp.Views.Play: {
 			const oSetup = tSetup.suFromData(Store.uGet("Setup"));
-			return <ViewPlay Setup={oSetup} {...aProps} />;
+			const oBoard = new tBoard(GenRnd);
+			return <ViewPlay Setup={oSetup} Board={oBoard} {...aProps} />;
 		}
 
 		default:
