@@ -27,7 +27,11 @@ export default class LookBoard extends React.Component {
 
 		let oSel = new tSelBoard(aProps.Board, new tPt2(0, 0));
 		oSel = new tSelBoard(aProps.Board, new tPt2(1, 1), oSel);
-		oSel = new tSelBoard(aProps.Board, new tPt2(4, 4), oSel);
+		oSel = new tSelBoard(aProps.Board, new tPt2(2, 1), oSel);
+		oSel = new tSelBoard(aProps.Board, new tPt2(3, 1), oSel);
+		oSel = new tSelBoard(aProps.Board, new tPt2(3, 2), oSel);
+		oSel = new tSelBoard(aProps.Board, new tPt2(4, 2), oSel);
+		oSel = new tSelBoard(aProps.Board, new tPt2(4, 1), oSel);
 
 		this.state = {
 			Sel: oSel
@@ -46,10 +50,15 @@ export default class LookBoard extends React.Component {
 		const oLooks = [];
 		for (let oX = 0; oX < Cfg.WthBoard; ++oX)
 			for (let oY = 0; oY < Cfg.HgtBoard; ++oY) {
+				const oKey = oX + "/" + oY;
 				const oPos = new tPt2(oX, oY);
 				const oDie = this.props.Board.uDie(oPos);
-				const oCkSel = this.state.Sel.uCkPos(oPos);
-				oLooks.push(<LookDie Pos={oPos} Die={oDie} CkSel={oCkSel} />);
+				const oSelAt = this.state.Sel.uSelAt(oPos);
+				const oPosFrom = oSelAt?.SelPrev?.Pos;
+				oLooks.push(
+					<LookDie key={oKey} Pos={oPos} Die={oDie} CkSel={!!oSelAt}
+						PosFrom={oPosFrom}/>
+				);
 			}
 		return oLooks;
 	}

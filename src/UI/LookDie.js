@@ -52,8 +52,7 @@ export default class LookDie extends React.Component {
 					fontFamily="Georgia, serif" fontSize="50px" fontWeight="bold"
 					letterSpacing="0px"
 					stroke="#000000" strokeWidth="0px"
-					textAlign="center" textAnchor="middle"
-					dominantBaseline="central"
+					textAnchor="middle" dominantBaseline="central"
 					wordSpacing="0px">
 					{this.props.Die.Text}
 				</text>
@@ -66,8 +65,7 @@ export default class LookDie extends React.Component {
 				fontFamily="Georgia, serif" fontSize="66px" fontWeight="bold"
 				letterSpacing="0px"
 				stroke="#000000" strokeWidth="0px"
-				textAlign="center" textAnchor="middle"
-				dominantBaseline="central"
+				textAnchor="middle" dominantBaseline="central"
 				wordSpacing="0px">
 				{this.props.Die.Text}
 			</text>
@@ -79,7 +77,7 @@ export default class LookDie extends React.Component {
 		if (!oCk) return null;
 
 		return (
-			<path className="From"
+			<path className="Under"
 				fill="none"
 				stroke="#000000"
 				strokeDasharray="3, 3"
@@ -105,13 +103,50 @@ export default class LookDie extends React.Component {
 		);
 	}
 
+	uFrom() {
+		if (!this.props.PosFrom) return null;
+
+		/** The position of the 'from' die, relative to this die, in die
+		 *  coordinates.*/
+		const oPosRelFrom = this.props.PosFrom.uDiff(this.props.Pos);
+		/** The amount by which the offsets should be scaled, to reach from one
+		 *  selection circle edge to another. */
+		const oSc = (oPosRelFrom.X && oPosRelFrom.Y) ? Math.SQRT1_2 : 1;
+		/** The X adjustment that moves the endpoint from the center of this die to
+		 *  the edge of its selection circle. */
+		const oXSh = RadSel * oSc * oPosRelFrom.X;
+		/** The Y adjustment that moves the endpoint from the center of this die to
+		 *  the edge of its selection circle. */
+		const oYSh = RadSel * oSc * oPosRelFrom.Y;
+
+		const oXStart = (50 + (oPosRelFrom.X * 100)) - oXSh;
+		const oYStart = (50 + (oPosRelFrom.Y * 100)) - oYSh;
+		const oXEnd = 50 + oXSh;
+		const oYEnd = 50 + oYSh;
+		const oCmd = `M${oXStart} ${oYStart} L${oXEnd} ${oYEnd}`;
+		return (
+			<path className="From"
+				fill="none"
+				stroke="#000000"
+				strokeDasharray="3, 3"
+				strokeDashoffset="0"
+				strokeLinejoin="round"
+				strokeMiterlimit="4"
+				strokeOpacity="1"
+				strokeWidth="2"
+				d={oCmd}
+				stopColor="#000000"
+			></path>
+		);
+	}
+
 	uSel() {
 		if (!this.props.CkSel) return null;
 
 		return (
 			<circle className="Sel"
 				cx="50" cy="50"
-				r="40"
+				r={RadSel}
 				stroke="#000000"
 				strokeWidth="2px"
 				color="#000000"
@@ -216,6 +251,7 @@ export default class LookDie extends React.Component {
 				></rect>
 
 				{this.uGroupText()}
+				{this.uFrom()}
 				{this.uSel()}
 				{this.uHov()}
 			</svg >
@@ -225,3 +261,6 @@ export default class LookDie extends React.Component {
 
 LookDie.propTypes = {
 };
+
+/** The selection circle radius. */
+const RadSel = 40;

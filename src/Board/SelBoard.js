@@ -58,19 +58,20 @@ export class tSelBoard {
 		 *  Recall that the 'Qu' die counts as two letters, not one. */
 		this.TextAll = aSelPrev ? (aSelPrev.TextAll + oTextPos) : oTextPos;
 
-		/** The index of the selection neighbor that should follow this one. This
-		 *  index will increment as uNext is called. */
+		/** The index of the selection neighbor that should follow this one when
+		 *  enumerating. This index will increment as uNext is called. */
 		this.jNeigh = 0;
 	}
 
-	/** Returns 'true' if the specified board position is part of this selection. */
-	uCkPos(aPos) {
+	/** Returns the selection instance at the specified position, or 'null' if the
+	 *  position is not selected by this instance or its predecessors. */
+	uSelAt(aPos) {
 		let oSel = this;
 		while (oSel) {
-			if (oSel.Pos.uCkEq(aPos)) return true;
+			if (oSel.Pos.uCkEq(aPos)) return oSel;
 			oSel = oSel.SelPrev;
 		}
-		return false;
+		return null;
 	}
 
 	/** Creates and returns a new instance selecting a board position that is:
@@ -88,8 +89,8 @@ export class tSelBoard {
 	}
 }
 
-/** Returns the first available adjacent position after skipping ajNeighNext
- *  valid choices, starting with the position on the right, and proceding
+/** Returns the first available adjacent position after skipping ajNeigh valid
+ *  choices, starting with the position on the right, and proceding
  *  counter-clockwise. Returns 'null' if no such position exists. */
 function uPosNext(aSel, ajNeigh) {
 	// The 'next' index ranges from zero to seven:

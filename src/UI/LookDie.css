@@ -11,6 +11,20 @@
 	/* These cross from one die to another, and, by default, mousing over the path
 	// select the SVG that generated it, even outside the viewport: */
 	pointer-events: none;
+	animation-name: FromCrawl;
+	animation-duration: 0.2s;
+	animation-timing-function: linear;
+	animation-iteration-count: infinite;
+}
+
+@keyframes FromCrawl {
+	from {
+		stroke-dashoffset: 0;
+	}
+
+	to {
+		stroke-dashoffset: -6;
+	}
 }
 
 .LookDie:hover .DecHov {
