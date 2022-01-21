@@ -26,20 +26,13 @@ import PropTypes from "prop-types";
  *    instance is part of a selection, and if it is not the first die in the
  *    selection. 'undefined' otherwise.
  */
-export default class ConnSel extends React.Component {
-	uSty() {
-		return {
-			gridColumnStart: (this.props.Pos.X + 1),
-			gridRowStart: (this.props.Pos.Y + 1)
-		}
-	}
-
-	uFrom() {
-		if (!this.props.PosFrom) return null;
+export default function ConnSel(aProps) {
+	function ouFrom() {
+		if (!aProps.PosFrom) return null;
 
 		/** The position of the 'from' die, relative to this die, in die
 		 *  coordinates.*/
-		const oPosRelFrom = this.props.PosFrom.uDiff(this.props.Pos);
+		const oPosRelFrom = aProps.PosFrom.uDiff(aProps.Pos);
 		// These coordinates ignore the grid gap, so they only approximate the
 		// center of the previous die:
 		const oXStart = (50 + (oPosRelFrom.X * 100));
@@ -61,17 +54,20 @@ export default class ConnSel extends React.Component {
 		);
 	}
 
-	render() {
-		// Set 'overflow' to 'visible' so the element can outside its own viewport:
-		return (
-			<svg className="ConnSel" style={this.uSty()}
-				xmlns="http://www.w3.org/2000/svg"
-				viewBox="0 0 100 100" overflow="visible"
-			>
-				{this.uFrom()}
-			</svg >
-		);
-	}
+	const oSty = {
+		gridColumnStart: (aProps.Pos.X + 1),
+		gridRowStart: (aProps.Pos.Y + 1)
+	};
+
+	// Set 'overflow' to 'visible' so the element can outside its own viewport:
+	return (
+		<svg className="ConnSel" style={oSty}
+			xmlns="http://www.w3.org/2000/svg"
+			viewBox="0 0 100 100" overflow="visible"
+		>
+			{ouFrom()}
+		</svg >
+	);
 }
 
 ConnSel.propTypes = {

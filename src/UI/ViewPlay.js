@@ -14,7 +14,7 @@ import { tSetup } from "../Setup.js";
 import { tBoard } from "../Board/Board.js";
 import LookBoard from "./LookBoard.js";
 
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 
 // ViewPlay
@@ -29,62 +29,47 @@ import PropTypes from "prop-types";
  *  ~ Board: A tBoard instance representing the board to be played. This prop is
  *    required.
  */
-export default class ViewPlay extends React.Component {
-	constructor(aProps) {
-		super(aProps);
+export default function ViewPlay(aProps) {
+	const [oCkPause, ouSet_CkPause] = useState(false);
 
-		this.state = {
-			CkPause: false
-		};
-
-		this.uHandPause = this.uHandPause.bind(this);
-		this.uHandEnd = this.uHandEnd.bind(this);
-		this.uHandResume = this.uHandResume.bind(this);
+	function ouHandPause(aEvt) {
+		ouSet_CkPause(true);
 	}
 
-	uHandPause(aEvt) {
-		this.setState({ CkPause: true });
+	function ouHandResume(aEvt) {
+		ouSet_CkPause(false);
 	}
 
-	uHandEnd(aEvt) {
-		this.props.uDispatStApp(StApp.Views.Setup);
+	function ouHandEnd(aEvt) {
+		aProps.uDispatStApp(StApp.Views.Setup);
 	}
 
-	uHandResume(aEvt) {
-		this.setState({ CkPause: false });
-	}
-
-	componentDidUpdate() {
-	}
-
-	uDlgPause() {
-		if (!this.state.CkPause) return null;
+	function ouDlgPause() {
+		if (!oCkPause) return null;
 
 		return (
 			<div className="ScreenDlg">
 				<div id="DlgPause">
-					<button onClick={this.uHandEnd}>End round</button>
-					<button onClick={this.uHandResume}>Resume</button>
+					<button onClick={ouHandEnd}>End round</button>
+					<button onClick={ouHandResume}>Resume</button>
 				</div>
 			</div>
 		);
 	}
 
-	render() {
-		return (
-			<div id="ViewPlay">
-				<h1>Ogle</h1>
+	return (
+		<div id="ViewPlay">
+			<h1>Ogle</h1>
 
-				<LookBoard Board={this.props.Board} />
+			<LookBoard Board={aProps.Board} />
 
-				<div className="Btns">
-					<button onClick={this.uHandPause}>Pause</button>
-				</div>
-
-				{this.uDlgPause()}
+			<div className="Btns">
+				<button onClick={ouHandPause}>Pause</button>
 			</div>
-		);
-	}
+
+			{ouDlgPause()}
+		</div>
+	);
 }
 
 ViewPlay.propTypes = {
