@@ -41,44 +41,30 @@ import PropTypes from "prop-types";
  *  ~ uCallEnt: A function to be invoked when the die is right-clicked. This
  *    prop is required.
  */
-export default class LookDie extends React.Component {
-	constructor(aProps) {
-		super(aProps);
-
-		this.uHandClick = this.uHandClick.bind(this);
-		this.uHandContext = this.uHandContext.bind(this);
-	}
-
-	uHandClick(aEvt) {
+export default function LookDie(aProps) {
+	function ouHandClick(aEvt) {
 		aEvt.preventDefault();
 		switch (aEvt.button) {
 			// The left button:
 			case 0:
-				this.props.uCallTog(this.props.Pos);
+				aProps.uCallTog(aProps.Pos);
 				break;
 			// The middle button:
 			case 1:
-				this.props.uCallClear();
+				aProps.uCallClear();
 				break;
 			// The right button:
 			case 2:
-				this.props.uCallEnt();
+				aProps.uCallEnt();
 				break;
 		}
 	}
 
-	uHandContext(aEvt) {
+	function ouHandContext(aEvt) {
 		aEvt.preventDefault();
 	}
 
-	uSty() {
-		return {
-			gridColumnStart: (this.props.Pos.X + 1),
-			gridRowStart: (this.props.Pos.Y + 1)
-		}
-	}
-
-	uBackText() {
+	function ouBackText() {
 		return (
 			<circle className="BackText"
 				cx="50" cy="50"
@@ -89,8 +75,8 @@ export default class LookDie extends React.Component {
 		);
 	}
 
-	uText() {
-		if (this.props.Die.Text.length > 1)
+	function ouText() {
+		if (aProps.Die.Text.length > 1)
 			return (
 				<text className="TextDbl"
 					// Looks better when we shift this up slightly:
@@ -101,7 +87,7 @@ export default class LookDie extends React.Component {
 					stroke="#000000" strokeWidth="0px"
 					textAnchor="middle" dominantBaseline="central"
 					wordSpacing="0px">
-					{this.props.Die.Text}
+					{aProps.Die.Text}
 				</text>
 			);
 
@@ -114,13 +100,13 @@ export default class LookDie extends React.Component {
 				stroke="#000000" strokeWidth="0px"
 				textAnchor="middle" dominantBaseline="central"
 				wordSpacing="0px">
-				{this.props.Die.Text}
+				{aProps.Die.Text}
 			</text>
 		);
 	}
 
-	uUnder() {
-		const oCk = ["L", "T", "M", "W", "N", "Z"].includes(this.props.Die.Text);
+	function ouUnder() {
+		const oCk = ["L", "T", "M", "W", "N", "Z"].includes(aProps.Die.Text);
 		if (!oCk) return null;
 
 		return (
@@ -139,22 +125,22 @@ export default class LookDie extends React.Component {
 		);
 	}
 
-	uGroupText() {
-		const oDeg = Dir4.uDeg(this.props.Die.Dir4);
+	function ouGroupText() {
+		const oDeg = Dir4.uDeg(aProps.Die.Dir4);
 		const oTextTrans = `rotate(${oDeg} 50 50)`;
 		return (
 			<g className="Text" transform={oTextTrans}>
-				{this.uText()}
-				{this.uUnder()}
+				{ouText()}
+				{ouUnder()}
 			</g>
 		);
 	}
 
-	uSel() {
-		if (!this.props.CkSel) return null;
+	function ouMarkSel() {
+		if (!aProps.CkSel) return null;
 
 		return (
-			<circle className="Sel"
+			<circle className="MarkSel"
 				cx="50" cy="50"
 				r={MetrDie.RadSel}
 				stroke="#000000"
@@ -165,9 +151,9 @@ export default class LookDie extends React.Component {
 		);
 	}
 
-	uHov() {
+	function ouMarkEnab() {
 		return (
-			<circle className="DecHov"
+			<circle className="MarkEnab"
 				visibility="hidden"
 				cx="50" cy="50"
 				r="36"
@@ -180,27 +166,30 @@ export default class LookDie extends React.Component {
 		);
 	}
 
-	render() {
-		let oClasses = "LookDie";
-		if (this.props.CkEnab) oClasses += " CkEnab";
+	let oClasses = "LookDie";
+	if (aProps.CkEnab) oClasses += " CkEnab";
 
-		// When selecting dice quickly, there is a tendency to click and drag, which
-		// causes many selection to be missed if onClick is used. For this reason,
-		// we use onMouseDown instead:
-		return (
-			<svg className={oClasses} style={this.uSty()}
-				xmlns="http://www.w3.org/2000/svg"
-				viewBox="0 0 100 100"
-				onMouseDown={this.uHandClick}
-				onContextMenu={this.uHandContext}
-			>
-				{this.uBackText()}
-				{this.uGroupText()}
-				{this.uSel()}
-				{this.uHov()}
-			</svg >
-		);
-	}
+	const oSty = {
+		gridColumnStart: (aProps.Pos.X + 1),
+		gridRowStart: (aProps.Pos.Y + 1)
+	};
+
+	// When selecting dice quickly, there is a tendency to click and drag, which
+	// causes many selection to be missed if onClick is used. For this reason,
+	// we use onMouseDown instead:
+	return (
+		<svg className={oClasses} style={oSty}
+			xmlns="http://www.w3.org/2000/svg"
+			viewBox="0 0 100 100"
+			onMouseDown={ouHandClick}
+			onContextMenu={ouHandContext}
+		>
+			{ouBackText()}
+			{ouGroupText()}
+			{ouMarkSel()}
+			{ouMarkEnab()}
+		</svg >
+	);
 }
 
 LookDie.propTypes = {

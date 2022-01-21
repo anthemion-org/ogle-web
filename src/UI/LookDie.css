@@ -12,7 +12,7 @@
 	user-select: none;
 }
 
-.LookDie.CkEnab:hover .DecHov {
+.LookDie.CkEnab:hover .MarkEnab {
 	visibility: visible;
 }
 

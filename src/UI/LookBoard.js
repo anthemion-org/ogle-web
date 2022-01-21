@@ -131,9 +131,13 @@ export default class LookBoard extends React.Component {
 	render() {
 		// There is no way to specify the z-order in SVG, so it is necessary to
 		// render the connection lines after the die backgrounds, and before their
-		// foregrounds. If they were rendered within either of these, lines in
+		// foregrounds. If they were rendered within either of those, lines in
 		// certain directions would overwrite or be overwritten by dice placed
-		// before or afterward:
+		// before or after.
+		//
+		// As an alternative, LookDie could adjust the connection start and end
+		// points to meet the selection circles, but it is difficult for that
+		// component to know its neighbors' positions:
 		return (
 			<div id="LookBoard">
 				{this.uBacksDie()}

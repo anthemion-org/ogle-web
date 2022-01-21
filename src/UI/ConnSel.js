@@ -62,8 +62,7 @@ export default class ConnSel extends React.Component {
 	}
 
 	render() {
-		// Set 'overflow' to 'visible' so the element can draw selection connectors
-		// outside its own viewport:
+		// Set 'overflow' to 'visible' so the element can outside its own viewport:
 		return (
 			<svg className="ConnSel" style={this.uSty()}
 				xmlns="http://www.w3.org/2000/svg"
