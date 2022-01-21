@@ -56,10 +56,8 @@ function View(aProps) {
 			const oBoard = new tBoard(GenRnd);
 			return <ViewPlay Setup={oSetup} Board={oBoard} {...aProps} />;
 		}
-
-		default:
-			throw Error("View: Invalid view");
 	}
+	throw Error("View: Invalid view");
 }
 
 View.propTypes = {

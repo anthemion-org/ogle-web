@@ -26,25 +26,54 @@ export default class LookBoard extends React.Component {
 		super(aProps);
 		this.uDispatch = aProps.uDispatch;
 
-		let oSel = new tSelBoard(aProps.Board, new tPt2(0, 0));
-		oSel = new tSelBoard(aProps.Board, new tPt2(1, 1), oSel);
-		oSel = new tSelBoard(aProps.Board, new tPt2(2, 1), oSel);
-		oSel = new tSelBoard(aProps.Board, new tPt2(3, 1), oSel);
-		oSel = new tSelBoard(aProps.Board, new tPt2(3, 2), oSel);
-		oSel = new tSelBoard(aProps.Board, new tPt2(4, 2), oSel);
-		oSel = new tSelBoard(aProps.Board, new tPt2(4, 1), oSel);
+		// Restore from Store: [to do]
+		let oSel = null;
 
 		this.state = {
 			Sel: oSel
 		};
 
-		this.uHandClick = this.uHandClick.bind(this);
+		this.uTog_Die = this.uTog_Die.bind(this);
+		this.uClear_Sel = this.uClear_Sel.bind(this);
+		this.uEnt_Sel = this.uEnt_Sel.bind(this);
 	}
 
-	uHandClick(aEvt) {
+	uTog_Die(aPos) {
+		if (!this.uCkEnab(aPos)) return;
+
+		if (!this.state.Sel) {
+			const oSelNew = new tSelBoard(this.props.Board, aPos);
+			this.setState({ Sel: oSelNew });
+			return;
+		}
+
+		const oSelAt = this.state.Sel.SelsByPos.uGet(aPos);
+		if (oSelAt) {
+			this.setState({ Sel: oSelAt.SelPrev });
+			return;
+		}
+
+		const oSelAdd = new tSelBoard(this.props.Board, aPos, this.state.Sel);
+		this.setState({ Sel: oSelAdd });
+	}
+
+	uClear_Sel() {
+		this.setState({ Sel: null });
+	}
+
+	uEnt_Sel() {
+		this.setState({ Sel: null });
 	}
 
 	componentDidUpdate() {
+	}
+
+	/** Returns 'true' if the specified board position can be selected or
+	 *  unselected. */
+	uCkEnab(aPos) {
+		return !this.state.Sel
+			|| this.state.Sel.uCkAddAt(aPos)
+			|| !!this.state.Sel.SelsByPos.uGet(aPos);
 	}
 
 	uLooksDie() {
@@ -54,9 +83,11 @@ export default class LookBoard extends React.Component {
 				const oKey = oX + "/" + oY;
 				const oPos = new tPt2(oX, oY);
 				const oDie = this.props.Board.uDie(oPos);
-				const oSelAt = this.state.Sel.uSelAt(oPos);
+				const oSelAt = this.state.Sel && this.state.Sel.uSelAt(oPos);
 				oEls.push(
-					<LookDie key={oKey} Pos={oPos} Die={oDie} CkSel={!!oSelAt} />
+					<LookDie key={oKey} Pos={oPos} Die={oDie} CkSel={!!oSelAt}
+						CkEnab={this.uCkEnab(oPos)}
+						uCallTog={this.uTog_Die} uCallEnt={this.uEnt_Sel} />
 				);
 			}
 		return oEls;
@@ -68,10 +99,10 @@ export default class LookBoard extends React.Component {
 			for (let oY = 0; oY < Cfg.HgtBoard; ++oY) {
 				const oKey = oX + "/" + oY;
 				const oPos = new tPt2(oX, oY);
-				const oSelAt = this.state.Sel.uSelAt(oPos);
+				const oSelAt = this.state.Sel && this.state.Sel.uSelAt(oPos);
 				const oPosFrom = oSelAt?.SelPrev?.Pos;
 				oEls.push(
-					<ConnSel key={oKey} Pos={oPos} PosFrom={oPosFrom}/>
+					<ConnSel key={oKey} Pos={oPos} PosFrom={oPosFrom} />
 				);
 			}
 		return oEls;

@@ -28,6 +28,11 @@ import PropTypes from "prop-types";
  *  ~ Die: The tDie instance to be rendered. This prop is required.
  *
  *  ~ CkSel: Set to 'true' if this die is selected. This prop is required.
+ *
+ *  ~ CkEnab: Set to 'true' if this die can be clicked. This prop is required.
+ *
+ *  ~ uCallTog: A function to be invoked when a die is left-clicked. This prop
+ *  is required.
  */
 export default class LookDie extends React.Component {
 	constructor(aProps) {
@@ -38,9 +43,29 @@ export default class LookDie extends React.Component {
 		};
 
 		this.uHandClick = this.uHandClick.bind(this);
+		this.uHandContext = this.uHandContext.bind(this);
 	}
 
 	uHandClick(aEvt) {
+		aEvt.preventDefault();
+		switch (aEvt.button) {
+			// The left button:
+			case 0:
+				this.props.uCallTog(this.props.Pos);
+				break;
+			// The middle button:
+			case 1:
+				this.props.uCallEnt();
+				break;
+			// The right button:
+			case 2:
+				this.props.uCallEnt();
+				break;
+		}
+	}
+
+	uHandContext(aEvt) {
+		aEvt.preventDefault();
 	}
 
 	componentDidUpdate() {
@@ -145,10 +170,18 @@ export default class LookDie extends React.Component {
 	}
 
 	render() {
+		let oClasses = "LookDie";
+		if (this.props.CkEnab) oClasses += " CkEnab";
+
+		// When selecting dice quickly, there is a tendency to click and drag, which
+		// causes many selection to be missed if onClick is used. For this reason,
+		// we use onMouseDown instead:
 		return (
-			<svg className="LookDie" style={this.uSty()}
+			<svg className={oClasses} style={this.uSty()}
 				xmlns="http://www.w3.org/2000/svg"
 				viewBox="0 0 100 100"
+				onMouseDown={this.uHandClick}
+				onContextMenu={this.uHandContext}
 			>
 				<defs>
 					<clipPath id="ClipCrnNW">
@@ -233,5 +266,6 @@ export default class LookDie extends React.Component {
 LookDie.propTypes = {
 	Pos: PropTypes.instanceOf(tPt2).isRequired,
 	Die: PropTypes.instanceOf(tDie).isRequired,
-	CkSel: PropTypes.bool.isRequired
+	CkSel: PropTypes.bool.isRequired,
+	CkEnab: PropTypes.bool.isRequired
 };

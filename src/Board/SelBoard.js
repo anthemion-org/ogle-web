@@ -14,18 +14,12 @@ import * as Cfg from "../Cfg.js";
 
 // tSelBoard
 // ---------
-// Can this class be used for user selections as well? [design]
 
 /** Represents a single board selection, for use when enumerating board content
- *  during the Ogle word search. Each instance stores a single die selection,
- *  which adds one or two letters to the selected text. The instance also
- *  references an optional predecessor instance. Together, the last instance and
- *  its predecessors give the entire selection.
- *
- *  By creating a top-level instance for a given board position, and then
- *  recursively invoking uNext on that instance, plus every instance returned by
- *  uNext, all die sequences beginning with the first position can be
- *  enumerated.*/
+ *  during the Ogle word search, or during play. Each instance represents a
+ *  single die selection, which adds one or two letters to the selected text.
+ *  The instance also references an optional predecessor instance. Together, the
+ *  last instance and its predecessors give the entire selection. */
 export class tSelBoard {
 	/** Set aSelPrev to the instance that should precede this instance in the
 	 *  selection, or leave it undefined to start a new selection. */
@@ -56,13 +50,21 @@ export class tSelBoard {
 
 		/** The index of the selection neighbor that should follow this one when
 		 *  enumerating. This index will increment as uNext is called. */
-		this.jNeigh = 0;
+		this.jNeighNext = 0;
 	}
 
 	/** Returns the tSelBoard instance at the specified position, or 'null' if the
 	 *  position is not selected by this instance or its predecessors. */
 	uSelAt(aPos) {
 		return this.SelsByPos.uGet(aPos);
+	}
+
+	/** Returns 'true' if the specified position, can be added to the end of this
+	 *  selection. */
+	uCkAddAt(aPos) {
+		return Cfg.RectBoard.uCkContain(aPos)
+			&& this.Pos.uCkAdjacent(aPos)
+			&& !this.SelsByPos.uGet(aPos);
 	}
 
 	/** Creates and returns a new instance selecting a board position that is:
@@ -73,9 +75,14 @@ export class tSelBoard {
 	 *
 	 *  ~ Not previously returned by this instance.
 	 *
-	 *  Returns 'null' if no such position exists. */
+	 *  Returns 'null' if no such position exists.
+	 *
+	 *  By creating a top-level instance for a given board position, and then
+	 *  recursively invoking uNext on that instance, plus every instance returned
+	 *  by uNext, all die sequences beginning with the first position can be
+	 *  enumerated.*/
 	uNext() {
-		const oPosNext = uPosNext(this, this.jNeigh++);
+		const oPosNext = uPosNext(this, this.jNeighNext++);
 		return oPosNext ? new tSelBoard(this.Board, oPosNext, this) : null;
 	}
 }
@@ -110,7 +117,6 @@ function uOff(ajDir) {
 		case 5: return new tPt2(-1, -1);
 		case 6: return new tPt2(0, -1);
 		case 7: return new tPt2(1, -1);
-		default:
-			throw Error("SelBoard uOff: Invalid index");
 	}
+	throw Error("SelBoard uOff: Invalid index");
 }

@@ -23,6 +23,6 @@ export function uProseNum(aNum) {
 		case 10: return "ten";
 		case 11: return "eleven";
 		case 12: return "twelve";
-		default: return aNum.toString();
 	}
+	return aNum.toString();
 }

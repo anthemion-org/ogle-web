@@ -29,9 +29,8 @@ export function uDeg(aDir) {
 		case "N": return 90;
 		case "W": return 180;
 		case "S": return 270;
-		default:
-			throw Error("Dir4 uDeg: Invalid direction");
 	}
+	throw Error("Dir4 uDeg: Invalid direction");
 }
 
 /** Returns a random Vals member. */

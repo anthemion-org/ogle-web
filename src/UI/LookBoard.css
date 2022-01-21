@@ -6,8 +6,8 @@
 #LookBoard {
 	/* Using 'vh' prevents the board from changing size when the user zooms.
 	// [to do] */
-	width: 50vh;
-	height: 50vh;
+	width: 48vh;
+	height: 48vh;
 
 	/* Each die uses the 'style' attribute to set its own 'grid-column-start' and
 	// 'grid-row-start': */

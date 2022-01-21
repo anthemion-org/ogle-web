@@ -7,10 +7,18 @@
 	cursor: pointer;
 }
 
-.LookDie:hover .DecHov {
+
+.LookDie .TextSing,
+.LookDie .TextDbl {
+	/* Prevent letter text from being selected if the user drags while clicking: */
+	user-select: none;
+}
+
+.LookDie.CkEnab:hover .DecHov {
 	visibility: visible;
 }
 
-.LookDie:hover .Under {
+.LookDie.CkEnab:hover .Under {
+	/* Too busy otherwise: */
 	visibility: hidden;
 }
