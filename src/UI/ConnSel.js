@@ -10,6 +10,7 @@
 
 import "./ConnSel.css";
 import * as MetrDie from "./MetrDie.js";
+import { tPt2 } from "../Util/Pt2.js";
 
 import React from "react";
 import PropTypes from "prop-types";
@@ -17,6 +18,17 @@ import PropTypes from "prop-types";
 // ConnSel
 // -------
 
+/** Draws a connecting line between one die selection marker and another. The
+ *  following props are supported:
+ *
+ *  ~ Pos: The board position that contains this instance. If PosFrom is
+ *  defined, this determines the end position of the connector. This prop is
+ *  required.
+ *
+ *  ~ PosFrom: The board position where the connecting line originates, if this
+ *  position is selected, and if it is not the first die in the selection;
+ *  'undefined' otherwise.
+ */
 export default class ConnSel extends React.Component {
 	uSty() {
 		return {
@@ -77,4 +89,6 @@ export default class ConnSel extends React.Component {
 }
 
 ConnSel.propTypes = {
+	Pos: PropTypes.instanceOf(tPt2).isRequired,
+	PosFrom: PropTypes.instanceOf(tPt2)
 };

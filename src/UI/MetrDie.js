@@ -8,5 +8,5 @@
 //   import * as MetrDie from "./UI/MetrDie.js";
 //
 
-/** The selection circle radius. */
+/** The selection circle radius, in SVG user units. */
 export const RadSel = 40;

@@ -34,23 +34,19 @@ export class tSelBoard {
 		this.Board = aBoard;
 		/* The board position selected by this instance. */
 		this.Pos = aPos;
-		/** The selection instance that precedes this one, or 'null' if this
-		 *  instance is the first. */
+		/** The selection instance that precedes this one, or 'null' if this is the
+		 *  first. Recall that preceding instances in the selection chain will not
+		 *  have SelsByPos or TextAll values that include later instances, such as
+		 *  this one defining this reference. */
 		this.SelPrev = aSelPrev ?? null;
 
-		let oCksAllPrev = aSelPrev
-			? aSelPrev.CksAll.uClone()
-			: new tArr2(Cfg.SizeBoard, { Def: false });
-		/** A tArr2 array of booleans that mark the board positions selected by this
-		 *  instance and its predecessors: */
-		this.CksAll = oCksAllPrev;
-		this.CksAll.uSet(aPos, true);
-
-		let oPosiAllPrev = aSelPrev ? Array.from(aSelPrev.PosiAll) : [];
-		/** An array containing the tPt2 positions selected by this instance and its
-		 *  predecessors, in order of selection. */
-		this.PosiAll = oPosiAllPrev;
-		this.PosiAll.push(aPos);
+		let oSelsByPosPrev = aSelPrev
+			? aSelPrev.SelsByPos.uClone()
+			: new tArr2(Cfg.SizeBoard, { Def: null });
+		/** A tArr2 array that references this instance and its predecessors by
+		 *  board position. */
+		this.SelsByPos = oSelsByPosPrev;
+		this.SelsByPos.uSet(aPos, this);
 
 		const oDiePos = aBoard.uDie(aPos);
 		const oTextPos = oDiePos.Text.toLowerCase();
@@ -63,15 +59,10 @@ export class tSelBoard {
 		this.jNeigh = 0;
 	}
 
-	/** Returns the selection instance at the specified position, or 'null' if the
+	/** Returns the tSelBoard instance at the specified position, or 'null' if the
 	 *  position is not selected by this instance or its predecessors. */
 	uSelAt(aPos) {
-		let oSel = this;
-		while (oSel) {
-			if (oSel.Pos.uCkEq(aPos)) return oSel;
-			oSel = oSel.SelPrev;
-		}
-		return null;
+		return this.SelsByPos.uGet(aPos);
 	}
 
 	/** Creates and returns a new instance selecting a board position that is:
@@ -99,7 +90,7 @@ function uPosNext(aSel, ajNeigh) {
 	for (let ojDir = 0; ojDir < 8; ++ojDir) {
 		const oOff = uOff(ojDir);
 		const oPos = aSel.Pos.uSum(oOff);
-		if (Cfg.RectBoard.uCkContain(oPos) && !aSel.CksAll.uGet(oPos)) {
+		if (Cfg.RectBoard.uCkContain(oPos) && !aSel.SelsByPos.uGet(oPos)) {
 			if (ajNeigh < 1) return oPos;
 			--ajNeigh;
 		}

@@ -9,8 +9,10 @@
 //
 
 import "./LookDie.css";
+import { tDie } from "../Board/Die.js";
 import * as MetrDie from "./MetrDie.js";
 import * as Dir4 from "../Util/Dir4.js";
+import { tPt2 } from "../Util/Pt2.js";
 
 import React from "react";
 import PropTypes from "prop-types";
@@ -18,6 +20,15 @@ import PropTypes from "prop-types";
 // LookDie
 // -------
 
+/** Draws one die within the board. The following props are supported:
+ *
+ *  ~ Pos: The board position that contains this instance. This prop is
+ *  required.
+ *
+ *  ~ Die: The tDie instance to be rendered. This prop is required.
+ *
+ *  ~ CkSel: Set to 'true' if this die is selected. This prop is required.
+ */
 export default class LookDie extends React.Component {
 	constructor(aProps) {
 		super(aProps);
@@ -220,4 +231,7 @@ export default class LookDie extends React.Component {
 }
 
 LookDie.propTypes = {
+	Pos: PropTypes.instanceOf(tPt2).isRequired,
+	Die: PropTypes.instanceOf(tDie).isRequired,
+	CkSel: PropTypes.bool.isRequired
 };
