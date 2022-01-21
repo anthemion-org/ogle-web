@@ -9,13 +9,13 @@
 	width: 50vh;
 	height: 50vh;
 
+	/* Each die uses the 'style' attribute to set its own 'grid-column-start' and
+	// 'grid-row-start': */
 	display: grid;
-	gap: 0.2vh;
+	gap: 0.2vh 0.2vh;
 	padding: 0.3vh;
 
 	background-color: black;
 	border-radius: 1.5vh;
 }
 
-/* Each die uses the 'style' attribute to set its own 'grid-column-start' and
-// 'grid-row-start'. */

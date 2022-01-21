@@ -9,14 +9,14 @@
 //
 
 import "./LookDie.css";
-import { tBoard } from "../Board/Board.js";
+import * as MetrDie from "./MetrDie.js";
 import * as Dir4 from "../Util/Dir4.js";
 
 import React from "react";
 import PropTypes from "prop-types";
 
 // LookDie
-// --------
+// -------
 
 export default class LookDie extends React.Component {
 	constructor(aProps) {
@@ -103,50 +103,13 @@ export default class LookDie extends React.Component {
 		);
 	}
 
-	uFrom() {
-		if (!this.props.PosFrom) return null;
-
-		/** The position of the 'from' die, relative to this die, in die
-		 *  coordinates.*/
-		const oPosRelFrom = this.props.PosFrom.uDiff(this.props.Pos);
-		/** The amount by which the offsets should be scaled, to reach from one
-		 *  selection circle edge to another. */
-		const oSc = (oPosRelFrom.X && oPosRelFrom.Y) ? Math.SQRT1_2 : 1;
-		/** The X adjustment that moves the endpoint from the center of this die to
-		 *  the edge of its selection circle. */
-		const oXSh = RadSel * oSc * oPosRelFrom.X;
-		/** The Y adjustment that moves the endpoint from the center of this die to
-		 *  the edge of its selection circle. */
-		const oYSh = RadSel * oSc * oPosRelFrom.Y;
-
-		const oXStart = (50 + (oPosRelFrom.X * 100)) - oXSh;
-		const oYStart = (50 + (oPosRelFrom.Y * 100)) - oYSh;
-		const oXEnd = 50 + oXSh;
-		const oYEnd = 50 + oYSh;
-		const oCmd = `M${oXStart} ${oYStart} L${oXEnd} ${oYEnd}`;
-		return (
-			<path className="From"
-				fill="none"
-				stroke="#000000"
-				strokeDasharray="3, 3"
-				strokeDashoffset="0"
-				strokeLinejoin="round"
-				strokeMiterlimit="4"
-				strokeOpacity="1"
-				strokeWidth="2"
-				d={oCmd}
-				stopColor="#000000"
-			></path>
-		);
-	}
-
 	uSel() {
 		if (!this.props.CkSel) return null;
 
 		return (
 			<circle className="Sel"
 				cx="50" cy="50"
-				r={RadSel}
+				r={MetrDie.RadSel}
 				stroke="#000000"
 				strokeWidth="2px"
 				color="#000000"
@@ -172,11 +135,9 @@ export default class LookDie extends React.Component {
 
 	render() {
 		return (
-			// Set 'overflow' to 'visible' so the die can draw selection connectors
-			// outside its own viewport:
 			<svg className="LookDie" style={this.uSty()}
 				xmlns="http://www.w3.org/2000/svg"
-				viewBox="0 0 100 100" overflow="visible"
+				viewBox="0 0 100 100"
 			>
 				<defs>
 					<clipPath id="ClipCrnNW">
@@ -251,7 +212,6 @@ export default class LookDie extends React.Component {
 				></rect>
 
 				{this.uGroupText()}
-				{this.uFrom()}
 				{this.uSel()}
 				{this.uHov()}
 			</svg >
@@ -261,6 +221,3 @@ export default class LookDie extends React.Component {
 
 LookDie.propTypes = {
 };
-
-/** The selection circle radius. */
-const RadSel = 40;
