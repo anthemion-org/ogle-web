@@ -8,7 +8,7 @@
 //   import * as StApp from "./StApp.js";
 //
 
-/** A list of the forms and other views that can be displayed by this app. These
+/** Lists the forms and other views that can be displayed by this app. These
  *  represent the general application state, and are used as reducer action
  *  values when requesting state transitions. */
 export const Views = {

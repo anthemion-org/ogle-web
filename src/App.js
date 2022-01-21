@@ -20,13 +20,11 @@ import { tGenRnd } from "./Util/Rnd.js";
 import React, { useReducer } from "react";
 import PropTypes from "prop-types";
 
-const GenRnd = new tGenRnd();
-
 /** The top-level component, to be placed in the Root element within
  *  'index.html'. */
 export default function App() {
 	const oStAppInit = Store.uGet("StApp");
-	const [oStApp, ouDispatStApp] = useReducer(uReducSt, oStAppInit);
+	const [oStApp, ouDispatStApp] = useReducer(uReducStApp, oStAppInit);
 
 	return (
 		<View StApp={oStApp} uDispatStApp={ouDispatStApp} />
@@ -34,7 +32,7 @@ export default function App() {
 }
 
 /** A reducer that manages the top-level application state. */
-function uReducSt(aSt, aAct) {
+function uReducStApp(aSt, aAct) {
 	if (!StApp.Views[aAct])
 		throw Error("uReducSt: Invalid action");
 
@@ -75,3 +73,5 @@ View.propTypes = {
 	StApp: PropTypes.object.isRequired,
 	uDispatStApp: PropTypes.func.isRequired
 };
+
+const GenRnd = new tGenRnd();

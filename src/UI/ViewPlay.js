@@ -13,6 +13,7 @@ import * as StApp from "../StApp.js";
 import { tSetup } from "../Setup.js";
 import { tBoard } from "../Board/Board.js";
 import LookBoard from "./LookBoard.js";
+import * as ActPlay from "./ActPlay.js";
 
 import React, { useState } from "react";
 import PropTypes from "prop-types";
