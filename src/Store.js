@@ -32,9 +32,6 @@ export function uSet(aName, aVal) {
 	uWrite(Data);
 }
 
-// Implementation
-// --------------
-
 /** The name of the localStorage object that contains all Ogle user data. */
 const NameRoot = "Ogle";
 
@@ -52,7 +49,7 @@ if (!Data) {
 function uDef() {
 	return {
 		WordsUser: [],
-		St: { View: StApp.Views.Setup },
+		StApp: { View: StApp.Views.Setup },
 		Setup: tSetup.suDef()
 	};
 }
@@ -68,6 +65,6 @@ function uRead() {
 /** Adds the current Ogle version to the specified data, then writes the data to
  *  the nRoot local storage. */
 function uWrite(aData) {
-	aData.Ver = Cfg.Ver;
+	aData.VerApp = Cfg.VerApp;
 	localStorage[NameRoot] = JSON.stringify(aData);
 }

@@ -20,7 +20,7 @@ import PropTypes from "prop-types";
 // LookDie
 // -------
 
-/** Draws one die within the board. The following props are supported:
+/** Renders one die within the board. The following props are supported:
  *
  *  ~ Pos: The board position that contains this instance. This prop is
  *  required.
@@ -37,7 +37,6 @@ import PropTypes from "prop-types";
 export default class LookDie extends React.Component {
 	constructor(aProps) {
 		super(aProps);
-		this.uDispatch = aProps.uDispatch;
 
 		this.state = {
 		};
@@ -267,5 +266,6 @@ LookDie.propTypes = {
 	Pos: PropTypes.instanceOf(tPt2).isRequired,
 	Die: PropTypes.instanceOf(tDie).isRequired,
 	CkSel: PropTypes.bool.isRequired,
-	CkEnab: PropTypes.bool.isRequired
+	CkEnab: PropTypes.bool.isRequired,
+	uCallTog: PropTypes.func.isRequired
 };

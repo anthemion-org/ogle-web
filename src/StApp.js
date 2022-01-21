@@ -9,14 +9,14 @@
 //
 
 /** A list of the forms and other views that can be displayed by this app. These
- *  are used to represent the general application state, and also as reducer
- *  action values that are used to request state transitions. */
+ *  represent the general application state, and are used as reducer action
+ *  values when requesting state transitions. */
 export const Views = {
-	/** Displays the Setup view. */
+	/** Display the Setup view. */
 	Setup: "Setup",
-	/** Displays the About view. */
+	/** Display the About view. */
 	About: "About",
-	/** Displays the Play view. */
+	/** Display the Play view. */
 	Play: "Play"
 };
 Object.freeze(Views);

@@ -22,27 +22,38 @@ import PropTypes from "prop-types";
 
 const GenRnd = new tGenRnd();
 
-/** A reducer function that manages the top-level application state. */
-function uStNext(aSt, aAct) {
-	if (!StApp.Views[aAct])
-		throw Error("uStNext: Invalid action");
+/** The top-level component, to be placed in the Root element within
+ *  'index.html'. */
+export default function App() {
+	const oStAppInit = Store.uGet("StApp");
+	const [oStApp, ouDispatStApp] = useReducer(uReducSt, oStAppInit);
 
-	const oSt = { View: aAct };
-	Store.uSet("St", oSt);
-	return oSt;
+	return (
+		<View StApp={oStApp} uDispatStApp={ouDispatStApp} />
+	);
+}
+
+/** A reducer that manages the top-level application state. */
+function uReducSt(aSt, aAct) {
+	if (!StApp.Views[aAct])
+		throw Error("uReducSt: Invalid action");
+
+	const oStApp = { View: aAct };
+	Store.uSet("StApp", oStApp);
+	return oStApp;
 }
 
 /** A component that displays the form or other view corresponding to the
  *  current application state. The following props are supported:
  *
- *  ~ St: The StApp.Views element representing the current state. This prop is
- *    required.
+ *  ~ StApp: The StApp.Views element representing the current state. This prop
+ *    is required.
  *
- *  ~ uDispatch: The dispatcher function that should be used to signal a state
- *    transition. This prop is required.
+ *  ~ uDispatStApp: A dispatcher that signals application state transitions.
+ *    This prop is required.
  */
 function View(aProps) {
-	switch (aProps.St.View) {
+	switch (aProps.StApp.View) {
 		case StApp.Views.Setup: {
 			const oSetup = tSetup.suFromData(Store.uGet("Setup"));
 			return <ViewSetup Setup={oSetup} {...aProps} />;
@@ -61,17 +72,6 @@ function View(aProps) {
 }
 
 View.propTypes = {
-	St: PropTypes.object.isRequired,
-	uDispatch: PropTypes.func.isRequired
+	StApp: PropTypes.object.isRequired,
+	uDispatStApp: PropTypes.func.isRequired
 };
-
-/** The top-level component, to be placed in the Root element within
- *  'index.html'. */
-export default function App() {
-	const oStInit = Store.uGet("St");
-	const [oSt, ouDispatch] = useReducer(uStNext, oStInit);
-
-	return (
-		<View St={oSt} uDispatch={ouDispatch} />
-	);
-}

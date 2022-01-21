@@ -10,7 +10,7 @@
 
 import "./ViewAbout.css";
 import Logo from "./Logo.js";
-import * as View from "../StApp.js";
+import * as StApp from "../StApp.js";
 import * as Cfg from "../Cfg.js";
 
 import React from "react";
@@ -19,7 +19,7 @@ import PropTypes from "prop-types";
 /** The About view. */
 export default function ViewAbout(aProps) {
 	function ouHandOK(aEvt) {
-		aProps.uDispatch(View.Views.Setup);
+		aProps.uDispatStApp(StApp.Views.Setup);
 	}
 
 	return (
@@ -27,7 +27,7 @@ export default function ViewAbout(aProps) {
 			<Logo id="Logo" />
 			<h1>Ogle</h1>
 
-			<div>Version {Cfg.Ver}</div>
+			<div>Version {Cfg.VerApp}</div>
 
 			<div className="MargV2">
 				Copyright ©2007-2022 Jeremy Kelly<br />
@@ -63,6 +63,6 @@ export default function ViewAbout(aProps) {
 }
 
 ViewAbout.propTypes = {
-	St: PropTypes.object.isRequired,
-	uDispatch: PropTypes.func.isRequired
+	StApp: PropTypes.object.isRequired,
+	uDispatStApp: PropTypes.func.isRequired
 };

@@ -9,8 +9,7 @@
 //
 
 import "./ViewPlay.css";
-import * as Store from "../Store.js";
-import * as View from "../StApp.js";
+import * as StApp from "../StApp.js";
 import { tSetup } from "../Setup.js";
 import { tBoard } from "../Board/Board.js";
 import LookBoard from "./LookBoard.js";
@@ -21,16 +20,18 @@ import PropTypes from "prop-types";
 // ViewPlay
 // --------
 
-/** Implements the Play view. Along with St and uDispatch, the following props
- *  are supported:
+/** Implements the Play view. Along with StApp and uDispatStApp, the following
+ *  props are supported:
  *
  *  ~ Setup: A tSetup instance that gives the user settings. This prop is
+ *    required.
+ *
+ *  ~ Board: A tBoard instance representing the board to be played. This prop is
  *    required.
  */
 export default class ViewPlay extends React.Component {
 	constructor(aProps) {
 		super(aProps);
-		this.uDispatch = aProps.uDispatch;
 
 		this.state = {
 			CkPause: false
@@ -46,7 +47,7 @@ export default class ViewPlay extends React.Component {
 	}
 
 	uHandEnd(aEvt) {
-		this.uDispatch(View.Views.Setup);
+		this.props.uDispatStApp(StApp.Views.Setup);
 	}
 
 	uHandResume(aEvt) {
@@ -87,8 +88,8 @@ export default class ViewPlay extends React.Component {
 }
 
 ViewPlay.propTypes = {
-	St: PropTypes.object.isRequired,
-	uDispatch: PropTypes.func.isRequired,
+	StApp: PropTypes.object.isRequired,
+	uDispatStApp: PropTypes.func.isRequired,
 	Setup: PropTypes.instanceOf(tSetup).isRequired,
 	Board: PropTypes.instanceOf(tBoard).isRequired
 };

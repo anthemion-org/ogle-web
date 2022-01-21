@@ -10,7 +10,7 @@
 
 import "./ViewSetup.css";
 import * as Store from "../Store.js";
-import * as View from "../StApp.js";
+import * as StApp from "../StApp.js";
 import { tSetup } from "../Setup.js";
 import { tRg } from "../Util/Rg.js";
 import * as Text from "../Util/Text.js";
@@ -27,7 +27,7 @@ import PropTypes from "prop-types";
 // part of the app.
 
 /** Implements the Setup view, which is displayed when Ogle starts. Along with
- *  St and uDispatch, the following props are supported:
+ *  StApp and uDispatStApp, the following props are supported:
  *
  *  ~ Setup: A tSetup instance that stores the original user settings. This prop
  *    is required.
@@ -35,7 +35,6 @@ import PropTypes from "prop-types";
 export default class ViewSetup extends React.Component {
 	constructor(aProps) {
 		super(aProps);
-		this.uDispatch = aProps.uDispatch;
 
 		this.state = {
 			/** The selected Yields index. */
@@ -58,12 +57,12 @@ export default class ViewSetup extends React.Component {
 
 	uHandAbout(aEvt) {
 		aEvt.preventDefault();
-		this.uDispatch(View.Views.About);
+		this.props.uDispatStApp(StApp.Views.About);
 	}
 
 	uHandPlay(aEvt) {
 		aEvt.preventDefault();
-		this.uDispatch(View.Views.Play);
+		this.props.uDispatStApp(StApp.Views.Play);
 	}
 
 	componentDidUpdate() {
@@ -114,8 +113,8 @@ export default class ViewSetup extends React.Component {
 }
 
 ViewSetup.propTypes = {
-	St: PropTypes.object.isRequired,
-	uDispatch: PropTypes.func.isRequired,
+	StApp: PropTypes.object.isRequired,
+	uDispatStApp: PropTypes.func.isRequired,
 	Setup: PropTypes.instanceOf(tSetup).isRequired
 };
 

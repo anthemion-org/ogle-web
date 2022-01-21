@@ -11,6 +11,7 @@
 import "./LookBoard.css";
 import LookDie from "./LookDie.js";
 import ConnSel from "./ConnSel.js";
+import { tBoard } from "../Board/Board.js";
 import { tSelBoard } from "../Board/SelBoard.js";
 import { tPt2 } from "../Util/Pt2.js";
 import * as Cfg from "../Cfg.js";
@@ -21,10 +22,15 @@ import PropTypes from "prop-types";
 // LookBoard
 // ---------
 
+/** Displays the board, and accepts user play input. The following props are
+ *  supported:
+ *
+ *  ~ Board: A tBoard instance representing the board to be played. This prop is
+ *    required.
+ */
 export default class LookBoard extends React.Component {
 	constructor(aProps) {
 		super(aProps);
-		this.uDispatch = aProps.uDispatch;
 
 		// Restore from Store: [to do]
 		let oSel = null;
@@ -123,4 +129,5 @@ export default class LookBoard extends React.Component {
 }
 
 LookBoard.propTypes = {
+	Board: PropTypes.instanceOf(tBoard).isRequired
 };
