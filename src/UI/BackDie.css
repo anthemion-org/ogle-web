@@ -1,8 +1,8 @@
-/* LookDie.css
+/* BackDie.css
 // -----------
 // Copyright ©2022 Jeremy Kelly
 // www.anthemion.org */
 
-.ConnSel {
-	pointer-events: none;
+.BackDie:hover {
+	cursor: pointer;
 }

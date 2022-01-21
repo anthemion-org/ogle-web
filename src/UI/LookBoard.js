@@ -9,8 +9,9 @@
 //
 
 import "./LookBoard.css";
-import LookDie from "./LookDie.js";
+import BackDie from "./BackDie.js";
 import ConnSel from "./ConnSel.js";
+import LookDie from "./LookDie.js";
 import { tBoard } from "../Board/Board.js";
 import { tSelBoard } from "../Board/SelBoard.js";
 import { tPt2 } from "../Util/Pt2.js";
@@ -82,18 +83,14 @@ export default class LookBoard extends React.Component {
 			|| !!this.state.Sel.SelsByPos.uGet(aPos);
 	}
 
-	uLooksDie() {
+	uBacksDie() {
 		const oEls = [];
 		for (let oX = 0; oX < Cfg.WthBoard; ++oX)
 			for (let oY = 0; oY < Cfg.HgtBoard; ++oY) {
 				const oKey = oX + "/" + oY;
 				const oPos = new tPt2(oX, oY);
-				const oDie = this.props.Board.uDie(oPos);
-				const oSelAt = this.state.Sel && this.state.Sel.uSelAt(oPos);
 				oEls.push(
-					<LookDie key={oKey} Pos={oPos} Die={oDie} CkSel={!!oSelAt}
-						CkEnab={this.uCkEnab(oPos)}
-						uCallTog={this.uTog_Die} uCallEnt={this.uEnt_Sel} />
+					<BackDie key={oKey} Pos={oPos} />
 				);
 			}
 		return oEls;
@@ -114,15 +111,34 @@ export default class LookBoard extends React.Component {
 		return oEls;
 	}
 
+	uLooksDie() {
+		const oEls = [];
+		for (let oX = 0; oX < Cfg.WthBoard; ++oX)
+			for (let oY = 0; oY < Cfg.HgtBoard; ++oY) {
+				const oKey = oX + "/" + oY;
+				const oPos = new tPt2(oX, oY);
+				const oDie = this.props.Board.uDie(oPos);
+				const oSelAt = this.state.Sel && this.state.Sel.uSelAt(oPos);
+				oEls.push(
+					<LookDie key={oKey} Pos={oPos} Die={oDie} CkSel={!!oSelAt}
+						CkEnab={this.uCkEnab(oPos)} uCallTog={this.uTog_Die}
+						uCallClear={this.uClear_Sel} uCallEnt={this.uEnt_Sel} />
+				);
+			}
+		return oEls;
+	}
+
 	render() {
 		// There is no way to specify the z-order in SVG, so it is necessary to
-		// render the connection lines after all the dice. If they were rendered in
-		// LookDie, connections in certain directions would be partially overwritten
-		// by dice placed after the connecting die:
+		// render the connection lines after the die backgrounds, and before their
+		// foregrounds. If they were rendered within either of these, lines in
+		// certain directions would overwrite or be overwritten by dice placed
+		// before or afterward:
 		return (
 			<div id="LookBoard">
-				{this.uLooksDie()}
+				{this.uBacksDie()}
 				{this.uConnsSel()}
+				{this.uLooksDie()}
 			</div>
 		);
 	}

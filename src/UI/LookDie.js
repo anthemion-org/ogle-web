@@ -20,26 +20,30 @@ import PropTypes from "prop-types";
 // LookDie
 // -------
 
-/** Renders one die within the board. The following props are supported:
+/** Displays the text for one die within the board, and forwards mouse input.
+ *  The following props are supported:
  *
  *  ~ Pos: The board position that contains this instance. This prop is
- *  required.
+ *    required.
  *
- *  ~ Die: The tDie instance to be rendered. This prop is required.
+ *  ~ Die: The tDie instance at this board position. This prop is required.
  *
  *  ~ CkSel: Set to 'true' if this die is selected. This prop is required.
  *
  *  ~ CkEnab: Set to 'true' if this die can be clicked. This prop is required.
  *
- *  ~ uCallTog: A function to be invoked when a die is left-clicked. This prop
- *  is required.
+ *  ~ uCallTog: A function to be invoked when the die is left-clicked. This prop
+ *    is required.
+ *
+ *  ~ uCallClear: A function to be invoked when the die is middle-clicked. This
+ *    prop is required.
+ *
+ *  ~ uCallEnt: A function to be invoked when the die is right-clicked. This
+ *    prop is required.
  */
 export default class LookDie extends React.Component {
 	constructor(aProps) {
 		super(aProps);
-
-		this.state = {
-		};
 
 		this.uHandClick = this.uHandClick.bind(this);
 		this.uHandContext = this.uHandContext.bind(this);
@@ -54,7 +58,7 @@ export default class LookDie extends React.Component {
 				break;
 			// The middle button:
 			case 1:
-				this.props.uCallEnt();
+				this.props.uCallClear();
 				break;
 			// The right button:
 			case 2:
@@ -67,14 +71,22 @@ export default class LookDie extends React.Component {
 		aEvt.preventDefault();
 	}
 
-	componentDidUpdate() {
-	}
-
 	uSty() {
 		return {
 			gridColumnStart: (this.props.Pos.X + 1),
 			gridRowStart: (this.props.Pos.Y + 1)
 		}
+	}
+
+	uBackText() {
+		return (
+			<circle className="BackText"
+				cx="50" cy="50"
+				r={MetrDie.RadSel}
+				stroke="none"
+				fill="#F5EFE9"
+			></circle>
+		);
 	}
 
 	uText() {
@@ -182,78 +194,7 @@ export default class LookDie extends React.Component {
 				onMouseDown={this.uHandClick}
 				onContextMenu={this.uHandContext}
 			>
-				<defs>
-					<clipPath id="ClipCrnNW">
-						<rect
-							width="100" height="100"
-							x="0" y="0"
-							rx="12" ry="12"
-							fill="#000000"
-						></rect>
-					</clipPath>
-					<clipPath id="ClipCrnNE">
-						<rect
-							width="100" height="100"
-							x="0" y="0"
-							rx="12" ry="12"
-							fill="#000000"
-						></rect>
-					</clipPath>
-					<clipPath id="ClipCrnSW">
-						<rect
-							width="100" height="100"
-							x="0" y="0"
-							rx="12" ry="12"
-							fill="#000000"
-						></rect>
-					</clipPath>
-					<clipPath id="ClipCrnSE">
-						<rect
-							width="100" height="100"
-							x="0" y="0"
-							rx="12" ry="12"
-							fill="#000000"
-						></rect>
-					</clipPath>
-				</defs>
-
-				<g className="Crns">
-					<rect className="CrnSE"
-						width="50" height="50"
-						x="50" y="50"
-						rx="0" ry="0"
-						fill="#C7B9AB"
-						clipPath="url(#ClipCrnSE)"
-					></rect>
-					<rect className="CrnSW"
-						width="50" height="50"
-						x="0" y="50"
-						rx="0" ry="0"
-						fill="#EBDDCE"
-						clipPath="url(#ClipCrnSW)"
-					></rect>
-					<rect className="CrnNE"
-						width="50" height="50"
-						x="50" y="0"
-						rx="0" ry="0"
-						fill="#EBDDCE"
-						clipPath="url(#ClipCrnNE)"
-					></rect>
-					<rect className="CrnNW"
-						width="50" height="50"
-						x="0" y="0"
-						rx="0" ry="0"
-						fill="#FFFFFF"
-						clipPath="url(#ClipCrnNW)"
-					></rect>
-				</g>
-
-				<rect className="Face"
-					width="100" height="100"
-					rx="40" ry="40"
-					fill="#F5EFE9"
-				></rect>
-
+				{this.uBackText()}
 				{this.uGroupText()}
 				{this.uSel()}
 				{this.uHov()}
@@ -267,5 +208,7 @@ LookDie.propTypes = {
 	Die: PropTypes.instanceOf(tDie).isRequired,
 	CkSel: PropTypes.bool.isRequired,
 	CkEnab: PropTypes.bool.isRequired,
-	uCallTog: PropTypes.func.isRequired
+	uCallTog: PropTypes.func.isRequired,
+	uCallClear: PropTypes.func.isRequired,
+	uCallEnt: PropTypes.func.isRequired
 };

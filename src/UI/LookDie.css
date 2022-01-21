@@ -3,10 +3,8 @@
 // Copyright ©2022 Jeremy Kelly
 // www.anthemion.org */
 
-.LookDie:hover {
-	cursor: pointer;
+.LookDie {
 }
-
 
 .LookDie .TextSing,
 .LookDie .TextDbl {
