@@ -15,6 +15,11 @@ export class tPt2 {
 		this.Y = aY;
 	}
 
+	/** Returns 'true' if the specified instance is equal to this one. */
+	uCkEq(aPt) {
+		return (aPt.X === this.X) && (aPt.Y === this.Y);
+	}
+
 	/** Returns a new instance that is the sum of this and the specified instance. */
 	uSum(aPt) {
 		return new tPt2((this.X + aPt.X), (this.Y + aPt.Y));

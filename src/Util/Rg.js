@@ -34,7 +34,7 @@ export class tRg {
 	}
 
 	/** Returns 'true' if the specified range is equal to this range. */
-	uCkEqual(aVal) {
+	uCkEq(aVal) {
 		return (aVal.Start === this.Start) && (aVal.End === this.End);
 	}
 

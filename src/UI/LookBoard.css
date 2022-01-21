@@ -4,61 +4,18 @@
 // www.anthemion.org */
 
 #LookBoard {
-	position: relative;
+	/* Using 'vh' prevents the board from changing size when the user zooms.
+	// [to do] */
 	width: 50vh;
 	height: 50vh;
 
 	display: grid;
-	gap: 0.1vh;
-	padding: 0.2vh;
+	gap: 0.2vh;
+	padding: 0.3vh;
 
 	background-color: black;
-	border-radius: 0.9rem;
+	border-radius: 1.5vh;
 }
 
-#LookBoard .X0 {
-	grid-column-start: 1;
-}
-
-#LookBoard .X1 {
-	grid-column-start: 2;
-}
-
-#LookBoard .X2 {
-	grid-column-start: 3;
-}
-
-#LookBoard .X3 {
-	grid-column-start: 4;
-}
-
-#LookBoard .X4 {
-	grid-column-start: 5;
-}
-
-#LookBoard .Y0 {
-	grid-row-start: 1;
-}
-
-#LookBoard .Y1 {
-	grid-row-start: 2;
-}
-
-#LookBoard .Y2 {
-	grid-row-start: 3;
-}
-
-#LookBoard .Y3 {
-	grid-row-start: 4;
-}
-
-#LookBoard .Y4 {
-	grid-row-start: 5;
-}
-
-#LookBoard #Sel {
-	position: absolute;
-	pointer-events: none;
-	left: 0;
-	top: 0;
-}
+/* Each die uses the 'style' attribute to set its own 'grid-column-start' and
+// 'grid-row-start'. */

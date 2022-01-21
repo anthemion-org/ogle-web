@@ -7,12 +7,26 @@
 	cursor: pointer;
 }
 
-.LookDie:hover .DecHov {
-	visibility: visible;
-}
-
-path.From {
+.LookDie path.From {
 	/* These cross from one die to another, and, by default, mousing over the path
 	// select the SVG that generated it, even outside the viewport: */
 	pointer-events: none;
+}
+
+.LookDie:hover .DecHov {
+	visibility: visible;
+	animation-name: DecHovRot;
+	animation-duration: 0.2s;
+	animation-timing-function: linear;
+	animation-iteration-count: infinite;
+}
+
+@keyframes DecHovRot {
+	from {
+		stroke-dashoffset: 0;
+	}
+
+	to {
+		stroke-dashoffset: -6;
+	}
 }

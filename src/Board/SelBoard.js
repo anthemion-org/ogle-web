@@ -63,6 +63,16 @@ export class tSelBoard {
 		this.jNeigh = 0;
 	}
 
+	/** Returns 'true' if the specified board position is part of this selection. */
+	uCkPos(aPos) {
+		let oSel = this;
+		while (oSel) {
+			if (oSel.Pos.uCkEq(aPos)) return true;
+			oSel = oSel.SelPrev;
+		}
+		return false;
+	}
+
 	/** Creates and returns a new instance selecting a board position that is:
 	 *
 	 *  ~ Adjacent to the one selected by this instance;
@@ -108,6 +118,7 @@ function uOff(ajDir) {
 		case 5: return new tPt2(-1, -1);
 		case 6: return new tPt2(0, -1);
 		case 7: return new tPt2(1, -1);
+		default:
+			throw Error("SelBoard uOff: Invalid index");
 	}
-	throw Error("SelBoard uOff: Invalid index");
 }

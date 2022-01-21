@@ -35,9 +35,11 @@ export default class LookDie extends React.Component {
 	componentDidUpdate() {
 	}
 
-	uNamesClass() {
-		// Inline the style instead: [to do]
-		return `LookDie X${this.props.Pos.X} Y${this.props.Pos.Y}`;
+	uSty() {
+		return {
+			gridColumnStart: (this.props.Pos.X + 1),
+			gridRowStart: (this.props.Pos.Y + 1)
+		}
 	}
 
 	uText() {
@@ -103,11 +105,41 @@ export default class LookDie extends React.Component {
 		);
 	}
 
+	uSel() {
+		if (!this.props.CkSel) return null;
+
+		return (
+			<circle className="Sel"
+				cx="50" cy="50"
+				r="40"
+				stroke="#000000"
+				strokeWidth="2px"
+				color="#000000"
+				fill="hsla(30, 50%, 50%, 0.3)"
+			></circle>
+		);
+	}
+
+	uHov() {
+		return (
+			<circle className="DecHov"
+				visibility="hidden"
+				cx="50" cy="50"
+				r="36"
+				stroke="#000000"
+				strokeWidth="2"
+				strokeDasharray="3, 3"
+				color="#000000"
+				fill="none"
+			></circle>
+		);
+	}
+
 	render() {
 		return (
-			// We are setting 'overflow' to 'visible' so the die can draw selection
-			// connectors outside of its own viewport:
-			<svg className={this.uNamesClass()}
+			// Set 'overflow' to 'visible' so the die can draw selection connectors
+			// outside its own viewport:
+			<svg className="LookDie" style={this.uSty()}
 				xmlns="http://www.w3.org/2000/svg"
 				viewBox="0 0 100 100" overflow="visible"
 			>
@@ -184,17 +216,8 @@ export default class LookDie extends React.Component {
 				></rect>
 
 				{this.uGroupText()}
-
-				<circle className="DecHov"
-					visibility="hidden"
-					cx="50" cy="50"
-					r="40"
-					stroke="#000000"
-					strokeWidth="2"
-					strokeDasharray="3, 3"
-					color="#000000"
-					fill="none"
-				></circle>
+				{this.uSel()}
+				{this.uHov()}
 			</svg >
 		);
 	}

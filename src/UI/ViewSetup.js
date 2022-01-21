@@ -138,7 +138,7 @@ const jYieldDef = 2;
  *  match is found. */
 function uIdxYield(aYield) {
 	for (let oj = 0; oj < Yields.length; ++oj)
-		if (Yields[oj][1].uCkEqual(aYield)) return oj;
+		if (Yields[oj][1].uCkEq(aYield)) return oj;
 	return jYieldDef;
 }
 
