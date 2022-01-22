@@ -24,6 +24,8 @@ body {
 	border-top: 1px solid transparent;
 	margin: 0 auto;
 	padding: 0 2rem 2rem 2rem;
+
+	font-family: Georgia, serif;
 }
 
 a {
@@ -160,6 +162,23 @@ input[type="range"]::-moz-range-track {
 
 input[type="range"]:hover::-moz-range-track {
 	background: hsl(0, 60%, 40%);
+}
+
+/* Dialogs
+// ------- */
+
+.ScreenDlg {
+	z-index: 1;
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 100vw;
+	height: 100vh;
+	background-color: hsla(0, 0%, 0%, 0.4);
+
+	/* Center contained dialogs: */
+	display: grid;
+	place-items: center;
 }
 
 /* Modifiers

@@ -18,16 +18,16 @@ test.each([
 	[ new tPt2(4, 3), false ],
 	[ new tPt2(4, 4), false ]
 ])("tRect.uCkContain", (aPos, aCk) => {
-	const oLeftBtm = new tPt2(1, 1);
+	const oLeftTop = new tPt2(1, 1);
 	const oSize = new tPt2(3, 3);
-	const oRect = new tRect(oLeftBtm, oSize);
+	const oRect = new tRect(oLeftTop, oSize);
 	expect(oRect.uCkContain(aPos)).toBe(aCk);
 });
 
 test("tRect.uPosi", () => {
-	const oLeftBtm = new tPt2(1, 1);
+	const oLeftTop = new tPt2(1, 1);
 	const oSize = new tPt2(3, 4);
-	const oRect = new tRect(oLeftBtm, oSize);
+	const oRect = new tRect(oLeftTop, oSize);
 	const oPosi = [ ...oRect.uPosi() ];
 
 	const oPosiExp = [];

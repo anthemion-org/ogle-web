@@ -3,18 +3,31 @@
 // Copyright ©2022 Jeremy Kelly
 // www.anthemion.org */
 
-.ScreenDlg {
-	z-index: 1;
-	position: fixed;
-	left: 0;
-	top: 0;
-	width: 100vw;
-	height: 100vh;
-	background-color: hsla(0, 0%, 0%, 0.4);
+#ViewPlay #BoxEnt {
+	height: 4rem;
 
-	/* Center contained dialogs: */
-	display: grid;
-	place-items: center;
+ 	display: flex;
+	justify-content: space-between;
+	align-items: center;
+
+	border: 1px solid #AAA;
+	border-radius: 0.5rem;
+	padding: 0 1rem;
+	margin-bottom: 1rem;
+}
+
+#ViewPlay #TextInstruct {
+	padding-right: 3rem;
+	font-size: 1.1rem;
+}
+
+#ViewPlay #TextEnt {
+	font-weight: bold;
+	font-size: 2rem;
+}
+
+#ViewPlay #TextEnt::after {
+  content: "_";
 }
 
 #DlgPause {

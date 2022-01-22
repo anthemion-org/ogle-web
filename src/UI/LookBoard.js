@@ -40,78 +40,73 @@ import PropTypes from "prop-types";
  *  ~ uCallEnt: A function to be invoked when the die is right-clicked. This
  *    prop is required.
  */
-export default class LookBoard extends React.Component {
+export default function LookBoard(aProps) {
 	/** Returns 'true' if the specified board position can be selected or
 	 *  unselected. */
-	uCkEnab(aPos) {
-		return !this.props.Sel
-			|| this.props.Sel.uCkAddAt(aPos)
-			|| !!this.props.Sel.SelsByPos.uGet(aPos);
+	function ouCkEnab(aPos) {
+		return !aProps.Sel
+			|| aProps.Sel.uCkAddAt(aPos)
+			|| !!aProps.Sel.SelsByPos.uGet(aPos);
 	}
 
-	uBacksDie() {
+	function ouBacksDie() {
 		const oEls = [];
-		for (let oX = 0; oX < Cfg.WthBoard; ++oX)
-			for (let oY = 0; oY < Cfg.HgtBoard; ++oY) {
-				const oKey = oX + "/" + oY;
-				const oPos = new tPt2(oX, oY);
-				oEls.push(
-					<BackDie key={oKey} Pos={oPos} />
-				);
-			}
+		const oiPosi = Cfg.RectBoard.uPosi();
+		for (const oPos of oiPosi) {
+			const oKey = oPos.X + "/" + oPos.Y;
+			oEls.push(
+				<BackDie key={oKey} Pos={oPos} />
+			);
+		}
 		return oEls;
 	}
 
-	uConnsSel() {
+	function ouConnsSel() {
 		const oEls = [];
-		for (let oX = 0; oX < Cfg.WthBoard; ++oX)
-			for (let oY = 0; oY < Cfg.HgtBoard; ++oY) {
-				const oKey = oX + "/" + oY;
-				const oPos = new tPt2(oX, oY);
-				const oSelAt = this.props.Sel && this.props.Sel.uSelAt(oPos);
-				const oPosFrom = oSelAt?.SelPrev?.Pos;
-				oEls.push(
-					<ConnSel key={oKey} Pos={oPos} PosFrom={oPosFrom} />
-				);
-			}
+		const oiPosi = Cfg.RectBoard.uPosi();
+		for (const oPos of oiPosi) {
+			const oKey = oPos.X + "/" + oPos.Y;
+			const oSelAt = aProps.Sel && aProps.Sel.uSelAt(oPos);
+			const oPosFrom = oSelAt?.SelPrev?.Pos;
+			oEls.push(
+				<ConnSel key={oKey} Pos={oPos} PosFrom={oPosFrom} />
+			);
+		}
 		return oEls;
 	}
 
-	uLooksDie() {
+	function ouLooksDie() {
 		const oEls = [];
-		for (let oX = 0; oX < Cfg.WthBoard; ++oX)
-			for (let oY = 0; oY < Cfg.HgtBoard; ++oY) {
-				const oKey = oX + "/" + oY;
-				const oPos = new tPt2(oX, oY);
-				const oDie = this.props.Board.uDie(oPos);
-				const oSelAt = this.props.Sel && this.props.Sel.uSelAt(oPos);
-				oEls.push(
-					<LookDie key={oKey} Pos={oPos} Die={oDie} CkSel={!!oSelAt}
-						CkEnab={this.uCkEnab(oPos)} uCallTog={this.props.uCallTog}
-						uCallClear={this.props.uCallClear} uCallEnt={this.props.uCallEnt} />
-				);
-			}
+		const oiPosi = Cfg.RectBoard.uPosi();
+		for (const oPos of oiPosi) {
+			const oKey = oPos.X + "/" + oPos.Y;
+			const oDie = aProps.Board.uDie(oPos);
+			const oSelAt = aProps.Sel && aProps.Sel.uSelAt(oPos);
+			oEls.push(
+				<LookDie key={oKey} Pos={oPos} Die={oDie} CkSel={!!oSelAt}
+					CkEnab={ouCkEnab(oPos)} uCallTog={aProps.uCallTog}
+					uCallClear={aProps.uCallClear} uCallEnt={aProps.uCallEnt} />
+			);
+		}
 		return oEls;
 	}
 
-	render() {
-		// There is no way to specify the z-order in SVG, so it is necessary to
-		// render the connection lines after the die backgrounds, and before their
-		// foregrounds. If they were rendered within either of those, lines in
-		// certain directions would overwrite or be overwritten by dice placed
-		// before or after.
-		//
-		// As an alternative, LookDie could adjust the connection start and end
-		// points to meet the selection circles, but it is difficult for that
-		// component to know its neighbors' positions:
-		return (
-			<div id="LookBoard">
-				{this.uBacksDie()}
-				{this.uConnsSel()}
-				{this.uLooksDie()}
-			</div>
-		);
-	}
+	// There is no way to specify the z-order in SVG, so it is necessary to
+	// render the connection lines after the die backgrounds, and before their
+	// foregrounds. If they were rendered within either of those, lines in
+	// certain directions would overwrite or be overwritten by dice placed
+	// before or after.
+	//
+	// As an alternative, LookDie could adjust the connection start and end
+	// points to meet the selection circles, but it is difficult for that
+	// component to know its neighbors' positions:
+	return (
+		<div id="LookBoard">
+			{ouBacksDie()}
+			{ouConnsSel()}
+			{ouLooksDie()}
+		</div>
+	);
 }
 
 LookBoard.propTypes = {

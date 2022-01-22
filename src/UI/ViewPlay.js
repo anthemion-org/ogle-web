@@ -32,10 +32,19 @@ import PropTypes from "prop-types";
  *    required.
  */
 export default function ViewPlay(aProps) {
+
+	// Help
+	// ----
+
+	/** Handles the Help button click. */
+	function ouHandHelp(aEvt) {
+	}
+
+	// Pause dialog
+	// ------------
+
 	/** Set to 'true' if the game is paused. */
 	const [oCkPause, ouSet_CkPause] = useState(false);
-	/** The selection within the board, or 'null' if there is no selection. */
-	const [oSel, ouSet_Sel] = useState(null);
 
 	/** Handles the Pause button click. */
 	function ouHandPause(aEvt) {
@@ -65,6 +74,12 @@ export default function ViewPlay(aProps) {
 			</div>
 		);
 	}
+
+	// Board selection
+	// ---------------
+
+	/** The selection within the board, or 'null' if there is no selection. */
+	const [oSel, ouSet_Sel] = useState(null);
 
 	/** Returns 'true' if the specified board position can be selected or
 	 *  unselected. */
@@ -97,14 +112,44 @@ export default function ViewPlay(aProps) {
 		ouSet_Sel(null);
 	}
 
-	/** Records the board selection as an entry. */
+	/** Records the board selection as a word entry. */
 	function ouEnt_Sel() {
 		ouSet_Sel(null);
 	}
 
+	/** Returns entry box content. */
+	function ouBoxEnt() {
+		let oCont;
+		if (oSel) oCont = (
+			<div id="TextEnt">
+				{oSel.TextAll}
+			</div>
+		);
+		else oCont = (
+			<>
+				<div id="TextInstruct">
+					Enter as many words of <em>four or more letters</em> as you can
+					before time runs out!
+				</div>
+				<button onClick={ouHandHelp}>Help</button>
+			</>
+		);
+
+		return (
+			<div id="BoxEnt">
+				{oCont}
+			</div>
+		);
+	}
+
+	// Component content
+	// -----------------
+
 	return (
 		<div id="ViewPlay">
 			<h1>Ogle</h1>
+
+			{ouBoxEnt()}
 
 			<LookBoard Board={aProps.Board} Sel={oSel} uCallTog={ouTog_Die}
 				uCallClear={ouClear_Sel} uCallEnt={ouEnt_Sel} />
