@@ -3,13 +3,13 @@
 // Copyright ©2022 Jeremy Kelly
 // www.anthemion.org
 
-import { tLex } from "./Lex.js";
+import { ForTest } from "./Lex.js";
 import * as Store from "../Store.js";
 
 test("tLex: Add user words and merge", () => {
 	Store.uSet("WordsUser", []);
 
-	const oLex = new tLex();
+	const oLex = new ForTest.tLex();
 	const oCtOrig = oLex.WordsSearch.length;
 
 	oLex.uAdd_WordUser("aaaaaaaa");
@@ -23,7 +23,7 @@ test("tLex.uCkKnown: Old and new user words", () => {
 	const oWordUserOld = "oooooooo";
 	Store.uSet("WordsUser", [oWordUserOld]);
 
-	const oLex = new tLex();
+	const oLex = new ForTest.tLex();
 
 	expect(oLex.uCkKnown("abacus")).toBe(true);
 	expect(oLex.uCkKnown(oWordUserOld)).toBe(true);

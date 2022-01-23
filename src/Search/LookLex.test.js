@@ -4,14 +4,14 @@
 // www.anthemion.org
 
 import { tLookLex, OutsLook } from "./LookLex.js";
-import { tLex } from "./Lex.js";
+import Lex from "./Lex.js";
 
 test("tLookLex: Enumeration", () => {
-	const oLex = new tLex();
-	const oLookOFull = new tLookLex(oLex.WordsSearch, "o");
+	// 'ogles' is one of the built-in words:
+	const oLookOFull = new tLookLex(Lex.WordsSearch, "o");
 	expect(oLookOFull.uExec(false)).toBe(OutsLook.Miss);
 
-	const oLookO = new tLookLex(oLex.WordsSearch, "o");
+	const oLookO = new tLookLex(Lex.WordsSearch, "o");
 	expect(oLookO.uExec(true)).toBe(OutsLook.Frag);
 
 	const oLookOG = tLookLex.suFromPrev(oLookO, "og");

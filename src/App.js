@@ -11,7 +11,7 @@
 import * as Store from "./Store.js";
 import * as StApp from "./StApp.js";
 import View from "./UI/View.js";
-import { tLex } from "./Search/Lex.js";
+import Lex from "./Search/Lex.js";
 
 import React, { useReducer, useEffect } from "react";
 
@@ -35,8 +35,6 @@ function uNextStApp(aSt, aAct) {
 		throw Error("uNextStApp: Invalid action");
 	return { View: aAct };
 }
-
-const Lex = new tLex();
 
 function uCreate_Board(aSetup) {
 	const Work = new Worker(new URL("./Search/WorkSearch.js", import.meta.url));

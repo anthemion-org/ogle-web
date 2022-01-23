@@ -5,7 +5,7 @@
 
 import * as SearchBoard from "./SearchBoard.js";
 import { tBoard } from "../Board/Board.js";
-import { tLex } from "./Lex.js";
+import Lex from "./Lex.js";
 import { tGenRnd } from "../Util/Rnd.js";
 
 /** A random number generator seed for test searches. */
@@ -45,8 +45,7 @@ const WordsExpDef = [
 test("SearchBoard uExec: Output", () => {
 	const oGenRnd = new tGenRnd(SeedTextDef);
 	const oBoard = new tBoard(oGenRnd);
-	const oLex = new tLex();
-	const oSelsWord = SearchBoard.uExec(oBoard, oLex.WordsSearch);
+	const oSelsWord = SearchBoard.uExec(oBoard, Lex.WordsSearch);
 	const oWords = oSelsWord.map(a => a.TextAll);
 	expect(oWords).toEqual(WordsExpDef);
 });
@@ -58,8 +57,7 @@ test("SearchBoard uExec: Speed", () => {
 	const oTimeStart = Date.now();
 	for (let o = 0; o < oCt; ++o) {
 		const oBoard = new tBoard(oGenRnd);
-		const oLex = new tLex();
-		const oSelsWord = SearchBoard.uExec(oBoard, oLex.WordsSearch);
+		const oSelsWord = SearchBoard.uExec(oBoard, Lex.WordsSearch);
 		expect(oSelsWord.length).toBeGreaterThan(10);
 	}
 	const oTimeEnd = Date.now();

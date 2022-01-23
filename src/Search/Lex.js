@@ -5,7 +5,7 @@
 //
 // Import with:
 //
-//   import { tLex } from "./Lex.js";
+//   import Lex from "./Lex.js";
 //
 
 import * as Search from "../Util/Search.js";
@@ -35,12 +35,7 @@ import WordsOgle from "./WordsOgle.json";
 
 /** Manages the Ogle lexicon, including built-in Ogle words, and user-entered
  *  words. */
-export class tLex {
-	/** Uses the specified POD to create and return a new tLex instance. */
-	static suFromPOD(aPOD) {
-		return new tLex(aPOD.WordsSearch, aPOD.WordsUserPend);
-	}
-
+class tLex {
 	/** Provide no arguments to load searchable words from the WordsOgle file, and
 	 *  from the WordsUser property in the Store. */
 	constructor(aWordsSearch, aWordsUserPend) {
@@ -94,3 +89,10 @@ export class tLex {
 		this.WordsUserPend = [];
 	}
 }
+
+const Lex = new tLex();
+export default Lex;
+
+export const ForTest = {
+	tLex
+};

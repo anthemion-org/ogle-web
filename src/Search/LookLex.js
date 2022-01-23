@@ -13,8 +13,9 @@ import * as Search from "../Util/Search.js";
 // tLookLex
 // --------
 
-/** Stores the state of a binary search within the lexicon, allowing that state
- *  to be extended and shared as the board is enumerated. */
+/** Performs a binary search within the searchable word list, and stores the
+ *  state of that search, allowing it to be extended and shared as the board is
+ *  enumerated. */
 export class tLookLex {
 	/** Returns a new instance that searches for aText, while reusing the search
 	 *  state produced by a previous tLookLex instance. */
@@ -22,7 +23,7 @@ export class tLookLex {
 		return new tLookLex(aLook.Words, aText, aLook.jFore, aLook.jAft);
 	}
 
-	/** Creates an instances that searches lexicon aLex for aText. Leave ajFore
+	/** Creates an instances that searches array aWords for aText. Leave ajFore
 	 *  and ajAft undefined to start a new search. */
 	constructor(aWords, aText, ajFore, ajAft) {
 		/** The words to be searched. */
