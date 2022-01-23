@@ -13,6 +13,7 @@ import * as StApp from "../StApp.js";
 import { tSetup } from "../Setup.js";
 import { tBoard } from "../Board/Board.js";
 import { tSelBoard } from "../Board/SelBoard.js";
+import { tRound } from "../Round.js";
 import LookBoard from "./LookBoard.js";
 import * as ActPlay from "./ActPlay.js";
 
@@ -22,7 +23,7 @@ import PropTypes from "prop-types";
 // ViewPlay
 // --------
 
-/** Implements the Play view. Along with StApp and uDispatStApp, the following
+/** Implements the Play view. Along with StApp and uUpd_StApp, the following
  *  props are supported:
  *
  *  ~ Setup: A tSetup instance that gives the user settings. This prop is
@@ -58,7 +59,7 @@ export default function ViewPlay(aProps) {
 
 	/** Handles the End Round button click. */
 	function ouHandEnd(aEvt) {
-		aProps.uDispatStApp(StApp.Views.Setup);
+		aProps.uUpd_StApp(StApp.Views.Setup);
 	}
 
 	/** Returns the Pause dialog, or 'null' if the game is not paused. */
@@ -84,7 +85,7 @@ export default function ViewPlay(aProps) {
 	/** Returns 'true' if the specified board position can be selected or
 	 *  unselected. */
 	function ouCkEnab(aPos) {
-		return !oSel || oSel.uCkAddAt(aPos) || !!oSel.SelsByPos.uGet(aPos);
+		return !oSel || oSel.uCkTogAt(aPos);
 	}
 
 	/** Toggles the die selection at the specified board position. */
@@ -117,6 +118,9 @@ export default function ViewPlay(aProps) {
 		ouSet_Sel(null);
 	}
 
+	// Component content
+	// -----------------
+
 	/** Returns entry box content. */
 	function ouBoxEnt() {
 		let oCont;
@@ -142,9 +146,6 @@ export default function ViewPlay(aProps) {
 		);
 	}
 
-	// Component content
-	// -----------------
-
 	return (
 		<div id="ViewPlay">
 			<h1>Ogle</h1>
@@ -165,7 +166,7 @@ export default function ViewPlay(aProps) {
 
 ViewPlay.propTypes = {
 	StApp: PropTypes.object.isRequired,
-	uDispatStApp: PropTypes.func.isRequired,
+	uUpd_StApp: PropTypes.func.isRequired,
 	Setup: PropTypes.instanceOf(tSetup).isRequired,
 	Board: PropTypes.instanceOf(tBoard).isRequired
 };

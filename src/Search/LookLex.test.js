@@ -7,11 +7,11 @@ import { tLookLex, OutsLook } from "./LookLex.js";
 import { tLex } from "./Lex.js";
 
 test("tLookLex: Enumeration", () => {
-	const oLex = new tLex;
-	const oLookOFull = new tLookLex(oLex, "o");
+	const oLex = new tLex();
+	const oLookOFull = new tLookLex(oLex.WordsSearch, "o");
 	expect(oLookOFull.uExec(false)).toBe(OutsLook.Miss);
 
-	const oLookO = new tLookLex(oLex, "o");
+	const oLookO = new tLookLex(oLex.WordsSearch, "o");
 	expect(oLookO.uExec(true)).toBe(OutsLook.Frag);
 
 	const oLookOG = tLookLex.suFromPrev(oLookO, "og");

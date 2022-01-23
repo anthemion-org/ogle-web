@@ -15,30 +15,48 @@ import { tBoard } from "./Board/Board.js";
 import ViewSetup from "./UI/ViewSetup";
 import ViewAbout from "./UI/ViewAbout";
 import ViewPlay from "./UI/ViewPlay";
+import { tLex } from "./Search/Lex.js";
 import { tGenRnd } from "./Util/Rnd.js";
 
-import React, { useReducer } from "react";
+import React, { useReducer, useEffect } from "react";
 import PropTypes from "prop-types";
 
-/** The top-level component, to be placed in the Root element within
+/** The top-level application component, to be placed in the Root element within
  *  'index.html'. */
 export default function App() {
 	const oStAppInit = Store.uGet("StApp");
-	const [oStApp, ouDispatStApp] = useReducer(uReducStApp, oStAppInit);
+	const [oStApp, ouUpd_StApp] = useReducer(uNextStApp, oStAppInit);
+
+	function ouStore_StApp() {
+		Store.uSet("StApp", oStApp);
+	}
+	useEffect(ouStore_StApp, [oStApp]);
 
 	return (
-		<View StApp={oStApp} uDispatStApp={ouDispatStApp} />
+		<View StApp={oStApp} uUpd_StApp={ouUpd_StApp} />
 	);
 }
 
+const GenRnd = new tGenRnd();
+const Lex = new tLex();
+
 /** A reducer that manages the top-level application state. */
-function uReducStApp(aSt, aAct) {
+function uNextStApp(aSt, aAct) {
 	if (!StApp.Views[aAct])
 		throw Error("uReducSt: Invalid action");
+	return { View: aAct };
+}
 
-	const oStApp = { View: aAct };
-	Store.uSet("StApp", oStApp);
-	return oStApp;
+function uCreate_Board(aSetup) {
+	const Work = new Worker(new URL("./Search/WorkSearch.js", import.meta.url));
+
+	Work.postMessage({
+		WordsSearch: Lex.WordsSearch,
+		Setup: aSetup
+	});
+	Work.onmessage = function (aMsg) {
+		console.log(aMsg.data.SelsOgle.length);
+	};
 }
 
 /** A component that displays the form or other view corresponding to the
@@ -47,7 +65,7 @@ function uReducStApp(aSt, aAct) {
  *  ~ StApp: The StApp.Views element representing the current state. This prop
  *    is required.
  *
- *  ~ uDispatStApp: A dispatcher that signals application state transitions.
+ *  ~ uUpd_StApp: A dispatcher that signals application state transitions.
  *    This prop is required.
  */
 function View(aProps) {
@@ -71,7 +89,5 @@ function View(aProps) {
 
 View.propTypes = {
 	StApp: PropTypes.object.isRequired,
-	uDispatStApp: PropTypes.func.isRequired
+	uUpd_StApp: PropTypes.func.isRequired
 };
-
-const GenRnd = new tGenRnd();

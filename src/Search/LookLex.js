@@ -19,41 +19,41 @@ export class tLookLex {
 	/** Returns a new instance that searches for aText, while reusing the search
 	 *  state produced by a previous tLookLex instance. */
 	static suFromPrev(aLook, aText) {
-		return new tLookLex(aLook.Lex, aText, aLook.jFore, aLook.jAft);
+		return new tLookLex(aLook.Words, aText, aLook.jFore, aLook.jAft);
 	}
 
 	/** Creates an instances that searches lexicon aLex for aText. Leave ajFore
 	 *  and ajAft undefined to start a new search. */
-	constructor(aLex, aText, ajFore, ajAft) {
-		/** The lexicon to be searched. */
-		this.Lex = aLex;
+	constructor(aWords, aText, ajFore, ajAft) {
+		/** The words to be searched. */
+		this.Words = aWords;
 		/** The text to be sought by this instance. */
 		this.Text = aText;
-		/** The lexicon index before the search window. */
+		/** The word index before the search window. */
 		this.jFore = ajFore ?? -1;
-		/** The lexicon index after the search window. */
-		this.jAft = ajAft ?? aLex.uCtSearch();
+		/** The word index after the search window. */
+		this.jAft = ajAft ?? aWords.length;
 	}
 
-	/** Searches Lex for Text, narrowing the window until a match or a miss is
+	/** Searches Words for Text, narrowing the window until a match or a miss is
 	 *  identified. If aCkStopFrag is 'true', the search will also stop when a
 	 *  fragment is identified. Returns the reason the search stopped. */
 	uExec(aCkStopFrag) {
-		if (this.Lex.uCtSearch() < 1) return OutsLook.Miss;
+		if (this.Words.length < 1) return OutsLook.Miss;
 
 		while (true) {
 			const ojMid = Math.floor((this.jFore + this.jAft) / 2);
-			const oTextLex = this.Lex.uAtSearch(ojMid);
-			const oCompare = uCompare(this.Text, oTextLex);
-			// Text sorts before oTextLex:
+			const oWord = this.Words[ojMid];
+			const oCompare = uCompare(this.Text, oWord);
+			// Text sorts before oWord:
 			if (oCompare < 0) this.jAft = ojMid;
-			// Text sorts after oTextLex:
+			// Text sorts after oWord:
 			else if (oCompare > 0) this.jFore = ojMid;
 			else {
-				if (this.Text === oTextLex) return OutsLook.Match;
+				if (this.Text === oWord) return OutsLook.Match;
 				if (aCkStopFrag) return OutsLook.Frag;
-				// oTextLex begins with the letters in Text, but it is longer, so the
-				// match (if any) must precede ojMid:
+				// oWord begins with the letters in Text, but it is longer, so the match
+				// (if any) must precede ojMid:
 				this.jAft = ojMid;
 			}
 
@@ -64,10 +64,10 @@ export class tLookLex {
 	}
 }
 
-/** Compares aTextLook with aTextLex, and returns a negative number if it sorts
+/** Compares aTextLook with aWord, and returns a negative number if it sorts
  *  before, a positive number if it sorts after, and zero if it matches the
- *  beginning or entirety of aTextLex. */
-function uCompare(aTextLook, aTextLex) {
+ *  beginning or entirety of aWord. */
+function uCompare(aTextLook, aWord) {
 	// aTextLook represents the current board selection. Because the selection
 	// grows as the board is enumerated, we must stop when the search identifies a
 	// set of potential future matches. Going further would narrow and focus the
@@ -75,12 +75,11 @@ function uCompare(aTextLook, aTextLex) {
 	// could cause words near the end of that set to be missed when the selection
 	// grows.
 	//
-	// When aTextLook is longer than aTextLex, we match without truncating, as
-	// aTextLex is necessarily too short to match the sequences following
-	// aTextLook:
-	if (aTextLex.length > aTextLook.length)
-		aTextLex = aTextLex.substr(0, aTextLook.length);
-	return Search.uCompareStr(aTextLook, aTextLex);
+	// When aTextLook is longer than aWord, we match without truncating, as aWord
+	// is necessarily too short to match the sequences following aTextLook:
+	if (aWord.length > aTextLook.length)
+		aWord = aWord.substr(0, aTextLook.length);
+	return Search.uCompareStr(aTextLook, aWord);
 }
 
 /** Stores properties representing word search outcomes. */

@@ -19,7 +19,7 @@ import PropTypes from "prop-types";
 /** The About view. */
 export default function ViewAbout(aProps) {
 	function ouHandOK(aEvt) {
-		aProps.uDispatStApp(StApp.Views.Setup);
+		aProps.uUpd_StApp(StApp.Views.Setup);
 	}
 
 	return (
@@ -64,5 +64,5 @@ export default function ViewAbout(aProps) {
 
 ViewAbout.propTypes = {
 	StApp: PropTypes.object.isRequired,
-	uDispatStApp: PropTypes.func.isRequired
+	uUpd_StApp: PropTypes.func.isRequired
 };

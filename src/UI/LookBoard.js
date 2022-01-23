@@ -44,9 +44,7 @@ export default function LookBoard(aProps) {
 	/** Returns 'true' if the specified board position can be selected or
 	 *  unselected. */
 	function ouCkEnab(aPos) {
-		return !aProps.Sel
-			|| aProps.Sel.uCkAddAt(aPos)
-			|| !!aProps.Sel.SelsByPos.uGet(aPos);
+		return !aProps.Sel || aProps.Sel.uCkTogAt(aPos);
 	}
 
 	function ouBacksDie() {

@@ -30,6 +30,8 @@ export class tSetup {
 	}
 
 	/** Creates and returns an instance after initializing it with untyped data. */
+	//
+	// Replace this with 'suFromPOD': [to do]
 	static suFromData(aData) {
 		return new tSetup(
 			tRg.suFromData(aData.Yield),

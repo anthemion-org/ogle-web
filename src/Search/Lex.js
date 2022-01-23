@@ -22,40 +22,39 @@ import WordsOgle from "./WordsOgle.json";
 // 'Searchable' words include built-in words, plus user-entered words that have
 // been merged. Only these words can be found with the Ogle word search.
 //
-// 'Known' words include built-in words and all user-entered words, including
-// unmerged words. These can be checked with uCkKnown, but they cannot
+// 'Known' words include built-in words and all user-entered words, whether
+// merged or not. These can be checked with uCkKnown, but they cannot
 // necessarily be found with a word search.
 //
 // We distinguish these because the tLook search requires random access to the
 // searchable words, and we don't want to sort those every time the user adds a
-// new word, especially when it is already too late to include those words in
-// the current game. We do want to find the new words if the user re-enters them
-// in the same game, however.
+// new word, especially when it is already too late to include them in the
+// current game. We do want to find the new words if the user re-enters them in
+// the same game, however.
 
 /** Stores the Ogle lexicon, including built-in Ogle words, and user-entered
  *  words. */
 export class tLex {
-	constructor() {
-		const oWordsUser = Store.uGet("WordsUser");
+	/** Uses the specified POD to create and return a new tLex instance. */
+	static suFromPOD(aPOD) {
+		return new tLex(aPOD.WordsSearch, aPOD.WordsUserPend);
+	}
 
-		/** All searchable words. */
-		this.WordsSearch = Array.from(WordsOgle).concat(oWordsUser);
-		this.WordsSearch.sort(Search.uCompareStr);
+	/** Provide no arguments to load searchable words from the WordsOgle file, and
+	 *  from the WordsUser property in the Store. */
+	constructor(aWordsSearch, aWordsUserPend) {
+		if (aWordsSearch)
+			/** All searchable words. This array will be shared with tLookLex when a
+			 *  search is performed. */
+			this.WordsSearch = aWordsSearch;
+		else {
+			const oWordsUser = Store.uGet("WordsUser");
+			this.WordsSearch = Array.from(WordsOgle).concat(oWordsUser);
+			this.WordsSearch.sort(Search.uCompareStr);
+		}
 
 		/** User-entered words that have yet to be merged. */
-		this.WordsUserPend = [];
-	}
-
-	/** Returns the number of searchable words. */
-	uCtSearch() {
-		return this.WordsSearch.length;
-	}
-
-	/** Returns the searchable word at the specified index. */
-	uAtSearch(aj) {
-		if ((aj < 0) || (aj >= this.WordsSearch.length))
-			throw Error("tLex.uAtSearch: Invalid index");
-		return this.WordsSearch[aj];
+		this.WordsUserPend = aWordsUserPend ?? [];
 	}
 
 	/** Returns 'true' if the specified word is known. */

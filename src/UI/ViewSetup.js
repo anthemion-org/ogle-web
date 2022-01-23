@@ -27,7 +27,7 @@ import PropTypes from "prop-types";
 // part of the app.
 
 /** Implements the Setup view, which is displayed when Ogle starts. Along with
- *  StApp and uDispatStApp, the following props are supported:
+ *  StApp and uUpd_StApp, the following props are supported:
  *
  *  ~ Setup: A tSetup instance that stores the original user settings. This prop
  *    is required.
@@ -57,12 +57,12 @@ export default class ViewSetup extends React.Component {
 
 	uHandAbout(aEvt) {
 		aEvt.preventDefault();
-		this.props.uDispatStApp(StApp.Views.About);
+		this.props.uUpd_StApp(StApp.Views.About);
 	}
 
 	uHandPlay(aEvt) {
 		aEvt.preventDefault();
-		this.props.uDispatStApp(StApp.Views.Play);
+		this.props.uUpd_StApp(StApp.Views.Play);
 	}
 
 	componentDidUpdate() {
@@ -114,7 +114,7 @@ export default class ViewSetup extends React.Component {
 
 ViewSetup.propTypes = {
 	StApp: PropTypes.object.isRequired,
-	uDispatStApp: PropTypes.func.isRequired,
+	uUpd_StApp: PropTypes.func.isRequired,
 	Setup: PropTypes.instanceOf(tSetup).isRequired
 };
 

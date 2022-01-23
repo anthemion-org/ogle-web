@@ -59,12 +59,18 @@ export class tSelBoard {
 		return this.SelsByPos.uGet(aPos);
 	}
 
-	/** Returns 'true' if the specified position, can be added to the end of this
+	/** Returns 'true' if the specified position can be added to the end of this
 	 *  selection. */
 	uCkAddAt(aPos) {
 		return Cfg.RectBoard.uCkContain(aPos)
 			&& this.Pos.uCkAdjacent(aPos)
 			&& !this.SelsByPos.uGet(aPos);
+	}
+
+	/** Returns 'true' if the specified position can be selected or unselected. */
+	uCkTogAt(aPos) {
+		return Cfg.RectBoard.uCkContain(aPos)
+			&& (this.uCkAddAt(aPos) || !!this.SelsByPos.uGet(aPos));
 	}
 
 	/** Creates and returns a new instance selecting a board position that is:
