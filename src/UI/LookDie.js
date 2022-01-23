@@ -152,6 +152,9 @@ export default function LookDie(aProps) {
 	}
 
 	function ouMarkEnab() {
+		// The 'strokeDasharray' values, like the 'stroke-dashoffset' animation
+		// attribute, should be chosen to divide evenly into the circumference.
+		// Otherwise, a discontinuity will appear in the circle:
 		return (
 			<circle className="MarkEnab"
 				visibility="hidden"
@@ -159,7 +162,7 @@ export default function LookDie(aProps) {
 				r="36"
 				stroke="#000000"
 				strokeWidth="2"
-				strokeDasharray="3, 3"
+				strokeDasharray="3.14, 3.14"
 				color="#000000"
 				fill="none"
 			></circle>

@@ -14,6 +14,21 @@
 
 .LookDie.CkEnab:hover .MarkEnab {
 	visibility: visible;
+
+	animation-name: DecHovRot;
+	animation-duration: 1s;
+	animation-timing-function: linear;
+	animation-iteration-count: infinite;
+}
+
+@keyframes DecHovRot {
+	from {
+		stroke-dashoffset: 0;
+	}
+
+	to {
+		stroke-dashoffset: -6.28;
+	}
 }
 
 .LookDie.CkEnab:hover .Under {

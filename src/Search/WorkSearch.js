@@ -8,7 +8,6 @@
 //   import { tRound } from "../Round.js";
 //
 
-import { tSetup } from "../Setup.js";
 import { tBoard } from "../Board/Board.js";
 import * as SearchBoard from "./SearchBoard.js";
 import { tGenRnd } from "../Util/Rnd.js";
