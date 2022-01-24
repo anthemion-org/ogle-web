@@ -17,7 +17,7 @@ import LookBoard from "./LookBoard.js";
 import Lex from "../Search/Lex.js";
 import * as ActPlay from "./ActPlay.js";
 
-import { React, useState, useCallback } from "react";
+import { React, useState } from "react";
 import PropTypes from "prop-types";
 
 // ViewPlay
@@ -58,8 +58,8 @@ export default function ViewPlay(aProps) {
 	// ----
 
 	/** Handles the Help button click. */
-	const ouHandHelp = useCallback(aEvt => {
-	}, []);
+	function ouHandHelp(aEvt) {
+	}
 
 	// Pause dialog
 	// ------------
@@ -68,20 +68,20 @@ export default function ViewPlay(aProps) {
 	const [oCkPause, ouSet_CkPause] = useState(false);
 
 	/** Handles the Pause button click. */
-	const ouHandPause = useCallback(aEvt => {
+	function ouHandPause(aEvt) {
 		ouSet_CkPause(true);
-	}, []);
+	}
 
 	/** Handles the Resume button click. */
-	const ouHandResume = useCallback(aEvt => {
+	function ouHandResume(aEvt) {
 		ouSet_CkPause(false);
-	}, []);
+	}
 
 	/** Handles the End Round button click. */
-	const ouHandEnd = useCallback(aEvt => {
+	function ouHandEnd(aEvt) {
 		const oSt = { View: StApp.Views.Setup };
 		aProps.uUpd_StApp(oSt);
-	}, [aProps]);
+	}
 
 	/** Returns the Pause dialog, or 'null' if the game is not paused. */
 	function ouDlgPause() {
@@ -105,12 +105,12 @@ export default function ViewPlay(aProps) {
 
 	/** Returns 'true' if the specified board position can be selected or
 	 *  unselected. */
-	const ouCkEnab = useCallback(aPos => {
+	function ouCkEnab(aPos) {
 		return !oSel || oSel.uCkTogAt(aPos);
-	}, [oSel]);
+	}
 
 	/** Toggles the die selection at the specified board position. */
-	const ouTog_Die = useCallback(aPos => {
+	function ouTog_Die(aPos) {
 		if (!oBoard || !ouCkEnab(aPos)) return;
 
 		if (!oSel) {
@@ -127,17 +127,17 @@ export default function ViewPlay(aProps) {
 
 		const oSelAdd = new tSelBoard(oBoard, aPos, oSel);
 		ouSet_Sel(oSelAdd);
-	}, [oBoard, oSel, ouCkEnab]);
+	}
 
 	/** Clears the board selection. */
-	const ouClear_Sel = useCallback(() => {
+	function ouClear_Sel() {
 		ouSet_Sel(null);
-	}, []);
+	}
 
 	/** Records the board selection as a word entry. */
-	const ouEnt_Sel = useCallback(() => {
+	function ouEnt_Sel() {
 		ouSet_Sel(null);
-	}, []);
+	}
 
 	// Component content
 	// -----------------

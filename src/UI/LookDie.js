@@ -14,7 +14,7 @@ import * as MetrDie from "./MetrDie.js";
 import * as Dir4 from "../Util/Dir4.js";
 import { tPt2 } from "../Util/Pt2.js";
 
-import { React, useCallback } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 
 // LookDie
@@ -42,7 +42,7 @@ import PropTypes from "prop-types";
  *    prop is required.
  */
 export default function LookDie(aProps) {
-	const ouHandClick = useCallback(aEvt => {
+	function ouHandClick(aEvt) {
 		aEvt.preventDefault();
 		switch (aEvt.button) {
 			// The left button:
@@ -58,11 +58,11 @@ export default function LookDie(aProps) {
 				aProps.uCallEnt();
 				break;
 		}
-	}, [aProps]);
+	}
 
-	const ouHandContext = useCallback(aEvt => {
+	function ouHandContext(aEvt) {
 		aEvt.preventDefault();
-	}, []);
+	}
 
 	function ouBackText() {
 		return (

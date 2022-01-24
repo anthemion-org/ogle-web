@@ -33,6 +33,8 @@ Class components versus hooks [to do]
 ~ Classes can derive from PureComponent
 ~ Classes require method binding
 
+'useCallback' makes function components difficult to read, so I am skipping that until I encounter actual performance problems.
+
 'Real' and 'nominal' data [to do]
 
 Implicit duck typing sometimes, explicit parameter type checks other times [to do]

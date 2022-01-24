@@ -13,15 +13,15 @@ import Logo from "./Logo.js";
 import * as StApp from "../StApp.js";
 import * as Cfg from "../Cfg.js";
 
-import { React, useCallback } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 
 /** The About view. */
 export default function ViewAbout(aProps) {
-	const ouHandOK = useCallback(aEvt => {
+	function ouHandOK(aEvt) {
 		const oSt = { View: StApp.Views.Setup };
 		aProps.uUpd_StApp(oSt);
-	}, [aProps]);
+	}
 
 	return (
 		<div id="ViewAbout">
