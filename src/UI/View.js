@@ -12,7 +12,7 @@ import ViewSetup from "./ViewSetup";
 import ViewAbout from "./ViewAbout";
 import ViewPlay from "./ViewPlay";
 import * as StApp from "../StApp.js";
-import { tSetup } from "../Setup.js";
+import { tSetup } from "../Round/Setup.js";
 import { tBoard } from "../Board/Board.js";
 import { tGenRnd } from "../Util/Rnd.js";
 import * as Store from "../Store.js";

@@ -16,7 +16,7 @@
 // untyped data with 'suFromData' methods in the source types.
 
 import * as StApp from "./StApp.js";
-import { tSetup } from "./Setup.js";
+import { tSetup } from "./Round/Setup.js";
 import * as Cfg from "./Cfg.js";
 
 /** Returns the value or object with the specified name, or 'undefined' if no

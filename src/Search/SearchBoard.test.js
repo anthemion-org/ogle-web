@@ -67,6 +67,6 @@ test("SearchBoard uExec: Speed", () => {
 	console.log(`Search time: ${oTimePer}ms`);
 
 	// This will vary on different machines. On mine, the search takes less than
-	// 13ms:
+	// 10ms:
 	expect(oTimePer).toBeLessThan(20);
 });

@@ -37,8 +37,8 @@ export class tSelBoard {
 		let oSelsByPosPrev = aSelPrev
 			? aSelPrev.SelsByPos.uClone()
 			: new tArr2(Cfg.SizeBoard, { Def: null });
-		/** A tArr2 array that references this instance and its predecessors by
-		 *  board position. */
+		/** A tArr2 that references this instance and its predecessors by board
+		 *  position. */
 		this.SelsByPos = oSelsByPosPrev;
 		this.SelsByPos.uSet(aPos, this);
 

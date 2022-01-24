@@ -10,14 +10,15 @@
 
 import "./ViewPlay.css";
 import * as StApp from "../StApp.js";
-import { tSetup } from "../Setup.js";
+import { tSetup } from "../Round/Setup.js";
 import { tBoard } from "../Board/Board.js";
 import { tSelBoard } from "../Board/SelBoard.js";
 import LookBoard from "./LookBoard.js";
 import Lex from "../Search/Lex.js";
+import * as Store from "../Store.js";
 import * as ActPlay from "./ActPlay.js";
 
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
 // ViewPlay
@@ -33,12 +34,16 @@ import PropTypes from "prop-types";
  *    the local storage, or 'null' if no board has been created.
  */
 export default function ViewPlay(aProps) {
-	const [oBoard, ouSet_Board] = useState(aProps.BoardRest);
-	const [oCkSearch, ouSet_CkSearch] = useState(false);
-	const [oSelsOgle, ouSet_SelsOgle] = useState(aProps.SelsOgle);
 
-	if (!oBoard && !oCkSearch) {
-		ouSet_CkSearch(true);
+	// Generate board
+	// --------------
+
+	const [oBoard, ouSet_Board] = useState(aProps.BoardRest);
+	const [oSelsOgle, ouSet_SelsOgle] = useState(aProps.SelsOgleRest);
+	const [oSelsUser, ouSet_SelsUser] = useState(aProps.SelsUserRest);
+
+	function ouCreate_WorkSearch() {
+		if (oBoard) return;
 
 		const Work = new Worker(new URL("../Search/WorkSearch.js",
 			import.meta.url));
@@ -53,6 +58,13 @@ export default function ViewPlay(aProps) {
 			ouSet_SelsOgle(aMsg.data.SelsOgle);
 		};
 	}
+	useEffect(ouCreate_WorkSearch, [aProps.Setup, oBoard]);
+
+	function ouStore_Board() {
+		Store.uSet("Board", oBoard);
+		//Store.uSet("SelsOgle", oSelsOgle);
+	}
+	useEffect(ouStore_Board, [oBoard, oSelsOgle]);
 
 	// Help
 	// ----

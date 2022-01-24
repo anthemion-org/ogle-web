@@ -1,14 +1,9 @@
-// WorkText.js
-// -----------
+// WorkSearch.js
+// -------------
 // Copyright ©2022 Jeremy Kelly
 // www.anthemion.org
-//
-// Import with:
-//
-//   import { tRound } from "../Round.js";
-//
 
-import { tSetup } from "../Setup.js";
+import { tSetup } from "../Round/Setup.js";
 import { tBoard } from "../Board/Board.js";
 import * as SearchBoard from "./SearchBoard.js";
 import { tGenRnd } from "../Util/Rnd.js";

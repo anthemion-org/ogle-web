@@ -5,7 +5,7 @@
 //
 // Import with:
 //
-//   import { tRound } from "../Round.js";
+//   import { tRound } from "./Round/Round.js";
 //
 
 // tRound

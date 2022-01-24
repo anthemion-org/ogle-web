@@ -5,10 +5,10 @@
 //
 // Import with:
 //
-//   import { tSetup } from "../Setup.js";
+//   import { tSetup } from "./Round/Setup.js";
 //
 
-import { tRg } from "./Util/Rg.js";
+import { tRg } from "../Util/Rg.js";
 
 // tSetup
 // ------

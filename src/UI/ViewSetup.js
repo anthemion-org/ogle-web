@@ -11,7 +11,7 @@
 import "./ViewSetup.css";
 import * as Store from "../Store.js";
 import * as StApp from "../StApp.js";
-import { tSetup } from "../Setup.js";
+import { tSetup } from "../Round/Setup.js";
 import { tRg } from "../Util/Rg.js";
 import * as Text from "../Util/Text.js";
 
