@@ -8,7 +8,7 @@
 //   import * as SearchBoard from "./SearchBoard.js";
 //
 
-import { tLookLex, OutsLook } from "./LookLex.js";
+import { tLookText, OutsLook } from "./LookText.js";
 import { tSelBoard } from "../Board/SelBoard.js";
 import * as Cfg from "../Cfg.js";
 
@@ -21,7 +21,7 @@ export function uExec(aBoard, aWords) {
 	const oiPosi = Cfg.RectBoard.uPosi();
 	for (const oPos of oiPosi) {
 		const oSel = new tSelBoard(aBoard, oPos);
-		const oLook = new tLookLex(aWords, oSel.TextAll);
+		const oLook = new tLookText(aWords, oSel.TextAll);
 		// At this point, the board selection contains only one die, so it cannot
 		// generate a valid entry. Lookup instances borrow search window state from
 		// their predecessors, however, so starting the search here will save a few
@@ -33,7 +33,7 @@ export function uExec(aBoard, aWords) {
 	return oSelsWord;
 }
 
-/** Uses the specified tSelBoard amd tLookLex instances to find all word
+/** Uses the specified tSelBoard amd tLookText instances to find all word
  *  selections that begin with aSel, and adds them to aray aSelsWord. */
 function uExecPos(aSel, aLook, aSelsWord) {
 	while (true) {
@@ -41,7 +41,7 @@ function uExecPos(aSel, aLook, aSelsWord) {
 		// All die sequences following this enumerator have been checked:
 		if (!oSelNext) return;
 
-		const oLook = tLookLex.suFromPrev(aLook, oSelNext.TextAll);
+		const oLook = tLookText.suFromPrev(aLook, oSelNext.TextAll);
 		const oOutLook = oLook.uExec(true);
 
 		// No words can follow this descendant of aLook, so continue with the next
@@ -56,7 +56,7 @@ function uExecPos(aSel, aLook, aSelsWord) {
 				// happens, to prevent the search window from narrowing so far that
 				// sequences following the fragment cannot be identified. A fragment
 				// might also be a match, however, so check again without stopping:
-				const oLookFrag = tLookLex.suFromPrev(aLook, oSelNext.TextAll);
+				const oLookFrag = tLookText.suFromPrev(aLook, oSelNext.TextAll);
 				if (oLookFrag.uExec(false) === OutsLook.Match)
 					aSelsWord.push(oSelNext);
 			}

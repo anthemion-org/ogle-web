@@ -40,7 +40,7 @@ class tLex {
 	 *  from the WordsUser property in the Store. */
 	constructor(aWordsSearch, aWordsUserPend) {
 		if (aWordsSearch)
-			/** All searchable words. This array will be shared with tLookLex when a
+			/** All searchable words. This array will be shared with tLookText when a
 			 *  search is performed. */
 			this.WordsSearch = aWordsSearch;
 		else {

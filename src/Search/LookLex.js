@@ -1,26 +1,26 @@
-// LookLex.js
-// ----------
+// LookText.js
+// -----------
 // Copyright ©2022 Jeremy Kelly
 // www.anthemion.org
 //
 // Import with:
 //
-//   import { tLookLex,  } from "./LookLex.js";
+//   import { tLookText } from "./LookText.js";
 //
 
 import * as Search from "../Util/Search.js";
 
-// tLookLex
-// --------
+// tLookText
+// ---------
 
 /** Performs a binary search within the searchable word list, and stores the
  *  state of that search, allowing it to be extended and shared as the board is
  *  enumerated. */
-export class tLookLex {
+export class tLookText {
 	/** Returns a new instance that searches for aText, while reusing the search
-	 *  state produced by a previous tLookLex instance. */
+	 *  state produced by a previous tLookText instance. */
 	static suFromPrev(aLook, aText) {
-		return new tLookLex(aLook.Words, aText, aLook.jFore, aLook.jAft);
+		return new tLookText(aLook.Words, aText, aLook.jFore, aLook.jAft);
 	}
 
 	/** Creates an instances that searches array aWords for aText. Leave ajFore
