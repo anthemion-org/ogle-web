@@ -13,7 +13,7 @@ import * as StApp from "./StApp.js";
 import View from "./UI/View.js";
 import Lex from "./Search/Lex.js";
 
-import React, { useReducer, useEffect } from "react";
+import { React, useReducer, useEffect } from "react";
 
 /** The top-level application component, to be placed in the Root element within
  *  'index.html'. */

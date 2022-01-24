@@ -17,7 +17,7 @@ import { tBoard } from "../Board/Board.js";
 import { tGenRnd } from "../Util/Rnd.js";
 import * as Store from "../Store.js";
 
-import React, { useReducer, useEffect } from "react";
+import { React, useReducer, useEffect } from "react";
 import PropTypes from "prop-types";
 
 // View

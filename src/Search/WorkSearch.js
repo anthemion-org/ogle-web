@@ -19,7 +19,7 @@ onmessage = function (aMsg) {
 	let oSelsOgle;
 	while (true) {
 		oBoard = new tBoard(oGenRnd);
-		oSelsOgle = SearchBoard.uExec(oBoard, aMsg.data.WordsSearch);
+		oSelsOgle = SearchBoard.uExec(aMsg.data.WordsSearch, oBoard);
 		if (aMsg.data.Setup.Yield.uCkContain(oSelsOgle.length)) break;
 	}
 

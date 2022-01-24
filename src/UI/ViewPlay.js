@@ -17,7 +17,7 @@ import { tRound } from "../Round.js";
 import LookBoard from "./LookBoard.js";
 import * as ActPlay from "./ActPlay.js";
 
-import React, { useState } from "react";
+import { React, useState, useCallback } from "react";
 import PropTypes from "prop-types";
 
 // ViewPlay
@@ -38,8 +38,8 @@ export default function ViewPlay(aProps) {
 	// ----
 
 	/** Handles the Help button click. */
-	function ouHandHelp(aEvt) {
-	}
+	const ouHandHelp = useCallback(aEvt => {
+	});
 
 	// Pause dialog
 	// ------------
@@ -48,19 +48,19 @@ export default function ViewPlay(aProps) {
 	const [oCkPause, ouSet_CkPause] = useState(false);
 
 	/** Handles the Pause button click. */
-	function ouHandPause(aEvt) {
+	const ouHandPause = useCallback(aEvt => {
 		ouSet_CkPause(true);
-	}
+	});
 
 	/** Handles the Resume button click. */
-	function ouHandResume(aEvt) {
+	const ouHandResume = useCallback(aEvt => {
 		ouSet_CkPause(false);
-	}
+	});
 
 	/** Handles the End Round button click. */
-	function ouHandEnd(aEvt) {
+	const ouHandEnd = useCallback(aEvt => {
 		aProps.uUpd_StApp(StApp.Views.Setup);
-	}
+	});
 
 	/** Returns the Pause dialog, or 'null' if the game is not paused. */
 	function ouDlgPause() {
@@ -89,7 +89,7 @@ export default function ViewPlay(aProps) {
 	}
 
 	/** Toggles the die selection at the specified board position. */
-	function ouTog_Die(aPos) {
+	const ouTog_Die = useCallback(aPos => {
 		if (!ouCkEnab(aPos)) return;
 
 		if (!oSel) {
@@ -106,17 +106,17 @@ export default function ViewPlay(aProps) {
 
 		const oSelAdd = new tSelBoard(aProps.Board, aPos, oSel);
 		ouSet_Sel(oSelAdd);
-	}
+	});
 
 	/** Clears the board selection. */
-	function ouClear_Sel() {
+	const ouClear_Sel = useCallback(() => {
 		ouSet_Sel(null);
-	}
+	});
 
 	/** Records the board selection as a word entry. */
-	function ouEnt_Sel() {
+	const ouEnt_Sel = useCallback(() => {
 		ouSet_Sel(null);
-	}
+	});
 
 	// Component content
 	// -----------------

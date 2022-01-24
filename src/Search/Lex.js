@@ -36,21 +36,15 @@ import WordsOgle from "./WordsOgle.json";
 /** Manages the Ogle lexicon, including built-in Ogle words, and user-entered
  *  words. */
 class tLex {
-	/** Provide no arguments to load searchable words from the WordsOgle file, and
-	 *  from the WordsUser property in the Store. */
-	constructor(aWordsSearch, aWordsUserPend) {
-		if (aWordsSearch)
-			/** All searchable words. This array will be shared with tLookText when a
-			 *  search is performed. */
-			this.WordsSearch = aWordsSearch;
-		else {
-			const oWordsUser = Store.uGet("WordsUser");
-			this.WordsSearch = Array.from(WordsOgle).concat(oWordsUser);
-			this.WordsSearch.sort(Search.uCompareStr);
-		}
+	constructor() {
+		const oWordsUser = Store.uGet("WordsUser");
+		/** All searchable words. This array will be shared with tLookText when a
+		 *  search is performed. */
+		this.WordsSearch = Array.from(WordsOgle).concat(oWordsUser);
+		this.WordsSearch.sort(Search.uCompareStr);
 
 		/** User-entered words that have yet to be merged. */
-		this.WordsUserPend = aWordsUserPend ?? [];
+		this.WordsUserPend = [];
 	}
 
 	/** Returns 'true' if the specified word is known. */

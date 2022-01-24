@@ -14,7 +14,7 @@ import * as Cfg from "../Cfg.js";
 
 /** Returns an array of tSelBoard instances representing all words in aBoard
  *  that are found in aWords, including duplicates and followed words. */
-export function uExec(aBoard, aWords) {
+export function uExec(aWords, aBoard) {
 	/** The word selections found during the search, including duplicates and
 	 *  followed words. */
 	const oSelsWord = [];
