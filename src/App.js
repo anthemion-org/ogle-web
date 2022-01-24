@@ -11,7 +11,6 @@
 import * as Store from "./Store.js";
 import * as StApp from "./StApp.js";
 import View from "./UI/View.js";
-import Lex from "./Search/Lex.js";
 
 import { React, useReducer, useEffect } from "react";
 
@@ -31,19 +30,8 @@ export default function App() {
 
 /** A reducer that manages the top-level application state. */
 function uNextStApp(aSt, aAct) {
-	if (!StApp.Views[aAct])
+	if (aAct.View && !StApp.Views[aAct.View])
 		throw Error("uNextStApp: Invalid action");
-	return { View: aAct };
-}
 
-function uCreate_Board(aSetup) {
-	const Work = new Worker(new URL("./Search/WorkSearch.js", import.meta.url));
-
-	Work.postMessage({
-		WordsSearch: Lex.WordsSearch,
-		Setup: aSetup
-	});
-	Work.onmessage = function (aMsg) {
-		console.log(aMsg.data.SelsOgle.length);
-	};
+	return { ...aSt, ...aAct };
 }

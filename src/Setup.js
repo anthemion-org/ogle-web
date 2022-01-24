@@ -19,6 +19,17 @@ import { tRg } from "./Util/Rg.js";
 // real terms, and leaves the UI to map those onto specific UI states.
 
 export class tSetup {
+	/** Creates an instance from the specified POD and returns it. */
+	static suFromPOD(aData) {
+		if (!aData) return null;
+
+		return new tSetup(
+			tRg.suFromPOD(aData.Yield),
+			aData.PaceStart,
+			aData.PaceBonus
+		);
+	}
+
 	/** Creates and returns an instance containing default values. */
 	static suDef() {
 		// These values will be ignored by the Setup view unless they match the
@@ -26,17 +37,6 @@ export class tSetup {
 		return new tSetup(
 			new tRg(100, Infinity),
 			30, 5
-		);
-	}
-
-	/** Creates and returns an instance after initializing it with untyped data. */
-	//
-	// Replace this with 'suFromPOD': [to do]
-	static suFromData(aData) {
-		return new tSetup(
-			tRg.suFromData(aData.Yield),
-			aData.PaceStart,
-			aData.PaceBonus
 		);
 	}
 

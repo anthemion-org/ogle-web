@@ -10,11 +10,13 @@
 
 /** Represents an integer range. */
 export class tRg {
-	/** Creates and returns an instance after initializing it with untyped data. */
-	static suFromData(aData) {
+	/** Creates an instance from the specified POD and returns it. */
+	static suFromPOD(aPOD) {
+		if (!aPOD) return null;
+
 		// Recall that 'JSON.stringify' writes Infinity as 'null':
-		const oStart = (aData.Start === null) ? -Infinity : aData.Start;
-		const oEnd = (aData.End === null) ? Infinity : aData.End;
+		const oStart = (aPOD.Start === null) ? -Infinity : aPOD.Start;
+		const oEnd = (aPOD.End === null) ? Infinity : aPOD.End;
 		return new tRg(oStart, oEnd);
 	}
 

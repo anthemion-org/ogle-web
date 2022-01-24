@@ -38,9 +38,9 @@ export default class ViewSetup extends React.Component {
 
 		this.state = {
 			/** The selected Yields index. */
-			jYield: uIdxYield(aProps.Setup.Yield),
+			jYield: uIdxYield(aProps.SetupRest),
 			/** The selected Paces index. */
-			jPace: uIdxPace(aProps.Setup.PaceStart, aProps.Setup.PaceBonus)
+			jPace: uIdxPace(aProps.SetupRest)
 		};
 
 		this.uHandChg = this.uHandChg.bind(this);
@@ -57,12 +57,16 @@ export default class ViewSetup extends React.Component {
 
 	uHandAbout(aEvt) {
 		aEvt.preventDefault();
-		this.props.uUpd_StApp(StApp.Views.About);
+
+		const oSt = { View: StApp.Views.About };
+		this.props.uUpd_StApp(oSt);
 	}
 
 	uHandPlay(aEvt) {
 		aEvt.preventDefault();
-		this.props.uUpd_StApp(StApp.Views.Play);
+
+		const oSt = { View: StApp.Views.Play };
+		this.props.uUpd_StApp(oSt);
 	}
 
 	componentDidUpdate() {
@@ -115,7 +119,7 @@ export default class ViewSetup extends React.Component {
 ViewSetup.propTypes = {
 	StApp: PropTypes.object.isRequired,
 	uUpd_StApp: PropTypes.func.isRequired,
-	Setup: PropTypes.instanceOf(tSetup).isRequired
+	SetupRest: PropTypes.instanceOf(tSetup).isRequired
 };
 
 // Yield data
@@ -133,11 +137,11 @@ const Yields = [
  *  the form settings. */
 const jYieldDef = 2;
 
-/** Returns the Yields index that matches aYield, or the default index, if no
+/** Returns the Yields index that matches aSetup, or the default index, if no
  *  match is found. */
-function uIdxYield(aYield) {
+function uIdxYield(aSetup) {
 	for (let oj = 0; oj < Yields.length; ++oj)
-		if (Yields[oj][1].uCkEq(aYield)) return oj;
+		if (Yields[oj][1].uCkEq(aSetup.Yield)) return oj;
 	return jYieldDef;
 }
 
@@ -173,12 +177,14 @@ const Paces = [
  *  form settings. */
 const jPaceDef = 2;
 
-/** Returns the Paces index that matches aPaceStart and aPaceBonus, or the
- *  default index, if no match is found. */
-function uIdxPace(aPaceStart, aPaceBonus) {
+/** Returns the Paces index that matches aSetup, or the default index, if no
+ *  match is found. */
+function uIdxPace(aSetup) {
 	for (let oj = 0; oj < Paces.length; ++oj) {
 		const [, oPaceStart, oPaceBonus] = Paces[oj];
-		if ((oPaceStart === aPaceStart) && (oPaceBonus === aPaceBonus)) return oj;
+		if ((oPaceStart === aSetup.PaceStart)
+			&& (oPaceBonus === aSetup.PaceBonus))
+			return oj;
 	}
 	return jPaceDef;
 }

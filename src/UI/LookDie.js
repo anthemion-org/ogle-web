@@ -58,11 +58,11 @@ export default function LookDie(aProps) {
 				aProps.uCallEnt();
 				break;
 		}
-	});
+	}, [aProps]);
 
 	const ouHandContext = useCallback(aEvt => {
 		aEvt.preventDefault();
-	});
+	}, []);
 
 	function ouBackText() {
 		return (

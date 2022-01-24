@@ -7,6 +7,7 @@ import * as SearchBoard from "./SearchBoard.js";
 import { tBoard } from "../Board/Board.js";
 import Lex from "./Lex.js";
 import { tGenRnd } from "../Util/Rnd.js";
+import * as Search from "../Util/Search.js";
 
 /** A random number generator seed for test searches. */
 const SeedTextDef = "OGLE";
@@ -41,12 +42,13 @@ const WordsExpDef = [
 	"slot", "slain", "slang", "slangy", "slag", "slant", "slanting", "slat",
 	"slating", "slam", "snag", "snit"
 ];
+WordsExpDef.sort(Search.uCompareStr);
 
 test("SearchBoard uExec: Output", () => {
 	const oGenRnd = new tGenRnd(SeedTextDef);
-	const oBoard = new tBoard(oGenRnd);
+	const oBoard = tBoard.suFromRnd(oGenRnd);
 	const oSelsWord = SearchBoard.uExec(Lex.WordsSearch, oBoard);
-	const oWords = oSelsWord.map(a => a.TextAll);
+	const oWords = oSelsWord.map(a => a.TextAll).sort(Search.uCompareStr);
 	expect(oWords).toEqual(WordsExpDef);
 });
 
@@ -56,7 +58,7 @@ test("SearchBoard uExec: Speed", () => {
 
 	const oTimeStart = Date.now();
 	for (let o = 0; o < oCt; ++o) {
-		const oBoard = new tBoard(oGenRnd);
+		const oBoard = tBoard.suFromRnd(oGenRnd);
 		const oSelsWord = SearchBoard.uExec(Lex.WordsSearch, oBoard);
 		expect(oSelsWord.length).toBeGreaterThan(10);
 	}

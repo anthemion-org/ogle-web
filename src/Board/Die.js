@@ -12,6 +12,13 @@ import * as Dir4 from "../Util/Dir4.js";
 
 /** Represents one die within the board. */
 export class tDie {
+	/** Creates an instance from the specified POD and returns it. */
+	static suFromPOD(aPOD) {
+		if (!aPOD) return null;
+
+		return new tDie(aPOD.Text, Dir4.Vals[aPOD.Dir4]);
+	}
+
 	/** Creates an instance with the specified text and orientation. Throws if
 	 *  aDir4 is not a member of Dir4.Vals. */
 	constructor(aText, aDir4) {
@@ -23,6 +30,6 @@ export class tDie {
 		this.CkUnder = ["L", "T", "N", "Z", "W"].includes(aText);
 
 		if (!Dir4.uCk(this.Dir4))
-			throw Error("tDie: Invalid direction");
+			throw Error(`tDie: Invalid direction '${this.Dir4}'`);
 	}
 }

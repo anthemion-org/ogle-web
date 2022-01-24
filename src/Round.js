@@ -10,6 +10,8 @@
 
 // tRound
 // ------
+// What is this for? Surely we won't store selections from past games? Only
+// high-scoring games will be stored, but still.
 
 export class tRound {
 	constructor(aSetup, aBoard, aSelsOgle, aSelsPlay) {

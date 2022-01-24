@@ -23,7 +23,7 @@ export const SizeBoard = new tPt2(WthBoard, HgtBoard);
 /** The board rectangle, in dice. */
 export const RectBoard = new tRect(new tPt2(0, 0), SizeBoard);
 
-/** The total die count. */
+/** The number of dice in the board. */
 export const CtDie = WthBoard * HgtBoard;
 
 /** The shortest allowable word, in letters. Recall that the 'Qu' die counts as

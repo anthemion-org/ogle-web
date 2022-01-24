@@ -35,19 +35,17 @@ import PropTypes from "prop-types";
 export default function View(aProps) {
 	switch (aProps.StApp.View) {
 		case StApp.Views.Setup: {
-			const oSetup = tSetup.suFromData(Store.uGet("Setup"));
-			return <ViewSetup Setup={oSetup} {...aProps} />;
+			const oSetup = tSetup.suFromPOD(Store.uGet("Setup"));
+			return <ViewSetup SetupRest={oSetup} {...aProps} />;
 		}
 
 		case StApp.Views.About:
 			return <ViewAbout {...aProps} />;
 
 		case StApp.Views.Play: {
-			const oSetup = tSetup.suFromData(Store.uGet("Setup"));
-
-			const oGenRnd = new tGenRnd();
-			const oBoard = new tBoard(oGenRnd);
-			return <ViewPlay Setup={oSetup} Board={oBoard} {...aProps} />;
+			const oSetup = tSetup.suFromPOD(Store.uGet("Setup"));
+			const oBoard = tBoard.suFromPOD(Store.uGet("Board"));
+			return <ViewPlay Setup={oSetup} BoardRest={oBoard} {...aProps} />;
 		}
 	}
 	throw Error("View: Invalid view");

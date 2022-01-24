@@ -19,8 +19,9 @@ import PropTypes from "prop-types";
 /** The About view. */
 export default function ViewAbout(aProps) {
 	const ouHandOK = useCallback(aEvt => {
-		aProps.uUpd_StApp(StApp.Views.Setup);
-	});
+		const oSt = { View: StApp.Views.Setup };
+		aProps.uUpd_StApp(oSt);
+	}, [aProps]);
 
 	return (
 		<div id="ViewAbout">
