@@ -28,9 +28,9 @@ import PropTypes from "prop-types";
  *
  *  ~ Die: The tDie instance at this board position. This prop is required.
  *
- *  ~ CkSel: Set to 'true' if this die is selected. This prop is required.
+ *  ~ CkSel: Set to 'true' if this die is selected.
  *
- *  ~ CkEnab: Set to 'true' if this die can be clicked. This prop is required.
+ *  ~ CkEnab: Set to 'true' if this die can be clicked.
  *
  *  ~ uCallTog: A function to be invoked when the die is left-clicked. This prop
  *    is required.
@@ -38,7 +38,7 @@ import PropTypes from "prop-types";
  *  ~ uCallClear: A function to be invoked when the die is middle-clicked. This
  *    prop is required.
  *
- *  ~ uCallEnt: A function to be invoked when the die is right-clicked. This
+ *  ~ uCallRecord: A function to be invoked when the die is right-clicked. This
  *    prop is required.
  */
 export default function LookDie(aProps) {
@@ -55,7 +55,7 @@ export default function LookDie(aProps) {
 				break;
 			// The right button:
 			case 2:
-				aProps.uCallEnt();
+				aProps.uCallRecord();
 				break;
 		}
 	}
@@ -198,9 +198,9 @@ export default function LookDie(aProps) {
 LookDie.propTypes = {
 	Pos: PropTypes.instanceOf(tPt2).isRequired,
 	Die: PropTypes.instanceOf(tDie).isRequired,
-	CkSel: PropTypes.bool.isRequired,
-	CkEnab: PropTypes.bool.isRequired,
+	CkSel: PropTypes.bool,
+	CkEnab: PropTypes.bool,
 	uCallTog: PropTypes.func.isRequired,
 	uCallClear: PropTypes.func.isRequired,
-	uCallEnt: PropTypes.func.isRequired
+	uCallRecord: PropTypes.func.isRequired
 };

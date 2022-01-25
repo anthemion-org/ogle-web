@@ -12,7 +12,7 @@ import "./ViewPlay.css";
 import * as StApp from "../StApp.js";
 import { tSetup } from "../Round/Setup.js";
 import { tBoard } from "../Board/Board.js";
-import { tSelBoard } from "../Board/SelBoard.js";
+import { tEntWord } from "../Round/EntWord.js";
 import LookBoard from "./LookBoard.js";
 import Lex from "../Search/Lex.js";
 import * as Store from "../Store.js";
@@ -39,8 +39,8 @@ export default function ViewPlay(aProps) {
 	// --------------
 
 	const [oBoard, ouSet_Board] = useState(aProps.BoardRest);
-	const [oSelsOgle, ouSet_SelsOgle] = useState(aProps.SelsOgleRest);
-	const [oSelsUser, ouSet_SelsUser] = useState(aProps.SelsUserRest);
+	const [oEntsOgle, ouSet_EntsOgle] = useState(aProps.EntsOgleRest);
+	const [oEntsUser, ouSet_EntsUser] = useState(aProps.EntsUserRest);
 
 	function ouCreate_WorkSearch() {
 		if (oBoard) return;
@@ -55,16 +55,16 @@ export default function ViewPlay(aProps) {
 
 		Work.onmessage = function (aMsg) {
 			ouSet_Board(tBoard.suFromPOD(aMsg.data.Board));
-			ouSet_SelsOgle(aMsg.data.SelsOgle);
+			ouSet_EntsOgle(aMsg.data.EntsOgle);
 		};
 	}
 	useEffect(ouCreate_WorkSearch, [aProps.Setup, oBoard]);
 
 	function ouStore_Board() {
 		Store.uSet("Board", oBoard);
-		//Store.uSet("SelsOgle", oSelsOgle);
+		Store.uSet("EntsOgle", oEntsOgle);
 	}
-	useEffect(ouStore_Board, [oBoard, oSelsOgle]);
+	useEffect(ouStore_Board, [oBoard, oEntsOgle]);
 
 	// Help
 	// ----
@@ -113,42 +113,44 @@ export default function ViewPlay(aProps) {
 	// ---------------
 
 	/** The selection within the board, or 'null' if there is no selection. */
-	const [oSel, ouSet_Sel] = useState(null);
+	const [oEnt, ouSet_Ent] = useState(null);
 
 	/** Returns 'true' if the specified board position can be selected or
 	 *  unselected. */
 	function ouCkEnab(aPos) {
-		return !oSel || oSel.uCkTogAt(aPos);
+		return !oEnt || oEnt.uCkTogAt(aPos);
 	}
 
 	/** Toggles the die selection at the specified board position. */
 	function ouTog_Die(aPos) {
 		if (!oBoard || !ouCkEnab(aPos)) return;
 
-		if (!oSel) {
-			const oSelNew = new tSelBoard(oBoard, aPos);
-			ouSet_Sel(oSelNew);
+		if (!oEnt) {
+			const oText = oBoard.uDie(aPos).Text;
+			const oEntNew = tEntWord.suFromPosText(aPos, oText);
+			ouSet_Ent(oEntNew);
 			return;
 		}
 
-		const oSelAt = oSel.SelsByPos.uGet(aPos);
-		if (oSelAt) {
-			ouSet_Sel(oSelAt.SelPrev);
+		if (oEnt.uCkAt(aPos)) {
+			const oEntPrev = oEnt.uEntPrev(aPos);
+			ouSet_Ent(oEntPrev);
 			return;
 		}
 
-		const oSelAdd = new tSelBoard(oBoard, aPos, oSel);
-		ouSet_Sel(oSelAdd);
+		const oText = oBoard.uDie(aPos).Text;
+		const oEntAdd = tEntWord.suFromPosText(aPos, oText, oEnt);
+		ouSet_Ent(oEntAdd);
 	}
 
 	/** Clears the board selection. */
-	function ouClear_Sel() {
-		ouSet_Sel(null);
+	function ouClear_Ent() {
+		ouSet_Ent(null);
 	}
 
 	/** Records the board selection as a word entry. */
-	function ouEnt_Sel() {
-		ouSet_Sel(null);
+	function ouRecord_Ent() {
+		ouSet_Ent(null);
 	}
 
 	// Component content
@@ -157,9 +159,9 @@ export default function ViewPlay(aProps) {
 	/** Returns entry box content. */
 	function ouBoxEnt() {
 		let oCont;
-		if (oSel) oCont = (
+		if (oEnt) oCont = (
 			<div id="TextEnt">
-				{oSel.TextAll}
+				{oEnt.uTextAll()}
 			</div>
 		);
 		else oCont = (
@@ -181,8 +183,8 @@ export default function ViewPlay(aProps) {
 
 	function ouLookBoard() {
 		if (oBoard) return (
-			<LookBoard Board={oBoard} Sel={oSel} uCallTog={ouTog_Die}
-				uCallClear={ouClear_Sel} uCallEnt={ouEnt_Sel} />
+			<LookBoard Board={oBoard} Ent={oEnt} uCallTog={ouTog_Die}
+				uCallClear={ouClear_Ent} uCallRecord={ouRecord_Ent} />
 		);
 
 		return (

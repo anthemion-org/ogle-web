@@ -14,10 +14,10 @@
 // high-scoring games will be stored, but still.
 
 export class tRound {
-	constructor(aSetup, aBoard, aSelsOgle, aSelsPlay) {
+	constructor(aSetup, aBoard, aEntsOgle, aEntsPlay) {
 		this.Setup = aSetup;
 		this.Board = aBoard;
-		this.SelsOgle = aSelsOgle;
-		this.SelsPlay = aSelsPlay;
+		this.EntsOgle = aEntsOgle;
+		this.EntsPlay = aEntsPlay;
 	}
 }

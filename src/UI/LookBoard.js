@@ -28,7 +28,7 @@ import PropTypes from "prop-types";
  *  ~ Board: A tBoard instance representing the board to be played. This prop is
  *    required.
  *
- *  ~ Sel: A tSelBoard instance representing the board selection, or 'undefined'
+ *  ~ Ent: A tEntWord instance representing the board selection, or 'undefined'
  *    if there is no selection.
  *
  *  ~ uCallTog: A function to be invoked when the die is left-clicked. This prop
@@ -37,14 +37,14 @@ import PropTypes from "prop-types";
  *  ~ uCallClear: A function to be invoked when the die is middle-clicked. This
  *    prop is required.
  *
- *  ~ uCallEnt: A function to be invoked when the die is right-clicked. This
+ *  ~ uCallRecord: A function to be invoked when the die is right-clicked. This
  *    prop is required.
  */
 export default function LookBoard(aProps) {
 	/** Returns 'true' if the specified board position can be selected or
 	 *  unselected. */
 	function ouCkEnab(aPos) {
-		return !aProps.Sel || aProps.Sel.uCkTogAt(aPos);
+		return !aProps.Ent || aProps.Ent.uCkTogAt(aPos);
 	}
 
 	function ouBacksDie() {
@@ -64,8 +64,7 @@ export default function LookBoard(aProps) {
 		const oiPosi = Cfg.RectBoard.uPosi();
 		for (const oPos of oiPosi) {
 			const oKey = oPos.X + "/" + oPos.Y;
-			const oSelAt = aProps.Sel && aProps.Sel.uSelAt(oPos);
-			const oPosFrom = oSelAt?.SelPrev?.Pos;
+			const oPosFrom = aProps.Ent && aProps.Ent.uPosPrev(oPos);
 			oEls.push(
 				<ConnSel key={oKey} Pos={oPos} PosFrom={oPosFrom} />
 			);
@@ -79,11 +78,11 @@ export default function LookBoard(aProps) {
 		for (const oPos of oiPosi) {
 			const oKey = oPos.X + "/" + oPos.Y;
 			const oDie = aProps.Board.uDie(oPos);
-			const oSelAt = aProps.Sel && aProps.Sel.uSelAt(oPos);
+			const oCkSel = aProps.Ent && aProps.Ent.uCkAt(oPos);
 			oEls.push(
-				<LookDie key={oKey} Pos={oPos} Die={oDie} CkSel={!!oSelAt}
+				<LookDie key={oKey} Pos={oPos} Die={oDie} CkSel={oCkSel}
 					CkEnab={ouCkEnab(oPos)} uCallTog={aProps.uCallTog}
-					uCallClear={aProps.uCallClear} uCallEnt={aProps.uCallEnt} />
+					uCallClear={aProps.uCallClear} uCallRecord={aProps.uCallRecord} />
 			);
 		}
 		return oEls;

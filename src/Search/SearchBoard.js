@@ -33,11 +33,11 @@ export function uExec(aWords, aBoard) {
 	return oSelsWord;
 }
 
-/** Uses the specified tSelBoard amd tLookText instances to find all word
+/** Uses the specified tSelBoard and tLookText instances to find all word
  *  selections that begin with aSel, and adds them to aray aSelsWord. */
-function uExecPos(aSel, aLook, aSelsWord) {
+function uExecPos(aSelBoard, aLook, aSelsWord) {
 	while (true) {
-		const oSelNext = aSel.uNext();
+		const oSelNext = aSelBoard.uNext();
 		// All die sequences following this enumerator have been checked:
 		if (!oSelNext) return;
 

@@ -6,6 +6,7 @@
 import { tSetup } from "../Round/Setup.js";
 import { tBoard } from "../Board/Board.js";
 import * as SearchBoard from "./SearchBoard.js";
+import { tEntWord } from "../Round/EntWord.js";
 import { tGenRnd } from "../Util/Rnd.js";
 
 onmessage = function (aMsg) {
@@ -13,15 +14,18 @@ onmessage = function (aMsg) {
 	const oSetup = tSetup.suFromPOD(aMsg.data.Setup);
 
 	let oBoard;
-	let oSelsOgle;
+	let oEntsOgle;
 	while (true) {
 		oBoard = tBoard.suFromRnd(oGenRnd);
-		oSelsOgle = SearchBoard.uExec(aMsg.data.WordsSearch, oBoard);
-		if (oSetup.Yield.uCkContain(oSelsOgle.length)) break;
+		const oSelsOgle = SearchBoard.uExec(aMsg.data.WordsSearch, oBoard);
+		if (oSetup.Yield.uCkContain(oSelsOgle.length)) {
+			oEntsOgle = oSelsOgle.map(o => o.uEntWord());
+			break;
+		}
 	}
 
 	postMessage({
 		Board: oBoard,
-		SelsOgle: oSelsOgle
+		EntsOgle: oEntsOgle
 	});
 };

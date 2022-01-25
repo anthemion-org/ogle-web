@@ -5,9 +5,10 @@
 //
 // Import with:
 //
-//   import { tSelBoard } from "./SelBoard.js";
+//   import { tSelBoard } from "./Board/SelBoard.js";
 //
 
+import { tEntWord } from "../Round/EntWord.js";
 import { tPt2 } from "../Util/Pt2.js";
 import { tArr2 } from "../Util/Arr2.js";
 import * as Cfg from "../Cfg.js";
@@ -16,10 +17,14 @@ import * as Cfg from "../Cfg.js";
 // ---------
 
 /** Represents a single board selection, for use when enumerating board content
- *  during the Ogle word search, or during play. Each instance represents a
- *  single die selection, which adds one or two letters to the selected text.
- *  The instance also references an optional predecessor instance. Together, the
- *  last instance and its predecessors give the entire selection. */
+ *  during the Ogle word search. Each instance represents a single die
+ *  selection, which adds one or two letters to the selected text. The instance
+ *  also references an optional predecessor. Together, the last instance and its
+ *  predecessors define the entire selection.
+ *
+ *  Because most instances reference other instances, this class produces
+ *  verbose output when serialized with 'JSON.stringify'. Simpler output is
+ *  produced by tEntWord, which stores similar data, but is not as fast. */
 export class tSelBoard {
 	/** Set aSelPrev to the instance that should precede this instance in the
 	 *  selection, or leave it undefined to start a new selection. */
@@ -30,47 +35,27 @@ export class tSelBoard {
 		this.Pos = aPos;
 		/** The selection instance that precedes this one, or 'null' if this is the
 		 *  first. Recall that preceding instances in the selection chain will not
-		 *  have SelsByPos or TextAll values that include later instances, such as
+		 *  have CksByPos or TextAll values that include later instances, such as
 		 *  this one defining this reference. */
 		this.SelPrev = aSelPrev ?? null;
 
-		let oSelsByPosPrev = aSelPrev
-			? aSelPrev.SelsByPos.uClone()
-			: new tArr2(Cfg.SizeBoard, { Def: null });
-		/** A tArr2 that references this instance and its predecessors by board
-		 *  position. */
-		this.SelsByPos = oSelsByPosPrev;
-		this.SelsByPos.uSet(aPos, this);
+		let oCksByPosPrev = aSelPrev
+			? aSelPrev.CksByPos.uClone()
+			: new tArr2(Cfg.SizeBoard, { Def: false });
+		/** A tArr2 instance that references this instance and its predecessors, by
+		 *  board position. */
+		this.CksByPos = oCksByPosPrev;
+		this.CksByPos.uSet(aPos, true);
 
-		const oDiePos = aBoard.uDie(aPos);
-		const oTextPos = oDiePos.Text.toLowerCase();
+		const oDie = aBoard.uDie(aPos);
+		const oText = oDie.Text.toLowerCase();
 		/** The text selected by this instance and its predecessors, in lowercase.
 		 *  Recall that the 'Qu' die counts as two letters, not one. */
-		this.TextAll = aSelPrev ? (aSelPrev.TextAll + oTextPos) : oTextPos;
+		this.TextAll = aSelPrev ? (aSelPrev.TextAll + oText) : oText;
 
 		/** The index of the selection neighbor that should follow this one when
 		 *  enumerating. This index will increment as uNext is called. */
 		this.jNeighNext = 0;
-	}
-
-	/** Returns the tSelBoard instance at the specified position, or 'null' if the
-	 *  position is not selected by this instance or its predecessors. */
-	uSelAt(aPos) {
-		return this.SelsByPos.uGet(aPos);
-	}
-
-	/** Returns 'true' if the specified position can be added to the end of this
-	 *  selection. */
-	uCkAddAt(aPos) {
-		return Cfg.RectBoard.uCkContain(aPos)
-			&& this.Pos.uCkAdjacent(aPos)
-			&& !this.SelsByPos.uGet(aPos);
-	}
-
-	/** Returns 'true' if the specified position can be selected or unselected. */
-	uCkTogAt(aPos) {
-		return Cfg.RectBoard.uCkContain(aPos)
-			&& (this.uCkAddAt(aPos) || !!this.SelsByPos.uGet(aPos));
 	}
 
 	/** Creates and returns a new instance selecting a board position that is:
@@ -91,6 +76,22 @@ export class tSelBoard {
 		const oPosNext = uPosNext(this, this.jNeighNext++);
 		return oPosNext ? new tSelBoard(this.Board, oPosNext, this) : null;
 	}
+
+	/** Returns a tEntWord instance representing this selection. */
+	uEntWord() {
+		let oSel = this;
+		const oPosi = [];
+		const oTexts = [];
+		while (oSel) {
+			oPosi.push(oSel.Pos);
+
+			const oDie = this.Board.uDie(oSel.Pos);
+			oTexts.push(oDie.Text);
+
+			oSel = oSel.SelPrev;
+		}
+		return new tEntWord(oPosi, oTexts);
+	}
 }
 
 /** Returns the first available adjacent position after skipping ajNeigh valid
@@ -103,7 +104,7 @@ function uPosNext(aSel, ajNeigh) {
 	for (let ojDir = 0; ojDir < 8; ++ojDir) {
 		const oOff = uOff(ojDir);
 		const oPos = aSel.Pos.uSum(oOff);
-		if (Cfg.RectBoard.uCkContain(oPos) && !aSel.SelsByPos.uGet(oPos)) {
+		if (Cfg.RectBoard.uCkContain(oPos) && !aSel.CksByPos.uGet(oPos)) {
 			if (ajNeigh < 1) return oPos;
 			--ajNeigh;
 		}
