@@ -83,10 +83,10 @@ export class tSelBoard {
 		const oPosi = [];
 		const oTexts = [];
 		while (oSel) {
-			oPosi.push(oSel.Pos);
+			oPosi.unshift(oSel.Pos);
 
 			const oDie = this.Board.uDie(oSel.Pos);
-			oTexts.push(oDie.Text);
+			oTexts.unshift(oDie.Text);
 
 			oSel = oSel.SelPrev;
 		}

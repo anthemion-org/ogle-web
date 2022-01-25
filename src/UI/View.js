@@ -14,6 +14,7 @@ import ViewPlay from "./ViewPlay";
 import * as StApp from "../StApp.js";
 import { tSetup } from "../Round/Setup.js";
 import { tBoard } from "../Board/Board.js";
+import { tEntWord } from "../Round/EntWord.js";
 import { tGenRnd } from "../Util/Rnd.js";
 import * as Store from "../Store.js";
 
@@ -45,7 +46,16 @@ export default function View(aProps) {
 		case StApp.Views.Play: {
 			const oSetup = tSetup.suFromPOD(Store.uGet("Setup"));
 			const oBoard = tBoard.suFromPOD(Store.uGet("Board"));
-			return <ViewPlay Setup={oSetup} BoardRest={oBoard} {...aProps} />;
+
+			const oPODsEntOgle = Store.uGet("EntsOgle") ?? [];
+			const oEntsOgleRest = oPODsEntOgle.map(o => tEntWord.suFromPOD(o));
+
+			const oPODsEntUser = Store.uGet("EntsUser") ?? [];
+			const oEntsUserRest = oPODsEntUser.map(o => tEntWord.suFromPOD(o));
+
+			return <ViewPlay Setup={oSetup} BoardRest={oBoard}
+				EntsOgleRest={oEntsOgleRest} EntsUserRest={oEntsUserRest}
+				{...aProps} />;
 		}
 	}
 	throw Error("View: Invalid view");

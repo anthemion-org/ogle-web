@@ -34,13 +34,22 @@ import PropTypes from "prop-types";
  *    the local storage, or 'null' if no board has been created.
  */
 export default function ViewPlay(aProps) {
+	/** The board, or 'null' if the board has not been generated yet. */
+	const [oBoard, ouSet_Board] = useState(aProps.BoardRest);
+	/** The words found by Ogle, or 'null' if the board has not been generated
+	 *  yet. */
+	const [oEntsOgle, ouSet_EntsOgle] = useState(aProps.EntsOgleRest);
+	/** The user's current board selection, or 'null' if there is no selection. */
+	const [oEntUser, ouSet_EntUser] = useState(null);
+	/** The words found by the user. */
+	const [oEntsUser, ouSet_EntsUser] = useState(aProps.EntsUserRest);
+
+	useEffect(ouCreate_WorkSearch, [aProps.Setup, oBoard]);
+	useEffect(ouStore_Board, [oBoard, oEntsOgle]);
+	useEffect(ouStore_EntsUser, [oEntsUser]);
 
 	// Generate board
 	// --------------
-
-	const [oBoard, ouSet_Board] = useState(aProps.BoardRest);
-	const [oEntsOgle, ouSet_EntsOgle] = useState(aProps.EntsOgleRest);
-	const [oEntsUser, ouSet_EntsUser] = useState(aProps.EntsUserRest);
 
 	function ouCreate_WorkSearch() {
 		if (oBoard) return;
@@ -58,13 +67,11 @@ export default function ViewPlay(aProps) {
 			ouSet_EntsOgle(aMsg.data.EntsOgle);
 		};
 	}
-	useEffect(ouCreate_WorkSearch, [aProps.Setup, oBoard]);
 
 	function ouStore_Board() {
 		Store.uSet("Board", oBoard);
 		Store.uSet("EntsOgle", oEntsOgle);
 	}
-	useEffect(ouStore_Board, [oBoard, oEntsOgle]);
 
 	// Help
 	// ----
@@ -109,48 +116,50 @@ export default function ViewPlay(aProps) {
 		);
 	}
 
-	// Board selection
-	// ---------------
-
-	/** The selection within the board, or 'null' if there is no selection. */
-	const [oEnt, ouSet_Ent] = useState(null);
+	// Word selection and entry
+	// ------------------------
 
 	/** Returns 'true' if the specified board position can be selected or
 	 *  unselected. */
 	function ouCkEnab(aPos) {
-		return !oEnt || oEnt.uCkTogAt(aPos);
+		return !oEntUser || oEntUser.uCkTogAt(aPos);
 	}
 
 	/** Toggles the die selection at the specified board position. */
 	function ouTog_Die(aPos) {
 		if (!oBoard || !ouCkEnab(aPos)) return;
 
-		if (!oEnt) {
+		if (!oEntUser) {
 			const oText = oBoard.uDie(aPos).Text;
 			const oEntNew = tEntWord.suFromPosText(aPos, oText);
-			ouSet_Ent(oEntNew);
+			ouSet_EntUser(oEntNew);
 			return;
 		}
 
-		if (oEnt.uCkAt(aPos)) {
-			const oEntPrev = oEnt.uEntPrev(aPos);
-			ouSet_Ent(oEntPrev);
+		if (oEntUser.uCkAt(aPos)) {
+			const oEntPrev = oEntUser.uEntPrev(aPos);
+			ouSet_EntUser(oEntPrev);
 			return;
 		}
 
 		const oText = oBoard.uDie(aPos).Text;
-		const oEntAdd = tEntWord.suFromPosText(aPos, oText, oEnt);
-		ouSet_Ent(oEntAdd);
+		const oEntAdd = tEntWord.suFromPosText(aPos, oText, oEntUser);
+		ouSet_EntUser(oEntAdd);
 	}
 
 	/** Clears the board selection. */
 	function ouClear_Ent() {
-		ouSet_Ent(null);
+		ouSet_EntUser(null);
 	}
 
 	/** Records the board selection as a word entry. */
 	function ouRecord_Ent() {
-		ouSet_Ent(null);
+		ouSet_EntsUser(o => o.concat(oEntUser));
+		ouSet_EntUser(null);
+	}
+
+	function ouStore_EntsUser() {
+		Store.uSet("EntsUser", oEntsUser);
 	}
 
 	// Component content
@@ -159,9 +168,9 @@ export default function ViewPlay(aProps) {
 	/** Returns entry box content. */
 	function ouBoxEnt() {
 		let oCont;
-		if (oEnt) oCont = (
+		if (oEntUser) oCont = (
 			<div id="TextEnt">
-				{oEnt.uTextAll()}
+				{oEntUser.uTextAll()}
 			</div>
 		);
 		else oCont = (
@@ -183,7 +192,7 @@ export default function ViewPlay(aProps) {
 
 	function ouLookBoard() {
 		if (oBoard) return (
-			<LookBoard Board={oBoard} Ent={oEnt} uCallTog={ouTog_Die}
+			<LookBoard Board={oBoard} Ent={oEntUser} uCallTog={ouTog_Die}
 				uCallClear={ouClear_Ent} uCallRecord={ouRecord_Ent} />
 		);
 

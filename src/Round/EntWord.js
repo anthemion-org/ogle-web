@@ -16,6 +16,12 @@ import * as Cfg from "../Cfg.js";
 /** Represents a single board selection, for use when selecting text during
  *  play, and for persisting word entries. */
 export class tEntWord {
+	/** Creates an instance from the specified POD and returns it. */
+	static suFromPOD(aData) {
+		if (!aData) return null;
+		return new tEntWord(aData.Posi, aData.Texts);
+	}
+
 	/** Creates and returns a new instance that ends with the specified position
 	 *  and text. Define aEntPrev to create an instance that extends that one. */
 	static suFromPosText(aPos, aText, aEntPrev) {
