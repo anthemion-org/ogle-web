@@ -9,7 +9,7 @@
 //
 
 import { tLookText, OutsLook } from "./LookText.js";
-import { tSelBoard } from "../Board/SelBoard.js";
+import { tSelBoard } from "../Search/SelBoard.js";
 import * as Cfg from "../Cfg.js";
 
 /** Returns an array of tSelBoard instances representing all words in aBoard

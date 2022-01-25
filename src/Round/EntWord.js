@@ -5,9 +5,10 @@
 //
 // Import with:
 //
-//   import { tEntWord } from "./Round/EntWord.js";
+//   import { tEntWord, uCompareEntWord } from "./Round/EntWord.js";
 //
 
+import * as Search from "../Util/Search.js";
 import * as Cfg from "../Cfg.js";
 
 // tEntWord
@@ -96,3 +97,7 @@ export class tEntWord {
 	}
 }
 
+/** Compares tEntWord instances by their uTextAll values. */
+export function uCompareEntWord(aL, aR) {
+	return Search.uCompareStr(aL.uTextAll(), aR.uTextAll());
+}

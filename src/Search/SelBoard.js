@@ -5,12 +5,12 @@
 //
 // Import with:
 //
-//   import { tSelBoard } from "./Board/SelBoard.js";
+//   import { tSelBoard } from "./Search/SelBoard.js";
 //
 
 import { tEntWord } from "../Round/EntWord.js";
-import { tPt2 } from "../Util/Pt2.js";
 import { tArr2 } from "../Util/Arr2.js";
+import { tPt2 } from "../Util/Pt2.js";
 import * as Cfg from "../Cfg.js";
 
 // tSelBoard
