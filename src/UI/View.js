@@ -14,8 +14,7 @@ import ViewPlay from "./ViewPlay";
 import * as StApp from "../StApp.js";
 import { tSetup } from "../Round/Setup.js";
 import { tBoard } from "../Board/Board.js";
-import { tEntWord } from "../Round/EntWord.js";
-import { tGenRnd } from "../Util/Rnd.js";
+import { tCard } from "../Round/Card.js";
 import * as Store from "../Store.js";
 
 import { React, useReducer, useEffect } from "react";
@@ -46,15 +45,11 @@ export default function View(aProps) {
 		case StApp.Views.Play: {
 			const oSetup = tSetup.suFromPOD(Store.uGet("Setup"));
 			const oBoard = tBoard.suFromPOD(Store.uGet("Board"));
-
-			const oPODsEntOgle = Store.uGet("EntsOgle") ?? [];
-			const oEntsOgleRest = oPODsEntOgle.map(o => tEntWord.suFromPOD(o));
-
-			const oPODsEntUser = Store.uGet("EntsUser") ?? [];
-			const oEntsUserRest = oPODsEntUser.map(o => tEntWord.suFromPOD(o));
+			const oCardOgleRest = tCard.suFromPOD(Store.uGet("CardOgle"));
+			const oCardUserRest = tCard.suFromPOD(Store.uGet("CardUser"));
 
 			return <ViewPlay Setup={oSetup} BoardRest={oBoard}
-				EntsOgleRest={oEntsOgleRest} EntsUserRest={oEntsUserRest}
+				CardOgleRest={oCardOgleRest} CardUserRest={oCardUserRest}
 				{...aProps} />;
 		}
 	}

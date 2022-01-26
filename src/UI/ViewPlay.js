@@ -13,6 +13,7 @@ import * as StApp from "../StApp.js";
 import { tSetup } from "../Round/Setup.js";
 import { tBoard } from "../Board/Board.js";
 import { tEntWord } from "../Round/EntWord.js";
+import { tCard } from "../Round/Card.js";
 import LookBoard from "./LookBoard.js";
 import Lex from "../Search/Lex.js";
 import * as Store from "../Store.js";
@@ -36,17 +37,18 @@ import PropTypes from "prop-types";
 export default function ViewPlay(aProps) {
 	/** The board, or 'null' if the board has not been generated yet. */
 	const [oBoard, ouSet_Board] = useState(aProps.BoardRest);
-	/** The words found by Ogle, or 'null' if the board has not been generated
-	 *  yet. */
-	const [oEntsOgle, ouSet_EntsOgle] = useState(aProps.EntsOgleRest);
+	/** The Ogle scorecard, or 'null' if the board has not been generated yet. */
+	const [oCardOgle, ouSet_CardOgle] = useState(aProps.CardOgleRest);
 	/** The user's current board selection, or 'null' if there is no selection. */
 	const [oEntUser, ouSet_EntUser] = useState(null);
-	/** The words found by the user. */
-	const [oEntsUser, ouSet_EntsUser] = useState(aProps.EntsUserRest);
+	/** The user scorecard. */
+	const [oCardUser, ouSet_CardUser] = useState(o =>
+		(aProps.CardUserRest || tCard.suNew())
+	);
 
 	useEffect(ouCreate_WorkSearch, [aProps.Setup, oBoard]);
-	useEffect(ouStore_Board, [oBoard, oEntsOgle]);
-	useEffect(ouStore_EntsUser, [oEntsUser]);
+	useEffect(ouStore_Board, [oBoard, oCardOgle]);
+	useEffect(ouStore_CardUser, [oCardUser]);
 
 	// Generate board
 	// --------------
@@ -64,13 +66,13 @@ export default function ViewPlay(aProps) {
 
 		Work.onmessage = function (aMsg) {
 			ouSet_Board(tBoard.suFromPOD(aMsg.data.Board));
-			ouSet_EntsOgle(aMsg.data.EntsOgle);
+			ouSet_CardOgle(tCard.suFromPOD(aMsg.data.CardOgle));
 		};
 	}
 
 	function ouStore_Board() {
 		Store.uSet("Board", oBoard);
-		Store.uSet("EntsOgle", oEntsOgle);
+		Store.uSet("CardOgle", oCardOgle);
 	}
 
 	// Help
@@ -154,12 +156,18 @@ export default function ViewPlay(aProps) {
 
 	/** Records the board selection as a word entry. */
 	function ouRecord_Ent() {
-		ouSet_EntsUser(o => o.concat(oEntUser));
+		ouSet_CardUser(oCard => {
+			// We could change uAdd to return a new tCard instance, but
+			// suFromSelsBoard would become even slower than it is now:
+			const oCardNew = oCard.uClone();
+			oCardNew.uAdd(oEntUser);
+			return oCardNew;
+		});
 		ouSet_EntUser(null);
 	}
 
-	function ouStore_EntsUser() {
-		Store.uSet("EntsUser", oEntsUser);
+	function ouStore_CardUser() {
+		Store.uSet("CardUser", oCardUser);
 	}
 
 	// Component content

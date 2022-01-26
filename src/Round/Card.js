@@ -16,19 +16,30 @@ import * as Cfg from "../Cfg.js";
 // -----
 
 export class tCard {
-	/** Creates and returns a new card. */
+	/** Creates and returns an empty card. */
 	static suNew() {
 		return new tCard([], 0);
 	}
 
+	/** Creates an instance from the specified POD and returns it. */
+	static suFromPOD(aData) {
+		if (!aData) return null;
+
+		const oEnts = aData.Ents.map(o => tEntWord.suFromPOD(o));
+		return new tCard(oEnts, aData.Score);
+	}
+
+	/** Creates new instance from the specified board search results, and returns
+	 *  it. */
 	static suFromSelsBoard(aSels) {
 		const oEntsAll = aSels.map(o => o.uEntWord());
-		oEntsAll.sort(uCompareEntWord(o));
+		oEntsAll.sort(uCompareEntWord);
 
 		const oCard = new tCard([], 0);
 		// Slow, but easy:
 		for (const oEnt of oEntsAll)
 			oCard.uAdd(oEnt, false)
+		return oCard;
 	}
 
 	constructor(aEnts, aScore) {
@@ -74,5 +85,10 @@ export class tCard {
 		if (oCkScore) ++this.Score;
 
 		return oCtBonus;
+	}
+
+	/** Creates and returns a clone of this instance. */
+	uClone() {
+		return new tCard([...this.Ents], this.Score);
 	}
 }
