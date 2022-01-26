@@ -39,7 +39,10 @@
 }
 
 .LookDie .TextSing,
-.LookDie .TextDbl {
+.LookDie .TextDbl,
+.LookDie .TextPause {
+	font-family: Georgia, serif;
+	font-weight: bold;
 	fill: black;
 	/* Prevent letter text from being selected if the user drags while clicking: */
 	user-select: none;

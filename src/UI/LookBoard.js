@@ -83,7 +83,7 @@ export default function LookBoard(aProps) {
 			const oCkEnab = ouCkEnab(oPos);
 			oEls.push(
 				<LookDie key={oKey} Pos={oPos} Die={oDie} CkSel={oCkSel}
-					CkEnab={oCkEnab} uCallTog={aProps.uCallTog}
+					CkEnab={oCkEnab} CkPause={aProps.CkPause} uCallTog={aProps.uCallTog}
 					uCallClear={aProps.uCallClear} uCallRecord={aProps.uCallRecord} />
 			);
 		}

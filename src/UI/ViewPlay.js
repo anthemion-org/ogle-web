@@ -17,7 +17,6 @@ import { tCard } from "../Round/Card.js";
 import LookBoard from "./LookBoard.js";
 import Lex from "../Search/Lex.js";
 import * as Store from "../Store.js";
-import * as ActPlay from "./ActPlay.js";
 import * as Cfg from "../Cfg.js";
 
 import { React, useState, useEffect } from "react";
@@ -48,10 +47,23 @@ export default function ViewPlay(aProps) {
 	);
 	/** The play time remaining, in seconds. */
 	const [oTime, ouSet_TimentUser] = useState(100);
+	/** Set to 'true' if play is paused. */
+	const [oCkPause, ouSet_CkPause] = useState(false);
 
 	useEffect(ouCreate_WorkSearch, [aProps.Setup, oBoard]);
 	useEffect(ouStore_Board, [oBoard, oCardOgle]);
 	useEffect(ouStore_CardUser, [oCardUser]);
+
+	useEffect(() => {
+		document.addEventListener("keydown", ouHandKey);
+		return () => { document.removeEventListener("keydown", ouHandKey); }
+	}, []);
+
+	function ouHandKey(aEvt) {
+		// Toggle the pause state:
+		if (aEvt.code === "Escape")
+			ouSet_CkPause(o => !o);
+	}
 
 	// Generate board
 	// --------------
@@ -87,9 +99,6 @@ export default function ViewPlay(aProps) {
 
 	// Pause dialog
 	// ------------
-
-	/** Set to 'true' if play is paused. */
-	const [oCkPause, ouSet_CkPause] = useState(false);
 
 	/** Handles the Pause button click. */
 	function ouHandPause(aEvt) {
@@ -203,8 +212,9 @@ export default function ViewPlay(aProps) {
 
 	function ouLookBoard() {
 		if (oBoard) return (
-			<LookBoard Board={oBoard} Ent={oEntUser} uCallTog={ouTog_Die}
-				uCallClear={ouClear_Ent} uCallRecord={ouRecord_Ent} />
+			<LookBoard Board={oBoard} Ent={oEntUser} CkPause={oCkPause}
+				uCallTog={ouTog_Die} uCallClear={ouClear_Ent}
+				uCallRecord={ouRecord_Ent} />
 		);
 
 		return (
@@ -240,7 +250,7 @@ export default function ViewPlay(aProps) {
 								Seconds
 							</button>
 
-							Click to pause
+							Press to pause
 						</div>
 					</div>
 
@@ -248,13 +258,13 @@ export default function ViewPlay(aProps) {
 					</div>
 
 					<div id="BoxScore">
-						<button id="BtnEnt">
+						<button id="BtnEnt" onClick={ouRecord_Ent}>
 							<div id="Score">
 								{oCardUser.Score ?? 0}
 							</div>
 							Score
 						</button>
-						Click to enter selection
+						Press to enter selection
 					</div>
 				</div>
 

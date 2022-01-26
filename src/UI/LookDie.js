@@ -75,12 +75,26 @@ export default function LookDie(aProps) {
 	}
 
 	function ouText() {
+		if (aProps.CkPause)
+			return (
+				<text className="TextPause"
+					// Looks better when we shift this up slightly:
+					x="50" y="48.5"
+					fontSize="70px"
+					letterSpacing="0px"
+					stroke="#000000" strokeWidth="0px"
+					textAnchor="middle" dominantBaseline="central"
+					wordSpacing="0px">
+					?
+				</text>
+			);
+
 		if (aProps.Die.Text.length > 1)
 			return (
 				<text className="TextDbl"
 					// Looks better when we shift this up slightly:
 					x="50" y="48.5"
-					fontFamily="Georgia, serif" fontSize="50px" fontWeight="bold"
+					fontSize="50px"
 					letterSpacing="0px"
 					stroke="#000000" strokeWidth="0px"
 					textAnchor="middle" dominantBaseline="central"
@@ -92,7 +106,7 @@ export default function LookDie(aProps) {
 		return (
 			<text className="TextSing"
 				x="50" y="50"
-				fontFamily="Georgia, serif" fontSize="66px" fontWeight="bold"
+				fontSize="66px"
 				letterSpacing="0px"
 				stroke="#000000" strokeWidth="0px"
 				textAnchor="middle" dominantBaseline="central"
@@ -104,7 +118,7 @@ export default function LookDie(aProps) {
 
 	function ouUnder() {
 		const oCk = ["L", "T", "M", "W", "N", "Z"].includes(aProps.Die.Text);
-		if (!oCk) return null;
+		if (!oCk || aProps.CkPause) return null;
 
 		return (
 			<path className="Under"
