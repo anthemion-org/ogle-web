@@ -8,7 +8,7 @@
 //   import BackDie from "./UI/BackDie.js";
 //
 
-import "./BackDie.css";
+import "./Die.css";
 import { tPt2 } from "../Util/Pt2.js";
 
 import React from "react";
@@ -29,8 +29,11 @@ export default function BackDie(aProps) {
 		gridRowStart: (aProps.Pos.Y + 1)
 	}
 
+	let oClasses = "BackDie";
+	if (aProps.CkEnab) oClasses += " CkEnab";
+
 	return (
-		<svg className="BackDie" style={oSty}
+		<svg className={oClasses} style={oSty}
 			xmlns="http://www.w3.org/2000/svg"
 			viewBox="0 0 100 100"
 		>
@@ -74,28 +77,24 @@ export default function BackDie(aProps) {
 					width="50" height="50"
 					x="50" y="50"
 					rx="0" ry="0"
-					fill="#C7B9AB"
 					clipPath="url(#ClipCrnSE)"
 				></rect>
 				<rect className="CrnSW"
 					width="50" height="50"
 					x="0" y="50"
 					rx="0" ry="0"
-					fill="#EBDDCE"
 					clipPath="url(#ClipCrnSW)"
 				></rect>
 				<rect className="CrnNE"
 					width="50" height="50"
 					x="50" y="0"
 					rx="0" ry="0"
-					fill="#EBDDCE"
 					clipPath="url(#ClipCrnNE)"
 				></rect>
 				<rect className="CrnNW"
 					width="50" height="50"
 					x="0" y="0"
 					rx="0" ry="0"
-					fill="#FFFFFF"
 					clipPath="url(#ClipCrnNW)"
 				></rect>
 			</g>
@@ -103,7 +102,6 @@ export default function BackDie(aProps) {
 			<rect className="Face"
 				width="100" height="100"
 				rx="40" ry="40"
-				fill="#F5EFE9"
 			></rect>
 		</svg >
 	);

@@ -3,31 +3,109 @@
 // Copyright ©2022 Jeremy Kelly
 // www.anthemion.org */
 
-#ViewPlay #BoxEnt {
-	height: 4rem;
+#ViewPlay #Box {
+	display: flex;
+	gap: 0.5rem;
 
- 	display: flex;
+	font-size: 1.1rem;
+	text-align: center;
+}
+
+#ViewPlay #BoxBoard {
+	flex-grow: 4;
+
+	border: 1px solid #AAA;
+	border-radius: 0.25rem;
+	padding: 0.75rem 1rem;
+}
+
+#ViewPlay #BoxEnt {
+	height: 3.5rem;
+	display: flex;
 	justify-content: space-between;
 	align-items: center;
 
-	border: 1px solid #AAA;
-	border-radius: 0.5rem;
-	padding: 0 1rem;
-	margin-bottom: 1rem;
+	margin-bottom: 0.5rem;
 }
 
 #ViewPlay #TextInstruct {
-	padding-right: 3rem;
-	font-size: 1.1rem;
+	padding-right: 1rem;
+
+	text-align: center;
 }
 
 #ViewPlay #TextEnt {
+	font-family: Georgia, serif;
 	font-weight: bold;
-	font-size: 2rem;
+	font-size: 2.5rem;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+	/* This is questionable: [to do] */
+	max-width: 24vw;
 }
 
 #ViewPlay #TextEnt::after {
-  content: "_";
+	content: "_";
+}
+
+#ViewPlay #TextCtls {
+	margin-top: 0.5rem;
+}
+
+#ViewPlay #BoxStat {
+	flex-grow: 1;
+
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+}
+
+#ViewPlay #BoxTime {
+	border: 1px solid #AAA;
+	border-radius: 0.25rem;
+	padding: 1rem;
+
+	/* Center contained content: */
+	display: grid;
+	place-items: center;
+
+	font-size: 1rem;
+}
+
+#ViewPlay #Time {
+	font-family: Georgia, serif;
+	font-size: 2.5rem;
+	font-weight: bold;
+	line-height: 100%;
+}
+
+#ViewPlay #BtnPause,
+#ViewPlay #BtnEnt {
+	display: block;
+	width: 100%;
+	margin-bottom: 0.5rem;
+}
+
+#ViewPlay #BoxOgle {
+	flex-grow: 1;
+
+	border: 1px solid #AAA;
+	border-radius: 0.25rem;
+	padding: 1rem;
+}
+
+#ViewPlay #BoxScore {
+	border: 1px solid #AAA;
+	border-radius: 0.25rem;
+	padding: 0.75rem 1rem;
+}
+
+#ViewPlay #Score {
+	font-family: Georgia, serif;
+	font-size: 2.5rem;
+	font-weight: bold;
+	line-height: 100%;
 }
 
 #DlgPause {

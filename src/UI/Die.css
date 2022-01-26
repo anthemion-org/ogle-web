@@ -1,0 +1,74 @@
+/* Die.css
+// -------
+// Copyright ©2022 Jeremy Kelly
+// www.anthemion.org */
+
+.BackDie:hover {
+	cursor: pointer;
+}
+
+.BackDie .CrnSE {
+	/* #C7B9AB */
+	fill: hsl(30, 22%, 68%);
+}
+
+.BackDie .CrnSW,
+.BackDie .CrnNE {
+	/* #EBDDCE */
+	fill: hsl(31, 35%, 85%);
+}
+
+.BackDie .CrnNW {
+	/* #FFFFFF */
+	fill: hsl(0, 0%, 100%);
+}
+
+.BackDie .Face,
+.LookDie .BackText {
+	/* #F5EFE9 */
+	fill: hsl(30, 38%, 93%);
+}
+
+.BackDie:not(.CkEnab) .CrnSE,
+.BackDie:not(.CkEnab) .CrnSW,
+.BackDie:not(.CkEnab) .CrnNE,
+.BackDie:not(.CkEnab) .CrnNW,
+.BackDie:not(.CkEnab) .Face,
+.LookDie:not(.CkEnab) .BackText {
+	filter: brightness(0.8);
+}
+
+.LookDie .TextSing,
+.LookDie .TextDbl {
+	fill: black;
+	/* Prevent letter text from being selected if the user drags while clicking: */
+	user-select: none;
+}
+
+.LookDie.CkEnab:hover .MarkEnab {
+	visibility: visible;
+
+	animation-name: MarkEnabRot;
+	animation-duration: 1s;
+	animation-timing-function: linear;
+	animation-iteration-count: infinite;
+}
+
+@keyframes MarkEnabRot {
+	from {
+		stroke-dashoffset: 0;
+	}
+
+	to {
+		stroke-dashoffset: -6.28;
+	}
+}
+
+.LookDie.CkEnab:hover .Under {
+	/* Too busy otherwise: */
+	visibility: hidden;
+}
+
+.LookDie .MarkSel {
+	fill: hsla(30, 50%, 50%, 0.3);
+}

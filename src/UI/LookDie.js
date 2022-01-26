@@ -8,7 +8,7 @@
 //   import LookDie from "./UI/LookDie.js";
 //
 
-import "./LookDie.css";
+import "./Die.css";
 import { tDie } from "../Board/Die.js";
 import * as MetrDie from "./MetrDie.js";
 import * as Dir4 from "../Util/Dir4.js";
@@ -70,7 +70,6 @@ export default function LookDie(aProps) {
 				cx="50" cy="50"
 				r={MetrDie.RadSel}
 				stroke="none"
-				fill="#F5EFE9"
 			></circle>
 		);
 	}
@@ -81,7 +80,6 @@ export default function LookDie(aProps) {
 				<text className="TextDbl"
 					// Looks better when we shift this up slightly:
 					x="50" y="48.5"
-					fill="#000000"
 					fontFamily="Georgia, serif" fontSize="50px" fontWeight="bold"
 					letterSpacing="0px"
 					stroke="#000000" strokeWidth="0px"
@@ -94,7 +92,6 @@ export default function LookDie(aProps) {
 		return (
 			<text className="TextSing"
 				x="50" y="50"
-				fill="#000000"
 				fontFamily="Georgia, serif" fontSize="66px" fontWeight="bold"
 				letterSpacing="0px"
 				stroke="#000000" strokeWidth="0px"
@@ -146,7 +143,6 @@ export default function LookDie(aProps) {
 				stroke="#000000"
 				strokeWidth="2px"
 				color="#000000"
-				fill="hsla(30, 50%, 50%, 0.3)"
 			></circle>
 		);
 	}

@@ -52,8 +52,9 @@ export default function LookBoard(aProps) {
 		const oiPosi = Cfg.RectBoard.uPosi();
 		for (const oPos of oiPosi) {
 			const oKey = oPos.X + "/" + oPos.Y;
+			const oCkEnab = ouCkEnab(oPos);
 			oEls.push(
-				<BackDie key={oKey} Pos={oPos} />
+				<BackDie key={oKey} Pos={oPos} CkEnab={oCkEnab} />
 			);
 		}
 		return oEls;
@@ -79,9 +80,10 @@ export default function LookBoard(aProps) {
 			const oKey = oPos.X + "/" + oPos.Y;
 			const oDie = aProps.Board.uDie(oPos);
 			const oCkSel = aProps.Ent && aProps.Ent.uCkAt(oPos);
+			const oCkEnab = ouCkEnab(oPos);
 			oEls.push(
 				<LookDie key={oKey} Pos={oPos} Die={oDie} CkSel={oCkSel}
-					CkEnab={ouCkEnab(oPos)} uCallTog={aProps.uCallTog}
+					CkEnab={oCkEnab} uCallTog={aProps.uCallTog}
 					uCallClear={aProps.uCallClear} uCallRecord={aProps.uCallRecord} />
 			);
 		}

@@ -18,6 +18,7 @@ import LookBoard from "./LookBoard.js";
 import Lex from "../Search/Lex.js";
 import * as Store from "../Store.js";
 import * as ActPlay from "./ActPlay.js";
+import * as Cfg from "../Cfg.js";
 
 import { React, useState, useEffect } from "react";
 import PropTypes from "prop-types";
@@ -45,6 +46,8 @@ export default function ViewPlay(aProps) {
 	const [oCardUser, ouSet_CardUser] = useState(o =>
 		(aProps.CardUserRest || tCard.suNew())
 	);
+	/** The play time remaining, in seconds. */
+	const [oTime, ouSet_TimentUser] = useState(100);
 
 	useEffect(ouCreate_WorkSearch, [aProps.Setup, oBoard]);
 	useEffect(ouStore_Board, [oBoard, oCardOgle]);
@@ -156,6 +159,11 @@ export default function ViewPlay(aProps) {
 
 	/** Records the board selection as a word entry. */
 	function ouRecord_Ent() {
+		if (!oEntUser) return;
+
+		const oText = oEntUser.uTextAll();
+		if (oText.length < Cfg.LenWordMin) return;
+
 		ouSet_CardUser(oCard => {
 			// We could change uAdd to return a new tCard instance, but
 			// suFromSelsBoard would become even slower than it is now:
@@ -174,27 +182,22 @@ export default function ViewPlay(aProps) {
 	// -----------------
 
 	/** Returns entry box content. */
-	function ouBoxEnt() {
+	function ouContBoxEnt() {
 		let oCont;
-		if (oEntUser) oCont = (
+		if (oEntUser) return (
 			<div id="TextEnt">
 				{oEntUser.uTextAll()}
 			</div>
 		);
-		else oCont = (
+
+		return (
 			<>
 				<div id="TextInstruct">
 					Enter as many words of <em>four or more letters</em> as you can
-					before time runs out!
+					before time runs out.
 				</div>
-				<button onClick={ouHandHelp}>Help</button>
+				<button id="BtnHelp" onClick={ouHandHelp}>Help</button>
 			</>
-		);
-
-		return (
-			<div id="BoxEnt">
-				{oCont}
-			</div>
 		);
 	}
 
@@ -213,14 +216,50 @@ export default function ViewPlay(aProps) {
 		<div id="ViewPlay">
 			<h1>Ogle</h1>
 
-			{ouBoxEnt()}
-			{ouLookBoard()}
+			<div id="Box">
+				<div id="BoxBoard">
+					<div id="BoxEnt">
+						{ouContBoxEnt()}
+					</div>
 
-			<div className="Btns">
-				<button onClick={ouHandPause}>Pause</button>
+					{ouLookBoard()}
+
+					<div id="TextCtls">
+						Left-click to select letters. Click again to unselect.
+						Right-click to enter word. Middle-click to clear.
+					</div>
+				</div>
+
+				<div id="BoxStat">
+					<div id="BoxTime">
+						<div>
+							<button id="BtnPause" onClick={ouHandPause}>
+								<div id="Time">
+									{oTime}
+								</div>
+								Seconds
+							</button>
+
+							Click to pause
+						</div>
+					</div>
+
+					<div id="BoxOgle">
+					</div>
+
+					<div id="BoxScore">
+						<button id="BtnEnt">
+							<div id="Score">
+								{oCardUser.Score ?? 0}
+							</div>
+							Score
+						</button>
+						Click to enter selection
+					</div>
+				</div>
+
+				{ouDlgPause()}
 			</div>
-
-			{ouDlgPause()}
 		</div>
 	);
 }
