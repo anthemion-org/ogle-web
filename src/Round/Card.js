@@ -16,35 +16,38 @@ import * as Cfg from "../Cfg.js";
 // -----
 
 export class tCard {
-	/** Creates and returns an empty card. */
+	/** Creates and returns a new card. */
 	static suNew() {
-		return new tCard([], 0);
+		return new tCard([], 0, 0);
 	}
 
 	/** Creates an instance from the specified POD and returns it. */
 	static suFromPOD(aData) {
 		if (!aData) return null;
 
-		const oEnts = aData.Ents.map(o => tEntWord.suFromPOD(o));
-		return new tCard(oEnts, aData.Score);
+		const oEnts = aData.Ents.map(a => tEntWord.suFromPOD(a));
+		return new tCard(oEnts, aData.Score, aData.CtBonusTime);
 	}
 
 	/** Creates new instance from the specified board search results, and returns
 	 *  it. */
 	static suFromSelsBoard(aSels) {
-		const oEntsAll = aSels.map(o => o.uEntWord());
+		const oEntsAll = aSels.map(a => a.uEntWord());
 		oEntsAll.sort(uCompareEntWord);
 
-		const oCard = new tCard([], 0);
+		const oCard = tCard.suNew();
 		// Slow, but easy:
 		for (const oEnt of oEntsAll)
 			oCard.uAdd(oEnt, false)
 		return oCard;
 	}
 
-	constructor(aEnts, aScore) {
+	constructor(aEnts, aScore, aCtBonusTime) {
 		this.Ents = aEnts;
 		this.Score = aScore;
+		/** The number of time bonuses accrued. Subtract the time elapsed to get the
+		 *  time remaining to the player. */
+		this.CtBonusTime = aCtBonusTime;
 	}
 
 	/** Adds the specified entry, if it meets the minimum length, and if it is not
@@ -56,7 +59,7 @@ export class tCard {
 	 *  Set aCkAddFollow to 'false' if followed entries should not be added. */
 	uAdd(aEnt, aCkAddFollow) {
 		const oTextAdd = aEnt.uTextAll();
-		if (oTextAdd.length < Cfg.LenWordMin) return 0;
+		if (oTextAdd.length < Cfg.LenWordMin) return;
 
 		let oCkScore = true;
 		let oCtBonus = 1 + oTextAdd.length - Cfg.LenWordMin;
@@ -66,13 +69,12 @@ export class tCard {
 				oCkScore = false;
 
 				// The new word is a duplicate:
-				if (oTextAdd.length === oTextOrig.length)
-					return 0;
+				if (oTextAdd.length === oTextOrig.length) return;
 
 				// The new word is already followed:
 				if (oTextAdd.length < oTextOrig.length) {
 					if (aCkAddFollow) this.Ents.push(aEnt);
-					return 0;
+					return;
 				}
 
 				// The new word follows another, but it could follow a longer word, or
@@ -83,12 +85,11 @@ export class tCard {
 
 		this.Ents.push(aEnt);
 		if (oCkScore) ++this.Score;
-
-		return oCtBonus;
+		this.CtBonusTime += oCtBonus;
 	}
 
 	/** Creates and returns a clone of this instance. */
 	uClone() {
-		return new tCard([...this.Ents], this.Score);
+		return new tCard([...this.Ents], this.Score, this.CtBonusTime);
 	}
 }

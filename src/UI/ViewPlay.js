@@ -47,8 +47,8 @@ export default function ViewPlay(aProps) {
 	const [oCardUser, ouSet_CardUser] = useState(o =>
 		(aProps.CardUserRest || tCard.suNew())
 	);
-	/** The play time remaining, in seconds. */
-	const [oTime, ouSet_TimeUser] = useState(100);
+	/** The elapsed play time, in seconds. */
+	const [oTimeElap, ouSet_TimeElap] = useState(aProps.TimeElapRest);
 	/** Set to 'true' if play is paused. */
 	const [oCkPause, ouSet_CkPause] = useState(false);
 	/** Set to 'true' if a word is being verified. */
@@ -180,6 +180,8 @@ export default function ViewPlay(aProps) {
 						Click for Wiktionary entry.
 					</div>
 
+					<hr />
+
 					All English words are valid, with these exceptions:
 
 					<ul>
@@ -255,13 +257,14 @@ export default function ViewPlay(aProps) {
 			return;
 		}
 
-		ouSet_CardUser(oCard => {
+		ouSet_CardUser(aCard => {
 			// We could change uAdd to return a new tCard instance, but
 			// suFromSelsBoard would become even slower than it is now:
-			const oCardNew = oCard.uClone();
+			const oCardNew = aCard.uClone();
 			oCardNew.uAdd(oEntUser);
 			return oCardNew;
 		});
+
 		ouSet_EntUser(null);
 	}
 
@@ -304,12 +307,10 @@ export default function ViewPlay(aProps) {
 		);
 	}
 
-	function ouTextYield() {
-		return "50-100";
-	}
-
-	function ouTextPace() {
-		return "18 + 3"
+	function ouTimeRemain() {
+		const oTime = aProps.Setup.PaceStart
+			+ (aProps.Setup.PaceBonus * oCardUser.CtBonusTime) - oTimeElap;
+		return Math.ceil(oTime);
 	}
 
 	return (
@@ -332,16 +333,14 @@ export default function ViewPlay(aProps) {
 
 				<div id="BoxStat">
 					<div id="BoxTime">
-						<div>
-							<button id="BtnPause" onClick={ouHandPause}>
-								<div id="Time">
-									{oTime}
-								</div>
-								Seconds
-							</button>
+						<button id="BtnPause" onClick={ouHandPause}>
+							<div id="Time">
+								{ouTimeRemain()}
+							</div>
+							Seconds
+						</button>
 
-							Press to pause
-						</div>
+						Press to pause
 					</div>
 
 					<div id="BoxSetup">

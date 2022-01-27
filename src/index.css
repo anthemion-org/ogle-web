@@ -236,3 +236,11 @@ input[type="range"]:hover::-moz-range-track {
 .Caps {
 	text-transform: uppercase;
 }
+
+.Left {
+	text-align: left;
+}
+
+.Right {
+	text-align: right;
+}

@@ -45,7 +45,7 @@ export class tEntWord {
 
 	/** Returns 'true' if the specified position is selected. */
 	uCkAt(aPos) {
-		return this.Posi.some(o => o.uCkEq(aPos));
+		return this.Posi.some(a => a.uCkEq(aPos));
 	}
 
 	/** Returns 'true' if the specified position can be added to the end of this
