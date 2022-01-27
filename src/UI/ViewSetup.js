@@ -128,7 +128,7 @@ ViewSetup.propTypes = {
 /** The yield names and ranges offered by this form. Each element stores the
  *  yield name and a tRg instance. */
 const Yields = [
-	["Sparse", new tRg(-Infinity, 50)],
+	["Sparse", new tRg(1, 50)],
 	["Middling", new tRg(50, 100)],
 	["Full", new tRg(100, Infinity)]
 ];
@@ -195,8 +195,8 @@ function uNamePace(ajPace) {
 
 function uInstructPace(ajPace) {
 	const oPace = Paces[ajPace];
-	const oStart = Text.uProseNum(oPace[0]);
-	const oBonus = Text.uProseNum(oPace[1]);
+	const oStart = Text.uProseNum(oPace[1]);
+	const oBonus = Text.uProseNum(oPace[2]);
 	const oSuffBonus = ((oPace[1] > 1) ? "s" : "");
 	return `Start with ${oStart} seconds and gain ${oBonus} second${oSuffBonus} for each letter over three in every entered word.`;
 }

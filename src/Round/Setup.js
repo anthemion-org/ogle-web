@@ -54,4 +54,16 @@ export class tSetup {
 	uClone(aSetup) {
 		return new tSetup(aSetup.Yield, aSetup.Pace);
 	}
+
+	/** Returns a short string describing the yield. */
+	uTextShortYield() {
+		if (!isFinite(this.Yield.End))
+			return this.Yield.Start + "+";
+		return this.Yield.Start + "-" + this.Yield.End;
+	}
+
+	/** Returns a short string describing the pace. */
+	uTextShortPace() {
+		return this.PaceStart + " + " + this.PaceBonus;
+	}
 }

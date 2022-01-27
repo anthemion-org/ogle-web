@@ -59,21 +59,21 @@ export default function ViewPlay(aProps) {
 	useEffect(ouStore_CardUser, [oCardUser]);
 
 	useEffect(() => {
+		function ouHandKey(aEvt) {
+			// Close the displayed dialog, if any, or pause the game:
+			if (aEvt.code === "Escape") {
+				if (oCkVerWord) {
+					ouSet_CkVerWord(false);
+					return;
+				}
+
+				ouSet_CkPause(o => !o);
+			}
+		}
+
 		document.addEventListener("keydown", ouHandKey);
 		return () => { document.removeEventListener("keydown", ouHandKey); }
-	}, [ouHandKey]);
-
-	function ouHandKey(aEvt) {
-		// Close the displayed dialog, if any, or pause the game:
-		if (aEvt.code === "Escape") {
-			if (oCkVerWord) {
-				ouSet_CkVerWord(false);
-				return;
-			}
-
-			ouSet_CkPause(o => !o);
-		}
-	}
+	}, [oCkVerWord]);
 
 	// Generate board
 	// --------------
@@ -145,6 +145,11 @@ export default function ViewPlay(aProps) {
 
 	/** Handles the Word Verification 'Add' button click. */
 	function ouHandVerWordAdd(aEvt) {
+		const oText = oEntUser.uTextAll();
+		Lex.uAdd_WordUser(oText);
+		ouRecord_Ent();
+
+		ouSet_CkVerWord(false);
 	}
 
 	/** Handles the Word Verification 'Cancel' button click. */
@@ -299,6 +304,14 @@ export default function ViewPlay(aProps) {
 		);
 	}
 
+	function ouTextYield() {
+		return "50-100";
+	}
+
+	function ouTextPace() {
+		return "18 + 3"
+	}
+
 	return (
 		<div id="ViewPlay">
 			<h1>Ogle</h1>
@@ -331,7 +344,16 @@ export default function ViewPlay(aProps) {
 						</div>
 					</div>
 
-					<div id="BoxOgle">
+					<div id="BoxSetup">
+						<div>
+							<h3>Yield</h3>
+							<div>{aProps.Setup.uTextShortYield()}</div>
+						</div>
+						<hr />
+						<div>
+							<h3>Pace</h3>
+							<div>{aProps.Setup.uTextShortPace()}</div>
+						</div>
 					</div>
 
 					<div id="BoxScore">
