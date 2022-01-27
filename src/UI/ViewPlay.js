@@ -22,6 +22,8 @@ import * as Cfg from "../Cfg.js";
 import { React, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
+let oDefNext = -100;
+
 // ViewPlay
 // --------
 
@@ -46,9 +48,11 @@ export default function ViewPlay(aProps) {
 		(aProps.CardUserRest || tCard.suNew())
 	);
 	/** The play time remaining, in seconds. */
-	const [oTime, ouSet_TimentUser] = useState(100);
+	const [oTime, ouSet_TimeUser] = useState(100);
 	/** Set to 'true' if play is paused. */
 	const [oCkPause, ouSet_CkPause] = useState(false);
+	/** Set to 'true' if a word is being verified. */
+	const [oCkVerWord, ouSet_CkVerWord] = useState(false);
 
 	useEffect(ouCreate_WorkSearch, [aProps.Setup, oBoard]);
 	useEffect(ouStore_Board, [oBoard, oCardOgle]);
@@ -57,12 +61,18 @@ export default function ViewPlay(aProps) {
 	useEffect(() => {
 		document.addEventListener("keydown", ouHandKey);
 		return () => { document.removeEventListener("keydown", ouHandKey); }
-	}, []);
+	}, [ouHandKey]);
 
 	function ouHandKey(aEvt) {
-		// Toggle the pause state:
-		if (aEvt.code === "Escape")
+		// Close the displayed dialog, if any, or pause the game:
+		if (aEvt.code === "Escape") {
+			if (oCkVerWord) {
+				ouSet_CkVerWord(false);
+				return;
+			}
+
 			ouSet_CkPause(o => !o);
+		}
 	}
 
 	// Generate board
@@ -130,6 +140,68 @@ export default function ViewPlay(aProps) {
 		);
 	}
 
+	// Word Verification dialog
+	// ------------------------
+
+	/** Handles the Word Verification 'Add' button click. */
+	function ouHandVerWordAdd(aEvt) {
+	}
+
+	/** Handles the Word Verification 'Cancel' button click. */
+	function ouHandVerWordCancel(aEvt) {
+		ouSet_EntUser(null);
+		ouSet_CkVerWord(false);
+	}
+
+	/** Returns the Word Verification dialog, or 'null' if no word is being
+	 *  verified. */
+	function ouDlgVerWord() {
+		if (!oCkVerWord || !oEntUser) return null;
+
+		const oTextEnt = oEntUser.uTextAll();
+		const oURL = "https://en.wiktionary.org/wiki/" + oTextEnt;
+
+		return (
+			<div className="ScreenDlg">
+				<div id="DlgVerWord">
+					<div id="BoxWik">
+						This word is not found in the Ogle lexicon:
+
+						<a className="Btn" href={oURL} target="_blank"
+							rel="noopener noreferrer">
+							{oTextEnt}
+						</a>
+
+						Click for Wiktionary entry.
+					</div>
+
+					All English words are valid, with these exceptions:
+
+					<ul>
+						<li>
+							No <em>person</em>, <em>place</em>, <em>organization</em>, or <em>brand</em> names. Words like <em>Frisbee</em> and <em>Judas</em> that have been genericized or repurposed are acceptable.
+						</li>
+						<li>
+							No <em>abbreviations</em> or <em>acronyms</em>. Words like <em>abend</em> and <em>snafu</em> that are no longer understood as abbreviations are acceptable.
+						</li>
+						<li>
+							No words requiring <em>accents</em> or <em>punctuation</em>, including <em>contractions</em> and <em>hyphenated</em> words.
+						</li>
+					</ul>
+
+					<div className="Btns">
+						<button onClick={ouHandVerWordAdd}>
+							Add to lexicon
+						</button>
+						<button className="Group" onClick={ouHandVerWordCancel}>
+							Cancel entry
+						</button>
+					</div>
+				</div>
+			</div>
+		);
+	}
+
 	// Word selection and entry
 	// ------------------------
 
@@ -172,6 +244,11 @@ export default function ViewPlay(aProps) {
 
 		const oText = oEntUser.uTextAll();
 		if (oText.length < Cfg.LenWordMin) return;
+
+		if (!Lex.uCkKnown(oText)) {
+			ouSet_CkVerWord(true);
+			return;
+		}
 
 		ouSet_CardUser(oCard => {
 			// We could change uAdd to return a new tCard instance, but
@@ -218,7 +295,7 @@ export default function ViewPlay(aProps) {
 		);
 
 		return (
-			<div>Generating board...</div>
+			<div id="BoxWait">Working...</div>
 		);
 	}
 
@@ -269,6 +346,7 @@ export default function ViewPlay(aProps) {
 				</div>
 
 				{ouDlgPause()}
+				{ouDlgVerWord()}
 			</div>
 		</div>
 	);

@@ -53,6 +53,27 @@
 	margin-top: 0.5rem;
 }
 
+#ViewPlay #BoxWait {
+	/* We could try to do something nice here, but it is visible for just a
+	// fraction of a second. Maybe start with something resembling the pause
+	// state? This would reduce flashing, if nothing else. */
+
+	width: 100%;
+	aspect-ratio: 1;
+
+	display: grid;
+	place-items: center;
+
+	background-color: black;
+	border-radius: 3%;
+	padding: 1rem;
+
+	font-family: Georgia, serif;
+	font-weight: bold;
+	font-size: 2rem;
+	color: hsl(30, 38%, 93%);
+}
+
 #ViewPlay #BoxStat {
 	flex-grow: 1;
 
@@ -66,7 +87,6 @@
 	border-radius: 0.25rem;
 	padding: 1rem;
 
-	/* Center contained content: */
 	display: grid;
 	place-items: center;
 
@@ -108,15 +128,14 @@
 	line-height: 100%;
 }
 
+/* Pause dialog
+// ------------ */
+
 #DlgPause {
 	background-color: hsl(0, 0%, 90%);
 	border: 1px solid #888;
 	border-radius: 0.5rem;
 	padding: 1rem;
-}
-
-#DlgPause.Show {
-	visibility: visible;
 }
 
 #DlgPause button {
@@ -127,4 +146,40 @@
 
 #DlgPause button:first-child {
 	margin-top: 0;
+}
+
+/* Word Verification dialog
+// ------------------------ */
+
+#DlgVerWord {
+	width: 30%;
+
+	border: 1px solid #888;
+	border-radius: 0.5rem;
+	padding: 1rem;
+	background-color: hsl(0, 0%, 90%);
+
+	text-align: left;
+}
+
+#DlgVerWord #BoxWik {
+	margin-bottom: 1rem;;
+
+	text-align: center;
+}
+
+#DlgVerWord #BoxWik a.Btn {
+	display: block;
+	width: 100%;
+	height: 4rem;
+
+	margin: 0.25rem 0;
+	padding: 0 0.75rem;
+
+	font-family: Georgia, serif;
+	font-weight: bold;
+	font-size: 2rem;
+
+	display: grid;
+	place-items: center start;
 }

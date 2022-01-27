@@ -60,10 +60,6 @@ export default function LookDie(aProps) {
 		}
 	}
 
-	function ouHandContext(aEvt) {
-		aEvt.preventDefault();
-	}
-
 	function ouBackText() {
 		return (
 			<circle className="BackText"
@@ -195,7 +191,6 @@ export default function LookDie(aProps) {
 			xmlns="http://www.w3.org/2000/svg"
 			viewBox="0 0 100 100"
 			onMouseDown={ouHandClick}
-			onContextMenu={ouHandContext}
 		>
 			{ouBackText()}
 			{ouGroupText()}

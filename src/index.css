@@ -33,28 +33,40 @@ h1, h2, h3, h4, h5, h6 {
 	font-family: Georgia, serif;
 }
 
+ul {
+	margin: 0.5rem 0;
+}
+
+li {
+	margin: 0.5rem 1rem 0.5rem 0;
+}
+
 a {
 	text-decoration: none;
 }
 
-button, input[type="submit"] {
+button, input[type="submit"], a.Btn {
 	background-color: hsl(0, 0%, 100%);
 	padding: 0.5rem 1rem;
 	border: 1px solid transparent;
 	border-radius: 0.25rem;
 }
 
-button:focus, input[type="submit"]:focus {
+button:focus, input[type="submit"]:focus, a:focus.Btn {
 	outline: none;
 	border: 1px dashed #AAA;
 }
 
-button:hover, input[type="submit"]:hover {
+button:hover, input[type="submit"]:hover, a:hover.Btn {
 	background-color: hsl(0, 0%, 95%);
 }
 
-button:active, input[type="submit"]:active {
+button:active, input[type="submit"]:active, a:active.Btn {
 	background-color: hsl(0, 0%, 85%);
+}
+
+a.Btn {
+	color: black;
 }
 
 /* Button rows
@@ -181,7 +193,6 @@ input[type="range"]:hover::-moz-range-track {
 	height: 100vh;
 	background-color: hsla(0, 0%, 0%, 0.4);
 
-	/* Center contained dialogs: */
 	display: grid;
 	place-items: center;
 }
