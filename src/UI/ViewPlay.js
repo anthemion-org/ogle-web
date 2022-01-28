@@ -47,19 +47,18 @@ export default function ViewPlay(aProps) {
 	const [oCardUser, ouSet_CardUser] = useState(o =>
 		(aProps.CardUserRest || tCard.suNew())
 	);
-	/** The elapsed play time, in seconds. */
-	const [oTimeElap, ouSet_TimeElap] = useState(aProps.TimeElapRest);
 	/** Set to 'true' if play is paused. */
 	const [oCkPause, ouSet_CkPause] = useState(false);
 	/** Set to 'true' if a word is being verified. */
 	const [oCkVerWord, ouSet_CkVerWord] = useState(false);
+	/** The elapsed play time, in seconds. */
+	const [oTimeElap, ouSet_TimeElap] = useState(aProps.TimeElapRest || 0);
 
-	useEffect(ouCreate_WorkSearch, [aProps.Setup, oBoard]);
-	useEffect(ouStore_Board, [oBoard, oCardOgle]);
-	useEffect(ouStore_CardUser, [oCardUser]);
+	// Keyboard input
+	// --------------
 
-	useEffect(() => {
-		function ouHandKey(aEvt) {
+	function ouListen_Keys() {
+		function ouHand(aEvt) {
 			// Close the displayed dialog, if any, or pause the game:
 			if (aEvt.code === "Escape") {
 				if (oCkVerWord) {
@@ -71,12 +70,39 @@ export default function ViewPlay(aProps) {
 			}
 		}
 
-		document.addEventListener("keydown", ouHandKey);
-		return () => { document.removeEventListener("keydown", ouHandKey); }
-	}, [oCkVerWord]);
+		document.addEventListener("keydown", ouHand);
 
-	// Generate board
-	// --------------
+		return () => {
+			document.removeEventListener("keydown", ouHand);
+		}
+	}
+	useEffect(ouListen_Keys, [oCkVerWord]);
+
+	// Timer management
+	// ----------------
+
+	function ouStart_Timer() {
+		function ouExec() {
+			ouSet_TimeElap(aTime => aTime + 1);
+		}
+
+		let oIDTimer = null;
+		if (oBoard && !oCkPause && !oCkVerWord)
+			oIDTimer = setInterval(ouExec, 1000);
+
+		return () => {
+			if (oIDTimer !== null) clearInterval(oIDTimer);
+		}
+	}
+	useEffect(ouStart_Timer, [oBoard, oCkPause, oCkVerWord]);
+
+	function ouStore_TimeElap() {
+		Store.uSet("TimeElap", oTimeElap);
+	}
+	useEffect(ouStore_TimeElap, [oTimeElap]);
+
+	// Board generation
+	// ----------------
 
 	function ouCreate_WorkSearch() {
 		if (oBoard) return;
@@ -94,11 +120,13 @@ export default function ViewPlay(aProps) {
 			ouSet_CardOgle(tCard.suFromPOD(aMsg.data.CardOgle));
 		};
 	}
+	useEffect(ouCreate_WorkSearch, [aProps.Setup, oBoard]);
 
 	function ouStore_Board() {
 		Store.uSet("Board", oBoard);
 		Store.uSet("CardOgle", oCardOgle);
 	}
+	useEffect(ouStore_Board, [oBoard, oCardOgle]);
 
 	// Help
 	// ----
@@ -270,6 +298,7 @@ export default function ViewPlay(aProps) {
 	function ouStore_CardUser() {
 		Store.uSet("CardUser", oCardUser);
 	}
+	useEffect(ouStore_CardUser, [oCardUser]);
 
 	// Component content
 	// -----------------
@@ -345,7 +374,7 @@ export default function ViewPlay(aProps) {
 					<div id="BoxSetup">
 						<div>
 							<h3>Yield</h3>
-							<div>{aProps.Setup.uTextShortYield()}</div>
+							<div>{oCardOgle ? oCardOgle.Ents.length : "???"}</div>
 						</div>
 						<hr />
 						<div>

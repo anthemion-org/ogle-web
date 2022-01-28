@@ -39,6 +39,10 @@ function uNextStApp(aSt, aAct) {
 		}
 
 		case StsApp.PlayInit: {
+			Store.uSet("Board", null);
+			Store.uSet("CardOgle", null);
+			Store.uSet("CardUser", null);
+			Store.uSet("TimeElap", 0);
 			return StsApp.Play;
 		}
 

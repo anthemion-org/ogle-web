@@ -47,7 +47,7 @@ export default function View(aProps) {
 			const oBoard = tBoard.suFromPOD(Store.uGet("Board"));
 			const oCardOgleRest = tCard.suFromPOD(Store.uGet("CardOgle"));
 			const oCardUserRest = tCard.suFromPOD(Store.uGet("CardUser"));
-			const oTimeElapRest = tCard.suFromPOD(Store.uGet("TimeElap"));
+			const oTimeElapRest = Store.uGet("TimeElap");
 
 			return <ViewPlay Setup={oSetup} BoardRest={oBoard}
 				CardOgleRest={oCardOgleRest} CardUserRest={oCardUserRest}
