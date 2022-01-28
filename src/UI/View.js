@@ -11,7 +11,7 @@
 import ViewSetup from "./ViewSetup";
 import ViewAbout from "./ViewAbout";
 import ViewPlay from "./ViewPlay";
-import * as StApp from "../StApp.js";
+import StsApp from "../StsApp.js";
 import { tSetup } from "../Round/Setup.js";
 import { tBoard } from "../Board/Board.js";
 import { tCard } from "../Round/Card.js";
@@ -26,23 +26,23 @@ import PropTypes from "prop-types";
 /** A component that selects and displays the view corresponding to the current
  *  application state. The following props are supported:
  *
- *  ~ StApp: The StApp.Views element representing the current state. This prop
- *    is required.
+ *  ~ StApp: An object containing a View property that gives the view to be
+ *    displayed. This prop is required.
  *
  *  ~ uUpd_StApp: A dispatcher that triggers application state transitions. This
  *    prop is required.
  */
 export default function View(aProps) {
-	switch (aProps.StApp.View) {
-		case StApp.Views.Setup: {
+	switch (aProps.StApp) {
+		case StsApp.Setup: {
 			const oSetup = tSetup.suFromPOD(Store.uGet("Setup"));
 			return <ViewSetup SetupRest={oSetup} {...aProps} />;
 		}
 
-		case StApp.Views.About:
+		case StsApp.About:
 			return <ViewAbout {...aProps} />;
 
-		case StApp.Views.Play: {
+		case StsApp.Play: {
 			const oSetup = tSetup.suFromPOD(Store.uGet("Setup"));
 			const oBoard = tBoard.suFromPOD(Store.uGet("Board"));
 			const oCardOgleRest = tCard.suFromPOD(Store.uGet("CardOgle"));
@@ -58,6 +58,6 @@ export default function View(aProps) {
 }
 
 View.propTypes = {
-	StApp: PropTypes.object.isRequired,
+	StApp: PropTypes.string.isRequired,
 	uUpd_StApp: PropTypes.func.isRequired
 };

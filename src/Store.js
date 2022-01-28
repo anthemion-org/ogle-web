@@ -15,7 +15,7 @@
 // lost when their data is serialized. Clients of this class must convert the
 // untyped data with 'suFromData' methods in the source types.
 
-import * as StApp from "./StApp.js";
+import StsApp from "./StsApp.js";
 import { tSetup } from "./Round/Setup.js";
 import * as Cfg from "./Cfg.js";
 
@@ -49,7 +49,7 @@ if (!Data) {
 function uDef() {
 	return {
 		WordsUser: [],
-		StApp: { View: StApp.Views.Setup },
+		StApp: StsApp.Setup,
 		Setup: tSetup.suDef()
 	};
 }

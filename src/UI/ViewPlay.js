@@ -9,7 +9,7 @@
 //
 
 import "./ViewPlay.css";
-import * as StApp from "../StApp.js";
+import StsApp from "../StsApp.js";
 import { tSetup } from "../Round/Setup.js";
 import { tBoard } from "../Board/Board.js";
 import { tEntWord } from "../Round/EntWord.js";
@@ -122,8 +122,7 @@ export default function ViewPlay(aProps) {
 
 	/** Handles the End Round button click. */
 	function ouHandEnd(aEvt) {
-		const oSt = { View: StApp.Views.Setup };
-		aProps.uUpd_StApp(oSt);
+		aProps.uUpd_StApp(StsApp.Setup);
 	}
 
 	/** Returns the Pause dialog, or 'null' if the game is not paused. */
@@ -374,7 +373,7 @@ export default function ViewPlay(aProps) {
 }
 
 ViewPlay.propTypes = {
-	StApp: PropTypes.object.isRequired,
+	StApp: PropTypes.string.isRequired,
 	uUpd_StApp: PropTypes.func.isRequired,
 	Setup: PropTypes.instanceOf(tSetup).isRequired,
 	Board: PropTypes.instanceOf(tBoard)

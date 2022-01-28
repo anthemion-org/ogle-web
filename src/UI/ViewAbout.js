@@ -10,7 +10,7 @@
 
 import "./ViewAbout.css";
 import Logo from "./Logo.js";
-import * as StApp from "../StApp.js";
+import StsApp from "../StsApp.js";
 import * as Cfg from "../Cfg.js";
 
 import React from "react";
@@ -19,8 +19,7 @@ import PropTypes from "prop-types";
 /** The About view. */
 export default function ViewAbout(aProps) {
 	function ouHandOK(aEvt) {
-		const oSt = { View: StApp.Views.Setup };
-		aProps.uUpd_StApp(oSt);
+		aProps.uUpd_StApp(StsApp.Setup);
 	}
 
 	return (
@@ -64,6 +63,6 @@ export default function ViewAbout(aProps) {
 }
 
 ViewAbout.propTypes = {
-	StApp: PropTypes.object.isRequired,
+	StApp: PropTypes.string.isRequired,
 	uUpd_StApp: PropTypes.func.isRequired
 };

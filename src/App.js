@@ -9,7 +9,7 @@
 //
 
 import * as Store from "./Store.js";
-import * as StApp from "./StApp.js";
+import StsApp from "./StsApp.js";
 import View from "./UI/View.js";
 
 import { React, useReducer, useEffect } from "react";
@@ -30,8 +30,19 @@ export default function App() {
 
 /** A reducer that manages the top-level application state. */
 function uNextStApp(aSt, aAct) {
-	if (aAct.View && !StApp.Views[aAct.View])
-		throw Error("uNextStApp: Invalid action view");
+	if (!StsApp[aAct])
+		throw Error("uNextStApp: Invalid action");
 
-	return { ...aSt, ...aAct };
+	switch (aAct) {
+		case StsApp.Setup: {
+			return StsApp.Setup;
+		}
+
+		case StsApp.PlayInit: {
+			return StsApp.Play;
+		}
+
+		default:
+			return aAct;
+	}
 }

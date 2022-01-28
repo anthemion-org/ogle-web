@@ -10,7 +10,7 @@
 
 import "./ViewSetup.css";
 import * as Store from "../Store.js";
-import * as StApp from "../StApp.js";
+import StsApp from "../StsApp.js";
 import { tSetup } from "../Round/Setup.js";
 import { tRg } from "../Util/Rg.js";
 import * as Text from "../Util/Text.js";
@@ -57,16 +57,12 @@ export default class ViewSetup extends React.Component {
 
 	uHandAbout(aEvt) {
 		aEvt.preventDefault();
-
-		const oSt = { View: StApp.Views.About };
-		this.props.uUpd_StApp(oSt);
+		this.props.uUpd_StApp(StsApp.About);
 	}
 
 	uHandPlay(aEvt) {
 		aEvt.preventDefault();
-
-		const oSt = { View: StApp.Views.Play };
-		this.props.uUpd_StApp(oSt);
+		this.props.uUpd_StApp(StsApp.PlayInit);
 	}
 
 	componentDidUpdate() {
@@ -117,7 +113,7 @@ export default class ViewSetup extends React.Component {
 }
 
 ViewSetup.propTypes = {
-	StApp: PropTypes.object.isRequired,
+	StApp: PropTypes.string.isRequired,
 	uUpd_StApp: PropTypes.func.isRequired,
 	SetupRest: PropTypes.instanceOf(tSetup).isRequired
 };
