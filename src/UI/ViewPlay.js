@@ -107,22 +107,25 @@ export default function ViewPlay(aProps) {
 	useEffect(ouStore_TimeElap, [oTimeElap]);
 
 	function ouPlay_Tick() {
+		if (!oBoard || oCkPause || oCkVerWord) {
+			Sound.uStop_LoopTick();
+			Sound.uStop_LoopTickLast();
+			return;
+		}
+
 		const oTimeRemain = uTimeRemain(aProps.Setup, oCardUser.CtBonusTime,
 			oTimeElap);
-
-		const oNow = Date.now();
-		const oSince = oNow - oTimeTickLast;
-		const oPerTick = (oTimeRemain < 10000) ? 250 : 500;
-		// setInterval
-		if (oSince > (oPerTick / 2)) {
-			// I don't think this counts as a side effect, since this app never
-			// queries the audio system state. That could change, however:
-			Sound.uTick();
-			ouSet_TimeTickLast(oNow + oPerTick);
+		if (oTimeRemain < 10000) {
+			Sound.uStop_LoopTick();
+			Sound.uPlay_LoopTickLast();
+		}
+		else {
+			Sound.uStop_LoopTickLast();
+			Sound.uPlay_LoopTick();
 		}
 	}
-	useEffect(ouPlay_Tick, [oTimeElap, oTimeTickLast, oCardUser.CtBonusTime,
-		aProps.Setup]);
+	useEffect(ouPlay_Tick, [oBoard, oTimeElap, oCkPause, oCkVerWord,
+		oCardUser.CtBonusTime,  aProps.Setup]);
 
 	// Board generation
 	// ----------------
