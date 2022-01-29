@@ -4,12 +4,23 @@
 // www.anthemion.org */
 
 #ViewSetup .Box {
-	background-color: hsl(0, 0%, 100%);;
+	margin: 0.5rem 0;
 	border-radius: 0.25rem;
 	padding: 0.5rem 1rem;
-	margin: 0.5rem 0;
+	background-color: hsl(0, 0%, 100%);;
+}
+
+#ViewSetup label {
+	font-size: 1.25rem;
 }
 
 #ViewSetup .Name {
 	float: right;
+	font-family: Georgia, serif;
+	font-weight: bold;
+	font-size: 1.25rem;
+}
+
+#ViewSetup .Instruct {
+	text-align: center;
 }

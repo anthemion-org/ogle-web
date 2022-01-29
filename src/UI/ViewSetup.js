@@ -65,14 +65,20 @@ export default class ViewSetup extends React.Component {
 		this.props.uUpd_StApp(StsApp.PlayInit);
 	}
 
-	componentDidUpdate() {
+	/** Returns a tSetup instance representing the current selection. */
+	uSetup() {
 		const oYield = Yields[this.state.jYield][1];
 		const [, oPaceStart, oPaceBonus] = Paces[this.state.jPace];
-		const oSetup = new tSetup(oYield, oPaceStart, oPaceBonus);
-		Store.uSet("Setup", oSetup);
+		return new tSetup(oYield, oPaceStart, oPaceBonus);
+	}
+
+	componentDidUpdate() {
+		Store.uSet("Setup", this.uSetup());
 	}
 
 	render() {
+		const oSetup = this.uSetup();
+
 		return (
 			<form id="ViewSetup">
 				<h1>Ogle setup</h1>
@@ -80,12 +86,12 @@ export default class ViewSetup extends React.Component {
 				<div className="Box">
 					<label htmlFor="RgYield">Yield</label>
 					<div className="Name">
-						{uNameYield(this.state.jYield)}
+						{oSetup.uTextShortYield()}
 					</div>
 					<input id="RgYield" type="range" name="jYield"
 						value={this.state.jYield} max={Yields.length - 1}
 						onChange={this.uHandChg} />
-					<div>
+					<div className="Instruct">
 						{uInstructYield(this.state.jYield)}
 					</div>
 				</div>
@@ -93,12 +99,12 @@ export default class ViewSetup extends React.Component {
 				<div className="Box">
 					<label htmlFor="RgPace">Pace</label>
 					<div className="Name">
-						{uNamePace(this.state.jPace)}
+						{oSetup.uTextShortPace()}
 					</div>
 					<input id="RgPace" type="range" name="jPace"
 						value={this.state.jPace} max={Paces.length - 1}
 						onChange={this.uHandChg} />
-					<div>
+					<div className="Instruct">
 						{uInstructPace(this.state.jPace)}
 					</div>
 				</div>

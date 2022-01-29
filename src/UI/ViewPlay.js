@@ -16,6 +16,7 @@ import { tEntWord } from "../Round/EntWord.js";
 import { tCard } from "../Round/Card.js";
 import LookBoard from "./LookBoard.js";
 import Lex from "../Search/Lex.js";
+import Sound from "../Sound.js";
 import * as Store from "../Store.js";
 import * as Cfg from "../Cfg.js";
 
@@ -45,14 +46,16 @@ export default function ViewPlay(aProps) {
 	const [oEntUser, ouSet_EntUser] = useState(null);
 	/** The user scorecard. */
 	const [oCardUser, ouSet_CardUser] = useState(o =>
-		(aProps.CardUserRest || tCard.suNew())
+		aProps.CardUserRest || tCard.suNew()
 	);
 	/** Set to 'true' if play is paused. */
 	const [oCkPause, ouSet_CkPause] = useState(false);
 	/** Set to 'true' if a word is being verified. */
 	const [oCkVerWord, ouSet_CkVerWord] = useState(false);
-	/** The elapsed play time, in seconds. */
+	/** The elapsed play time, in milliseconds. */
 	const [oTimeElap, ouSet_TimeElap] = useState(aProps.TimeElapRest || 0);
+	/** The UNIX time of the last tick, in milliseconds. */
+	const [oTimeTickLast, ouSet_TimeTickLast] = useState(0);
 
 	// Keyboard input
 	// --------------
@@ -81,25 +84,43 @@ export default function ViewPlay(aProps) {
 	// Timer management
 	// ----------------
 
+	const oPerTimer = 25;
+
 	function ouStart_Timer() {
 		function ouExec() {
-			ouSet_TimeElap(aTime => aTime + 1);
+			ouSet_TimeElap(aTime => aTime + oPerTimer);
 		}
 
 		let oIDTimer = null;
 		if (oBoard && !oCkPause && !oCkVerWord)
-			oIDTimer = setInterval(ouExec, 1000);
+			oIDTimer = setInterval(ouExec, oPerTimer);
 
 		return () => {
 			if (oIDTimer !== null) clearInterval(oIDTimer);
 		}
 	}
-	useEffect(ouStart_Timer, [oBoard, oCkPause, oCkVerWord]);
+	useEffect(ouStart_Timer, [oBoard, oCkPause, oCkVerWord, oPerTimer]);
 
 	function ouStore_TimeElap() {
 		Store.uSet("TimeElap", oTimeElap);
 	}
 	useEffect(ouStore_TimeElap, [oTimeElap]);
+
+	function ouPlay_Tick() {
+		const oTimeRemain = uTimeRemain(aProps.Setup, oCardUser.CtBonusTime,
+			oTimeElap);
+
+		const oNow = Date.now();
+		const oPerTick = (oTimeRemain < 10000) ? 250 : 500;
+		if ((oNow - oTimeTickLast) >= oPerTick) {
+			// I don't think this counts as a side effect, since this app never
+			// queries the audio system state. That could change, however:
+			Sound.uTick();
+			ouSet_TimeTickLast(oNow);
+		}
+	}
+	useEffect(ouPlay_Tick, [oTimeElap, oTimeTickLast, oCardUser.CtBonusTime,
+		aProps.Setup]);
 
 	// Board generation
 	// ----------------
@@ -335,10 +356,9 @@ export default function ViewPlay(aProps) {
 		);
 	}
 
-	function ouTimeRemain() {
-		const oTime = aProps.Setup.PaceStart
-			+ (aProps.Setup.PaceBonus * oCardUser.CtBonusTime) - oTimeElap;
-		return Math.ceil(oTime);
+	function ouTextTimeRemain() {
+		const oTime = uTimeRemain(aProps.Setup, oCardUser.CtBonusTime, oTimeElap);
+		return Math.ceil(oTime / 1000);
 	}
 
 	return (
@@ -363,7 +383,7 @@ export default function ViewPlay(aProps) {
 					<div id="BoxTime">
 						<button id="BtnPause" onClick={ouHandPause}>
 							<div id="Time">
-								{ouTimeRemain()}
+								{ouTextTimeRemain()}
 							</div>
 							Seconds
 						</button>
@@ -407,3 +427,8 @@ ViewPlay.propTypes = {
 	Setup: PropTypes.instanceOf(tSetup).isRequired,
 	Board: PropTypes.instanceOf(tBoard)
 };
+
+function uTimeRemain(aSetup, aCtBonus, aTimeElap) {
+	const oTimeAllow = (aSetup.PaceStart + (aSetup.PaceBonus * aCtBonus)) * 1000;
+	return oTimeAllow - aTimeElap;
+}
