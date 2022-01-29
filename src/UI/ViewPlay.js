@@ -99,21 +99,44 @@ export default function ViewPlay(aProps) {
 			if (oIDTimer !== null) clearInterval(oIDTimer);
 		}
 	}
-	useEffect(ouStart_Timer, [oBoard, oCkPause, oCkVerWord, oPerTimer]);
+	useEffect(ouStart_Timer, [oBoard, oCkPause, oCkVerWord]);
 
 	function ouStore_TimeElap() {
-		Store.uSet("TimeElap", oTimeElap);
+		if ((oTimeElap % 1000) < oPerTimer)
+			Store.uSet("TimeElap", oTimeElap);
 	}
 	useEffect(ouStore_TimeElap, [oTimeElap]);
 
 	function ouPlay_Tick() {
+		// This tick timing has caused a lot of frustration, just like it did in the
+		// desktop app. Timers are reasonably accurate, over the long run, but they
+		// aren't precise, and that lack is very obvious when they are used to play
+		// audio.
+		//
+		// I tried another design that used looping WAV files that were padded with
+		// silence to produce the desired periods:
+		//
+		//   https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement/loop
+		//
+		// That implementation is found in the 'loop_tick_audio' branch. It improved
+		// the audio timing precision, but I did not see an easy way to handle the
+		// transition from one loop period to another.
+		//
+		// This design is reasonably precise, as long as oPerTimer isn't more than
+		// 25ms, but that produces very rapid changes to the oTimeElap state
+		// variable. We will keep it for now.
+
 		const oTimeRemain = uTimeRemain(aProps.Setup, oCardUser.CtBonusTime,
 			oTimeElap);
 
 		const oNow = Date.now();
 		const oSince = oNow - oTimeTickLast;
 		const oPerTick = (oTimeRemain < 10000) ? 250 : 500;
-		// setInterval
+		// Not only does 'setInterval' fire late, it often fires early, which then
+		// causes the audio to play an extra oPerTimer later if this is checked with
+		// the more obvious 'oSince >= oPerTick'. This approach allows the tick to
+		// play early, but it limits the inaccuracy to half of oPerTimer in either
+		// direction:
 		if (oSince > (oPerTick / 2)) {
 			// I don't think this counts as a side effect, since this app never
 			// queries the audio system state. That could change, however:
