@@ -111,12 +111,14 @@ export default function ViewPlay(aProps) {
 			oTimeElap);
 
 		const oNow = Date.now();
+		const oSince = oNow - oTimeTickLast;
 		const oPerTick = (oTimeRemain < 10000) ? 250 : 500;
-		if ((oNow - oTimeTickLast) >= oPerTick) {
+		// setInterval
+		if (oSince > (oPerTick / 2)) {
 			// I don't think this counts as a side effect, since this app never
 			// queries the audio system state. That could change, however:
 			Sound.uTick();
-			ouSet_TimeTickLast(oNow);
+			ouSet_TimeTickLast(oNow + oPerTick);
 		}
 	}
 	useEffect(ouPlay_Tick, [oTimeElap, oTimeTickLast, oCardUser.CtBonusTime,
