@@ -43,7 +43,7 @@ import PropTypes from "prop-types";
  *    prop is required.
  */
 export default function LookDie(aProps) {
-	function ouHandOver(aEvt) {
+	function ouHandMouseOver(aEvt) {
 		Sound.uMouseOver();
 	}
 
@@ -195,7 +195,7 @@ export default function LookDie(aProps) {
 		<svg className={oClasses} style={oSty}
 			xmlns="http://www.w3.org/2000/svg"
 			viewBox="0 0 100 100"
-			onMouseOver={ouHandOver}
+			onMouseOver={ouHandMouseOver}
 			onMouseDown={ouHandClick}
 		>
 			{ouBackText()}

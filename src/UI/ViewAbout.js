@@ -10,6 +10,7 @@
 
 import "./ViewAbout.css";
 import Logo from "./Logo.js";
+import Btn from "./Btn.js";
 import StsApp from "../StsApp.js";
 import * as Cfg from "../Cfg.js";
 
@@ -56,7 +57,7 @@ export default function ViewAbout(aProps) {
 			</div>
 
 			<div className="Btns Ctr MargV3">
-				<button onClick={ouHandOK}>OK</button>
+				<Btn onClick={ouHandOK}>OK</Btn>
 			</div>
 		</div>
 	);

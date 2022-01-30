@@ -51,7 +51,7 @@ export class tCard {
 	}
 
 	/** Adds the specified entry, if it meets the minimum length, and if it is not
-	 *  a duplicate, and returns the number of bonuses produced by the addition.
+	 *  a duplicate, and returns 'true' if a valid, unfollowed word was entered.
 	 *  If the entry is new, this will be the number of letters in the entry, less
 	 *  the minimum word length, plus one. If the entry is already followed, it
 	 *  will be zero. If the entry follows an existing entry, it will be the
@@ -59,7 +59,7 @@ export class tCard {
 	 *  Set aCkAddFollow to 'false' if followed entries should not be added. */
 	uAdd(aEnt, aCkAddFollow) {
 		const oTextAdd = aEnt.uTextAll();
-		if (oTextAdd.length < Cfg.LenWordMin) return;
+		if (oTextAdd.length < Cfg.LenWordMin) return false;
 
 		let oCkScore = true;
 		let oCtBonus = 1 + oTextAdd.length - Cfg.LenWordMin;
@@ -69,12 +69,12 @@ export class tCard {
 				oCkScore = false;
 
 				// The new word is a duplicate:
-				if (oTextAdd.length === oTextOrig.length) return;
+				if (oTextAdd.length === oTextOrig.length) return false;
 
 				// The new word is already followed:
 				if (oTextAdd.length < oTextOrig.length) {
 					if (aCkAddFollow) this.Ents.push(aEnt);
-					return;
+					return false;
 				}
 
 				// The new word follows another, but it could follow a longer word, or
@@ -86,6 +86,7 @@ export class tCard {
 		this.Ents.push(aEnt);
 		if (oCkScore) ++this.Score;
 		this.CtBonusTime += oCtBonus;
+		return (oCtBonus > 0);
 	}
 
 	/** Creates and returns a clone of this instance. */

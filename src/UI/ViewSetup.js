@@ -9,6 +9,8 @@
 //
 
 import "./ViewSetup.css";
+import Slide from "./Slide.js";
+import Btn from "./Btn.js";
 import * as Store from "../Store.js";
 import StsApp from "../StsApp.js";
 import { tSetup } from "../Round/Setup.js";
@@ -43,7 +45,7 @@ export default class ViewSetup extends React.Component {
 			jPace: uIdxPace(aProps.SetupRest)
 		};
 
-		this.uHandChg = this.uHandChg.bind(this);
+		this.uHandChange = this.uHandChange.bind(this);
 		this.uHandAbout = this.uHandAbout.bind(this);
 		this.uHandPlay = this.uHandPlay.bind(this);
 	}
@@ -52,7 +54,7 @@ export default class ViewSetup extends React.Component {
 		Store.uSet("Setup", this.uSetup());
 	}
 
-	uHandChg(aEvt) {
+	uHandChange(aEvt) {
 		const oEl = aEvt.target;
 		const oVal = (oEl.type === "checkbox") ? oEl.checked : oEl.value;
 		const oState = { [aEvt.target.name]: oVal };
@@ -88,9 +90,8 @@ export default class ViewSetup extends React.Component {
 					<div className="Name">
 						{oSetup.uTextShortYield()}
 					</div>
-					<input id="RgYield" type="range" name="jYield"
-						value={this.state.jYield} max={Yields.length - 1}
-						onChange={this.uHandChg} />
+					<Slide id="RgYield" name="jYield" value={this.state.jYield}
+						max={Yields.length - 1} onChange={this.uHandChange} />
 					<div className="Instruct">
 						{uInstructYield(this.state.jYield)}
 					</div>
@@ -101,17 +102,16 @@ export default class ViewSetup extends React.Component {
 					<div className="Name">
 						{oSetup.uTextShortPace()}
 					</div>
-					<input id="RgPace" type="range" name="jPace"
-						value={this.state.jPace} max={Paces.length - 1}
-						onChange={this.uHandChg} />
+					<Slide id="RgPace" name="jPace" value={this.state.jPace}
+						max={Paces.length - 1} onChange={this.uHandChange} />
 					<div className="Instruct">
 						{uInstructPace(this.state.jPace)}
 					</div>
 				</div>
 
 				<div className="Btns">
-					<button onClick={this.uHandAbout}>About</button>
-					<button className="Group" onClick={this.uHandPlay}>Play</button>
+					<Btn onClick={this.uHandAbout}>About</Btn>
+					<Btn className="Group" onClick={this.uHandPlay}>Play</Btn>
 				</div>
 			</form>
 		);

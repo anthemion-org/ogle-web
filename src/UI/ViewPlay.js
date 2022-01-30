@@ -9,6 +9,7 @@
 //
 
 import "./ViewPlay.css";
+import Btn from "./Btn.js";
 import StsApp from "../StsApp.js";
 import { tSetup } from "../Round/Setup.js";
 import { tBoard } from "../Board/Board.js";
@@ -191,8 +192,8 @@ export default function ViewPlay(aProps) {
 		return (
 			<div className="ScreenDlg">
 				<div id="DlgPause">
-					<button onClick={ouHandEnd}>End round</button>
-					<button onClick={ouHandResume}>Resume</button>
+					<Btn onClick={ouHandEnd}>End round</Btn>
+					<Btn onClick={ouHandResume}>Resume</Btn>
 				</div>
 			</div>
 		);
@@ -255,12 +256,12 @@ export default function ViewPlay(aProps) {
 					</ul>
 
 					<div className="Btns">
-						<button onClick={ouHandVerWordAdd}>
+						<Btn onClick={ouHandVerWordAdd}>
 							Add to lexicon
-						</button>
-						<button className="Group" onClick={ouHandVerWordCancel}>
+						</Btn>
+						<Btn className="Group" onClick={ouHandVerWordCancel}>
 							Cancel entry
-						</button>
+						</Btn>
 					</div>
 				</div>
 			</div>
@@ -337,8 +338,11 @@ export default function ViewPlay(aProps) {
 			// We could change uAdd to return a new tCard instance, but
 			// suFromSelsBoard would become even slower than it is now:
 			const oCardNew = aCard.uClone();
-			oCardNew.uAdd(oEntUser);
-			Sound.uEntVal();
+			const oCkVal = oCardNew.uAdd(oEntUser);
+
+			if (oCkVal) Sound.uEntVal();
+			else Sound.uEntInval();
+
 			return oCardNew;
 		});
 
@@ -368,7 +372,7 @@ export default function ViewPlay(aProps) {
 					Enter as many words of <em>four or more letters</em> as you can
 					before time runs out.
 				</div>
-				<button id="BtnHelp" onClick={ouHandHelp}>Help</button>
+				<Btn id="BtnHelp" onClick={ouHandHelp}>Help</Btn>
 			</>
 		);
 	}
@@ -410,12 +414,12 @@ export default function ViewPlay(aProps) {
 
 				<div id="BoxStat">
 					<div id="BoxTime">
-						<button id="BtnPause" onClick={ouHandPause}>
+						<Btn id="BtnPause" onClick={ouHandPause}>
 							<div id="Time">
 								{ouTextTimeRemain()}
 							</div>
 							Seconds
-						</button>
+						</Btn>
 
 						Press to pause
 					</div>
@@ -433,12 +437,12 @@ export default function ViewPlay(aProps) {
 					</div>
 
 					<div id="BoxScore">
-						<button id="BtnEnt" onClick={ouRecord_Ent}>
+						<Btn id="BtnEnt" onClick={ouRecord_Ent}>
 							<div id="Score">
 								{oCardUser.Score ?? 0}
 							</div>
 							Score
-						</button>
+						</Btn>
 						Press to enter selection
 					</div>
 				</div>

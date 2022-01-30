@@ -5,7 +5,7 @@
 //
 // Import with:
 //
-//   import Sound from "./Sound.js";
+//   import Sound from "../Sound.js";
 //
 
 import { tTimer } from "./Util/Timer.js";
