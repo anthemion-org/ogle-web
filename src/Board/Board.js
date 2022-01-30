@@ -18,7 +18,7 @@ export class tBoard {
 	static suFromPOD(aPOD) {
 		if (!aPOD) return null;
 
-		const oDice = aPOD.Dice.map(o => tDie.suFromPOD(o));
+		const oDice = aPOD.Dice.map(a => tDie.suFromPOD(a));
 		return new tBoard(oDice);
 	}
 

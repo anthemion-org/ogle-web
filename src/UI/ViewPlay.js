@@ -23,8 +23,6 @@ import * as Cfg from "../Cfg.js";
 import { React, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
-let oDefNext = -100;
-
 // ViewPlay
 // --------
 
@@ -55,7 +53,7 @@ export default function ViewPlay(aProps) {
 	/** The elapsed play time, in milliseconds. */
 	const [oTimeElap, ouSet_TimeElap] = useState(aProps.TimeElapRest || 0);
 	/** The UNIX time of the last tick, in milliseconds. */
-	const [oTimeTickLast, ouSet_TimeTickLast] = useState(0);
+	const [oTimeTickLast, ouSet_TimeTickLast] = useState(Date.now());
 
 	// Keyboard input
 	// --------------
@@ -69,7 +67,7 @@ export default function ViewPlay(aProps) {
 					return;
 				}
 
-				ouSet_CkPause(o => !o);
+				ouSet_CkPause(a => !a);
 			}
 		}
 
@@ -84,7 +82,7 @@ export default function ViewPlay(aProps) {
 	// Timer management
 	// ----------------
 
-	const oPerTimer = 25;
+	const oPerTimer = 1000;
 
 	function ouStart_Timer() {
 		function ouExec() {
@@ -102,16 +100,14 @@ export default function ViewPlay(aProps) {
 	useEffect(ouStart_Timer, [oBoard, oCkPause, oCkVerWord]);
 
 	function ouStore_TimeElap() {
-		if ((oTimeElap % 1000) < oPerTimer)
-			Store.uSet("TimeElap", oTimeElap);
+		Store.uSet("TimeElap", oTimeElap);
 	}
 	useEffect(ouStore_TimeElap, [oTimeElap]);
 
 	function ouPlay_Tick() {
 		// This tick timing has caused a lot of frustration, just like it did in the
-		// desktop app. Timers are reasonably accurate, over the long run, but they
-		// aren't precise, and that lack is very obvious when they are used to play
-		// audio.
+		// desktop app. JavaScript timers aren't any more precise than Windows
+		// timers, and that lack is very obvious when they are used to play audio.
 		//
 		// I tried another design that used looping WAV files that were padded with
 		// silence to produce the desired periods:
@@ -121,31 +117,21 @@ export default function ViewPlay(aProps) {
 		// That implementation is found in the 'loop_tick_audio' branch. It improved
 		// the audio timing precision, but I did not see an easy way to handle the
 		// transition from one loop period to another.
-		//
-		// This design is reasonably precise, as long as oPerTimer isn't more than
-		// 25ms, but that produces very rapid changes to the oTimeElap state
-		// variable. We will keep it for now.
+
+		if (!oBoard || oCkPause || oCkVerWord) {
+			Sound.uStop_Tick();
+			return;
+		}
 
 		const oTimeRemain = uTimeRemain(aProps.Setup, oCardUser.CtBonusTime,
 			oTimeElap);
+		if (oTimeRemain < 10000) Sound.uLoopFast_Tick();
+		else Sound.uLoopSlow_Tick();
 
-		const oNow = Date.now();
-		const oSince = oNow - oTimeTickLast;
-		const oPerTick = (oTimeRemain < 10000) ? 250 : 500;
-		// Not only does 'setInterval' fire late, it often fires early, which then
-		// causes the audio to play an extra oPerTimer later if this is checked with
-		// the more obvious 'oSince >= oPerTick'. This approach allows the tick to
-		// play early, but it limits the inaccuracy to half of oPerTimer in either
-		// direction:
-		if (oSince > (oPerTick / 2)) {
-			// I don't think this counts as a side effect, since this app never
-			// queries the audio system state. That could change, however:
-			Sound.uTick();
-			ouSet_TimeTickLast(oNow + oPerTick);
-		}
+		// Can't clean-up here...
 	}
-	useEffect(ouPlay_Tick, [oTimeElap, oTimeTickLast, oCardUser.CtBonusTime,
-		aProps.Setup]);
+	useEffect(ouPlay_Tick, [aProps.Setup, oTimeElap, oBoard, oCkPause, oCkVerWord,
+		oCardUser.CtBonusTime]);
 
 	// Board generation
 	// ----------------
