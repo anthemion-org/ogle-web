@@ -282,46 +282,65 @@ export default function ViewPlay(aProps) {
 	function ouTog_Die(aPos) {
 		if (!oBoard || !ouCkEnab(aPos)) return;
 
+		// Start new entry:
 		if (!oEntUser) {
 			const oText = oBoard.uDie(aPos).Text;
 			const oEntNew = tEntWord.suFromPosText(aPos, oText);
 			ouSet_EntUser(oEntNew);
+			Sound.uSelDie();
 			return;
 		}
 
+		// Truncate existing entry:
 		if (oEntUser.uCkAt(aPos)) {
 			const oEntPrev = oEntUser.uEntPrev(aPos);
 			ouSet_EntUser(oEntPrev);
+			Sound.uUnselDie();
 			return;
 		}
 
+		// Extend existing entry:
 		const oText = oBoard.uDie(aPos).Text;
 		const oEntAdd = tEntWord.suFromPosText(aPos, oText, oEntUser);
 		ouSet_EntUser(oEntAdd);
+		Sound.uSelDie();
 	}
 
 	/** Clears the board selection. */
 	function ouClear_Ent() {
 		ouSet_EntUser(null);
+		Sound.uUnselDie();
 	}
 
 	/** Records the board selection as a word entry. */
 	function ouRecord_Ent() {
-		if (!oEntUser) return;
-
-		const oText = oEntUser.uTextAll();
-		if (oText.length < Cfg.LenWordMin) return;
-
-		if (!Lex.uCkKnown(oText)) {
-			ouSet_CkVerWord(true);
+		// There is no selection:
+		if (!oEntUser) {
+			Sound.uUnselDie();
 			return;
 		}
 
+		// The selection is too short:
+		const oText = oEntUser.uTextAll();
+		if (oText.length < Cfg.LenWordMin) {
+			Sound.uUnselDie();
+			return;
+		}
+
+		// The word is not recognized:
+		if (!Lex.uCkKnown(oText)) {
+			ouSet_CkVerWord(true);
+			Sound.uEntInval();
+			return;
+		}
+
+		// The word is recognized:
 		ouSet_CardUser(aCard => {
 			// We could change uAdd to return a new tCard instance, but
 			// suFromSelsBoard would become even slower than it is now:
 			const oCardNew = aCard.uClone();
 			oCardNew.uAdd(oEntUser);
+			Sound.uEntVal();
 			return oCardNew;
 		});
 

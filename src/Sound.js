@@ -14,6 +14,12 @@ import { tTimer } from "./Util/Timer.js";
  *  a singleton. */
 class tSound {
 	constructor() {
+		this.AudMouseOver = document.querySelector("#AudMouseOver");
+		this.AudSelDie = document.querySelector("#AudSelDie");
+		this.AudUnselDie = document.querySelector("#AudUnselDie");
+		this.AudEntVal = document.querySelector("#AudEntVal");
+		this.AudEntInval = document.querySelector("#AudEntInval");
+
 		this.AudTick = document.querySelector("#AudTick");
 		this.AudTick.volume = 0.8;
 
@@ -23,6 +29,26 @@ class tSound {
 		this._uWorkTimerLoop = this._uWorkTimerLoop.bind(this);
 		/** The timer that runs the tick loop. */
 		this._TimerLoop = new tTimer(this._uWorkTimerLoop, 250, true);
+	}
+
+	uMouseOver() {
+		this.AudMouseOver.play();
+	}
+
+	uSelDie() {
+		this.AudSelDie.play();
+	}
+
+	uUnselDie() {
+		this.AudUnselDie.play();
+	}
+
+	uEntVal() {
+		this.AudEntVal.play();
+	}
+
+	uEntInval() {
+		this.AudEntInval.play();
 	}
 
 	uTick() {

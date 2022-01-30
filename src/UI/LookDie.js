@@ -11,6 +11,7 @@
 import "./Die.css";
 import { tDie } from "../Board/Die.js";
 import * as MetrDie from "./MetrDie.js";
+import Sound from "../Sound.js";
 import * as Dir4 from "../Util/Dir4.js";
 import { tPt2 } from "../Util/Pt2.js";
 
@@ -42,6 +43,10 @@ import PropTypes from "prop-types";
  *    prop is required.
  */
 export default function LookDie(aProps) {
+	function ouHandOver(aEvt) {
+		Sound.uMouseOver();
+	}
+
 	function ouHandClick(aEvt) {
 		aEvt.preventDefault();
 		switch (aEvt.button) {
@@ -190,6 +195,7 @@ export default function LookDie(aProps) {
 		<svg className={oClasses} style={oSty}
 			xmlns="http://www.w3.org/2000/svg"
 			viewBox="0 0 100 100"
+			onMouseOver={ouHandOver}
 			onMouseDown={ouHandClick}
 		>
 			{ouBackText()}
