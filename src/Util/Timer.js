@@ -22,36 +22,36 @@ export class tTimer {
 		/** The ID returned by 'setTimeout', or 'null' if the timer is stopped. */
 		this.IDTimer = null;
 
-		this.uExec = this.uExec.bind(this);
+		this._uExec = this._uExec.bind(this);
 
 		if (aCkStart) this.uStart();
 	}
 
-	/** Replaces the work function. Set to 'null' if the timer should continue
-	 *  without doing any work. */
+	/** Replaces the work function. Set to 'null' if the timer should continue to
+	 *  run without doing any work. */
 	uSet_Work(auWork) {
 		this.uWork = auWork;
 	}
 
 	/** Starts the timer, doing nothing if the timer is already running. */
 	uStart() {
-		if (this.IDTimer !== null) return;
+		if (this.IDTimer) return;
 
 		this.TimeNext = Date.now() + this.Per;
-		this.IDTimer = setTimeout(this.uExec, this.Per);
+		this.IDTimer = setTimeout(this._uExec, this.Per);
 	}
 
 	/** Stops the timer, doing nothing if the timer is already stopped. */
 	uStop() {
-		if (this.IDTimer === null) return;
+		if (!this.IDTimer) return;
 
 		clearTimeout(this.IDTimer);
 		this.IDTimer = null;
 	}
 
-	/** Runs the work function, if it is set, and schedules the next timeout,
+	/** Executes the work function, if it is set, and schedules the next timeout,
 	 *  adjusting the interval as necessary to account for 'setTimeout' jitter. */
-	uExec() {
+	_uExec() {
 		const oTimeNow = Date.now();
 
 		// While I have seen 'setInterval' run too fast, I haven't seen 'setTimeout'
@@ -63,6 +63,6 @@ export class tTimer {
 		// If the timing is very late, oWait could be negative:
 		while (oWait <= 0) oWait += this.Per;
 
-		this.IDTimer = setTimeout(this.uExec, oWait);
+		this.IDTimer = setTimeout(this._uExec, oWait);
 	}
 }

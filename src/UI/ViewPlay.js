@@ -109,14 +109,9 @@ export default function ViewPlay(aProps) {
 		// desktop app. JavaScript timers aren't any more precise than Windows
 		// timers, and that lack is very obvious when they are used to play audio.
 		//
-		// I tried another design that used looping WAV files that were padded with
-		// silence to produce the desired periods:
-		//
-		//   https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement/loop
-		//
-		// That implementation is found in the 'loop_tick_audio' branch. It improved
-		// the audio timing precision, but I did not see an easy way to handle the
-		// transition from one loop period to another.
+		// I tried a number of designs that manage the tick timing here, in the
+		// effect, but none of them worked well. This approach delegates timing to
+		// the Sound class, which is much easier than managing that state here.
 
 		if (!oBoard || oCkPause || oCkVerWord) {
 			Sound.uStop_Tick();
@@ -125,13 +120,19 @@ export default function ViewPlay(aProps) {
 
 		const oTimeRemain = uTimeRemain(aProps.Setup, oCardUser.CtBonusTime,
 			oTimeElap);
-		if (oTimeRemain < 10000) Sound.uLoopFast_Tick();
+		// I want the fast ticking to start at ten seconds, but the displayed time
+		// is rounded up, so eleven seconds matches better with that output:
+		if (oTimeRemain < 11000) Sound.uLoopFast_Tick();
 		else Sound.uLoopSlow_Tick();
 
-		// Can't clean-up here...
+		// Note that we cannot return a clean-up function; doing so would cause the
+		// tick loop to stop and restart arbitrarily, ruining its timing. The loop
+		// must be stopped manually before the Score view is displayed. It is
+		// already stopped when play is paused, so there is no need to do that when
+		// quitting play early.
 	}
-	useEffect(ouPlay_Tick, [aProps.Setup, oTimeElap, oBoard, oCkPause, oCkVerWord,
-		oCardUser.CtBonusTime]);
+	useEffect(ouPlay_Tick, [aProps.Setup, oBoard, oCkPause, oCkVerWord,
+		oCardUser.CtBonusTime, oTimeElap]);
 
 	// Board generation
 	// ----------------
