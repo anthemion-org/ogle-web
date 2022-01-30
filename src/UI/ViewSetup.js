@@ -48,6 +48,10 @@ export default class ViewSetup extends React.Component {
 		this.uHandPlay = this.uHandPlay.bind(this);
 	}
 
+	componentDidUpdate() {
+		Store.uSet("Setup", this.uSetup());
+	}
+
 	uHandChg(aEvt) {
 		const oEl = aEvt.target;
 		const oVal = (oEl.type === "checkbox") ? oEl.checked : oEl.value;
@@ -67,13 +71,9 @@ export default class ViewSetup extends React.Component {
 
 	/** Returns a tSetup instance representing the current selection. */
 	uSetup() {
-		const oYield = Yields[this.state.jYield][1];
-		const [, oPaceStart, oPaceBonus] = Paces[this.state.jPace];
+		const oYield = Yields[this.state.jYield][0];
+		const [oPaceStart, oPaceBonus] = Paces[this.state.jPace];
 		return new tSetup(oYield, oPaceStart, oPaceBonus);
-	}
-
-	componentDidUpdate() {
-		Store.uSet("Setup", this.uSetup());
 	}
 
 	render() {
@@ -130,9 +130,9 @@ ViewSetup.propTypes = {
 /** The yield names and ranges offered by this form. Each element stores the
  *  yield name and a tRg instance. */
 const Yields = [
-	["Sparse", new tRg(1, 50)],
-	["Middling", new tRg(50, 100)],
-	["Full", new tRg(100, Infinity)]
+	[new tRg(1, 50)],
+	[new tRg(50, 100)],
+	[new tRg(100, Infinity)]
 ];
 
 /** The yield setting to be selected if the stored yield does not match one of
@@ -143,16 +143,12 @@ const jYieldDef = 2;
  *  match is found. */
 function uIdxYield(aSetup) {
 	for (let oj = 0; oj < Yields.length; ++oj)
-		if (Yields[oj][1].uCkEq(aSetup.Yield)) return oj;
+		if (Yields[oj][0].uCkEq(aSetup.Yield)) return oj;
 	return jYieldDef;
 }
 
-function uNameYield(ajYield) {
-	return Yields[ajYield][0];
-}
-
 function uInstructYield(ajYield) {
-	const oYield = Yields[ajYield][1];
+	const oYield = Yields[ajYield][0];
 	if (!isFinite(oYield.Start))
 		return `At most ${oYield.End} words.`;
 	if (!isFinite(oYield.End))
@@ -166,13 +162,13 @@ function uInstructYield(ajYield) {
 /** The pace names and values offered by this form. Each element stores the pace
  *  name, the starting time, and the bonus time. */
 const Paces = [
-	["Plodding", 48, 8],
-	["Slow", 36, 6],
-	["Unhurried", 30, 5],
-	["Measured", 24, 4],
-	["Brisk", 18, 3],
-	["Fast", 12, 2],
-	["Dizzying", 6, 1]
+	[48, 8],
+	[36, 6],
+	[30, 5],
+	[24, 4],
+	[18, 3],
+	[12, 2],
+	[6, 1]
 ];
 
 /** The pace setting to be selected if the stored pace does not match one of the
@@ -183,7 +179,7 @@ const jPaceDef = 2;
  *  match is found. */
 function uIdxPace(aSetup) {
 	for (let oj = 0; oj < Paces.length; ++oj) {
-		const [, oPaceStart, oPaceBonus] = Paces[oj];
+		const [oPaceStart, oPaceBonus] = Paces[oj];
 		if ((oPaceStart === aSetup.PaceStart)
 			&& (oPaceBonus === aSetup.PaceBonus))
 			return oj;
@@ -191,14 +187,10 @@ function uIdxPace(aSetup) {
 	return jPaceDef;
 }
 
-function uNamePace(ajPace) {
-	return Paces[ajPace][0];
-}
-
 function uInstructPace(ajPace) {
 	const oPace = Paces[ajPace];
-	const oStart = Text.uProseNum(oPace[1]);
-	const oBonus = Text.uProseNum(oPace[2]);
+	const oStart = Text.uProseNum(oPace[0]);
+	const oBonus = Text.uProseNum(oPace[1]);
 	const oSuffBonus = ((oPace[1] > 1) ? "s" : "");
 	return `Start with ${oStart} seconds and gain ${oBonus} second${oSuffBonus} for each letter over three in every entered word.`;
 }

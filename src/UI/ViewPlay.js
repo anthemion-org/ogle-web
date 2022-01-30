@@ -52,8 +52,6 @@ export default function ViewPlay(aProps) {
 	const [oCkVerWord, ouSet_CkVerWord] = useState(false);
 	/** The elapsed play time, in milliseconds. */
 	const [oTimeElap, ouSet_TimeElap] = useState(aProps.TimeElapRest || 0);
-	/** The UNIX time of the last tick, in milliseconds. */
-	const [oTimeTickLast, ouSet_TimeTickLast] = useState(Date.now());
 
 	// Keyboard input
 	// --------------
