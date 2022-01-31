@@ -394,6 +394,10 @@ export default function ViewPlay(aProps) {
 		return Math.ceil(oTime / 1000);
 	}
 
+	function ouCkDisabBtnScore() {
+		const oText = oEntUser?.uTextAll();
+		return !oText || (oText.length < Cfg.LenWordMin);
+	}
 	return (
 		<div id="ViewPlay">
 			<h1>Ogle</h1>
@@ -437,7 +441,8 @@ export default function ViewPlay(aProps) {
 					</div>
 
 					<div id="BoxScore">
-						<Btn id="BtnEnt" onClick={ouRecord_Ent}>
+						<Btn id="BtnEnt" disabled={ouCkDisabBtnScore()}
+							onClick={ouRecord_Ent} CkDisabSoundClick={true}>
 							<div id="Score">
 								{oCardUser.Score ?? 0}
 							</div>

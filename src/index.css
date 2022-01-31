@@ -62,6 +62,10 @@ button:focus, input[type="submit"]:focus, a:focus.Btn {
 	border: 1px dashed #AAA;
 }
 
+button:disabled, input[type="submit"]:disabled, a:disabled.Btn {
+	background-color: hsl(0, 0%, 85%);
+}
+
 button:hover, input[type="submit"]:hover, a:hover.Btn {
 	background-color: hsl(0, 0%, 95%);
 }
