@@ -29,3 +29,10 @@ export const CtDie = WthBoard * HgtBoard;
 /** The shortest allowable word, in letters. Recall that the 'Qu' die counts as
  *  two letters, not one. */
 export const LenWordMin = 4;
+/** The longest possible word, in letters. Recall that the 'Qu' die counts as
+ *  two letters, not one. */
+export const LenWordMax = CtDie * 2;
+
+/** The maximum word length to track in the Coverage table within the Score
+ *  view. */
+export const LenCoverMax = 9;

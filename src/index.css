@@ -33,6 +33,10 @@ h1, h2, h3, h4, h5, h6 {
 	font-family: Georgia, serif;
 }
 
+a {
+	text-decoration: none;
+}
+
 hr {
 	border: 0;
 	border-top: 1px solid #AAA;
@@ -46,9 +50,49 @@ li {
 	margin: 0.5rem 1rem 0.5rem 0;
 }
 
-a {
-	text-decoration: none;
+aside {
+	font-size: 90%;
 }
+
+/* Tables
+// ------ */
+
+table {
+	width: 100%;
+}
+
+thead {
+	border-bottom: 1px solid hsl(0, 0%, 60%);
+}
+
+th {
+	padding-bottom: 0.5rem;
+}
+
+/* 'thead', 'tbody', and 'tr' all lack padding, so there is otherwise no way to
+// add space between the 'thead' border and the first body row: */
+tbody:before {
+	content: "";
+	display: table-row;
+	height: 0.75rem;
+}
+
+th:nth-of-type(1),
+td:nth-of-type(1) {
+	text-align: left;
+}
+
+th:nth-of-type(2),
+td:nth-of-type(2) {
+	text-align: right;
+}
+
+tbody tr:nth-child(odd) {
+	background-color: hsl(0, 0%, 82.5%);
+}
+
+/* Buttons
+// ------- */
 
 button, input[type="submit"], a.Btn {
 	background-color: hsl(0, 0%, 100%);

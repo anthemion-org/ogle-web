@@ -16,7 +16,7 @@ import { tSetup } from "../Round/Setup.js";
 import { tBoard } from "../Board/Board.js";
 import { tEntWord } from "../Round/EntWord.js";
 import { tCard } from "../Round/Card.js";
-import { tScoreWord, Stats, uScoresFromCards } from "../Round/ScoreWord.js";
+import { tScoreWord, Stats, uDataScoreFromCards } from "../Round/ScoreWord.js";
 import * as Store from "../Store.js";
 import * as Cfg from "../Cfg.js";
 
@@ -34,7 +34,8 @@ import PropTypes from "prop-types";
  *  ~ BoardRest: A tBoard instance for the complete game.
  */
 export default function ViewScore(aProps) {
-	const oScores = uScoresFromCards(aProps.CardOgle, aProps.CardUser);
+	const [oScores, oCover] = uDataScoreFromCards(aProps.CardOgle,
+		aProps.CardUser);
 
 	/** Handles the Setup button click. */
 	function ouHandSetup(aEvt) {
@@ -63,6 +64,26 @@ export default function ViewScore(aProps) {
 
 	function ouPerc() {
 		return Math.round(aProps.CardUser.Score / aProps.CardOgle.Score * 100);
+	}
+
+	function ouLinesCover() {
+		function ouHead(aLen) {
+			if (aLen >= Cfg.LenCoverMax) return Cfg.LenCoverMax + "+ letters";
+			return aLen + "+ letters";
+		}
+
+		function ouPer(aLen) {
+			const oData = oCover[aLen];
+			if (!oData) return "N/A";
+			return Math.round(oData.CtUser / oData.CtTtl * 100) + "%";
+		}
+
+		const oLines = [];
+		for (let oLen = Cfg.LenCoverMax; oLen >= Cfg.LenWordMin; --oLen)
+			oLines.push(
+				<tr key={oLen}><td>{ouHead(oLen)}</td><td>{ouPer(oLen)}</td></tr>
+			);
+		return oLines;
 	}
 
 	return (
@@ -97,31 +118,32 @@ export default function ViewScore(aProps) {
 						</div>
 					</section>
 
-					<section id="BoxStats">
+					<section className="BoxStat">
 						<h3>Coverage</h3>
 
 						<table>
-							<thead>
-								<tr>
-									<th>Length</th><th>Scored</th>
-								</tr>
-							</thead>
 							<tbody>
-								<tr><td>9+</td><td>10%</td></tr>
-								<tr><td>8</td><td>10%</td></tr>
-								<tr><td>7</td><td>20%</td></tr>
-								<tr><td>6</td><td>30%</td></tr>
-								<tr><td>5</td><td>40%</td></tr>
-								<tr><td>4</td><td>50%</td></tr>
+								{ouLinesCover()}
 							</tbody>
 						</table>
 
-						<div>
-							Your score this game, by word length
-						</div>
+						<aside>
+							Your score, by word length
+						</aside>
 					</section>
 
-					<section id="BoxScores">
+					<section className="BoxStat">
+						<h3>High scores</h3>
+
+						<table>
+							<tbody>
+								<tr><td>Ichiban Bakemono</td><td>50%</td></tr>
+								<tr><td>Ichiban Bakemono</td><td>40%</td></tr>
+								<tr><td>Ichiban Bakemono</td><td>30%</td></tr>
+								<tr><td>Ichiban Bakemono</td><td>10%</td></tr>
+								<tr><td>Ichiban Bakemono</td><td>10%</td></tr>
+							</tbody>
+						</table>
 					</section>
 				</section>
 			</main>
