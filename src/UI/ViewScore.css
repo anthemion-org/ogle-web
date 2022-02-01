@@ -33,6 +33,8 @@
 	display: flex;
 	justify-content: space-between;
 
+	margin-bottom: 0.75rem;
+
 	font-family: Georgia, serif;
 	font-size: 1.5rem;
 }

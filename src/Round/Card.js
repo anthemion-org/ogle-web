@@ -29,8 +29,8 @@ export class tCard {
 		return new tCard(oEnts, aData.Score, aData.CtBonusTime);
 	}
 
-	/** Creates new instance from the specified board search results, and returns
-	 *  it. */
+	/** Creates a new instance from the specified board search results, and
+	 *  returns it. */
 	static suFromSelsBoard(aSels) {
 		const oEntsAll = aSels.map(a => a.uEntWord());
 		// This comparison function sorts longer words before shorter words when one

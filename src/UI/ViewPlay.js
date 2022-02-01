@@ -16,6 +16,7 @@ import { tBoard } from "../Board/Board.js";
 import { tEntWord } from "../Round/EntWord.js";
 import { tCard } from "../Round/Card.js";
 import LookBoard from "./LookBoard.js";
+import DlgVerWord from "./DlgVerWord.js";
 import Lex from "../Search/Lex.js";
 import Sound from "../Sound.js";
 import * as Store from "../Store.js";
@@ -228,49 +229,9 @@ export default function ViewPlay(aProps) {
 	function ouDlgVerWord() {
 		if (!oCkVerWord || !oEntUser) return null;
 
-		const oTextEnt = oEntUser.uTextAll();
-		const oURL = "https://en.wiktionary.org/wiki/" + oTextEnt;
-
 		return (
-			<div className="ScreenDlg">
-				<div id="DlgVerWord">
-					<div id="BoxWik">
-						This word is not found in the Ogle lexicon:
-
-						<a className="Btn" href={oURL} target="_blank"
-							rel="noopener noreferrer">
-							{oTextEnt}
-						</a>
-
-						Click for Wiktionary entry.
-					</div>
-
-					<hr />
-
-					All English words are valid, with these exceptions:
-
-					<ul>
-						<li>
-							No <em>person</em>, <em>place</em>, <em>organization</em>, or <em>brand</em> names. Words like <em>Frisbee</em> and <em>Judas</em> that have been genericized or repurposed are acceptable.
-						</li>
-						<li>
-							No <em>abbreviations</em> or <em>acronyms</em>. Words like <em>abend</em> and <em>snafu</em> that are no longer understood as abbreviations are acceptable.
-						</li>
-						<li>
-							No words requiring <em>accents</em> or <em>punctuation</em>, including <em>contractions</em> and <em>hyphenated</em> words.
-						</li>
-					</ul>
-
-					<div className="Btns">
-						<Btn onClick={ouHandVerWordAdd}>
-							Add to lexicon
-						</Btn>
-						<Btn className="Group" onClick={ouHandVerWordCancel}>
-							Cancel entry
-						</Btn>
-					</div>
-				</div>
-			</div>
+			<DlgVerWord Ent={oEntUser} uHandVerWordAdd={ouHandVerWordAdd}
+				uHandVerWordCancel={ouHandVerWordCancel} />
 		);
 	}
 
@@ -360,8 +321,8 @@ export default function ViewPlay(aProps) {
 	}
 	useEffect(ouStore_CardUser, [oCardUser]);
 
-	// Component content
-	// -----------------
+	// View content
+	// ------------
 
 	/** Returns entry box content. */
 	function ouContBoxEnt() {

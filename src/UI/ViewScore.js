@@ -16,7 +16,7 @@ import { tSetup } from "../Round/Setup.js";
 import { tBoard } from "../Board/Board.js";
 import { tEntWord } from "../Round/EntWord.js";
 import { tCard } from "../Round/Card.js";
-import { tScoreWord, Stats, uDataScoreFromCards } from "../Round/ScoreWord.js";
+import { tScoreWord, StatsWord, uScoresCoversFromCards } from "../Round/ScoreWord.js";
 import * as Store from "../Store.js";
 import * as Cfg from "../Cfg.js";
 
@@ -34,8 +34,22 @@ import PropTypes from "prop-types";
  *  ~ BoardRest: A tBoard instance for the complete game.
  */
 export default function ViewScore(aProps) {
-	const [oScores, oCover] = uDataScoreFromCards(aProps.CardOgle,
+	const [oScores, oCoversByLen] = uScoresCoversFromCards(aProps.CardOgle,
 		aProps.CardUser);
+
+	// Entry dialog
+	// ------------
+
+	/** Handles entry list item clicks. */
+	function ouHandClickEnt(aEvt) {
+	}
+
+	function ouDlgEnt() {
+		return null;
+	}
+
+	// View content
+	// ------------
 
 	/** Handles the Setup button click. */
 	function ouHandSetup(aEvt) {
@@ -49,8 +63,8 @@ export default function ViewScore(aProps) {
 
 	function ouLinesScore() {
 		function ouTextScore(aStat) {
-			if (aStat === Stats.Score) return "1";
-			if (aStat === Stats.Follow) return "0";
+			if (aStat === StatsWord.Score) return "1";
+			if (aStat === StatsWord.Follow) return "0";
 			return "";
 		}
 
@@ -75,7 +89,7 @@ export default function ViewScore(aProps) {
 		}
 
 		function ouPer(aLen) {
-			const oData = oCover[aLen];
+			const oData = oCoversByLen[aLen];
 			if (!oData) return "N/A";
 			return Math.round(oData.CtUser / oData.CtTtl * 100) + "%";
 		}
@@ -101,8 +115,6 @@ export default function ViewScore(aProps) {
 						<div><em>{ouPerc()}%</em></div>
 						<div>Ogle <em>{aProps.CardOgle.Score}</em></div>
 					</header>
-
-					<hr />
 
 					<div id="BoxEnts">
 						<table>
@@ -160,6 +172,8 @@ export default function ViewScore(aProps) {
 				<Btn onClick={ouHandSetup}>Setup</Btn>
 				<Btn className="Group" onClick={ouHandPlay}>Play again</Btn>
 			</div>
+
+			{ouDlgEnt()}
 		</div>
 	);
 }

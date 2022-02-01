@@ -5,7 +5,7 @@
 //
 // Import with:
 //
-//   import { tScoreWord, Stats, tDataCover, uDataScoreFromCards } from "./Round/ScoreWord.js";
+//   import { tScoreWord, StatsWord, tDataCover, uScoresCoversFromCards } from "./Round/ScoreWord.js";
 //
 
 import * as Search from "../Util/Search.js";
@@ -15,17 +15,23 @@ import * as Cfg from "../Cfg.js";
 // tScoreWord
 // ----------
 
+/** Stores score data for one word. */
 export class tScoreWord {
 	constructor(aEnt, aStatOgle, aStatUser) {
+		/** An entry that generates this word. This may or may not be the entry
+		 *  selected by a given player. */
 		this.Ent = aEnt;
+		/** The word text. */
 		this.Text = aEnt.uTextAll();
+		/** A StatsWord value that indicates whether Ogle scored this word. */
 		this.StatOgle = aStatOgle;
+		/** A StatsWord value that indicates whether the user scored this word. */
 		this.StatUser = aStatUser;
 	}
 }
 
 /** Stores properties representing the word score statuses. */
-export const Stats = {
+export const StatsWord = {
 	/** The word was missed. */
 	Miss: "Miss",
 	/** The word was followed by another word. */
@@ -33,24 +39,37 @@ export const Stats = {
 	/** The word was scored. */
 	Score: "Score"
 };
-Object.freeze(Stats);
+Object.freeze(StatsWord);
 
-export class tDataCover {
+/** Stores coverage data for one word length. */
+export class tCover {
 	constructor() {
+		/** The total number of words with this length. */
 		this.CtTtl = 0;
+		/** The number of words with this length scored by Ogle. */
 		this.CtOgle = 0;
+		/** The number of words with this length scored by the user. */
 		this.CtUser = 0;
 	}
 }
 
-export function uDataScoreFromCards(aCardOgle, aCardUser) {
+/** Uses the specified cards to compile scoring data. Returns an array
+ *  containing:
+ *
+ *  ~ An array of tScore instances representing all the words found in the
+ *    cards;
+ *
+ *  ~ An object that associates word lengths with tCover instances, these giving
+ *    the number of words of each length that were scored by each player.
+ */
+export function uScoresCoversFromCards(aCardOgle, aCardUser) {
 
 	// Compile score elements
 	// ----------------------
 
 	// Add user words:
 	const oScores = aCardUser.Ents.map(aEnt =>
-		new tScoreWord(aEnt, Stats.Miss, Stats.Score)
+		new tScoreWord(aEnt, StatsWord.Miss, StatsWord.Score)
 	);
 	oScores.sort(uCompareByText);
 
@@ -61,43 +80,43 @@ export function uDataScoreFromCards(aCardOgle, aCardUser) {
 	for (let oj = (oScores.length - 1); oj >= 0; --oj) {
 		const oScoreUser = oScores[oj];
 		if (oTextPrev && Text.uCkEqBegin(oScoreUser.Text, oTextPrev))
-			oScoreUser.StatUser = Stats.Follow;
+			oScoreUser.StatUser = StatsWord.Follow;
 		oTextPrev = oScoreUser.Text;
 	}
 
 	// Add Ogle words:
 	for (const oEnt of aCardOgle.Ents) {
-		const oScoreOgle = new tScoreWord(oEnt, Stats.Score, Stats.Miss);
+		const oScoreOgle = new tScoreWord(oEnt, StatsWord.Score, StatsWord.Miss);
 		const [oCk, oj] = Search.uBin(oScores, oScoreOgle, uCompareByText);
 		if (oCk) {
 			const oScoreShare = oScores[oj];
-			oScoreShare.StatOgle = Stats.Score;
+			oScoreShare.StatOgle = StatsWord.Score;
 		}
 		else oScores.splice(oj, 0, oScoreOgle);
 	}
 
 	oScores.sort(uCompareByLen);
 
-	// Derive statistics
-	// -----------------
+	// Derive coverage statistics
+	// --------------------------
 
-	const oCover = {};
+	const oCoversByLen = {};
 
 	for (const oScore of oScores) {
 		const oLen = Math.min(oScore.Text.length, Cfg.LenCoverMax);
 
-		let oData = oCover[oLen];
+		let oData = oCoversByLen[oLen];
 		if (!oData) {
-			oData = new tDataCover();
-			oCover[oLen] = oData;
+			oData = new tCover();
+			oCoversByLen[oLen] = oData;
 		}
 
 		++oData.CtTtl;
-		if (oScore.StatOgle === Stats.Score) ++oData.CtOgle;
-		if (oScore.StatUser === Stats.Score) ++oData.CtUser;
+		if (oScore.StatOgle === StatsWord.Score) ++oData.CtOgle;
+		if (oScore.StatUser === StatsWord.Score) ++oData.CtUser;
 	}
 
-	return [oScores, oCover];
+	return [oScores, oCoversByLen];
 }
 
 /** Compares tScoreWord instances alphabetically by Text, and then by ascending
