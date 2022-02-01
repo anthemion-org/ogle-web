@@ -49,15 +49,17 @@ export default function ViewScore(aProps) {
 
 	function ouLinesScore() {
 		function ouTextScore(aStat) {
-			return (aStat === Stats.Score) ? "1" : "";
+			if (aStat === Stats.Score) return "1";
+			if (aStat === Stats.Follow) return "0";
+			return "";
 		}
 
 		const oLines = oScores.map(aScore => (
-			<div key={aScore.Text} className="Line">
-				<div className="Score">{ouTextScore(aScore.StatUser)}</div>
-				<div>{aScore.Text}</div>
-				<div className="Score">{ouTextScore(aScore.StatOgle)}</div>
-			</div>
+			<tr key={aScore.Text}>
+				<td>{ouTextScore(aScore.StatUser)}</td>
+				<td>{aScore.Text}</td>
+				<td>{ouTextScore(aScore.StatOgle)}</td>
+			</tr>
 		));
 		return oLines;
 	}
@@ -81,7 +83,9 @@ export default function ViewScore(aProps) {
 		const oLines = [];
 		for (let oLen = Cfg.LenCoverMax; oLen >= Cfg.LenWordMin; --oLen)
 			oLines.push(
-				<tr key={oLen}><td>{ouHead(oLen)}</td><td>{ouPer(oLen)}</td></tr>
+				<tr key={oLen}>
+					<td>{ouHead(oLen)}</td><td>{ouPer(oLen)}</td>
+				</tr>
 			);
 		return oLines;
 	}
@@ -100,8 +104,12 @@ export default function ViewScore(aProps) {
 
 					<hr />
 
-					<div id="Lines">
-						{ouLinesScore()}
+					<div id="BoxEnts">
+						<table>
+							<tbody>
+								{ouLinesScore()}
+							</tbody>
+						</table>
 					</div>
 				</section>
 

@@ -42,20 +42,23 @@
 	color: hsl(0, 60%, 50%);
 }
 
-#ViewScore #ColEnts #Lines {
+#ViewScore #BoxEnts {
 	flex: 1;
 
 	height: 100%;
 	overflow-y: scroll;
 }
 
-#ViewScore #ColEnts .Line {
-	display: flex;
-	justify-content: space-between;
+#ViewScore #BoxEnts tr {
+	cursor: pointer;
 }
 
-#ViewScore #ColEnts .Line .Score {
-	width: 2rem;
+#ViewScore #BoxEnts th:first-child,
+#ViewScore #BoxEnts td:first-child,
+#ViewScore #BoxEnts th:last-child,
+#ViewScore #BoxEnts td:last-child {
+	font-family: Georgia, serif;
+	color: hsl(0, 60%, 50%);
 }
 
 #ViewScore #ColMisc {
@@ -109,5 +112,5 @@
 }
 
 #ViewScore .BoxStat h3 {
-	margin: 0 0 0.25rem 0;
+	margin: 0 0 0.75rem 0;
 }
