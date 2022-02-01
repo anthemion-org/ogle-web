@@ -12,11 +12,10 @@ import "./DlgVerWord.css";
 import Btn from "./Btn.js";
 import { tEntWord } from "../Round/EntWord.js";
 
-import { React, useState, useEffect } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 
-/** Returns the Word Verification dialog, or 'null' if no word is being
-	*  verified. */
+/** The Word Verification dialog. */
 export default function DlgVerWord(aProps) {
 	const oTextEnt = aProps.Ent.uTextAll();
 	const oURL = "https://en.wiktionary.org/wiki/" + oTextEnt;
@@ -52,10 +51,10 @@ export default function DlgVerWord(aProps) {
 				</ul>
 
 				<div className="Btns">
-					<Btn onClick={aProps.uHandVerWordAdd}>
+					<Btn onClick={aProps.uHandAdd}>
 						Add to lexicon
 					</Btn>
-					<Btn className="Group" onClick={aProps.uHandVerWordCancel}>
+					<Btn className="Group" onClick={aProps.uHandCancel}>
 						Cancel entry
 					</Btn>
 				</div>
@@ -66,6 +65,6 @@ export default function DlgVerWord(aProps) {
 
 DlgVerWord.propTypes = {
 	Ent: PropTypes.instanceOf(tEntWord).isRequired,
-	uHandVerWordAdd: PropTypes.func.isRequired,
-	uHandVerWordCancel: PropTypes.func.isRequired
+	uHandAdd: PropTypes.func.isRequired,
+	uHandCancel: PropTypes.func.isRequired
 };

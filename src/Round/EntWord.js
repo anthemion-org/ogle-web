@@ -9,6 +9,7 @@
 //
 
 import * as Search from "../Util/Search.js";
+import { tPt2 } from "../Util/Pt2.js";
 import * as Text from "../Util/Text.js";
 import * as Cfg from "../Cfg.js";
 
@@ -19,9 +20,11 @@ import * as Cfg from "../Cfg.js";
  *  during play, and for displaying entries in the Score view. */
 export class tEntWord {
 	/** Creates an instance from the specified POD and returns it. */
-	static suFromPOD(aData) {
-		if (!aData) return null;
-		return new tEntWord(aData.Posi, aData.Texts);
+	static suFromPOD(aPod) {
+		if (!aPod) return null;
+
+		const oPosi = aPod.Posi.map(a => tPt2.suFromPOD(a));
+		return new tEntWord(oPosi, aPod.Texts);
 	}
 
 	/** Creates and returns a new instance that ends with the specified position

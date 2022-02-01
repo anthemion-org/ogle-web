@@ -210,7 +210,7 @@ export default function ViewPlay(aProps) {
 	// ------------------------
 
 	/** Handles the Word Verification 'Add' button click. */
-	function ouHandVerWordAdd(aEvt) {
+	function ouHandAddVerWord(aEvt) {
 		const oText = oEntUser.uTextAll();
 		Lex.uAdd_WordUser(oText);
 		ouRecord_Ent();
@@ -219,7 +219,7 @@ export default function ViewPlay(aProps) {
 	}
 
 	/** Handles the Word Verification 'Cancel' button click. */
-	function ouHandVerWordCancel(aEvt) {
+	function ouHandCancelVerWord(aEvt) {
 		ouSet_EntUser(null);
 		ouSet_CkVerWord(false);
 	}
@@ -230,8 +230,8 @@ export default function ViewPlay(aProps) {
 		if (!oCkVerWord || !oEntUser) return null;
 
 		return (
-			<DlgVerWord Ent={oEntUser} uHandVerWordAdd={ouHandVerWordAdd}
-				uHandVerWordCancel={ouHandVerWordCancel} />
+			<DlgVerWord Ent={oEntUser} uHandAdd={ouHandAddVerWord}
+				uHandCancel={ouHandCancelVerWord} />
 		);
 	}
 

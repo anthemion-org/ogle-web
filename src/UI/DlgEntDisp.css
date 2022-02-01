@@ -1,0 +1,39 @@
+/* DlgEntDisp.css
+// --------------
+// Copyright ©2022 Jeremy Kelly
+// www.anthemion.org */
+
+#DlgEntDisp {
+	width: 30%;
+
+	border: 1px solid #888;
+	border-radius: 0.5rem;
+	padding: 1rem;
+	background-color: hsl(0, 0%, 90%);
+
+	text-align: left;
+}
+
+#DlgEntDisp #BoxWik {
+	text-align: center;
+}
+
+#DlgEntDisp #BoxWik a.Btn {
+	display: block;
+	width: 100%;
+	height: 4rem;
+
+	margin: 0.25rem 0;
+	padding: 0 0.75rem;
+
+	font-family: Georgia, serif;
+	font-weight: bold;
+	font-size: 2rem;
+
+	display: grid;
+	place-items: center start;
+}
+
+#DlgEntDisp hr {
+	margin: 0.75rem 0;
+}

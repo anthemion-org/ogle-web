@@ -1,7 +1,9 @@
 /* Die.css
 // -------
 // Copyright ©2022 Jeremy Kelly
-// www.anthemion.org */
+// www.anthemion.org
+//
+// These styles are shared by BackDie, ConnSel, and LookDie. */
 
 .BackDie:hover {
 	cursor: pointer;
@@ -29,12 +31,12 @@
 	fill: hsl(30, 38%, 93%);
 }
 
-.BackDie:not(.CkEnab) .CrnSE,
-.BackDie:not(.CkEnab) .CrnSW,
-.BackDie:not(.CkEnab) .CrnNE,
-.BackDie:not(.CkEnab) .CrnNW,
-.BackDie:not(.CkEnab) .Face,
-.LookDie:not(.CkEnab) .BackText {
+.BackDie:not(.CkDisp, .CkEnab) .CrnSE,
+.BackDie:not(.CkDisp, .CkEnab) .CrnSW,
+.BackDie:not(.CkDisp, .CkEnab) .CrnNE,
+.BackDie:not(.CkDisp, .CkEnab) .CrnNW,
+.BackDie:not(.CkDisp, .CkEnab) .Face,
+.LookDie:not(.CkDisp, .CkEnab) .BackText {
 	filter: brightness(0.85);
 }
 
@@ -48,7 +50,7 @@
 	user-select: none;
 }
 
-.LookDie.CkEnab:hover .MarkEnab {
+.LookDie.CkEnab:not(.CkDisp):hover .MarkEnab {
 	visibility: visible;
 
 	animation-name: MarkEnabRot;
@@ -67,7 +69,7 @@
 	}
 }
 
-.LookDie.CkEnab:hover .Under {
+.LookDie.CkEnab:not(.CkDisp):hover .Under {
 	/* Too busy otherwise: */
 	visibility: hidden;
 }

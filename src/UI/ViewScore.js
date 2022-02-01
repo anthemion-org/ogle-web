@@ -9,7 +9,7 @@
 //
 
 import "./ViewScore.css";
-import LookBoard from "./LookBoard.js";
+import DlgEntDisp from "./DlgEntDisp.js";
 import Btn from "./Btn.js";
 import StsApp from "../StsApp.js";
 import { tSetup } from "../Round/Setup.js";
@@ -17,10 +17,9 @@ import { tBoard } from "../Board/Board.js";
 import { tEntWord } from "../Round/EntWord.js";
 import { tCard } from "../Round/Card.js";
 import { tScoreWord, StatsWord, uScoresCoversFromCards } from "../Round/ScoreWord.js";
-import * as Store from "../Store.js";
 import * as Cfg from "../Cfg.js";
 
-import React from "react";
+import { React, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
 // ViewScore
@@ -37,15 +36,53 @@ export default function ViewScore(aProps) {
 	const [oScores, oCoversByLen] = uScoresCoversFromCards(aProps.CardOgle,
 		aProps.CardUser);
 
+	/** Set to the entry that is being displayed in the Entry dialog, or 'null if
+	 *  no entry is being displayed. */
+	const [oEntDisp, ouSet_EntDisp] = useState(null);
+
+	// Keyboard input
+	// --------------
+
+	function ouListen_Keys() {
+		function ouHand(aEvt) {
+			// Close the displayed dialog, if any, or pause the game:
+			if (aEvt.code === "Escape") {
+				if (oEntDisp) {
+					ouSet_EntDisp(null);
+					return;
+				}
+			}
+		}
+
+		document.addEventListener("keydown", ouHand);
+
+		return () => {
+			document.removeEventListener("keydown", ouHand);
+		}
+	}
+	useEffect(ouListen_Keys, [oEntDisp]);
+
 	// Entry dialog
 	// ------------
 
 	/** Handles entry list item clicks. */
 	function ouHandClickEnt(aEvt) {
+		const ojEnt = aEvt.target.dataset.idxEnt;
+		const oScore = oScores[ojEnt];
+		ouSet_EntDisp(oScore.Ent);
+	}
+
+	/** Handles the Entry dialog OK click. */
+	function ouHandOKEntDisp(aEvt) {
+		ouSet_EntDisp(null);
 	}
 
 	function ouDlgEnt() {
-		return null;
+		if (!oEntDisp) return null;
+
+		return (
+			<DlgEntDisp Board={aProps.Board} Ent={oEntDisp} uHandOK={ouHandOKEntDisp} />
+		);
 	}
 
 	// View content
@@ -68,11 +105,17 @@ export default function ViewScore(aProps) {
 			return "";
 		}
 
-		const oLines = oScores.map(aScore => (
+		const oLines = oScores.map((aScore, aj) => (
 			<tr key={aScore.Text}>
-				<td>{ouTextScore(aScore.StatUser)}</td>
-				<td>{aScore.Text}</td>
-				<td>{ouTextScore(aScore.StatOgle)}</td>
+				<td data-idx-ent={aj} onClick={ouHandClickEnt}>
+					{ouTextScore(aScore.StatUser)}
+				</td>
+				<td data-idx-ent={aj} onClick={ouHandClickEnt}>
+					{aScore.Text}
+				</td>
+				<td data-idx-ent={aj} onClick={ouHandClickEnt}>
+					{ouTextScore(aScore.StatOgle)}
+				</td>
 			</tr>
 		));
 		return oLines;
@@ -182,5 +225,5 @@ ViewScore.propTypes = {
 	StApp: PropTypes.string.isRequired,
 	uUpd_StApp: PropTypes.func.isRequired,
 	Setup: PropTypes.instanceOf(tSetup).isRequired,
-	Board: PropTypes.instanceOf(tBoard)
+	Board: PropTypes.instanceOf(tBoard).isRequired
 };

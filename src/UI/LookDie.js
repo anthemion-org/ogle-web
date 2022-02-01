@@ -25,26 +25,26 @@ import PropTypes from "prop-types";
  *  The following props are supported:
  *
  *  ~ Pos: The board position that contains this instance. This prop is
- *    required.
+ *    required;
  *
- *  ~ Die: The tDie instance at this board position. This prop is required.
+ *  ~ Die: The tDie instance at this board position. This prop is required;
  *
- *  ~ CkSel: Set to 'true' if this die is selected.
+ *  ~ CkDisp: Set to 'true' if the board is being rendered in 'display-only'
+ *    mode;
  *
- *  ~ CkEnab: Set to 'true' if this die can be clicked.
+ *  ~ CkSel: Set to 'true' if this die is selected;
  *
- *  ~ uCallTog: A function to be invoked when the die is left-clicked. This prop
- *    is required.
+ *  ~ CkEnab: Set to 'true' if this die can be clicked;
  *
- *  ~ uCallClear: A function to be invoked when the die is middle-clicked. This
- *    prop is required.
+ *  ~ uCallTog: A function to be invoked when the die is left-clicked;
  *
- *  ~ uCallRecord: A function to be invoked when the die is right-clicked. This
- *    prop is required.
+ *  ~ uCallClear: A function to be invoked when the die is middle-clicked;
+ *
+ *  ~ uCallRecord: A function to be invoked when the die is right-clicked.
  */
 export default function LookDie(aProps) {
 	function ouHandMouseOver(aEvt) {
-		Sound.uMouseOver();
+		if (!aProps.CkDisp) Sound.uMouseOver();
 	}
 
 	function ouHandClick(aEvt) {
@@ -52,15 +52,15 @@ export default function LookDie(aProps) {
 		switch (aEvt.button) {
 			// The left button:
 			case 0:
-				aProps.uCallTog(aProps.Pos);
+				if (aProps.uCallTog) aProps.uCallTog(aProps.Pos);
 				break;
 			// The middle button:
 			case 1:
-				aProps.uCallClear();
+				if (aProps.uCallClear) aProps.uCallClear();
 				break;
 			// The right button:
 			case 2:
-				aProps.uCallRecord();
+				if (aProps.uCallRecord) aProps.uCallRecord();
 				break;
 		}
 	}
@@ -181,6 +181,7 @@ export default function LookDie(aProps) {
 	}
 
 	let oClasses = "LookDie";
+	if (aProps.CkDisp) oClasses += " CkDisp";
 	if (aProps.CkEnab) oClasses += " CkEnab";
 
 	const oSty = {
@@ -211,7 +212,7 @@ LookDie.propTypes = {
 	Die: PropTypes.instanceOf(tDie).isRequired,
 	CkSel: PropTypes.bool,
 	CkEnab: PropTypes.bool,
-	uCallTog: PropTypes.func.isRequired,
-	uCallClear: PropTypes.func.isRequired,
-	uCallRecord: PropTypes.func.isRequired
+	uCallTog: PropTypes.func,
+	uCallClear: PropTypes.func,
+	uCallRecord: PropTypes.func
 };

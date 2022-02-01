@@ -26,19 +26,16 @@ import PropTypes from "prop-types";
  *  supported:
  *
  *  ~ Board: A tBoard instance representing the board to be played. This prop is
- *    required.
+ *    required;
  *
  *  ~ Ent: A tEntWord instance representing the board selection, or 'undefined'
- *    if there is no selection.
+ *    if there is no selection;
  *
- *  ~ uCallTog: A function to be invoked when the die is left-clicked. This prop
- *    is required.
+ *  ~ uCallTog: A function to be invoked when the die is left-clicked;
  *
- *  ~ uCallClear: A function to be invoked when the die is middle-clicked. This
- *    prop is required.
+ *  ~ uCallClear: A function to be invoked when the die is middle-clicked;
  *
- *  ~ uCallRecord: A function to be invoked when the die is right-clicked. This
- *    prop is required.
+ *  ~ uCallRecord: A function to be invoked when the die is right-clicked.
  */
 export default function LookBoard(aProps) {
 	/** Returns 'true' if the specified board position can be selected or
@@ -52,9 +49,10 @@ export default function LookBoard(aProps) {
 		const oiPosi = Cfg.RectBoard.uPosi();
 		for (const oPos of oiPosi) {
 			const oKey = oPos.X + "/" + oPos.Y;
+			const oCkDisp = !aProps.uCallTog;
 			const oCkEnab = ouCkEnab(oPos);
 			oEls.push(
-				<BackDie key={oKey} Pos={oPos} CkEnab={oCkEnab} />
+				<BackDie key={oKey} Pos={oPos} CkDisp={oCkDisp} CkEnab={oCkEnab} />
 			);
 		}
 		return oEls;
@@ -79,12 +77,14 @@ export default function LookBoard(aProps) {
 		for (const oPos of oiPosi) {
 			const oKey = oPos.X + "/" + oPos.Y;
 			const oDie = aProps.Board.uDie(oPos);
+			const oCkDisp = !aProps.uCallTog;
 			const oCkSel = aProps.Ent && aProps.Ent.uCkAt(oPos);
 			const oCkEnab = ouCkEnab(oPos);
 			oEls.push(
-				<LookDie key={oKey} Pos={oPos} Die={oDie} CkSel={oCkSel}
-					CkEnab={oCkEnab} CkPause={aProps.CkPause} uCallTog={aProps.uCallTog}
-					uCallClear={aProps.uCallClear} uCallRecord={aProps.uCallRecord} />
+				<LookDie key={oKey} Pos={oPos} Die={oDie} CkDisp={oCkDisp}
+					CkSel={oCkSel} CkEnab={oCkEnab} CkPause={aProps.CkPause}
+					uCallTog={aProps.uCallTog} uCallClear={aProps.uCallClear}
+					uCallRecord={aProps.uCallRecord} />
 			);
 		}
 		return oEls;

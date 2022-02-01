@@ -22,11 +22,11 @@ export class tCard {
 	}
 
 	/** Creates an instance from the specified POD and returns it. */
-	static suFromPOD(aData) {
-		if (!aData) return null;
+	static suFromPOD(aPod) {
+		if (!aPod) return null;
 
-		const oEnts = aData.Ents.map(a => tEntWord.suFromPOD(a));
-		return new tCard(oEnts, aData.Score, aData.CtBonusTime);
+		const oEnts = aPod.Ents.map(a => tEntWord.suFromPOD(a));
+		return new tCard(oEnts, aPod.Score, aPod.CtBonusTime);
 	}
 
 	/** Creates a new instance from the specified board search results, and

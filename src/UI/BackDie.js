@@ -22,6 +22,9 @@ import PropTypes from "prop-types";
  *
  *  ~ Pos: The board position that contains this instance. This prop is
  *    required.
+ *
+ *  ~ CkDisp: Set to 'true' if the board is being rendered in 'display-only'
+ *    mode;
  */
 export default function BackDie(aProps) {
 	const oSty = {
@@ -30,6 +33,7 @@ export default function BackDie(aProps) {
 	}
 
 	let oClasses = "BackDie";
+	if (aProps.CkDisp) oClasses += " CkDisp";
 	if (aProps.CkEnab) oClasses += " CkEnab";
 
 	return (
