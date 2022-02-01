@@ -9,13 +9,14 @@
 //
 
 import * as Search from "../Util/Search.js";
+import * as Text from "../Util/Text.js";
 import * as Cfg from "../Cfg.js";
 
 // tEntWord
 // --------
 
-/** Represents a single board selection, for use when selecting text during
- *  play, and for persisting word entries. */
+/** Stores the details of a single board selection, for use when selecting text
+ *  during play, and for displaying entries in the Score view. */
 export class tEntWord {
 	/** Creates an instance from the specified POD and returns it. */
 	static suFromPOD(aData) {
@@ -97,7 +98,19 @@ export class tEntWord {
 	}
 }
 
-/** Compares tEntWord instances by their uTextAll values. */
+/** Compares tEntWord instances by their uTextAll values, sorting longer words
+ *  before shorter words when one follow the other. This makes it easier to
+ *  exclude followed words when processing raw search output with tCard.uAdd.
+ *  The specific board positions used to define each entry are ignored. */
 export function uCompareEntWord(aL, aR) {
-	return Search.uCompareStr(aL.uTextAll(), aR.uTextAll());
+	const oTextL = aL.uTextAll();
+	const oTextR = aR.uTextAll();
+
+	if (Text.uCkEqBegin(oTextL, oTextR)) {
+		if (oTextL.length > oTextR.length) return -1;
+		if (oTextL.length < oTextR.length) return 1;
+		return 0;
+	}
+
+	return Search.uCompareStr(oTextL, oTextR);
 }

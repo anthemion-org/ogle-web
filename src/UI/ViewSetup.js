@@ -85,7 +85,7 @@ export default class ViewSetup extends React.Component {
 			<form id="ViewSetup">
 				<h1>Ogle setup</h1>
 
-				<div className="Box">
+				<section>
 					<label htmlFor="RgYield">Yield</label>
 					<div className="Name">
 						{oSetup.uTextShortYield()}
@@ -95,9 +95,9 @@ export default class ViewSetup extends React.Component {
 					<div className="Instruct">
 						{uInstructYield(this.state.jYield)}
 					</div>
-				</div>
+				</section>
 
-				<div className="Box">
+				<section>
 					<label htmlFor="RgPace">Pace</label>
 					<div className="Name">
 						{oSetup.uTextShortPace()}
@@ -107,7 +107,7 @@ export default class ViewSetup extends React.Component {
 					<div className="Instruct">
 						{uInstructPace(this.state.jPace)}
 					</div>
-				</div>
+				</section>
 
 				<div className="Btns">
 					<Btn onClick={this.uHandAbout}>About</Btn>

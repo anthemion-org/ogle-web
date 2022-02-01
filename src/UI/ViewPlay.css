@@ -3,7 +3,7 @@
 // Copyright ©2022 Jeremy Kelly
 // www.anthemion.org */
 
-#ViewPlay #Box {
+#ViewPlay main {
 	display: flex;
 	gap: 0.5rem;
 
@@ -11,8 +11,8 @@
 	text-align: center;
 }
 
-#ViewPlay #BoxBoard {
-	/* This box should consume whatever is left over by #BoxStat. */
+#ViewPlay #ColBoard {
+	/* This box should consume whatever is left over by #ColStat. */
 
 	border: 1px solid #AAA;
 	border-radius: 0.25rem;
@@ -54,12 +54,11 @@
 }
 
 #ViewPlay #BoxWait {
-	/* We could try to do something nice here, but it is visible for just a
-	// fraction of a second. Maybe start with something resembling the pause
-	// state? This would reduce flashing, if nothing else. */
+	/* We could try to do something fancy here, but it is visible for just a
+	// fraction of a second. */
 
 	width: 100%;
-	aspect-ratio: 1;
+	aspect-ratio: 1 / 1;
 
 	display: grid;
 	place-items: center;
@@ -74,7 +73,7 @@
 	color: hsl(30, 38%, 93%);
 }
 
-#ViewPlay #BoxStat {
+#ViewPlay #ColStat {
 	/* It does not seem possible to specify a percent width in 'flex' unless this
 	// is done: */
 	width: 0;

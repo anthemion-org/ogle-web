@@ -16,7 +16,7 @@ import React from "react";
 // ---
 
 /** A custom button component that plays mouse over and click sounds. The usual
- *  button props are supported, plus:
+ *  'button' props are supported, plus:
  *
  *  ~ CkDisabSoundClick: Set to 'true' if the click sound should not be played.
  *    This is useful when the button triggers an action that produces its own

@@ -32,7 +32,7 @@ export default function ViewAbout(aProps) {
 
 			<div className="MargV2">
 				Copyright ©2007-2022 Jeremy Kelly<br />
-				<a href="https://www.anthemion.org" target="_blank"
+				<a href="https://www.anthemion.org/ogle.html" target="_blank"
 					rel="noopener noreferrer">
 					www.anthemion.org
 				</a>

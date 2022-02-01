@@ -11,6 +11,7 @@
 import ViewSetup from "./ViewSetup";
 import ViewAbout from "./ViewAbout";
 import ViewPlay from "./ViewPlay";
+import ViewScore from "./ViewScore";
 import StsApp from "../StsApp.js";
 import { tSetup } from "../Round/Setup.js";
 import { tBoard } from "../Board/Board.js";
@@ -36,7 +37,7 @@ export default function View(aProps) {
 	switch (aProps.StApp) {
 		case StsApp.Setup: {
 			const oSetup = tSetup.suFromPOD(Store.uGet("Setup"));
-			return <ViewSetup SetupRest={oSetup} {...aProps} />;
+			return <ViewSetup {...aProps} SetupRest={oSetup} />;
 		}
 
 		case StsApp.About:
@@ -49,9 +50,19 @@ export default function View(aProps) {
 			const oCardUserRest = tCard.suFromPOD(Store.uGet("CardUser"));
 			const oTimeElapRest = Store.uGet("TimeElap");
 
-			return <ViewPlay Setup={oSetup} BoardRest={oBoard}
+			return <ViewPlay {...aProps} Setup={oSetup} BoardRest={oBoard}
 				CardOgleRest={oCardOgleRest} CardUserRest={oCardUserRest}
-				TimeElapRest={oTimeElapRest} {...aProps} />;
+				TimeElapRest={oTimeElapRest} />;
+		}
+
+		case StsApp.Score: {
+			const oSetup = tSetup.suFromPOD(Store.uGet("Setup"));
+			const oBoard = tBoard.suFromPOD(Store.uGet("Board"));
+			const oCardOgle = tCard.suFromPOD(Store.uGet("CardOgle"));
+			const oCardUser = tCard.suFromPOD(Store.uGet("CardUser"));
+
+			return <ViewScore {...aProps} Setup={oSetup} Board={oBoard}
+				CardOgle={oCardOgle} CardUser={oCardUser} />;
 		}
 	}
 	throw Error("View: Invalid view");

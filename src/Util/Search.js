@@ -36,8 +36,8 @@ export function uCompareStr(aL, aR) {
 // Search functions
 // ----------------
 
-/** Uses a binary search to find aVal within sorted array aEls. Set auComp to a
- *  custom comparison function, or leave it undefined to compare elements as
+/** Uses a binary search to find aVal within sorted array aEls. Set auCompare to
+ *  a custom comparison function, or leave it undefined to compare elements as
  *  numbers. Returns a two-element array containing a boolean value that tells
  *  whether aVal was found, plus the index where a match was or would have been
  *  found.

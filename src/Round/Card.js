@@ -33,6 +33,9 @@ export class tCard {
 	 *  it. */
 	static suFromSelsBoard(aSels) {
 		const oEntsAll = aSels.map(a => a.uEntWord());
+		// This comparison function sorts longer words before shorter words when one
+		// follows the other; otherwise tCard.uAdd would store followed words before
+		// it could know that they are followed:
 		oEntsAll.sort(uCompareEntWord);
 
 		const oCard = tCard.suNew();
@@ -63,23 +66,23 @@ export class tCard {
 
 		let oCkScore = true;
 		let oCtBonus = 1 + oTextAdd.length - Cfg.LenWordMin;
-		for (const oEntOrig of this.Ents) {
-			const oTextOrig = oEntOrig.uTextAll();
-			if (Text.uCkEqBegin(oTextAdd, oTextOrig)) {
+		for (const oEntBefore of this.Ents) {
+			const oTextBefore = oEntBefore.uTextAll();
+			if (Text.uCkEqBegin(oTextAdd, oTextBefore)) {
 				oCkScore = false;
 
 				// The new word is a duplicate:
-				if (oTextAdd.length === oTextOrig.length) return false;
+				if (oTextAdd.length === oTextBefore.length) return false;
 
 				// The new word is already followed:
-				if (oTextAdd.length < oTextOrig.length) {
+				if (oTextAdd.length < oTextBefore.length) {
 					if (aCkAddFollow) this.Ents.push(aEnt);
 					return false;
 				}
 
-				// The new word follows another, but it could follow a longer word, or
-				// be followed itself:
-				oCtBonus = Math.min(oCtBonus, (oTextAdd.length - oTextOrig.length));
+				// The new word follows another, but it could yet follow a longer word,
+				// or be followed itself:
+				oCtBonus = Math.min(oCtBonus, (oTextAdd.length - oTextBefore.length));
 			}
 		}
 

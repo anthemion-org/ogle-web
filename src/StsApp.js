@@ -19,8 +19,8 @@ const StsApp = {
 	PlayInit: "PlayInit",
 	/** Displays the Play view. */
 	Play: "Play",
-	/** Displays the Result view. */
-	Result: "Result",
+	/** Displays the Score view. */
+	Score: "Score"
 };
 Object.freeze(StsApp);
 

@@ -44,7 +44,7 @@ export default function ViewPlay(aProps) {
 	/** The user's current board selection, or 'null' if there is no selection. */
 	const [oEntUser, ouSet_EntUser] = useState(null);
 	/** The user scorecard. */
-	const [oCardUser, ouSet_CardUser] = useState(o =>
+	const [oCardUser, ouSet_CardUser] = useState(() =>
 		aProps.CardUserRest || tCard.suNew()
 	);
 	/** Set to 'true' if play is paused. */
@@ -103,7 +103,7 @@ export default function ViewPlay(aProps) {
 	}
 	useEffect(ouStore_TimeElap, [oTimeElap]);
 
-	function ouPlay_Tick() {
+	function ouMon_TimeRemain() {
 		// This tick timing has caused a lot of frustration, just like it did in the
 		// desktop app. JavaScript timers aren't any more precise than Windows
 		// timers, and that lack is very obvious when they are used to play audio.
@@ -119,6 +119,12 @@ export default function ViewPlay(aProps) {
 
 		const oTimeRemain = uTimeRemain(aProps.Setup, oCardUser.CtBonusTime,
 			oTimeElap);
+		if (oTimeRemain < 1) {
+			Sound.uStop_Tick();
+			aProps.uUpd_StApp(StsApp.Score);
+			return;
+		}
+
 		// I want the fast ticking to start at ten seconds, but the displayed time
 		// is rounded up, so eleven seconds matches better with that output:
 		if (oTimeRemain < 11000) Sound.uLoopFast_Tick();
@@ -130,7 +136,7 @@ export default function ViewPlay(aProps) {
 		// already stopped when play is paused, so there is no need to do that when
 		// quitting play early.
 	}
-	useEffect(ouPlay_Tick, [aProps.Setup, oBoard, oCkPause, oCkVerWord,
+	useEffect(ouMon_TimeRemain, [aProps, aProps.Setup, oBoard, oCkPause, oCkVerWord,
 		oCardUser.CtBonusTime, oTimeElap]);
 
 	// Board generation
@@ -182,7 +188,7 @@ export default function ViewPlay(aProps) {
 
 	/** Handles the End Round button click. */
 	function ouHandEnd(aEvt) {
-		aProps.uUpd_StApp(StsApp.Setup);
+		aProps.uUpd_StApp(StsApp.Score);
 	}
 
 	/** Returns the Pause dialog, or 'null' if the game is not paused. */
@@ -398,12 +404,13 @@ export default function ViewPlay(aProps) {
 		const oText = oEntUser?.uTextAll();
 		return !oText || (oText.length < Cfg.LenWordMin);
 	}
+
 	return (
 		<div id="ViewPlay">
 			<h1>Ogle</h1>
 
-			<div id="Box">
-				<div id="BoxBoard">
+			<main>
+				<section id="ColBoard">
 					<div id="BoxEnt">
 						{ouContBoxEnt()}
 					</div>
@@ -414,10 +421,10 @@ export default function ViewPlay(aProps) {
 						Left-click to select letters. Click again to unselect.
 						Right-click to enter word. Middle-click to clear.
 					</div>
-				</div>
+				</section>
 
-				<div id="BoxStat">
-					<div id="BoxTime">
+				<section id="ColStat">
+					<section id="BoxTime">
 						<Btn id="BtnPause" onClick={ouHandPause}>
 							<div id="Time">
 								{ouTextTimeRemain()}
@@ -426,21 +433,21 @@ export default function ViewPlay(aProps) {
 						</Btn>
 
 						Press to pause
-					</div>
+					</section>
 
-					<div id="BoxSetup">
+					<section id="BoxSetup">
 						<div>
 							<h3>Yield</h3>
-							<div>{oCardOgle ? oCardOgle.Ents.length : "???"}</div>
+							<div>{aProps.Setup.uTextShortYield()}</div>
 						</div>
 						<hr />
 						<div>
 							<h3>Pace</h3>
 							<div>{aProps.Setup.uTextShortPace()}</div>
 						</div>
-					</div>
+					</section>
 
-					<div id="BoxScore">
+					<section id="BoxScore">
 						<Btn id="BtnEnt" disabled={ouCkDisabBtnScore()}
 							onClick={ouRecord_Ent} CkDisabSoundClick={true}>
 							<div id="Score">
@@ -448,13 +455,13 @@ export default function ViewPlay(aProps) {
 							</div>
 							Score
 						</Btn>
-						Press to enter selection
-					</div>
-				</div>
+						Press to enter word
+					</section>
+				</section>
 
 				{ouDlgPause()}
 				{ouDlgVerWord()}
-			</div>
+			</main>
 		</div>
 	);
 }
@@ -466,6 +473,7 @@ ViewPlay.propTypes = {
 	Board: PropTypes.instanceOf(tBoard)
 };
 
+/** Returns the play time remaining, in milliseconds. */
 function uTimeRemain(aSetup, aCtBonus, aTimeElap) {
 	const oTimeAllow = (aSetup.PaceStart + (aSetup.PaceBonus * aCtBonus)) * 1000;
 	return oTimeAllow - aTimeElap;

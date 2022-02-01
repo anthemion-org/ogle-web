@@ -5,7 +5,7 @@
 
 #LookBoard {
 	width: 100%;
-	aspect-ratio: 1;
+	aspect-ratio: 1 / 1;
 
 	/* Each die uses the 'style' attribute to set its own 'grid-column-start' and
 	// 'grid-row-start': */
