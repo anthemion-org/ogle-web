@@ -1,9 +1,9 @@
-/* DlgEntDisp.css
-// --------------
+/* DlgScoreWord.css
+// ----------------
 // Copyright ©2022 Jeremy Kelly
 // www.anthemion.org */
 
-#DlgEntDisp {
+#DlgScoreWord {
 	border: 1px solid #888;
 	border-radius: 0.5rem;
 	padding: 1rem;
@@ -15,7 +15,7 @@
 	gap: 0.5rem;
 }
 
-#DlgEntDisp .Box {
+#DlgScoreWord .Box {
 	text-align: center;
 
 	font-family: Georgia, serif;
@@ -24,7 +24,7 @@
 	line-height: 100%;
 }
 
-#DlgEntDisp label {
+#DlgScoreWord label {
 	display: block;
 
 	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
@@ -33,12 +33,12 @@
 	line-height: 150%;
 }
 
-#DlgEntDisp #BoxLen {
+#DlgScoreWord #BoxLen {
 	grid-column: 1;
 	grid-row: 1;
 }
 
-#DlgEntDisp #BoxWik {
+#DlgScoreWord #BoxWik {
 	grid-column: 2 / span 2;
 	grid-row: 1;
 
@@ -47,7 +47,7 @@
 	display: flex;
 }
 
-#DlgEntDisp #BoxWik a.Btn {
+#DlgScoreWord #BoxWik a.Btn {
 	flex: 1 1 auto;
 
 	padding: 0 0.75rem;
@@ -60,7 +60,7 @@
 	place-items: center start;
 }
 
-#DlgEntDisp #BoxWik label {
+#DlgScoreWord #BoxWik label {
 	width: min-content;
 
 	margin-left: 1rem;
@@ -71,21 +71,21 @@
 	text-align: right;
 }
 
-#DlgEntDisp hr {
+#DlgScoreWord hr {
 	margin: 0.75rem 0;
 }
 
-#DlgEntDisp .LookBoard {
+#DlgScoreWord .LookBoard {
 	grid-column: 2;
 	grid-row: 2;
 }
 
-#DlgEntDisp #BoxScoreUser {
+#DlgScoreWord #BoxScoreUser {
 	grid-column: 1;
 	grid-row: 2;
 }
 
-#DlgEntDisp #ItScoreOgle {
+#DlgScoreWord #ItScoreOgle {
 	grid-column: 3;
 	grid-row: 2;
 
@@ -93,35 +93,35 @@
 	flex-direction: column;
 }
 
-#DlgEntDisp #BoxScoreUser,
-#DlgEntDisp #BoxScoreOgle {
+#DlgScoreWord #BoxScoreUser,
+#DlgScoreWord #BoxScoreOgle {
 	flex: 1 1 auto;
 
 	display: flex;
 	flex-direction: column;
 }
 
-#DlgEntDisp #BoxScoreOgle {
+#DlgScoreWord #BoxScoreOgle {
 	margin-bottom: 0.5rem;
 }
 
-#DlgEntDisp .Block {
+#DlgScoreWord .Block {
 	line-height: 100%;
 }
 
-#DlgEntDisp .Block div {
+#DlgScoreWord .Block div {
 	/* A temporary fix for Georgia's short number characters: [to do] */
 	position: relative;
 	top: -0.06em;
 }
 
-#DlgEntDisp .SideDown,
-#DlgEntDisp .SideUp {
+#DlgScoreWord .SideDown,
+#DlgScoreWord .SideUp {
 	flex: 1 1 auto;
 
 	display: grid;
 	place-items: center center;
 }
 
-#DlgEntDisp .Btn {
+#DlgScoreWord .Btn {
 }

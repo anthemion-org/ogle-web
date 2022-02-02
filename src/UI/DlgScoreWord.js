@@ -1,14 +1,14 @@
-// DlgEntDisp.js
-// -------------
+// DlgScoreWord.js
+// ---------------
 // Copyright ©2022 Jeremy Kelly
 // www.anthemion.org
 //
 // Import with:
 //
-//   import DlgEntDisp from "./DlgEntDisp.js";
+//   import DlgScoreWord from "./DlgScoreWord.js";
 //
 
-import "./DlgEntDisp.css";
+import "./DlgScoreWord.css";
 import LookBoard from "./LookBoard.js";
 import Btn from "./Btn.js";
 import { tScoreWord, StatsWord } from "../Round/ScoreWord.js";
@@ -16,23 +16,29 @@ import { tScoreWord, StatsWord } from "../Round/ScoreWord.js";
 import React from "react";
 import PropTypes from "prop-types";
 
-/** The Word Verification dialog. */
-export default function DlgEntDisp(aProps) {
-	const oTextEnt = aProps.Ent.Ent.uTextAll();
+/** The Word Score dialog. */
+export default function DlgScoreWord(aProps) {
+	const oTextEnt = aProps.ScoreWord.Ent.uTextAll();
 	const oURL = "https://en.wiktionary.org/wiki/" + oTextEnt;
 
 	function ouTextPoint(aCkUser) {
-		const oStat = aCkUser ? aProps.Ent.StatUser : aProps.Ent.StatOgle;
+		const oStat = aCkUser
+			? aProps.ScoreWord.StatUser
+			: aProps.ScoreWord.StatOgle;
 		return (oStat === StatsWord.Score) ? 1 : 0;
 	}
 
 	function ouLblPoint(aCkUser) {
-		const oStat = aCkUser ? aProps.Ent.StatUser : aProps.Ent.StatOgle;
+		const oStat = aCkUser
+			? aProps.ScoreWord.StatUser
+			: aProps.ScoreWord.StatOgle;
 		return (oStat === StatsWord.Score) ? "Point" : "Points";
 	}
 
 	function ouTextStat(aCkUser) {
-		const oStat = aCkUser ? aProps.Ent.StatUser : aProps.Ent.StatOgle;
+		const oStat = aCkUser
+			? aProps.ScoreWord.StatUser
+			: aProps.ScoreWord.StatOgle;
 		switch (oStat) {
 			case StatsWord.Miss: return "missed";
 			case StatsWord.Follow: return "followed";
@@ -42,7 +48,7 @@ export default function DlgEntDisp(aProps) {
 
 	return (
 		<div className="ScreenDlg">
-			<div id="DlgEntDisp">
+			<div id="DlgScoreWord">
 				<section id="BoxLen" className="Box">
 					<div>6</div>
 					<label>Letters</label>
@@ -59,7 +65,7 @@ export default function DlgEntDisp(aProps) {
 					</label>
 				</section>
 
-				<LookBoard Board={aProps.Board} Ent={aProps.Ent.Ent} />
+				<LookBoard Board={aProps.Board} Ent={aProps.ScoreWord.Ent} />
 
 				<section id="BoxScoreUser" className="Box">
 					<div className="Block">
@@ -91,7 +97,7 @@ export default function DlgEntDisp(aProps) {
 	);
 }
 
-DlgEntDisp.propTypes = {
-	Ent: PropTypes.instanceOf(tScoreWord).isRequired,
+DlgScoreWord.propTypes = {
+	ScoreWord: PropTypes.instanceOf(tScoreWord).isRequired,
 	uHandOK: PropTypes.func.isRequired
 };

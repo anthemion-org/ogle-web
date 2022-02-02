@@ -9,13 +9,11 @@
 //
 
 import "./ViewScore.css";
-import DlgEntDisp from "./DlgEntDisp.js";
+import DlgScoreWord from "./DlgScoreWord.js";
 import Btn from "./Btn.js";
 import StsApp from "../StsApp.js";
 import { tSetup } from "../Round/Setup.js";
 import { tBoard } from "../Board/Board.js";
-import { tEntWord } from "../Round/EntWord.js";
-import { tCard } from "../Round/Card.js";
 import { tScoreWord, StatsWord, uScoresCoversFromCards } from "../Round/ScoreWord.js";
 import * as Cfg from "../Cfg.js";
 
@@ -36,9 +34,9 @@ export default function ViewScore(aProps) {
 	const [oScores, oCoversByLen] = uScoresCoversFromCards(aProps.CardOgle,
 		aProps.CardUser);
 
-	/** Set to the tScoreWord that is being displayed in the Entry dialog, or
+	/** Set to the tScoreWord that is being displayed in the Word Score dialog, or
 	 *  'null if no entry is being displayed. */
-	const [oEntDisp, ouSet_EntDisp] = useState(null);
+	const [oScoreWord, ouSet_ScoreWord] = useState(null);
 
 	// Keyboard input
 	// --------------
@@ -47,8 +45,8 @@ export default function ViewScore(aProps) {
 		function ouHand(aEvt) {
 			// Close the displayed dialog, if any, or pause the game:
 			if (aEvt.code === "Escape") {
-				if (oEntDisp) {
-					ouSet_EntDisp(null);
+				if (oScoreWord) {
+					ouSet_ScoreWord(null);
 					return;
 				}
 			}
@@ -60,32 +58,33 @@ export default function ViewScore(aProps) {
 			document.removeEventListener("keydown", ouHand);
 		}
 	}
-	useEffect(ouListen_Keys, [oEntDisp]);
+	useEffect(ouListen_Keys, [oScoreWord]);
 
-	// Entry dialog
-	// ------------
+	// Word Score dialog
+	// -----------------
 
-	/** Handles entry list item clicks. */
-	function ouHandClickEnt(aEvt) {
-		// The 'data-idx-ent' attribute is assigned to the 'tr', but a 'td' will
+	/** Handles word list item clicks. */
+	function ouHandClickWord(aEvt) {
+		// The 'data-idx-word' attribute is assigned to the 'tr', but a 'td' will
 		// generate the click, and the event will bubble up from there:
-		const oElEnt = aEvt.target.parentElement;
-		if (oElEnt.dataset.idxEnt) {
-			const oScore = oScores[oElEnt.dataset.idxEnt];
-			ouSet_EntDisp(oScore);
+		const oEl = aEvt.target.parentElement;
+		if (oEl.dataset.idxWord) {
+			const oScore = oScores[oEl.dataset.idxWord];
+			ouSet_ScoreWord(oScore);
 		}
 	}
 
-	/** Handles the Entry dialog OK click. */
-	function ouHandOKEntDisp(aEvt) {
-		ouSet_EntDisp(null);
+	/** Handles the Word Score dialog OK click. */
+	function ouHandOKScoreWord(aEvt) {
+		ouSet_ScoreWord(null);
 	}
 
-	function ouDlgEnt() {
-		if (!oEntDisp) return null;
+	function ouDlgScoreWord() {
+		if (!oScoreWord) return null;
 
 		return (
-			<DlgEntDisp Board={aProps.Board} Ent={oEntDisp} uHandOK={ouHandOKEntDisp} />
+			<DlgScoreWord Board={aProps.Board} ScoreWord={oScoreWord}
+				uHandOK={ouHandOKScoreWord} />
 		);
 	}
 
@@ -110,7 +109,7 @@ export default function ViewScore(aProps) {
 		}
 
 		const oLines = oScores.map((aScore, aj) => (
-			<tr key={aScore.Text} data-idx-ent={aj} onClick={ouHandClickEnt}>
+			<tr key={aScore.Text} data-idx-word={aj} onClick={ouHandClickWord}>
 				<td>{ouTextScore(aScore.StatUser)}</td>
 				<td>{aScore.Text}</td>
 				<td>{ouTextScore(aScore.StatOgle)}</td>
@@ -150,14 +149,14 @@ export default function ViewScore(aProps) {
 			<h1>Ogle score</h1>
 
 			<main>
-				<section id="ColEnts">
+				<section id="ColWords">
 					<header>
 						<div><em>{aProps.CardUser.Score}</em> Player</div>
 						<div><em>{ouPerc()}%</em></div>
 						<div>Ogle <em>{aProps.CardOgle.Score}</em></div>
 					</header>
 
-					<div id="BoxEnts">
+					<div id="BoxWords">
 						<table>
 							<tbody>
 								{ouLinesScore()}
@@ -214,7 +213,7 @@ export default function ViewScore(aProps) {
 				<Btn className="Group" onClick={ouHandPlay}>Play again</Btn>
 			</div>
 
-			{ouDlgEnt()}
+			{ouDlgScoreWord()}
 		</div>
 	);
 }
