@@ -24,18 +24,32 @@ export default function DlgEntDisp(aProps) {
 	return (
 		<div className="ScreenDlg">
 			<div id="DlgEntDisp">
-				<div id="BoxWik">
+				<div id="BoxLen" className="Box">
+					6
+				</div>
+
+				<div id="BoxWik" className="Box">
 					<a className="Btn" href={oURL} target="_blank"
 						rel="noopener noreferrer">
 						{oTextEnt}
 					</a>
 
-					Click for Wiktionary entry.
+					<label>
+						Click for Wiktionary
+					</label>
 				</div>
 
 				<LookBoard Board={aProps.Board} Ent={aProps.Ent} />
 
-				<div className="Btns">
+				<div id="BoxScoreUser" className="Box">
+					missed
+				</div>
+
+				<div id="ItScoreOgle">
+					<div id="BoxScoreOgle" className="Box">
+						scored
+					</div>
+
 					<Btn className="Group" onClick={aProps.uHandOK}>OK</Btn>
 				</div>
 			</div>

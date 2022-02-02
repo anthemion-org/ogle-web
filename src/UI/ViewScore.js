@@ -67,9 +67,13 @@ export default function ViewScore(aProps) {
 
 	/** Handles entry list item clicks. */
 	function ouHandClickEnt(aEvt) {
-		const ojEnt = aEvt.target.dataset.idxEnt;
-		const oScore = oScores[ojEnt];
-		ouSet_EntDisp(oScore.Ent);
+		// The 'data-idx-ent' attribute is assigned to the 'tr', but a 'td' will
+		// generate the click, and the event will bubble up from there:
+		const oElEnt = aEvt.target.parentElement;
+		if (oElEnt.dataset.idxEnt) {
+			const oScore = oScores[oElEnt.dataset.idxEnt];
+			ouSet_EntDisp(oScore.Ent);
+		}
 	}
 
 	/** Handles the Entry dialog OK click. */
@@ -106,16 +110,10 @@ export default function ViewScore(aProps) {
 		}
 
 		const oLines = oScores.map((aScore, aj) => (
-			<tr key={aScore.Text}>
-				<td data-idx-ent={aj} onClick={ouHandClickEnt}>
-					{ouTextScore(aScore.StatUser)}
-				</td>
-				<td data-idx-ent={aj} onClick={ouHandClickEnt}>
-					{aScore.Text}
-				</td>
-				<td data-idx-ent={aj} onClick={ouHandClickEnt}>
-					{ouTextScore(aScore.StatOgle)}
-				</td>
+			<tr key={aScore.Text} data-idx-ent={aj} onClick={ouHandClickEnt}>
+				<td>{ouTextScore(aScore.StatUser)}</td>
+				<td>{aScore.Text}</td>
+				<td>{ouTextScore(aScore.StatOgle)}</td>
 			</tr>
 		));
 		return oLines;

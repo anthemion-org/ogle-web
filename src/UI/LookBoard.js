@@ -100,7 +100,7 @@ export default function LookBoard(aProps) {
 	// points to meet the selection circles, but it is difficult for that
 	// component to know its neighbors' positions:
 	return (
-		<div id="LookBoard">
+		<div className="LookBoard">
 			{ouBacksDie()}
 			{ouConnsSel()}
 			{ouLooksDie()}
