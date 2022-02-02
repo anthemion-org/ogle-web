@@ -36,8 +36,8 @@ export default function ViewScore(aProps) {
 	const [oScores, oCoversByLen] = uScoresCoversFromCards(aProps.CardOgle,
 		aProps.CardUser);
 
-	/** Set to the entry that is being displayed in the Entry dialog, or 'null if
-	 *  no entry is being displayed. */
+	/** Set to the tScoreWord that is being displayed in the Entry dialog, or
+	 *  'null if no entry is being displayed. */
 	const [oEntDisp, ouSet_EntDisp] = useState(null);
 
 	// Keyboard input
@@ -72,7 +72,7 @@ export default function ViewScore(aProps) {
 		const oElEnt = aEvt.target.parentElement;
 		if (oElEnt.dataset.idxEnt) {
 			const oScore = oScores[oElEnt.dataset.idxEnt];
-			ouSet_EntDisp(oScore.Ent);
+			ouSet_EntDisp(oScore);
 		}
 	}
 

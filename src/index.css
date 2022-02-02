@@ -308,3 +308,12 @@ input[type="range"]:hover::-moz-range-track {
 .Right {
 	text-align: right;
 }
+
+.SideUp {
+	writing-mode: vertical-rl;
+	transform: rotate(180deg);
+}
+
+.SideDown {
+	writing-mode: vertical-rl;
+}

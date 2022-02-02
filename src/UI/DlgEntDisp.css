@@ -15,6 +15,24 @@
 	gap: 0.5rem;
 }
 
+#DlgEntDisp .Box {
+	text-align: center;
+
+	font-family: Georgia, serif;
+	font-weight: bold;
+	font-size: 2rem;
+	line-height: 100%;
+}
+
+#DlgEntDisp label {
+	display: block;
+
+	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+	font-weight: normal;
+	font-size: 1rem;
+	line-height: 150%;
+}
+
 #DlgEntDisp #BoxLen {
 	grid-column: 1;
 	grid-row: 1;
@@ -51,7 +69,6 @@
 	place-items: center start;
 
 	text-align: right;
-	font-size: 90%;
 }
 
 #DlgEntDisp hr {
@@ -76,10 +93,34 @@
 	flex-direction: column;
 }
 
+#DlgEntDisp #BoxScoreUser,
 #DlgEntDisp #BoxScoreOgle {
 	flex: 1 1 auto;
 
+	display: flex;
+	flex-direction: column;
+}
+
+#DlgEntDisp #BoxScoreOgle {
 	margin-bottom: 0.5rem;
+}
+
+#DlgEntDisp .Block {
+	line-height: 100%;
+}
+
+#DlgEntDisp .Block div {
+	/* A temporary fix for Georgia's short number characters: [to do] */
+	position: relative;
+	top: -0.06em;
+}
+
+#DlgEntDisp .SideDown,
+#DlgEntDisp .SideUp {
+	flex: 1 1 auto;
+
+	display: grid;
+	place-items: center center;
 }
 
 #DlgEntDisp .Btn {
