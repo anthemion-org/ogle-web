@@ -8,8 +8,8 @@
 //   import * as Store from "./Store.js";
 //
 // All Ogle user data is stored in a single object referenced by the
-// localStorage property named by nRoot. The values referenced by uGet and uSet
-// are stored in the root of that object.
+// localStorage property named by nRoot. The values referenced by uGetPOD and
+// uSet are stored in the root of that object.
 //
 // Ogle uses types like tSetup to store data internally, but these types are
 // lost when their data is serialized. Clients of this class must convert the
@@ -19,10 +19,14 @@ import StsApp from "./StsApp.js";
 import { tSetup } from "./Round/Setup.js";
 import * as Cfg from "./Cfg.js";
 
-/** Returns the value or object with the specified name, or 'undefined' if no
- *  value with that name has been stored. */
-export function uGet(aName) {
-	return Data[aName];
+/** Returns a POD representation of the value or object with the specified name,
+ *  or 'undefined' if no value with that name has been stored. */
+export function uGetPOD(aName) {
+	if (Data[aName] !== undefined) return Data[aName];
+
+	const oDefs = uDef();
+	// We could assign the default to Data, but that might cause us to lose data:
+	return oDefs[aName];
 }
 
 /** Overwrites the value or object with the specified name, then writes all
@@ -36,10 +40,9 @@ export function uSet(aName, aVal) {
 const NameRoot = "Ogle";
 
 /** The current user data, or 'null' if it has not been read. */
-let Data = uRead();
-// So the default data is used only if the Ogle object is completely missing?
-// That makes it impossible to add new defaults without also deleting the other
-// data: [to do]
+let Data = uReadPOD();
+// The default data is also consulted if uGetPOD encounters an undefined value.
+// That allows new defaults to be defined without deleting existing data:
 if (!Data) {
 	Data = uDef();
 	uWrite(Data);
@@ -48,15 +51,16 @@ if (!Data) {
 /** Returns the default user data. */
 function uDef() {
 	return {
-		WordsUser: [],
 		StApp: StsApp.Setup,
-		Setup: tSetup.suDef()
+		Setup: tSetup.suDef(),
+		ScoresPlay: [],
+		WordsUser: []
 	};
 }
 
 /** Reads and returns user data from the nRoot local storage object, or 'null'
  *  if there is no user data. */
-function uRead() {
+function uReadPOD() {
 	return localStorage[NameRoot]
 		? JSON.parse(localStorage[NameRoot])
 		: null;

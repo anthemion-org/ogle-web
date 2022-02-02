@@ -16,6 +16,7 @@ import { tSetup } from "../Round/Setup.js";
 import { tBoard } from "../Board/Board.js";
 import { tScoreWord, StatsWord, uScoresCoversFromCards } from "../Round/ScoreWord.js";
 import * as Cfg from "../Cfg.js";
+import * as Misc from "../Util/Misc.js";
 
 import { React, useState, useEffect } from "react";
 import PropTypes from "prop-types";
@@ -26,17 +27,24 @@ import PropTypes from "prop-types";
 /** Implements the Score view. Along with StApp and uUpd_StApp, the following
  *  props are supported:
  *
- *  ~ Setup: A tSetup instance for the completed game. This prop is required.
+ *  ~ Setup: A tSetup instance for the completed round. This prop is required.
  *
- *  ~ BoardRest: A tBoard instance for the complete game.
+ *  ~ BoardRest: A tBoard instance for the completed round.
  */
 export default function ViewScore(aProps) {
-	const [oScores, oCoversByLen] = uScoresCoversFromCards(aProps.CardOgle,
-		aProps.CardUser);
-
+	/** An array of tScorePlay instances that record high scores. */
+	const [oScoresPlay, ouSet_ScoresPlay] = useState(aProps.ScoresPlayRest);
 	/** Set to the tScoreWord that is being displayed in the Word Score dialog, or
-	 *  'null if no entry is being displayed. */
+	 *  'null' if no entry is being displayed. */
 	const [oScoreWord, ouSet_ScoreWord] = useState(null);
+
+	// Compare player cards
+	// --------------------
+
+	/** An array of tScoreWord instances representing the words found in this
+	 *  round, plus an object that associates word lengths with tCover instances. */
+	const [oScores, oCoversByLen]
+		= uScoresCoversFromCards(aProps.CardOgle, aProps.CardUser);
 
 	// Keyboard input
 	// --------------
@@ -128,7 +136,7 @@ export default function ViewScore(aProps) {
 			return aLen + "+ letters";
 		}
 
-		function ouPer(aLen) {
+		function ouPerc(aLen) {
 			const oData = oCoversByLen[aLen];
 			if (!oData) return "N/A";
 			return Math.round(oData.CtUser / oData.CtTtl * 100) + "%";
@@ -138,10 +146,31 @@ export default function ViewScore(aProps) {
 		for (let oLen = Cfg.LenCoverMax; oLen >= Cfg.LenWordMin; --oLen)
 			oLines.push(
 				<tr key={oLen}>
-					<td>{ouHead(oLen)}</td><td>{ouPer(oLen)}</td>
+					<td>{ouHead(oLen)}</td><td>{ouPerc(oLen)}</td>
 				</tr>
 			);
 		return oLines;
+	}
+
+	function ouLinesScorePlay() {
+		const oCtRow = 5;
+		const oScores = oScoresPlay.slice(0, (oCtRow + 1));
+		if (oScores.length < oCtRow) {
+			const oBlanks = Misc.Gen_Arr((oCtRow - oScores.length), null);
+			oScores.push(...oBlanks);
+		}
+
+		function ouName(aScore) {
+			return aScore?.Name ?? "—";
+		}
+		function ouPerc(aScore) {
+			if (!aScore) return "";
+			return Math.round(aScore.FracPerc * 100) + "%";
+		}
+
+		return oScores.map(a => (
+			<tr><td>{ouName(a)}</td><td>{ouPerc(a)}</td></tr>
+		));
 	}
 
 	return (
@@ -197,11 +226,7 @@ export default function ViewScore(aProps) {
 
 						<table>
 							<tbody>
-								<tr><td>Ichiban Bakemono</td><td>50%</td></tr>
-								<tr><td>Ichiban Bakemono</td><td>40%</td></tr>
-								<tr><td>Ichiban Bakemono</td><td>30%</td></tr>
-								<tr><td>Ichiban Bakemono</td><td>10%</td></tr>
-								<tr><td>Ichiban Bakemono</td><td>10%</td></tr>
+								{ouLinesScorePlay()}
 							</tbody>
 						</table>
 					</section>

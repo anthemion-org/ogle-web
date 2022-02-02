@@ -31,7 +31,7 @@ import PropTypes from "prop-types";
 /** Implements the Play view. Along with StApp and uUpd_StApp, the following
  *  props are supported:
  *
- *  ~ Setup: A tSetup instance that configures the current game. This prop is
+ *  ~ Setup: A tSetup instance that configures the current round. This prop is
  *    required.
  *
  *  ~ BoardRest: A tBoard instance representing a board that was restored from
@@ -104,7 +104,7 @@ export default function ViewPlay(aProps) {
 	}
 	useEffect(ouStore_TimeElap, [oTimeElap]);
 
-	function ouMon_TimeRemain() {
+	function ouMonit_TimeRemain() {
 		// This tick timing has caused a lot of frustration, just like it did in the
 		// desktop app. JavaScript timers aren't any more precise than Windows
 		// timers, and that lack is very obvious when they are used to play audio.
@@ -127,17 +127,17 @@ export default function ViewPlay(aProps) {
 		}
 
 		// I want the fast ticking to start at ten seconds, but the displayed time
-		// is rounded up, so eleven seconds matches better with that output:
+		// is rounded up, so eleven seconds better matches that output:
 		if (oTimeRemain < 11000) Sound.uLoopFast_Tick();
 		else Sound.uLoopSlow_Tick();
 
 		// Note that we cannot return a clean-up function; doing so would cause the
-		// tick loop to stop and restart arbitrarily, ruining its timing. The loop
-		// must be stopped manually before the Score view is displayed. It is
+		// tick loop to stop and restart arbitrarily, disrupting its timing. The
+		// loop must be stopped manually before the Score view is displayed. It is
 		// already stopped when play is paused, so there is no need to do that when
 		// quitting play early.
 	}
-	useEffect(ouMon_TimeRemain, [aProps, aProps.Setup, oBoard, oCkPause, oCkVerWord,
+	useEffect(ouMonit_TimeRemain, [aProps, aProps.Setup, oBoard, oCkPause, oCkVerWord,
 		oCardUser.CtBonusTime, oTimeElap]);
 
 	// Board generation

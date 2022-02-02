@@ -42,13 +42,13 @@ const WordsExpDef = [
 	"slot", "slain", "slang", "slangy", "slag", "slant", "slanting", "slat",
 	"slating", "slam", "snag", "snit"
 ];
-WordsExpDef.sort(Search.uCompareStr);
+WordsExpDef.sort(Search.uCompareStrFast);
 
 test("SearchBoard uExec: Output", () => {
 	const oGenRnd = new tGenRnd(SeedTextDef);
 	const oBoard = tBoard.suFromRnd(oGenRnd);
 	const oSelsWord = SearchBoard.uExec(Lex.WordsSearch, oBoard);
-	const oWords = oSelsWord.map(a => a.TextAll).sort(Search.uCompareStr);
+	const oWords = oSelsWord.map(a => a.TextAll).sort(Search.uCompareStrFast);
 	expect(oWords).toEqual(WordsExpDef);
 });
 

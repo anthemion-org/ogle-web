@@ -44,7 +44,7 @@ export class tSetup {
 		/** A tRg instance giving the number of words allowed in the board. */
 		this.Yield = aYield;
 
-		/** The number of seconds to be awarded at the start of the game. */
+		/** The number of seconds to be awarded at the start of the round. */
 		this.PaceStart = aPaceStart;
 		/** The number of seconds to be awarded for each letter over three. */
 		this.PaceBonus = aPaceBonus;

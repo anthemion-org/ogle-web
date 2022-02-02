@@ -50,7 +50,7 @@ export default function DlgScoreWord(aProps) {
 		<div className="ScreenDlg">
 			<div id="DlgScoreWord">
 				<section id="BoxLen" className="Box">
-					<div>6</div>
+					<var>{oTextEnt.length}</var>
 					<label>Letters</label>
 				</section>
 
@@ -68,26 +68,26 @@ export default function DlgScoreWord(aProps) {
 				<LookBoard Board={aProps.Board} Ent={aProps.ScoreWord.Ent} />
 
 				<section id="BoxScoreUser" className="Box">
-					<div className="Block">
+					<article>
 						<label>Player</label>
-						<div>{ouTextPoint(true)}</div>
+						<var>{ouTextPoint(true)}</var>
 						<label>{ouLblPoint(true)}</label>
-					</div>
-					<div className="SideUp">
+					</article>
+					<var className="SideUp">
 						{ouTextStat(true)}
-					</div>
+					</var>
 				</section>
 
-				<section id="ItScoreOgle">
+				<section id="CellRightBtm">
 					<div id="BoxScoreOgle" className="Box">
-						<div className="Block">
-							<label>Ogle</label>
-							<div>{ouTextPoint(false)}</div>
-							<label>{ouLblPoint(false)}</label>
-						</div>
-						<div className="SideDown">
+						<var className="SideDown">
 							{ouTextStat(false)}
-						</div>
+						</var>
+						<article>
+							<label>Ogle</label>
+							<var>{ouTextPoint(false)}</var>
+							<label>{ouLblPoint(false)}</label>
+						</article>
 					</div>
 
 					<Btn className="Group" onClick={aProps.uHandOK}>OK</Btn>

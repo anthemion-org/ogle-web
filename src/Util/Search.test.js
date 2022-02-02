@@ -45,7 +45,7 @@ test.each([
 	["HH", 7]
 ])("uBin: String match", (aVal, ajIns) => {
 	const oEls = ["AA", "BB", "CC", "DD", "EE", "FF", "GG", "HH"];
-	const [oCk, ojIns] = Search.uBin(oEls, aVal, Search.uCompareStr);
+	const [oCk, ojIns] = Search.uBin(oEls, aVal, Search.uCompareStrFast);
 	expect(oCk).toBe(true);
 	expect(ojIns).toBe(ajIns);
 });
@@ -62,7 +62,7 @@ test.each([
 	// Last element missing:
 	[["AA", "BB", "CC", "DD", "EE", "FF", "GG"], "HH", 7]
 ])("uBin: String no match", (aEls, aVal, ajIns) => {
-	const [oCk, ojIns] = Search.uBin(aEls, aVal, Search.uCompareStr);
+	const [oCk, ojIns] = Search.uBin(aEls, aVal, Search.uCompareStrFast);
 	expect(oCk).toBe(false);
 	expect(ojIns).toBe(ajIns);
 });

@@ -16,6 +16,7 @@ import StsApp from "../StsApp.js";
 import { tSetup } from "../Round/Setup.js";
 import { tBoard } from "../Board/Board.js";
 import { tCard } from "../Round/Card.js";
+import { tScorePlay } from "../Round/ScorePlay.js";
 import * as Store from "../Store.js";
 
 import { React, useReducer, useEffect } from "react";
@@ -36,7 +37,7 @@ import PropTypes from "prop-types";
 export default function View(aProps) {
 	switch (aProps.StApp) {
 		case StsApp.Setup: {
-			const oSetup = tSetup.suFromPOD(Store.uGet("Setup"));
+			const oSetup = tSetup.suFromPOD(Store.uGetPOD("Setup"));
 			return <ViewSetup {...aProps} SetupRest={oSetup} />;
 		}
 
@@ -44,11 +45,11 @@ export default function View(aProps) {
 			return <ViewAbout {...aProps} />;
 
 		case StsApp.Play: {
-			const oSetup = tSetup.suFromPOD(Store.uGet("Setup"));
-			const oBoard = tBoard.suFromPOD(Store.uGet("Board"));
-			const oCardOgleRest = tCard.suFromPOD(Store.uGet("CardOgle"));
-			const oCardUserRest = tCard.suFromPOD(Store.uGet("CardUser"));
-			const oTimeElapRest = Store.uGet("TimeElap");
+			const oSetup = tSetup.suFromPOD(Store.uGetPOD("Setup"));
+			const oBoard = tBoard.suFromPOD(Store.uGetPOD("Board"));
+			const oCardOgleRest = tCard.suFromPOD(Store.uGetPOD("CardOgle"));
+			const oCardUserRest = tCard.suFromPOD(Store.uGetPOD("CardUser"));
+			const oTimeElapRest = Store.uGetPOD("TimeElap");
 
 			return <ViewPlay {...aProps} Setup={oSetup} BoardRest={oBoard}
 				CardOgleRest={oCardOgleRest} CardUserRest={oCardUserRest}
@@ -56,13 +57,16 @@ export default function View(aProps) {
 		}
 
 		case StsApp.Score: {
-			const oSetup = tSetup.suFromPOD(Store.uGet("Setup"));
-			const oBoard = tBoard.suFromPOD(Store.uGet("Board"));
-			const oCardOgle = tCard.suFromPOD(Store.uGet("CardOgle"));
-			const oCardUser = tCard.suFromPOD(Store.uGet("CardUser"));
+			const oSetup = tSetup.suFromPOD(Store.uGetPOD("Setup"));
+			const oBoard = tBoard.suFromPOD(Store.uGetPOD("Board"));
+			const oCardOgle = tCard.suFromPOD(Store.uGetPOD("CardOgle"));
+			const oCardUser = tCard.suFromPOD(Store.uGetPOD("CardUser"));
+			const oScoresPlayRest
+				= tScorePlay.suArrFromPODs(Store.uGetPOD("ScoresPlay"));
 
 			return <ViewScore {...aProps} Setup={oSetup} Board={oBoard}
-				CardOgle={oCardOgle} CardUser={oCardUser} />;
+				CardOgle={oCardOgle} CardUser={oCardUser}
+				ScoresPlayRest={oScoresPlayRest} />;
 		}
 	}
 	throw Error("View: Invalid view");

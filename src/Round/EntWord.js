@@ -115,5 +115,5 @@ export function uCompareEntWord(aL, aR) {
 		return 0;
 	}
 
-	return Search.uCompareStr(oTextL, oTextR);
+	return Search.uCompareStrFast(oTextL, oTextR);
 }

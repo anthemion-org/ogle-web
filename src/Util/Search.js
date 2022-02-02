@@ -18,19 +18,20 @@ export function uCompareNum(aL, aR) {
 
 /** Compares strings by code point, so capital letters and accented letters are
  *  sorted away from their lowercase and unaccented counterparts. */
-export function uCompareStr(aL, aR) {
-	// Strings can also be compared with 'localeCompare':
-	//
-	//   https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/localeCompare
-	//
-	// but that function may be slow:
-	//
-	//   https://stackoverflow.com/questions/14677060/400x-sorting-speedup-by-switching-a-localecompareb-to-ab-1ab10
-	//
-
+export function uCompareStrFast(aL, aR) {
 	if (aL < aR) return -1;
 	if (aL > aR) return 1;
 	return 0;
+}
+
+/** Compares strings with 'localeCompare', so capital letters and accented
+ *  letters are sorted next to their lowercase and unaccented counterparts. */
+export function uCompareStrSmart(aL, aR) {
+	// This function may be slow:
+	//
+	//   https://stackoverflow.com/questions/14677060/400x-sorting-speedup-by-switching-a-localecompareb-to-ab-1ab10
+	//
+	return aL.localeCompare(aR, "en", { sensitivity: "base" });
 }
 
 // Search functions
@@ -46,7 +47,7 @@ export function uCompareStr(aL, aR) {
  *  negative number, zero, or a positive number to signal the first argument's
  *  position relative to the second. */
 export function uBin(aEls, aVal, auCompare) {
-	if (aEls.length < 1) return [ false, 0 ];
+	if (aEls.length < 1) return [false, 0];
 
 	if (!auCompare) auCompare = uCompareNum;
 
@@ -63,10 +64,10 @@ export function uBin(aEls, aVal, auCompare) {
 			ojHi = ojMid - 1;
 			continue;
 		}
-		return [ true, ojMid ];
+		return [true, ojMid];
 	}
 
 	const oPosEnd = auCompare(aEls[ojLo], aVal);
 	const ojIns = (oPosEnd < 0) ? (ojLo + 1) : ojLo;
-	return [ !oPosEnd, ojIns ];
+	return [!oPosEnd, ojIns];
 }

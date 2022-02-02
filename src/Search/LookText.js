@@ -80,7 +80,7 @@ function uCompare(aTextLook, aWord) {
 	// is necessarily too short to match the sequences following aTextLook:
 	if (aWord.length > aTextLook.length)
 		aWord = aWord.substr(0, aTextLook.length);
-	return Search.uCompareStr(aTextLook, aWord);
+	return Search.uCompareStrFast(aTextLook, aWord);
 }
 
 /** Stores properties representing word search outcomes. */

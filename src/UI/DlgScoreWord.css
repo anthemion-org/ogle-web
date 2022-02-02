@@ -11,16 +11,17 @@
 
 	display: grid;
 	grid-template-rows: min-content 40vh min-content;
-	grid-template-columns: min-content 40vh;
+	grid-template-columns: 6rem 40vh 6rem;
 	gap: 0.5rem;
 }
 
-#DlgScoreWord .Box {
-	text-align: center;
+#DlgScoreWord var {
+	display: block;
 
 	font-family: Georgia, serif;
-	font-weight: bold;
 	font-size: 2rem;
+	font-weight: bold;
+	font-style: normal;
 	line-height: 100%;
 }
 
@@ -31,6 +32,10 @@
 	font-weight: normal;
 	font-size: 1rem;
 	line-height: 150%;
+}
+
+#DlgScoreWord .Box {
+	text-align: center;
 }
 
 #DlgScoreWord #BoxLen {
@@ -48,7 +53,7 @@
 }
 
 #DlgScoreWord #BoxWik a.Btn {
-	flex: 1 1 auto;
+	flex: 1;
 
 	padding: 0 0.75rem;
 
@@ -65,14 +70,10 @@
 
 	margin-left: 1rem;
 
-	display: grid;
-	place-items: center start;
+	display: flex;
+	align-items: center;
 
 	text-align: right;
-}
-
-#DlgScoreWord hr {
-	margin: 0.75rem 0;
 }
 
 #DlgScoreWord .LookBoard {
@@ -85,7 +86,7 @@
 	grid-row: 2;
 }
 
-#DlgScoreWord #ItScoreOgle {
+#DlgScoreWord #CellRightBtm {
 	grid-column: 3;
 	grid-row: 2;
 
@@ -93,35 +94,34 @@
 	flex-direction: column;
 }
 
+#DlgScoreWord #BoxScoreOgle {
+	flex: 1;
+}
+
 #DlgScoreWord #BoxScoreUser,
 #DlgScoreWord #BoxScoreOgle {
-	flex: 1 1 auto;
-
 	display: flex;
 	flex-direction: column;
 }
 
-#DlgScoreWord #BoxScoreOgle {
-	margin-bottom: 0.5rem;
+#DlgScoreWord .Btn {
+	margin-top: 0.5rem;
 }
 
-#DlgScoreWord .Block {
+#DlgScoreWord article {
 	line-height: 100%;
 }
 
-#DlgScoreWord .Block div {
+#DlgScoreWord article var {
 	/* A temporary fix for Georgia's short number characters: [to do] */
 	position: relative;
-	top: -0.06em;
+	top: -0.05em;
 }
 
 #DlgScoreWord .SideDown,
 #DlgScoreWord .SideUp {
-	flex: 1 1 auto;
+	flex: 1;
 
 	display: grid;
 	place-items: center center;
-}
-
-#DlgScoreWord .Btn {
 }

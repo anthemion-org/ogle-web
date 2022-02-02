@@ -41,7 +41,7 @@ export const StatsWord = {
 };
 Object.freeze(StatsWord);
 
-/** Stores coverage data for one word length. */
+/** Stores word score coverage data for one word length. */
 export class tCover {
 	constructor() {
 		/** The total number of words with this length. */
@@ -56,7 +56,7 @@ export class tCover {
 /** Uses the specified cards to compile scoring data. Returns an array
  *  containing:
  *
- *  ~ An array of tScore instances representing all the words found in the
+ *  ~ An array of tScoreWord instances representing all the words found in the
  *    cards;
  *
  *  ~ An object that associates word lengths with tCover instances, these giving
@@ -123,7 +123,7 @@ export function uScoresCoversFromCards(aCardOgle, aCardUser) {
  *  length. Score statuses are ignored, as are the specific board positions used
  *  to define each entry. */
 function uCompareByText(aL, aR) {
-	return Search.uCompareStr(aL.Text, aR.Text);
+	return Search.uCompareStrFast(aL.Text, aR.Text);
 }
 
 /** Compares tScoreWord instances by descending length, and then alphabetically
@@ -132,5 +132,5 @@ function uCompareByText(aL, aR) {
 function uCompareByLen(aL, aR) {
 	if (aL.Text.length > aR.Text.length) return -1;
 	if (aL.Text.length < aR.Text.length) return 1;
-	return Search.uCompareStr(aL.Text, aR.Text);
+	return Search.uCompareStrFast(aL.Text, aR.Text);
 }
