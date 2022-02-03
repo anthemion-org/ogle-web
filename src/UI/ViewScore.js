@@ -160,16 +160,23 @@ export default function ViewScore(aProps) {
 			oScores.push(...oBlanks);
 		}
 
+		function ouKey(aScore, aj) {
+			return aj.toString() + (aScore ? aScore.Time : "");
+		}
+
 		function ouName(aScore) {
 			return aScore?.Name ?? "—";
 		}
+
 		function ouPerc(aScore) {
 			if (!aScore) return "";
 			return Math.round(aScore.FracPerc * 100) + "%";
 		}
 
-		return oScores.map(a => (
-			<tr><td>{ouName(a)}</td><td>{ouPerc(a)}</td></tr>
+		return oScores.map((aScore, aj) => (
+			<tr key={ouKey(aScore, aj)}>
+				<td>{ouName(aScore)}</td><td>{ouPerc(aScore)}</td>
+			</tr>
 		));
 	}
 
