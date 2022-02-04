@@ -10,11 +10,14 @@
 
 import "./ViewScore.css";
 import DlgScoreWord from "./DlgScoreWord.js";
+import DlgNamePlay from "./DlgNamePlay.js";
 import Btn from "./Btn.js";
 import StsApp from "../StsApp.js";
 import { tSetup } from "../Round/Setup.js";
 import { tBoard } from "../Board/Board.js";
 import { tScoreWord, StatsWord, uScoresCoversFromCards } from "../Round/ScoreWord.js";
+import { tScorePlay, uCompareScorePlay } from "../Round/ScorePlay.js";
+import * as Store from "../Store.js";
 import * as Cfg from "../Cfg.js";
 import * as Misc from "../Util/Misc.js";
 
@@ -37,6 +40,11 @@ export default function ViewScore(aProps) {
 	/** Set to the tScoreWord that is being displayed in the Word Score dialog, or
 	 *  'null' if no entry is being displayed. */
 	const [oScoreWord, ouSet_ScoreWord] = useState(null);
+
+	function ouStore_ScoresPlay() {
+		Store.uSet("ScoresPlay", oScoresPlay);
+	}
+	useEffect(ouStore_ScoresPlay, [oScoresPlay]);
 
 	// Compare player cards
 	// --------------------
@@ -96,6 +104,47 @@ export default function ViewScore(aProps) {
 		);
 	}
 
+	// Player Name dialog
+	// ------------------
+
+	/** Returns 'true' if the completed game produced a high score that has yet to
+	 *  be recorded. */
+	function ouCkScoreHigh() {
+		if (!oScoresPlay.length) return true;
+
+		const oFracPerc = aProps.CardUser.Score / aProps.CardOgle.Score;
+
+		let oCkHigh = false;
+		let oCkRec = false;
+		for (const oScore of oScoresPlay) {
+			if (oScore.FracPerc < oFracPerc) oCkHigh = true;
+			if (oScore.TimeStart === aProps.CardUser.TimeStart) oCkRec = true;
+		}
+
+		return oCkHigh && !oCkRec;
+	}
+
+	/** Handles the Player Name dialog OK click. */
+	function ouHandNamePlay(aName) {
+		const oFracPerc = aProps.CardUser.Score / aProps.CardOgle.Score;
+		const oScore = new tScorePlay(aProps.CardUser.TimeStart, aName, oFracPerc);
+		ouSet_ScoresPlay(aScores => {
+			const oScores = [...aScores];
+			oScores.push(oScore);
+			oScores.sort(uCompareScorePlay);
+			return oScores.slice(0, Cfg.CtStoreScoreHigh);
+		});
+	}
+
+	function ouDlgNamePlay() {
+		if (!ouCkScoreHigh()) return null;
+
+		return (
+			<DlgNamePlay ScoreUser={aProps.CardUser.Score}
+				ScoreOgle={aProps.CardUser.Score} uHandName={ouHandNamePlay}/>
+		);
+	}
+
 	// View content
 	// ------------
 
@@ -136,6 +185,12 @@ export default function ViewScore(aProps) {
 			return aLen + "+ letters";
 		}
 
+		function ouFrac(aLen) {
+			const oData = oCoversByLen[aLen];
+			if (!oData) return "";
+			return oData.CtUser + "/" + oData.CtTtl;
+		}
+
 		function ouPerc(aLen) {
 			const oData = oCoversByLen[aLen];
 			if (!oData) return "N/A";
@@ -146,7 +201,7 @@ export default function ViewScore(aProps) {
 		for (let oLen = Cfg.LenCoverMax; oLen >= Cfg.LenWordMin; --oLen)
 			oLines.push(
 				<tr key={oLen}>
-					<td>{ouHead(oLen)}</td><td>{ouPerc(oLen)}</td>
+					<td>{ouHead(oLen)}</td><td>{ouFrac(oLen)}</td><td>{ouPerc(oLen)}</td>
 				</tr>
 			);
 		return oLines;
@@ -161,11 +216,13 @@ export default function ViewScore(aProps) {
 		}
 
 		function ouKey(aScore, aj) {
-			return aj.toString() + (aScore ? aScore.Time : "");
+			return aj.toString() + (aScore ? aScore.TimeStart : "");
 		}
 
 		function ouName(aScore) {
-			return aScore?.Name ?? "—";
+			if (!aScore) return "—";
+			// Anonymous scores are stored as empty strings:
+			return aScore.Name || "(anonymous)";
 		}
 
 		function ouPerc(aScore) {
@@ -246,6 +303,7 @@ export default function ViewScore(aProps) {
 			</div>
 
 			{ouDlgScoreWord()}
+			{ouDlgNamePlay()}
 		</div>
 	);
 }

@@ -36,3 +36,5 @@ export const LenWordMax = CtDie * 2;
 /** The maximum word length to track in the Coverage table within the Score
  *  view. */
 export const LenCoverMax = 9;
+/** The number of high scores to be stored. The displayed count may be less.*/
+export const CtStoreScoreHigh = 10;

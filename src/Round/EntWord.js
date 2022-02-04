@@ -20,11 +20,11 @@ import * as Cfg from "../Cfg.js";
  *  during play, and for displaying entries in the Score view. */
 export class tEntWord {
 	/** Creates an instance from the specified POD and returns it. */
-	static suFromPOD(aPod) {
-		if (!aPod) return null;
+	static suFromPOD(aPOD) {
+		if (!aPOD) return null;
 
-		const oPosi = aPod.Posi.map(a => tPt2.suFromPOD(a));
-		return new tEntWord(oPosi, aPod.Texts);
+		const oPosi = aPOD.Posi.map(a => tPt2.suFromPOD(a));
+		return new tEntWord(oPosi, aPOD.Texts);
 	}
 
 	/** Creates and returns a new instance that ends with the specified position

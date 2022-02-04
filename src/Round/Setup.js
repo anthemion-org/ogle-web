@@ -20,13 +20,13 @@ import { tRg } from "../Util/Rg.js";
 
 export class tSetup {
 	/** Creates an instance from the specified POD and returns it. */
-	static suFromPOD(aPod) {
-		if (!aPod) return null;
+	static suFromPOD(aPOD) {
+		if (!aPOD) return null;
 
 		return new tSetup(
-			tRg.suFromPOD(aPod.Yield),
-			aPod.PaceStart,
-			aPod.PaceBonus
+			tRg.suFromPOD(aPOD.Yield),
+			aPOD.PaceStart,
+			aPOD.PaceBonus
 		);
 	}
 

@@ -21,7 +21,7 @@ export class tScorePlay {
 	static suFromPOD(aPOD) {
 		if (!aPOD) return null;
 
-		return new tScorePlay(aPOD.Time, aPOD.Name, aPOD.FracPerc);
+		return new tScorePlay(aPOD.TimeStart, aPOD.Name, aPOD.FracPerc);
 	}
 
 	/** Creates an array of instances from the specified POD array and returns it. */
@@ -32,8 +32,8 @@ export class tScorePlay {
 	}
 
 	constructor(aTime, aName, aFracPerc) {
-		/** The UNIX time when the score was recorded. */
-		this.Time = aTime;
+		/** The UNIX time when the game started. */
+		this.TimeStart = aTime;
 		/** The player's name. */
 		this.Name = aName;
 		/** The player's percent score, as a decimal fraction. */
@@ -47,7 +47,7 @@ export function uCompareScorePlay(aL, aR) {
 	if (aL.FracPerc > aR.FracPerc) return -1;
 	if (aL.FracPerc < aR.FracPerc) return 1;
 
-	if (aL.Time < aR.Time) return -1;
-	if (aL.Time > aR.Time) return 1;
+	if (aL.TimeStart < aR.TimeStart) return -1;
+	if (aL.TimeStart > aR.TimeStart) return 1;
 	return 0;
 }

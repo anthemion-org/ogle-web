@@ -163,8 +163,27 @@ a.Btn {
 	margin-left: auto;
 }
 
-/* ------------
-// Range inputs
+/* Text inputs
+// ----------- */
+
+input {
+	width: 100%;
+	margin: 0.25rem 0 0.5rem 0;
+
+	background-color: white;
+	border: 1px solid hsl(0, 60%, 40%);
+
+	font-family: Georgia, serif;
+	font-size: 1.5rem;
+	text-align: center;
+}
+
+input:focus {
+	/* Use 'outline' here to thicken the border without shifting the layout: */
+	outline: 1px solid hsl(0, 60%, 40%);
+}
+
+/* Range inputs
 // ------------
 // By default, and contrary to all common sense, range inputs don't change in
 // value when the user clicks to one side of the thumb unless the click position

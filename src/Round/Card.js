@@ -18,15 +18,15 @@ import * as Cfg from "../Cfg.js";
 export class tCard {
 	/** Creates and returns a new card. */
 	static suNew() {
-		return new tCard([], 0, 0);
+		return new tCard(Date.now(), [], 0, 0);
 	}
 
 	/** Creates an instance from the specified POD and returns it. */
-	static suFromPOD(aPod) {
-		if (!aPod) return null;
+	static suFromPOD(aPOD) {
+		if (!aPOD) return null;
 
-		const oEnts = aPod.Ents.map(a => tEntWord.suFromPOD(a));
-		return new tCard(oEnts, aPod.Score, aPod.CtBonusTime);
+		const oEnts = aPOD.Ents.map(a => tEntWord.suFromPOD(a));
+		return new tCard(aPOD.TimeStart, oEnts, aPOD.Score, aPOD.CtBonusTime);
 	}
 
 	/** Creates a new instance from the specified board search results, and
@@ -45,7 +45,8 @@ export class tCard {
 		return oCard;
 	}
 
-	constructor(aEnts, aScore, aCtBonusTime) {
+	constructor(aTimeStart, aEnts, aScore, aCtBonusTime) {
+		this.TimeStart = aTimeStart;
 		this.Ents = aEnts;
 		this.Score = aScore;
 		/** The number of time bonuses accrued. Subtract the time elapsed to get the
@@ -94,6 +95,7 @@ export class tCard {
 
 	/** Creates and returns a clone of this instance. */
 	uClone() {
-		return new tCard([...this.Ents], this.Score, this.CtBonusTime);
+		return new tCard(this.TimeStart, [...this.Ents], this.Score,
+			this.CtBonusTime);
 	}
 }
