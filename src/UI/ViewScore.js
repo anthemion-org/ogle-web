@@ -112,16 +112,13 @@ export default function ViewScore(aProps) {
 	function ouCkScoreHigh() {
 		if (!oScoresPlay.length) return true;
 
+		if (oScoresPlay.some(a => a.TimeStart === aProps.CardUser.TimeStart))
+			return false;
+
+		if (oScoresPlay.length < Cfg.CtStoreScoreHigh) return true;
+
 		const oFracPerc = aProps.CardUser.Score / aProps.CardOgle.Score;
-
-		let oCkHigh = false;
-		let oCkRec = false;
-		for (const oScore of oScoresPlay) {
-			if (oScore.FracPerc < oFracPerc) oCkHigh = true;
-			if (oScore.TimeStart === aProps.CardUser.TimeStart) oCkRec = true;
-		}
-
-		return oCkHigh && !oCkRec;
+		return oScoresPlay.some(a => a.FracPerc < oFracPerc);
 	}
 
 	/** Handles the Player Name dialog OK click. */
@@ -141,7 +138,7 @@ export default function ViewScore(aProps) {
 
 		return (
 			<DlgNamePlay ScoreUser={aProps.CardUser.Score}
-				ScoreOgle={aProps.CardUser.Score} uHandName={ouHandNamePlay}/>
+				ScoreOgle={aProps.CardOgle.Score} uHandName={ouHandNamePlay}/>
 		);
 	}
 

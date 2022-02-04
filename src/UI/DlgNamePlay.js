@@ -13,7 +13,7 @@ import Btn from "./Btn.js";
 import * as Store from "../Store.js";
 import StsApp from "../StsApp.js";
 
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
 // DlgNamePlay
@@ -23,12 +23,21 @@ export default function DlgNamePlay(aProps) {
 	/** The Name input value. */
 	const [oName, ouSet_Name] = useState(uNameLast());
 
+	function ouStore_Name() {
+		Store.uSet("NamePlayLast", oName);
+	}
+	useEffect(ouStore_Name, [oName]);
+
 	function ouPerc() {
 		return Math.round(aProps.ScoreUser / aProps.ScoreOgle * 100);
 	}
 
 	function ouHandChange(aEvt) {
 		ouSet_Name(aEvt.target.value);
+	}
+
+	function ouHandKeyDown(aEvt) {
+		if (aEvt.code === "Enter") aProps.uHandName(oName);
 	}
 
 	function ouHandOK(aEvt) {
@@ -52,7 +61,8 @@ export default function DlgNamePlay(aProps) {
 					Enter name, or blank to be anonymous:
 				</label>
 
-				<input id="Name" name="Name" value={oName} onChange={ouHandChange} />
+				<input id="Name" name="Name" autoFocus value={oName}
+					onChange={ouHandChange} onKeyDown={ouHandKeyDown} />
 
 				<Btn onClick={ouHandOK}>OK</Btn>
 			</div>
