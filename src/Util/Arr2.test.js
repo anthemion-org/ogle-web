@@ -28,7 +28,7 @@ test("tArr2: Create with Def", () => {
 		}
 });
 
-test("tArr2: Clone", () => {
+test("tArr2: Copy", () => {
 	const oSize = new tPt2(4, 3);
 	const oArrSrc = new tArr2(oSize);
 	for (let oY = 0; oY < oSize.Y; ++oY)
@@ -38,7 +38,7 @@ test("tArr2: Clone", () => {
 			oArrSrc.uSet(oPos, oVal);
 		}
 
-	const oArrDest = oArrSrc.uClone();
+	const oArrDest = oArrSrc.uCopy();
 	for (let oY = 0; oY < oSize.Y; ++oY)
 		for (let oX = 0; oX < oSize.X; ++oX) {
 			const oPos = new tPt2(oX, oY);

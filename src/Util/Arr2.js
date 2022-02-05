@@ -49,8 +49,15 @@ export class tArr2 {
 	}
 
 	/** Returns a shallow copy of this instance. */
-	uClone() {
+	uCopy() {
 		return new tArr2(this.Size, { Src: this._Els });
+	}
+
+	/** Returns a deep copy of this instance. */
+	uClone() {
+		const oArr = new tArr2(this.Size, { Src: this._Els });
+		oArr._Els = oArr._Els.map(a => a.uClone());
+		return oArr;
 	}
 }
 

@@ -41,10 +41,9 @@ export class tSelBoard {
 		this.SelPrev = aSelPrev ?? null;
 
 		let oCksByPosPrev = aSelPrev
-			? aSelPrev.CksByPos.uClone()
+			? aSelPrev.CksByPos.uCopy()
 			: new tArr2(Cfg.SizeBoard, { Def: false });
-		/** A tArr2 instance that references this instance and its predecessors, by
-		 *  board position. */
+		/** A tArr2 of booleans that that marks selected board position. */
 		this.CksByPos = oCksByPosPrev;
 		this.CksByPos.uSet(aPos, true);
 

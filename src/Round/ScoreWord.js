@@ -5,7 +5,8 @@
 //
 // Import with:
 //
-//   import { tScoreWord, StatsWord, tDataCover, uScoresCoversFromCards } from "./Round/ScoreWord.js";
+//   import { tScoreWord, StatsWord, tCover, uScoresCoversFromCards }
+//     from "./Round/ScoreWord.js";
 //
 
 import * as Search from "../Util/Search.js";
