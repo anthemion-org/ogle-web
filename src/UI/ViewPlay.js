@@ -49,7 +49,7 @@ export default function ViewPlay(aProps) {
 		aProps.CardUserRest || tCard.suNew()
 	);
 	/** Set to 'true' if play is paused. */
-	const [oCkPause, ouSet_CkPause] = useState(false);
+	const [oCkPause, ouSet_CkPause] = useState(!!aProps.BoardRest);
 	/** Set to 'true' if a word is being verified. */
 	const [oCkVerWord, ouSet_CkVerWord] = useState(false);
 	/** The elapsed play time, in milliseconds. */
