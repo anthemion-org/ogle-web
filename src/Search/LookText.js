@@ -20,47 +20,47 @@ export class tLookText {
 	/** Returns a new instance that searches for aText, while reusing the search
 	 *  state produced by a previous tLookText instance. */
 	static suFromPrev(aLook, aText) {
-		return new tLookText(aLook.Words, aText, aLook.jFore, aLook.jAft);
+		return new tLookText(aLook._Words, aText, aLook._jFore, aLook._jAft);
 	}
 
 	/** Creates an instances that searches array aWords for aText. Leave ajFore
 	 *  and ajAft undefined to start a new search. */
 	constructor(aWords, aText, ajFore, ajAft) {
 		/** The words to be searched. */
-		this.Words = aWords;
+		this._Words = aWords;
 		/** The text to be sought by this instance. */
-		this.Text = aText;
+		this._Text = aText;
 		/** The word index before the search window. */
-		this.jFore = ajFore ?? -1;
+		this._jFore = ajFore ?? -1;
 		/** The word index after the search window. */
-		this.jAft = ajAft ?? aWords.length;
+		this._jAft = ajAft ?? aWords.length;
 	}
 
-	/** Searches Words for Text, narrowing the window until a match or a miss is
+	/** Searches _Words for _Text, narrowing the window until a match or a miss is
 	 *  identified. If aCkStopFrag is 'true', the search will also stop when a
 	 *  fragment is identified. Returns the reason the search stopped. */
 	uExec(aCkStopFrag) {
-		if (this.Words.length < 1) return OutsLook.Miss;
+		if (this._Words.length < 1) return OutsLook.Miss;
 
 		while (true) {
-			const ojMid = Math.floor((this.jFore + this.jAft) / 2);
-			const oWord = this.Words[ojMid];
-			const oCompare = uCompare(this.Text, oWord);
-			// Text sorts before oWord:
-			if (oCompare < 0) this.jAft = ojMid;
-			// Text sorts after oWord:
-			else if (oCompare > 0) this.jFore = ojMid;
+			const ojMid = Math.floor((this._jFore + this._jAft) / 2);
+			const oWord = this._Words[ojMid];
+			const oCompare = uCompare(this._Text, oWord);
+			// _Text sorts before oWord:
+			if (oCompare < 0) this._jAft = ojMid;
+			// _Text sorts after oWord:
+			else if (oCompare > 0) this._jFore = ojMid;
 			else {
-				if (this.Text === oWord) return OutsLook.Match;
+				if (this._Text === oWord) return OutsLook.Match;
 				if (aCkStopFrag) return OutsLook.Frag;
-				// oWord begins with the letters in Text, but it is longer, so the match
+				// oWord begins with the letters in _Text, but it is longer, so the match
 				// (if any) must precede ojMid:
-				this.jAft = ojMid;
+				this._jAft = ojMid;
 			}
 
 			// The word in the middle of the window has just been checked. If the
 			// window is now one word or less in size, no match will be found:
-			if ((this.jAft - this.jFore) <= 1) return OutsLook.Miss;
+			if ((this._jAft - this._jFore) <= 1) return OutsLook.Miss;
 		}
 	}
 }

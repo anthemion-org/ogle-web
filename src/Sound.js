@@ -14,14 +14,14 @@ import { tTimer } from "./Util/Timer.js";
  *  mutable. */
 class tSound {
 	constructor() {
-		this.AudMouseOver = document.querySelector("#AudMouseOver");
-		this.AudSelDie = document.querySelector("#AudSelDie");
-		this.AudUnselDie = document.querySelector("#AudUnselDie");
-		this.AudEntVal = document.querySelector("#AudEntVal");
-		this.AudEntInval = document.querySelector("#AudEntInval");
+		this._AudMouseOver = document.querySelector("#AudMouseOver");
+		this._AudSelDie = document.querySelector("#AudSelDie");
+		this._AudUnselDie = document.querySelector("#AudUnselDie");
+		this._AudEntVal = document.querySelector("#AudEntVal");
+		this._AudEntInval = document.querySelector("#AudEntInval");
 
-		this.AudTick = document.querySelector("#AudTick");
-		this.AudTick.volume = 0.8;
+		this._AudTick = document.querySelector("#AudTick");
+		this._AudTick.volume = 0.8;
 
 		/** The loop play state, which determines whether the tick loop generates
 		 *  sound. The loop timer always runs. */
@@ -32,27 +32,27 @@ class tSound {
 	}
 
 	uMouseOver() {
-		this.AudMouseOver.play();
+		this._AudMouseOver.play();
 	}
 
 	uSelDie() {
-		this.AudSelDie.play();
+		this._AudSelDie.play();
 	}
 
 	uUnselDie() {
-		this.AudUnselDie.play();
+		this._AudUnselDie.play();
 	}
 
 	uEntVal() {
-		this.AudEntVal.play();
+		this._AudEntVal.play();
 	}
 
 	uEntInval() {
-		this.AudEntInval.play();
+		this._AudEntInval.play();
 	}
 
 	uTick() {
-		this.AudTick.play();
+		this._AudTick.play();
 	}
 
 	/** Starts the 'slow' tick loop. */

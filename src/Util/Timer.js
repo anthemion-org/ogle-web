@@ -17,11 +17,11 @@ export class tTimer {
 	constructor(auWork, aPer, aCkStart) {
 		/** The work function to be invoked every interval, or 'null' if there is no
 		 *  work to be done. */
-		this.uWork = auWork;
+		this._uWork = auWork;
 		/** The timer period, in milliseconds. */
 		this.Per = aPer;
 		/** The ID returned by 'setTimeout', or 'null' if the timer is stopped. */
-		this.IDTimer = null;
+		this._IDTimer = null;
 
 		this._uExec = this._uExec.bind(this);
 
@@ -31,23 +31,23 @@ export class tTimer {
 	/** Replaces the work function. Set to 'null' if the timer should continue to
 	 *  run without doing any work. */
 	uSet_Work(auWork) {
-		this.uWork = auWork;
+		this._uWork = auWork;
 	}
 
 	/** Starts the timer, doing nothing if the timer is already running. */
 	uStart() {
-		if (this.IDTimer) return;
+		if (this._IDTimer) return;
 
 		this.TimeNext = Date.now() + this.Per;
-		this.IDTimer = setTimeout(this._uExec, this.Per);
+		this._IDTimer = setTimeout(this._uExec, this.Per);
 	}
 
 	/** Stops the timer, doing nothing if the timer is already stopped. */
 	uStop() {
-		if (!this.IDTimer) return;
+		if (!this._IDTimer) return;
 
-		clearTimeout(this.IDTimer);
-		this.IDTimer = null;
+		clearTimeout(this._IDTimer);
+		this._IDTimer = null;
 	}
 
 	/** Executes the work function, if it is set, and schedules the next timeout,
@@ -58,12 +58,12 @@ export class tTimer {
 		// While I have seen 'setInterval' run too fast, I haven't seen 'setTimeout'
 		// do that, so we won't bother to check for early timing.
 
-		if (this.uWork) this.uWork();
+		if (this._uWork) this._uWork();
 
 		let oWait = this.TimeNext + this.Per - oTimeNow;
 		// If the timing is very late, oWait could be negative:
 		while (oWait <= 0) oWait += this.Per;
 
-		this.IDTimer = setTimeout(this._uExec, oWait);
+		this._IDTimer = setTimeout(this._uExec, oWait);
 	}
 }

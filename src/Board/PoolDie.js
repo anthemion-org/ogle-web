@@ -16,7 +16,7 @@ import * as Cfg from "../Cfg.js";
  *  to produce a board. This class is mutable. */
 export class tPoolDie {
 	constructor(aGenRnd) {
-		this.GenRnd = aGenRnd;
+		this._GenRnd = aGenRnd;
 
 		// Ready text pools
 		// ----------------
@@ -26,9 +26,9 @@ export class tPoolDie {
 		const oRatioVow = 9 / 25;
 
 		/** The number of vowels yet to be drawn. */
-		this.CtVow = Math.round(oRatioVow * Cfg.CtDie);
+		this._CtVow = Math.round(oRatioVow * Cfg.CtDie);
 		/** The number of consonants yet to be drawn. */
-		this.CtConson = Cfg.CtDie - this.CtVow;
+		this._CtConson = Cfg.CtDie - this._CtVow;
 
 		// Wikipedia:
 		//
@@ -57,13 +57,13 @@ export class tPoolDie {
 		// words, but I prefer to include more of the uncommon letters.
 
 		/** The vowel text pool. */
-		this.TextsVow = new tPoolText(aGenRnd, {
+		this._TextsVow = new tPoolText(aGenRnd, {
 			E: 11.0, I: 8.2, A: 7.8, O: 6.1,
 			U: 3.3, Y: 1.6
 		});
 
 		/** The consonant text pool. */
-		this.TextsConson = new tPoolText(aGenRnd, {
+		this._TextsConson = new tPoolText(aGenRnd, {
 			S: 8.7, R: 7.3, N: 7.2, T: 6.7, L: 5.3,
 			C: 4.0, D: 3.8, G: 3.0, P: 2.8, M: 2.7, K: 2.5, H: 2.3, B: 2.0,
 			F: 1.4, V: 1.0, W: 1.0, Z: 1.0,
@@ -74,23 +74,23 @@ export class tPoolDie {
 	/** Selects and returns a random die instance, after decrementing the vowel or
 	 *  consonant count, as appropriate. */
 	uDraw() {
-		const oCtText = this.CtVow + this.CtConson;
+		const oCtText = this._CtVow + this._CtConson;
 		if (oCtText < 1)
 			throw Error("tPoolDie.uDraw: Pool exhausted");
 
-		const ojDraw = this.GenRnd.uInt(oCtText);
+		const ojDraw = this._GenRnd.uInt(oCtText);
 
 		let oText;
-		if (ojDraw < this.CtVow) {
-			oText = this.TextsVow.uDraw();
-			--this.CtVow;
+		if (ojDraw < this._CtVow) {
+			oText = this._TextsVow.uDraw();
+			--this._CtVow;
 		}
 		else {
-			oText = this.TextsConson.uDraw();
-			--this.CtConson;
+			oText = this._TextsConson.uDraw();
+			--this._CtConson;
 		}
 
-		const oDir = Dir4.uRnd(this.GenRnd);
+		const oDir = Dir4.uRnd(this._GenRnd);
 		return new tDie(oText, oDir);
 	}
 }
@@ -111,20 +111,20 @@ class tPoolText {
 	/** Creates a new pool containing text values drawn from the properties of
 	 *  aCtsByText, with counts equal to the aCtsByText values. */
 	constructor(aGenRnd, aCtsByText) {
-		this.GenRnd = aGenRnd;
+		this._GenRnd = aGenRnd;
 
 		/** The total value count available to be drawn. */
-		this.Ct = tPoolText.suCt(aCtsByText);
+		this._Ct = tPoolText.suCt(aCtsByText);
 		/** An object that associates text values with counts. These counts will be
 		 *  decremented as the values are drawn. */
-		this.CtsByText = { ...aCtsByText };
+		this._CtsByText = { ...aCtsByText };
 	}
 
 	/** Selects and returns a random text value, after decrementing its count. */
 	uDraw() {
-		let oPosDraw = this.GenRnd.uFloat() * this.Ct;
-		for (const onText in this.CtsByText) {
-			oPosDraw -= this.CtsByText[onText];
+		let oPosDraw = this._GenRnd.uFloat() * this._Ct;
+		for (const onText in this._CtsByText) {
+			oPosDraw -= this._CtsByText[onText];
 			if (oPosDraw < 0) {
 				// The amount by which a text count drops when it is drawn. Increase
 				// this number to see fewer duplicates, and more rare values:
@@ -133,11 +133,11 @@ class tPoolText {
 				// among rare values:
 				const oMin = 0.5;
 
-				const oCtOld = this.CtsByText[onText];
+				const oCtOld = this._CtsByText[onText];
 				const oCtNew = Math.max((oCtOld - oDrop), oMin);
 
-				this.Ct += (oCtNew - oCtOld);
-				this.CtsByText[onText] = oCtNew;
+				this._Ct += (oCtNew - oCtOld);
+				this._CtsByText[onText] = oCtNew;
 				return onText;
 			}
 		}

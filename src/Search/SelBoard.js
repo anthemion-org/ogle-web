@@ -56,7 +56,7 @@ export class tSelBoard {
 
 		/** The index of the selection neighbor that should follow this one when
 		 *  enumerating. This index will increment as uNext is called. */
-		this.jNeighNext = 0;
+		this._jNeighNext = 0;
 	}
 
 	/** Creates and returns a new instance selecting a board position that is:
@@ -74,7 +74,7 @@ export class tSelBoard {
 	 *  by uNext, all die sequences beginning with the first position can be
 	 *  enumerated.*/
 	uCloneNext() {
-		const oPosNext = uPosNext(this, this.jNeighNext++);
+		const oPosNext = uPosNext(this, this._jNeighNext++);
 		return oPosNext ? new tSelBoard(this.Board, oPosNext, this) : null;
 	}
 

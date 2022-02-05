@@ -20,21 +20,21 @@ export class tGenRnd {
 	constructor(aSeedText) {
 		if (aSeedText) {
 			const ouGenSeed = uGenSeedXMUR3(aSeedText);
-			this.SeedNum = ouGenSeed();
+			this._SeedNum = ouGenSeed();
 		}
-		else this.SeedNum = Date.now();
+		else this._SeedNum = Date.now();
 
-		this.GenBase = uGenNumMulberry32(this.SeedNum);
+		this._GenBase = uGenNumMulberry32(this._SeedNum);
 	}
 
 	/** Returns an number greater than or equal to zero, and less than one. */
 	uFloat() {
-		return this.GenBase();
+		return this._GenBase();
 	}
 
 	/** Returns an integer greater than or equal to zero, and less than aCeil. */
 	uInt(aCeil) {
-		return Math.floor(this.GenBase() * aCeil);
+		return Math.floor(this._GenBase() * aCeil);
 	}
 
 	/** Returns a random array element from aEls, throwing instead if it is
