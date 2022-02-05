@@ -15,7 +15,7 @@ import * as Cfg from "../Cfg.js";
 // tScoreWord
 // ----------
 
-/** Stores score data for one word. */
+/** Stores score data for one word. This class is mutable. */
 export class tScoreWord {
 	constructor(aEnt, aStatOgle, aStatUser) {
 		/** An entry that generates this word. This may or may not be the entry
@@ -41,7 +41,7 @@ export const StatsWord = {
 };
 Object.freeze(StatsWord);
 
-/** Stores word score coverage data for one word length. */
+/** Stores word score coverage data for one word length. This class is mutable. */
 export class tCover {
 	constructor() {
 		/** The total number of words with this length. */

@@ -37,7 +37,7 @@ export function uExec(aWords, aBoard) {
  *  selections that begin with aSel, and adds them to aray aSelsWord. */
 function uExecPos(aSelBoard, aLook, aSelsWord) {
 	while (true) {
-		const oSelNext = aSelBoard.uNext();
+		const oSelNext = aSelBoard.uCloneNext();
 		// All die sequences following this enumerator have been checked:
 		if (!oSelNext) return;
 

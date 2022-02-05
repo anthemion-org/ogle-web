@@ -34,6 +34,8 @@ export class tScorePlay {
 		this.Name = aName;
 		/** The player's percent score, as a decimal fraction. */
 		this.FracPerc = aFracPerc;
+
+		Object.freeze(this);
 	}
 }
 

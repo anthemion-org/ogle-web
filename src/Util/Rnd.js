@@ -12,8 +12,8 @@
 // -------
 // We need a seedable generator to make our tests deterministic.
 
-/** A seedable random number generator. This generator is not suitable for
- *  cryptographic use. */
+/** A fast, seedable random number generator that is not suitable for
+ *  cryptographic use. This class is mutable. */
 export class tGenRnd {
 	/** Set aSeedText to a non-empty string to seed the generator, or leave it
 	 *  undefined to seed it with the current time. */

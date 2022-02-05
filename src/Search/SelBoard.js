@@ -22,9 +22,10 @@ import * as Cfg from "../Cfg.js";
  *  also references an optional predecessor. Together, the last instance and its
  *  predecessors define the entire selection.
  *
- *  Because most instances reference other instances, this class produces
- *  verbose output when serialized with 'JSON.stringify'. Simpler output is
- *  produced by tEntWord, which stores similar data, but is not as fast. */
+ *  This class is mutable. Because most instances reference other instances,
+ *  this class produces verbose output when serialized with 'JSON.stringify'.
+ *  Simpler output is produced by tEntWord, which stores similar data, but is
+ *  not as fast. */
 export class tSelBoard {
 	/** Set aSelPrev to the instance that should precede this instance in the
 	 *  selection, or leave it undefined to start a new selection. */
@@ -72,7 +73,7 @@ export class tSelBoard {
 	 *  recursively invoking uNext on that instance, plus every instance returned
 	 *  by uNext, all die sequences beginning with the first position can be
 	 *  enumerated.*/
-	uNext() {
+	uCloneNext() {
 		const oPosNext = uPosNext(this, this.jNeighNext++);
 		return oPosNext ? new tSelBoard(this.Board, oPosNext, this) : null;
 	}

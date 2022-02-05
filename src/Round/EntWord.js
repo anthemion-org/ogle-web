@@ -46,6 +46,8 @@ export class tEntWord {
 		/* An array of board text values, in selection order, with their original
 		 * case. */
 		this.Texts = aTexts;
+
+		Object.freeze(this);
 	}
 
 	/** Returns 'true' if the specified position is selected. */
@@ -88,10 +90,11 @@ export class tEntWord {
 		return this.Texts.join("").toLowerCase();
 	}
 
-	/** Returns a new instance that selects the positions in this entry, but stops
-	 *  just before the specified position. Returns 'null' instead if the position
-	 *  is not part of this entry, or if there is no predecessor. */
-	uEntPrev(aPos) {
+	/** Creates and returns a new instance that selects the positions in this
+	 *  entry, but stops just before the specified position. Returns 'null'
+	 *  instead if the position is not part of this entry, or if there is no
+	 *  predecessor. */
+	uClonePrev(aPos) {
 		for (let oj = 1; oj < this.Posi.length; ++oj)
 			if (this.Posi[oj].uCkEq(aPos)) {
 				const oPosi = this.Posi.slice(0, oj);

@@ -13,7 +13,7 @@ import * as Dir4 from "../Util/Dir4.js";
 import * as Cfg from "../Cfg.js";
 
 /** Stores a pool of text values, which can be drawn randomly as tDie instances
- *  to produce a board.. */
+ *  to produce a board. This class is mutable. */
 export class tPoolDie {
 	constructor(aGenRnd) {
 		this.GenRnd = aGenRnd;

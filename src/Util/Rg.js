@@ -8,7 +8,7 @@
 //   import { tRg } from "../Util/Rg.js";
 //
 
-/** Represents an integer range. */
+/** Represents an integer range. This class is mutable. */
 export class tRg {
 	/** Creates an instance from the specified POD and returns it. */
 	static suFromPOD(aPOD) {

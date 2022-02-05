@@ -8,9 +8,10 @@
 //   import { tArr2 } from "../Util/Arr2.js";
 //
 
-/** A rectangular array backed by a linear JavaScript array, for fast copying. */
+/** A rectangular array backed by a linear JavaScript array, for fast copying.
+ *  This class is mutable.*/
 export class tArr2 {
-	/** Creates a new instance with the specified tPt2 size. If apOpts is defined,
+	/** Creates an instance with the specified tPt2 size. If apOpts is defined,
 	 *  the new elements will be copied from JavaScript array apOpts.Src, or set
 	 *  to default value apOpts.Def. If it is not defined, the elements will be
 	 *  left undefined. */
@@ -47,7 +48,7 @@ export class tArr2 {
 		this.Els[oj] = aVal;
 	}
 
-	/** Returns a copy of this instance. */
+	/** Returns a shallow copy of this instance. */
 	uClone() {
 		return new tArr2(this.Size, { Src: this.Els });
 	}

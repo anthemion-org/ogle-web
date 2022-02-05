@@ -34,7 +34,7 @@ import WordsOgle from "./WordsOgle.json";
 // better. If so, this can be greatly simplified. [to do]
 
 /** Manages the Ogle lexicon, including built-in Ogle words, and user-entered
- *  words. */
+ *  words. This class is mutable. */
 class tLex {
 	constructor() {
 		const oWordsUser = Store.uGetPOD("WordsUser");

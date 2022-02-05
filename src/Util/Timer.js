@@ -8,7 +8,8 @@
 //   import { tTimer } from "../Util/Timer.js";
 //
 
-/** A self-regulating timer that offers better precision than 'setInterval. */
+/** A timer that self-regulates to offer somewhat better precision than
+ *  'setInterval. This class is mutable.*/
 export class tTimer {
 	/** Specify the work function with auWork, or set it to 'null' and specify it
 	 *  later with uSet_Work. aPer sets the timer period, in millseconds. Set

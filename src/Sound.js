@@ -11,7 +11,7 @@
 import { tTimer } from "./Util/Timer.js";
 
 /** Manages all audio resources and playback for the application. This class is
- *  a singleton. */
+ *  mutable. */
 class tSound {
 	constructor() {
 		this.AudMouseOver = document.querySelector("#AudMouseOver");

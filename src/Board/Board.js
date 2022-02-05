@@ -14,11 +14,12 @@ import * as Cfg from "../Cfg.js";
 
 /** Generates and stores a single game board. */
 export class tBoard {
-	/** Creates an instance from the specified POD and returns it. */
+	/** Creates an instance from the specified POD and returns it. This class is
+	 *  immutable. */
 	static suFromPOD(aPOD) {
 		if (!aPOD) return null;
 
-		const oDice = aPOD.Dice.map(a => tDie.suFromPOD(a));
+		const oDice = aPOD._Dice.map(a => tDie.suFromPOD(a));
 		return new tBoard(oDice);
 	}
 
@@ -33,7 +34,9 @@ export class tBoard {
 
 	constructor(aDice) {
 		/** An array of column arrays, which themselves contain tDie instances. */
-		this.Dice = aDice;
+		this._Dice = aDice;
+
+		Object.freeze(this);
 	}
 
 	/** Returns the die at the specified tPt2 position, throwing if either
@@ -42,6 +45,6 @@ export class tBoard {
 		const oj = aPos.X + (aPos.Y * Cfg.WthBoard);
 		if ((oj < 0) || (oj >= Cfg.CtDie))
 			throw Error("tBoard.uDie: Invalid position");
-		return this.Dice[oj];
+		return this._Dice[oj];
 	}
 }

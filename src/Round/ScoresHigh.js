@@ -20,7 +20,7 @@ export class tScoresHigh {
 	static suFromPOD(aPOD) {
 		if (!aPOD) return null;
 
-		const oScoresByTag = { ...aPOD._ScoresByTag };
+		const oScoresByTag = { ...aPOD._ByTag };
 		for (const on in oScoresByTag)
 			oScoresByTag[on] = tScorePlay.suArrFromPODs(oScoresByTag[on]);
 		return new tScoresHigh(oScoresByTag);
@@ -28,13 +28,15 @@ export class tScoresHigh {
 
 	constructor(aScoresByTag) {
 		/** An object that associates tSetup tag values with arrays of tScorePlay. */
-		this._ScoresByTag = aScoresByTag;
+		this._ByTag = aScoresByTag;
+
+		Object.freeze(this);
 	}
 
 	/** Returns an array containing the scores associated with the specified
 	 *  tSetup tag. */
 	uScores(aTagSetup) {
-		const oScores = this._ScoresByTag[aTagSetup];
+		const oScores = this._ByTag[aTagSetup];
 		return oScores ? Array.from(oScores) : [];
 	}
 
@@ -44,7 +46,7 @@ export class tScoresHigh {
 		if (aCardUser.Score < 1) return false;
 
 		const oTagSetup = aSetup.uTag();
-		const oScores = this._ScoresByTag[oTagSetup];
+		const oScores = this._ByTag[oTagSetup];
 		if (!oScores || !oScores.length)
 			return true;
 
@@ -61,8 +63,8 @@ export class tScoresHigh {
 	/** Creates and returns a deep copy of this instance. */
 	uClone() {
 		const oScoresByTag = {};
-		for (const on in this._ScoresByTag)
-			oScoresByTag[on] = Array.from(this._ScoresByTag[on]);
+		for (const on in this._ByTag)
+			oScoresByTag[on] = Array.from(this._ByTag[on]);
 		return new tScoresHigh(oScoresByTag);
 	}
 
@@ -71,10 +73,10 @@ export class tScoresHigh {
 	uCloneAdd(aSetup, aScorePlay) {
 		const oClone = this.uClone();
 		const oTagSetup = aSetup.uTag();
-		const oScores = oClone._ScoresByTag[oTagSetup] ?? [];
+		const oScores = oClone._ByTag[oTagSetup] ?? [];
 		oScores.push(aScorePlay);
 		oScores.sort(uCompareScorePlay);
-		oClone._ScoresByTag[oTagSetup] = oScores.slice(0, Cfg.CtStoreScoreHigh);
+		oClone._ByTag[oTagSetup] = oScores.slice(0, Cfg.CtStoreScoreHigh);
 		return oClone;
 	}
 }

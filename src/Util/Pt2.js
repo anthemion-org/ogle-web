@@ -8,7 +8,7 @@
 //   import { tPt2 } from "../Util/Pt2.js";
 //
 
-/** Represents a two-dimensional point. */
+/** Represents a two-dimensional point. This class is mutable. */
 export class tPt2 {
 	/** Creates an instance from the specified POD and returns it. */
 	static suFromPOD(aPOD) {

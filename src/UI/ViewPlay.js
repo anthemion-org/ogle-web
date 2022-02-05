@@ -259,7 +259,7 @@ export default function ViewPlay(aProps) {
 
 		// Truncate existing entry:
 		if (oEntUser.uCkAt(aPos)) {
-			const oEntPrev = oEntUser.uEntPrev(aPos);
+			const oEntPrev = oEntUser.uClonePrev(aPos);
 			ouSet_EntUser(oEntPrev);
 			Sound.uUnselDie();
 			return;

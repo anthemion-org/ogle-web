@@ -15,7 +15,7 @@ import * as Search from "../Util/Search.js";
 
 /** Performs a binary search within the searchable word list, and stores the
  *  state of that search, allowing it to be extended and shared as the board is
- *  enumerated. */
+ *  enumerated. This class is mutable. */
 export class tLookText {
 	/** Returns a new instance that searches for aText, while reusing the search
 	 *  state produced by a previous tLookText instance. */

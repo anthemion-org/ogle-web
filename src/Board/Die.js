@@ -10,7 +10,7 @@
 
 import * as Dir4 from "../Util/Dir4.js";
 
-/** Represents one die within the board. */
+/** Represents one die within the board. This class is immutable. */
 export class tDie {
 	/** Creates an instance from the specified POD and returns it. */
 	static suFromPOD(aPOD) {
@@ -22,6 +22,9 @@ export class tDie {
 	/** Creates an instance with the specified text and orientation. Throws if
 	 *  aDir4 is not a member of Dir4.Vals. */
 	constructor(aText, aDir4) {
+		if (!Dir4.uCk(aDir4))
+			throw Error(`tDie: Invalid direction '${this.Dir4}'`);
+
 		/** The die text. */
 		this.Text = aText;
 		/** The side of the die with which the text top aligns. */
@@ -29,7 +32,6 @@ export class tDie {
 		/** Set to 'true' if the text should be underlined. */
 		this.CkUnder = ["L", "T", "N", "Z", "W"].includes(aText);
 
-		if (!Dir4.uCk(this.Dir4))
-			throw Error(`tDie: Invalid direction '${this.Dir4}'`);
+		Object.freeze(this);
 	}
 }

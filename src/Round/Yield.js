@@ -17,6 +17,7 @@ export const Vals = [
 	[new tRg(120, 160)],
 	[new tRg(180, Infinity)]
 ];
+Object.freeze(Vals);
 
 /** The Vals index of the default yield. */
 const jValDef = 2;

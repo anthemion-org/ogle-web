@@ -10,7 +10,7 @@
 
 import { tPt2 } from "./Pt2.js";
 
-/** Represents a rectangle with integer coordinates. */
+/** Represents a rectangle with integer coordinates. This class is mutable. */
 export class tRect {
 	/** Creates an instance with the specified tPt2 position and size. */
 	constructor(aLeftTop, aSize) {

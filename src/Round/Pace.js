@@ -21,6 +21,7 @@ export const Vals = [
 	[12, 2],
 	[6, 1]
 ];
+Object.freeze(Vals);
 
 /** The Vals index of the default pace. */
 const jValDef = 2;
