@@ -31,6 +31,8 @@ export class tScoresHigh {
 		this._ScoresByTag = aScoresByTag;
 	}
 
+	/** Returns an array containing the scores associated with the specified
+	 *  tSetup tag. */
 	uScores(aTagSetup) {
 		const oScores = this._ScoresByTag[aTagSetup];
 		return oScores ? Array.from(oScores) : [];

@@ -32,6 +32,7 @@ export function uProseNum(aNum) {
 /** Returns 'true' if either string matches the beginning of the other, or if
  *  either string is empty. */
 export function uCkEqBegin(aL, aR) {
+	// Use 'startsWith' instead?:
 	if (aL.length > aR.length) aL = aL.substr(0, aR.length);
 	else if (aR.length > aL.length) aR = aR.substr(0, aL.length);
 	return aL === aR;

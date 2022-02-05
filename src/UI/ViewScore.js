@@ -161,7 +161,7 @@ export default function ViewScore(aProps) {
 	function ouLinesCover() {
 		function ouHead(aLen) {
 			if (aLen >= Cfg.LenCoverMax) return Cfg.LenCoverMax + "+ letters";
-			return aLen + "+ letters";
+			return aLen + " letters";
 		}
 
 		function ouFrac(aLen) {

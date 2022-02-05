@@ -7,68 +7,61 @@
 //
 //   import * as Store from "./Store.js";
 //
-// All Ogle user data is stored in a single object referenced by the
-// localStorage property named by nRoot. The values referenced by uGetPOD and
-// uSet are stored in the root of that object.
+// uSet stores objects and values in the localStorage root, after prefixing
+// their names with PrefixNameStore.
 //
-// Ogle uses types like tSetup to store data internally, but these types are
+// Ogle uses types like tSetup to store data within the app, but these types are
 // lost when their data is serialized. Clients of this class must convert the
-// untyped data with 'suFromData' methods in the source types.
+// untyped data with the 'suFromPOD' methods in the source types.
 
 import StsApp from "./StsApp.js";
 import { tSetup } from "./Round/Setup.js";
 import * as Cfg from "./Cfg.js";
 
 /** Returns a POD representation of the value or object with the specified name,
- *  or 'undefined' if no value with that name has been stored. */
+ *  or the default data, if there is such, or 'undefined'. */
 export function uGetPOD(aName) {
-	if (Data[aName] !== undefined) return Data[aName];
-
-	const oDefs = uDef();
-	// We could assign the default to Data, but that might cause us to lose data:
-	return oDefs[aName];
+	if (DataPOD[aName] === undefined) return DataDef[aName];
+	return DataPOD[aName];
 }
 
-/** Overwrites the value or object with the specified name, then writes all
- *  data to the local storage. */
+/** Overwrites the value or object with the specified name, then updates the
+ *  associated key in the local storage. */
 export function uSet(aName, aVal) {
-	Data[aName] = aVal;
-	uWrite(Data);
+	DataPOD[aName] = aVal;
+	uWrite_Val(aName, aVal);
 }
 
-/** The name of the localStorage object that contains all Ogle user data. */
-const NameRoot = "Ogle";
+/** The prefix to be used for all localStorage names. */
+const PrefixNameStore = "Ogle";
+/** The cached user data. */
+const DataPOD = uRead_DataPOD();
+/** The default user data. Notice that some of these values are not PODs. That
+ *  should be okay, as long as they are usable as PODs. */
+const DataDef = {
+	StApp: StsApp.Setup,
+	Setup: tSetup.suDef(),
+	ScoresHigh: {},
+	WordsUser: []
+};
 
-/** The current user data, or 'null' if it has not been read. */
-let Data = uReadPOD();
-// The default data is also consulted if uGetPOD encounters an undefined value.
-// That allows new defaults to be defined without deleting existing data:
-if (!Data) {
-	Data = uDef();
-	uWrite(Data);
+/** Creates and returns a single object containing POD data from all
+ *  localStorage keys that begin with PrefixNameStore. */
+function uRead_DataPOD() {
+	const oDataAll = {};
+	for (let oj = 0; oj < localStorage.length; ++oj) {
+		const onFull = localStorage.key(oj);
+		if (!onFull.startsWith(PrefixNameStore)) continue;
+
+		const onBase = onFull.slice(PrefixNameStore.length);
+		oDataAll[onBase] = JSON.parse(localStorage[onFull]);
+	}
+	return oDataAll;
 }
 
-/** Returns the default user data. */
-function uDef() {
-	return {
-		StApp: StsApp.Setup,
-		Setup: tSetup.suDef(),
-		ScoresHigh: {},
-		WordsUser: []
-	};
-}
-
-/** Reads and returns user data from the nRoot local storage object, or 'null'
- *  if there is no user data. */
-function uReadPOD() {
-	return localStorage[NameRoot]
-		? JSON.parse(localStorage[NameRoot])
-		: null;
-}
-
-/** Adds the current Ogle version to the specified data, then writes the data to
- *  the nRoot local storage. */
-function uWrite(aData) {
-	aData.VerApp = Cfg.VerApp;
-	localStorage[NameRoot] = JSON.stringify(aData);
+/** Writes the specified value to the local storage, after prefixing aName with
+ *  PrefixNameStore. Also updates the VerApp value. */
+function uWrite_Val(aName, aData) {
+	localStorage[PrefixNameStore + "VerApp"] = Cfg.VerApp;
+	localStorage[PrefixNameStore + aName] = JSON.stringify(aData);
 }
