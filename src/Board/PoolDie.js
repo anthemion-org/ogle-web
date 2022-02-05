@@ -34,7 +34,8 @@ export class tPoolDie {
 		//
 		//   https://en.wikipedia.org/wiki/Letter_frequency
 		//
-		// gives these letter percentage frequencies, for dictionaries and texts:
+		// gives these letter percentage frequencies, as drawn from dictionaries and
+		// texts:
 		//
 		//      Dicts  Texts         Dicts  Texts
 		//      -----  -----         -----  -----
@@ -52,6 +53,8 @@ export class tPoolDie {
     //   U    3.3    2.8      J    0.2    0.2
 		//   G    3.0    2.0      Q    0.2    0.1
 		//
+		// Using that distribution makes it easier to produce boards with 200+
+		// words, but I prefer to include more of the uncommon letters.
 
 		/** The vowel text pool. */
 		this.TextsVow = new tPoolText(aGenRnd, {

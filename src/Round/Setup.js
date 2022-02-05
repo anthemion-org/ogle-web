@@ -53,6 +53,11 @@ export class tSetup {
 		return new tSetup(aSetup.Yield, aSetup.Pace);
 	}
 
+	/** Returns a short string that summarizes the values in this instance. */
+	uTag() {
+		return `Y:(${this.Yield.uTag()}) PS:${this.PaceStart} PB:${this.PaceBonus}`;
+	}
+
 	/** Returns a short string describing the yield. */
 	uTextShortYield() {
 		if (!isFinite(this.Yield.End))

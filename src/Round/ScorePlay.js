@@ -8,14 +8,10 @@
 //   import { tScorePlay, uCompareScorePlay } from "./Round/ScorePlay.js";
 //
 
-import * as Search from "../Util/Search.js";
-import * as Text from "../Util/Text.js";
-import * as Cfg from "../Cfg.js";
-
 // tScorePlay
 // ----------
 
-/** Stores player score data for one round. */
+/** Stores player score data for one round. This class is immutable. */
 export class tScorePlay {
 	/** Creates an instance from the specified POD and returns it. */
 	static suFromPOD(aPOD) {

@@ -16,7 +16,7 @@ import StsApp from "../StsApp.js";
 import { tSetup } from "../Round/Setup.js";
 import { tBoard } from "../Board/Board.js";
 import { tCard } from "../Round/Card.js";
-import { tScorePlay } from "../Round/ScorePlay.js";
+import { tScoresHigh } from "../Round/ScoresHigh.js";
 import * as Store from "../Store.js";
 
 import { React, useReducer, useEffect } from "react";
@@ -61,12 +61,12 @@ export default function View(aProps) {
 			const oBoard = tBoard.suFromPOD(Store.uGetPOD("Board"));
 			const oCardOgle = tCard.suFromPOD(Store.uGetPOD("CardOgle"));
 			const oCardUser = tCard.suFromPOD(Store.uGetPOD("CardUser"));
-			const oScoresPlayRest
-				= tScorePlay.suArrFromPODs(Store.uGetPOD("ScoresPlay"));
+			const oScoresHighRest
+				= tScoresHigh.suFromPOD(Store.uGetPOD("ScoresHigh"));
 
 			return <ViewScore {...aProps} Setup={oSetup} Board={oBoard}
 				CardOgle={oCardOgle} CardUser={oCardUser}
-				ScoresPlayRest={oScoresPlayRest} />;
+				ScoresHighRest={oScoresHighRest} />;
 		}
 	}
 	throw Error("View: Invalid view");

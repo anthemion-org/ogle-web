@@ -17,7 +17,8 @@ import * as Cfg from "../Cfg.js";
 // --------
 
 /** Stores the details of a single board selection, for use when selecting text
- *  during play, and for displaying entries in the Score view. */
+ *  during play, and for displaying entries in the Score view. This class is
+ *  immutable. */
 export class tEntWord {
 	/** Creates an instance from the specified POD and returns it. */
 	static suFromPOD(aPOD) {

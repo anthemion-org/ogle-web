@@ -15,6 +15,7 @@ import * as Cfg from "../Cfg.js";
 // tCard
 // -----
 
+/** This class is mutable. */
 export class tCard {
 	/** Creates and returns a new card. */
 	static suNew() {
@@ -47,7 +48,7 @@ export class tCard {
 
 	constructor(aTimeStart, aEnts, aScore, aCtBonusTime) {
 		this.TimeStart = aTimeStart;
-		this.Ents = aEnts;
+		this.Ents = Array.from(aEnts);
 		this.Score = aScore;
 		/** The number of time bonuses accrued. Subtract the time elapsed to get the
 		 *  time remaining to the player. */
@@ -93,7 +94,7 @@ export class tCard {
 		return (oCtBonus > 0);
 	}
 
-	/** Creates and returns a clone of this instance. */
+	/** Creates and returns a deep copy of this instance. */
 	uClone() {
 		return new tCard(this.TimeStart, [...this.Ents], this.Score,
 			this.CtBonusTime);

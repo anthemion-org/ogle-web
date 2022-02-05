@@ -28,6 +28,11 @@ export class tRg {
 		this.End = aEnd;
 	}
 
+	/** Returns a short string that summarizes the values in this instance. */
+	uTag() {
+		return `S:${this.Start} E:${this.End}`;
+	}
+
 	/** Returns the integer length of the range. */
 	uLen() {
 		if (this.Start > this.End) return 0;

@@ -53,7 +53,7 @@ function uDef() {
 	return {
 		StApp: StsApp.Setup,
 		Setup: tSetup.suDef(),
-		ScoresPlay: [],
+		ScoresHigh: {},
 		WordsUser: []
 	};
 }

@@ -35,16 +35,16 @@ import PropTypes from "prop-types";
  *  ~ BoardRest: A tBoard instance for the completed round.
  */
 export default function ViewScore(aProps) {
-	/** An array of tScorePlay instances that record high scores. */
-	const [oScoresPlay, ouSet_ScoresPlay] = useState(aProps.ScoresPlayRest);
+	/** An array of tScoresHigh instance that records high scores. */
+	const [oScoresHigh, ouSet_ScoresHigh] = useState(aProps.ScoresHighRest);
 	/** Set to the tScoreWord that is being displayed in the Word Score dialog, or
 	 *  'null' if no entry is being displayed. */
 	const [oScoreWord, ouSet_ScoreWord] = useState(null);
 
-	function ouStore_ScoresPlay() {
-		Store.uSet("ScoresPlay", oScoresPlay);
+	function ouStore_ScoresHigh() {
+		Store.uSet("ScoresHigh", oScoresHigh);
 	}
-	useEffect(ouStore_ScoresPlay, [oScoresPlay]);
+	useEffect(ouStore_ScoresHigh, [oScoresHigh]);
 
 	// Compare player cards
 	// --------------------
@@ -107,36 +107,16 @@ export default function ViewScore(aProps) {
 	// Player Name dialog
 	// ------------------
 
-	/** Returns 'true' if the completed game produced a high score that has yet to
-	 *  be recorded. */
-	function ouCkScoreHigh() {
-		if (aProps.CardUser.Score < 1) return false;
-
-		if (!oScoresPlay.length) return true;
-
-		if (oScoresPlay.some(a => a.TimeStart === aProps.CardUser.TimeStart))
-			return false;
-
-		if (oScoresPlay.length < Cfg.CtStoreScoreHigh) return true;
-
-		const oFracPerc = aProps.CardUser.Score / aProps.CardOgle.Score;
-		return oScoresPlay.some(a => a.FracPerc < oFracPerc);
-	}
-
 	/** Handles the Player Name dialog OK click. */
 	function ouHandNamePlay(aName) {
 		const oFracPerc = aProps.CardUser.Score / aProps.CardOgle.Score;
 		const oScore = new tScorePlay(aProps.CardUser.TimeStart, aName, oFracPerc);
-		ouSet_ScoresPlay(aScores => {
-			const oScores = [...aScores];
-			oScores.push(oScore);
-			oScores.sort(uCompareScorePlay);
-			return oScores.slice(0, Cfg.CtStoreScoreHigh);
-		});
+		ouSet_ScoresHigh(a => a.uCloneAdd(aProps.Setup, oScore));
 	}
 
 	function ouDlgNamePlay() {
-		if (!ouCkScoreHigh()) return null;
+		if (!oScoresHigh.uCkHigh(aProps.Setup, aProps.CardUser, aProps.CardOgle))
+			return null;
 
 		return (
 			<DlgNamePlay ScoreUser={aProps.CardUser.Score}
@@ -208,7 +188,8 @@ export default function ViewScore(aProps) {
 
 	function ouLinesScorePlay() {
 		const oCtRow = 5;
-		const oScores = oScoresPlay.slice(0, (oCtRow + 1));
+		const oTag = aProps.Setup.uTag();
+		const oScores = oScoresHigh.uScores(oTag).slice(0, (oCtRow + 1));
 		if (oScores.length < oCtRow) {
 			const oBlanks = Misc.Gen_Arr((oCtRow - oScores.length), null);
 			oScores.push(...oBlanks);
