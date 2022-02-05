@@ -22,9 +22,11 @@ onmessage = function (aMsg) {
 		oCard = tCard.suFromSelsBoard(oSels);
 		if (oSetup.Yield.uCkContain(oCard.Score)) break;
 
-		if (++oj >= 200)
+		if (++oj >= 500)
 			throw Error("WorkSearch onmessage: Cannot create board");
 	}
+
+	console.log("WorkSearch: Selected board " + oj);
 
 	postMessage({
 		Board: oBoard,

@@ -13,14 +13,14 @@ import * as Dir4 from "../Util/Dir4.js";
 import * as Cfg from "../Cfg.js";
 
 /** Stores a pool of text values, which can be drawn randomly as tDie instances
- *  to produce a board. A fixed number of vowels will be found in any board,
- *  once the entire board has been drawn. */
+ *  to produce a board.. */
 export class tPoolDie {
 	constructor(aGenRnd) {
 		this.GenRnd = aGenRnd;
 
 		// Ready text pools
 		// ----------------
+		// We want every board to have the same number of vowels.
 
 		/** The desired vowel frequency. */
 		const oRatioVow = 9 / 25;
@@ -30,22 +30,41 @@ export class tPoolDie {
 		/** The number of consonants yet to be drawn. */
 		this.CtConson = Cfg.CtDie - this.CtVow;
 
-		/** The vowel text pool. Not all of these are expected to be drawn. */
+		// Wikipedia:
+		//
+		//   https://en.wikipedia.org/wiki/Letter_frequency
+		//
+		// gives these letter percentage frequencies, for dictionaries and texts:
+		//
+		//      Dicts  Texts         Dicts  Texts
+		//      -----  -----         -----  -----
+		//   E   11.0   13.0      P    2.8    1.9
+    //   S    8.7    6.3      M    2.7    2.5
+		//   I    8.2    7.0      K    2.5    0.8
+		//   A    7.8    8.2      H    2.3    6.1
+    //   R    7.3    6.0      B    2.0    1.5
+    //   N    7.2    6.7      Y    1.6    2.0
+    //   T    6.7    9.1      F    1.4    2.2
+    //   O    6.1    7.5      V    1.0    1.0
+		//   L    5.3    4.0      W    0.9    2.4
+		//   C    4.0    2.8      Z    0.4    0.1
+		//   D    3.8    4.3      X    0.3    0.2
+    //   U    3.3    2.8      J    0.2    0.2
+		//   G    3.0    2.0      Q    0.2    0.1
+		//
+
+		/** The vowel text pool. */
 		this.TextsVow = new tPoolText(aGenRnd, {
-			E: 6,
-			A: 4, O: 4,
-			I: 3,
-			U: 1, Y: 1
+			E: 11.0, I: 8.2, A: 7.8, O: 6.1,
+			U: 3.3, Y: 1.6
 		});
 
-		/** The consonant text pool. Not all of these are expected to be drawn. */
+		/** The consonant text pool. */
 		this.TextsConson = new tPoolText(aGenRnd, {
-			T: 7, N: 7,
-			S: 6, H: 6, R: 6,
-			D: 4, L: 4,
-			C: 3,
-			M: 2, W: 2, F: 2, G: 2, P: 2,
-			B: 1, V: 1, K: 1, J: 1, X: 1, Z: 1, Qu: 1
+			S: 8.7, R: 7.3, N: 7.2, T: 6.7, L: 5.3,
+			C: 4.0, D: 3.8, G: 3.0, P: 2.8, M: 2.7, K: 2.5, H: 2.3, B: 2.0,
+			F: 1.4, V: 1.0, W: 1.0, Z: 1.0,
+			X: 1.0, J: 1.0, Qu: 1.0
 		});
 	}
 
@@ -74,53 +93,48 @@ export class tPoolDie {
 }
 
 /** Stores a pool of text values, which can then be drawn one by one. Each value
- *  has a count, which is decremented when the value is drawn. When a count
+ *  has a count, which is decremented when the value is drawn. If a count
  *  reaches zero, the associated value will be drawn no more. */
 class tPoolText {
-	// Instead of storing and decrementing counts for each text, we could create a
-	// separate object for each possible draw. That would be simpler, and the
-	// performance would be acceptable, given the small pool sizes.
-	//
-	// It might be desirable later to support fractional counts, however. These
-	// would allow finer probability distinctions between letters like 'M' and
-	// 'W', which both have counts of 'two' at present. With integer counts,
-	// distinctions like this can be made only by increasing all the counts
-	// together, which is inconvenient. It also becomes necessary to increase the
-	// amount by which a count is decremented when the text is drawn; otherwise,
-	// the draw has a much smaller effect on the remaining count, and it becomes
-	// possible to draw the same text many times.
-
 	/** Returns the total value count in the specified entries object. */
-	static suCt(aoEnts) {
+	static suCt(aCtsByText) {
 		const ouSum = (aTtl, aVal) => (aTtl + aVal);
-		const oCt = Object.values(aoEnts).reduce(ouSum);
+		const oCt = Object.values(aCtsByText).reduce(ouSum);
 		if (isNaN(oCt))
 			throw Error("tPoolText.suCt: Invalid count");
 		return oCt;
 	}
 
 	/** Creates a new pool containing text values drawn from the properties of
-	 *  aEnts, with counts equal to the aEnts values. */
-	constructor(aGenRnd, aEnts) {
+	 *  aCtsByText, with counts equal to the aCtsByText values. */
+	constructor(aGenRnd, aCtsByText) {
 		this.GenRnd = aGenRnd;
 
 		/** The total value count available to be drawn. */
-		this.Ct = tPoolText.suCt(aEnts);
+		this.Ct = tPoolText.suCt(aCtsByText);
 		/** An object that associates text values with counts. These counts will be
 		 *  decremented as the values are drawn. */
-		this.Ents = { ...aEnts };
+		this.CtsByText = { ...aCtsByText };
 	}
 
 	/** Selects and returns a random text value, after decrementing its count. */
 	uDraw() {
-		// Replace this with a fractional draw index, so that text values can have
-		// non-integer counts? See the tPoolText comments for more on this:
-		let ojDraw = this.GenRnd.uInt(this.Ct);
-		for (const onText in this.Ents) {
-			ojDraw -= this.Ents[onText];
-			if (ojDraw < 0) {
-				--this.Ct;
-				--this.Ents[onText];
+		let oPosDraw = this.GenRnd.uFloat() * this.Ct;
+		for (const onText in this.CtsByText) {
+			oPosDraw -= this.CtsByText[onText];
+			if (oPosDraw < 0) {
+				// The amount by which a text count drops when it is drawn. Increase
+				// this number to see fewer duplicates, and more rare values:
+				const oDrop = 4.0;
+				// The minimum text count. Increase this number to see more duplicates
+				// among rare values:
+				const oMin = 0.5;
+
+				const oCtOld = this.CtsByText[onText];
+				const oCtNew = Math.max((oCtOld - oDrop), oMin);
+
+				this.Ct += (oCtNew - oCtOld);
+				this.CtsByText[onText] = oCtNew;
 				return onText;
 			}
 		}

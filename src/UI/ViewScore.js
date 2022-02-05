@@ -110,6 +110,8 @@ export default function ViewScore(aProps) {
 	/** Returns 'true' if the completed game produced a high score that has yet to
 	 *  be recorded. */
 	function ouCkScoreHigh() {
+		if (aProps.CardUser.Score < 1) return false;
+
 		if (!oScoresPlay.length) return true;
 
 		if (oScoresPlay.some(a => a.TimeStart === aProps.CardUser.TimeStart))

@@ -22,7 +22,7 @@ test("tGenRnd: Mean", () => {
 	const oCt = 1000;
 	let oAvg = 0;
 	for (let o = 0; o < oCt; ++o)
-		oAvg += oGen.uVal();
+		oAvg += oGen.uFloat();
 	oAvg /= oCt;
 
 	// Just guessing on the tolerance here:
@@ -41,7 +41,7 @@ test("tGenRnd: Flatness", () => {
 	const oCtVal = 1000;
 	const oVals = [];
 	for (let oj = 0; oj < oCtVal; ++oj)
-		oVals.push(oGen.uVal());
+		oVals.push(oGen.uFloat());
 
 	oVals.sort(Search.uCompareNum);
 

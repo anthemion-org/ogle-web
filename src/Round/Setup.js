@@ -8,6 +8,8 @@
 //   import { tSetup } from "./Round/Setup.js";
 //
 
+import * as Yield from "./Yield.js";
+import * as Pace from "./Pace.js";
 import { tRg } from "../Util/Rg.js";
 
 // tSetup
@@ -32,12 +34,8 @@ export class tSetup {
 
 	/** Creates and returns an instance containing default values. */
 	static suDef() {
-		// These values will be ignored by the Setup view unless they match the
-		// settings that view is able to display:
-		return new tSetup(
-			new tRg(100, Infinity),
-			30, 5
-		);
+		const [oPaceStart, oPaceBonus] = Pace.uDef();;
+		return new tSetup(Yield.uDef(), oPaceStart, oPaceBonus);
 	}
 
 	constructor(aYield, aPaceStart, aPaceBonus) {

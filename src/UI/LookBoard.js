@@ -90,15 +90,15 @@ export default function LookBoard(aProps) {
 		return oEls;
 	}
 
-	// There is no way to specify the z-order in SVG, so it is necessary to
-	// render the connection lines after the die backgrounds, and before their
-	// foregrounds. If they were rendered within either of those, lines in
-	// certain directions would overwrite or be overwritten by dice placed
-	// before or after.
+	// There is no way to specify the z-order in SVG, so it is necessary to use
+	// the painter's algorithm; connection lines are rendered after the die
+	// backgrounds, and before their foregrounds. If they were rendered within
+	// either of those functions, lines in certain directions would overwrite or
+	// be overwritten by dice placed before or after.
 	//
-	// As an alternative, LookDie could adjust the connection start and end
-	// points to meet the selection circles, but it is difficult for that
-	// component to know its neighbors' positions:
+	// As an alternative, LookDie could adjust the connection start and end points
+	// to meet the selection circles, but it is difficult for that component to
+	// know its neighbors' positions:
 	return (
 		<div className="LookBoard">
 			{ouBacksDie()}

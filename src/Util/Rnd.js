@@ -28,7 +28,7 @@ export class tGenRnd {
 	}
 
 	/** Returns an number greater than or equal to zero, and less than one. */
-	uVal() {
+	uFloat() {
 		return this.GenBase();
 	}
 
