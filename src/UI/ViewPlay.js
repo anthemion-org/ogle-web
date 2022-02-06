@@ -84,6 +84,28 @@ export default function ViewPlay(aProps) {
 	}
 	useEffect(ouListen_Keys, [oCkVerWord]);
 
+	// Window focus management
+	// -----------------------
+
+	function ouListen_Keys() {
+		function ouHand(aEvt) {
+			if (document.hidden) ouSet_StPlay(StsPlay.Pause);
+		}
+
+		// Unlike Chrome, Firefox does not fire this event when the browser window
+		// loses focus after Alt+Tab, or when another window is clicked in the task
+		// bar. I'm not worried about it:
+		//
+		//   https://stackoverflow.com/questions/28993157/visibilitychange-event-is-not-triggered-when-switching-program-window-with-altt
+		//
+		document.addEventListener("visibilitychange", ouHand);
+
+		return () => {
+			document.removeEventListener("visibilitychange", ouHand);
+		}
+	}
+	useEffect(ouListen_Keys, []);
+
 	// Timer management
 	// ----------------
 
