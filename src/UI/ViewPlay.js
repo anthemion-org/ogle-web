@@ -53,8 +53,8 @@ export default function ViewPlay(aProps) {
 	const [oEntUser, ouSet_EntUser] = useState(null);
 	/** A tCard instance representing the user scorecard. */
 	const [oCardUser, ouSet_CardUser] = useState(() => uCardUserInit());
-	/** Set to 'true' if play is paused. */
-	const [oCkPause, ouSet_CkPause] = useState(() => uCkPauseInit());
+	/** A StsPlay value representing the current play state. */
+	const [oStPlay, ouSet_StPlay] = useState(() => uStPlayInit());
 	/** Set to 'true' if a word is being verified. */
 	const [oCkVerWord, ouSet_CkVerWord] = useState(false);
 	/** The elapsed play time, in milliseconds. */
@@ -72,7 +72,7 @@ export default function ViewPlay(aProps) {
 					return;
 				}
 
-				ouSet_CkPause(a => !a);
+				ouSet_StPlay(StsPlay.Play);
 			}
 		}
 
@@ -95,14 +95,14 @@ export default function ViewPlay(aProps) {
 		}
 
 		let oIDTimer = null;
-		if (oBoard && !oCkPause && !oCkVerWord)
+		if (oBoard && (oStPlay === StsPlay.Play) && !oCkVerWord)
 			oIDTimer = setInterval(ouExec, oPerTimer);
 
 		return () => {
 			if (oIDTimer !== null) clearInterval(oIDTimer);
 		}
 	}
-	useEffect(ouStart_Timer, [oBoard, oCkPause, oCkVerWord]);
+	useEffect(ouStart_Timer, [oBoard, oStPlay, oCkVerWord]);
 
 	function ouStore_TimeElap() {
 		Store.uSet("TimeElap", oTimeElap);
@@ -118,7 +118,7 @@ export default function ViewPlay(aProps) {
 		// effect, but none of them worked well. This approach delegates timing to
 		// the Sound class, which is much easier than managing that state here.
 
-		if (!oBoard || oCkPause || oCkVerWord) {
+		if (!oBoard || (oStPlay !== StsPlay.Play) || oCkVerWord) {
 			Sound.uStop_Tick();
 			return;
 		}
@@ -142,7 +142,7 @@ export default function ViewPlay(aProps) {
 		// already stopped when play is paused, so there is no need to do that when
 		// quitting play early.
 	}
-	useEffect(ouMonit_TimeRemain, [aProps, aProps.Setup, oBoard, oCkPause,
+	useEffect(ouMonit_TimeRemain, [aProps, aProps.Setup, oBoard, oStPlay,
 		oCkVerWord, oCardUser.CtBonusTime, oTimeElap]);
 
 	// Board generation
@@ -184,28 +184,68 @@ export default function ViewPlay(aProps) {
 
 	/** Handles the Pause button click. */
 	function ouHandPause(aEvt) {
-		ouSet_CkPause(true);
+		ouSet_StPlay(StsPlay.Pause);
 	}
 
 	/** Handles the Resume button click. */
 	function ouHandResume(aEvt) {
-		ouSet_CkPause(false);
+		ouSet_StPlay(StsPlay.Play);
 	}
 
 	/** Handles the End Round button click. */
 	function ouHandEnd(aEvt) {
-		aProps.uUpd_StApp(StsApp.Score);
+		ouSet_StPlay(StsPlay.ConfirmEnd);
 	}
 
 	/** Returns the Pause dialog, or 'null' if the game is not paused. */
 	function ouDlgPause() {
-		if (!oCkPause) return null;
+		if (oStPlay !== StsPlay.Pause) return null;
 
 		return (
 			<div className="ScreenDlg">
 				<div id="DlgPause">
-					<Btn onClick={ouHandEnd}>End round</Btn>
-					<Btn onClick={ouHandResume}>Resume</Btn>
+					<header>
+						Your game is paused
+					</header>
+
+					<div className="Btns">
+						<Btn onClick={ouHandEnd}>End round</Btn>
+						<Btn onClick={ouHandResume}>Resume</Btn>
+					</div>
+				</div>
+			</div>
+		);
+	}
+
+	// End Confirmation dialog
+	// -----------------------
+
+	/** Handles the End Confirmation dialog Yes button click. */
+	function ouHandYesConfirmEnd(aEvt) {
+		aProps.uUpd_StApp(StsApp.Score);
+	}
+
+	/** Handles the End Confirmation dialog No button click. */
+	function ouHandNoConfirmEnd(aEvt) {
+		ouSet_StPlay(StsPlay.Play);
+	}
+
+	/** Returns the End Confirmation dialog, or 'null' if the user has not asked
+	 *  to end the round. */
+	function ouDlgConfirmEnd() {
+		if (oStPlay !== StsPlay.ConfirmEnd) return null;
+
+		return (
+			<div className="ScreenDlg">
+				<div id="DlgConfirmEnd">
+					<header>
+						Are you sure you want<br />to end this round?
+					</header>
+
+					<div className="Btns">
+						<Btn onClick={ouHandYesConfirmEnd}>Yes</Btn>
+						<Btn onClick={ouHandNoConfirmEnd}>No</Btn>
+					</div>
 				</div>
 			</div>
 		);
@@ -350,6 +390,7 @@ export default function ViewPlay(aProps) {
 	}
 
 	function ouLookBoard() {
+		const oCkPause = (oStPlay !== StsPlay.Play) || oCkVerWord;
 		if (oBoard) return (
 			<LookBoard Board={oBoard} Ent={oEntUser} CkPause={oCkPause}
 				uCallTog={ouTog_Die} uCallClear={ouClear_Ent}
@@ -426,11 +467,20 @@ export default function ViewPlay(aProps) {
 				</section>
 
 				{ouDlgPause()}
+				{ouDlgConfirmEnd()}
 				{ouDlgVerWord()}
 			</main>
 		</div>
 	);
 }
+
+/** Stores properties representing the play state. */
+export const StsPlay = {
+	Play: "Play",
+	Pause: "Pause",
+	ConfirmEnd: "ConfirmEnd"
+};
+Object.freeze(StsPlay);
 
 /** Returns the play time remaining, in milliseconds. */
 function uTimeRemain(aSetup, aCtBonus, aTimeElap) {
@@ -450,8 +500,8 @@ function uCardUserInit() {
 	return tCard.suFromPOD(Store.uGetPOD("CardUser")) || tCard.suNew();
 }
 
-function uCkPauseInit() {
-	return !!Store.uGetPOD("Board");
+function uStPlayInit() {
+	return Store.uGetPOD("Board") ? StsPlay.Pause : StsPlay.Play;
 }
 
 function uTimeElapInit() {

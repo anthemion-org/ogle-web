@@ -25,7 +25,8 @@ ViewAbout.propTypes = {
 	uUpd_StApp: PropTypes.func.isRequired
 };
 
-/** The About view. Aside from StApp and uUpd_StApp, no props are supported. */
+/** Implements the About view. Aside from StApp and uUpd_StApp, no props are
+ *  supported. */
 export default function ViewAbout(aProps) {
 	function ouHandOK(aEvt) {
 		aProps.uUpd_StApp(StsApp.Setup);

@@ -162,12 +162,23 @@
 	padding: 1rem;
 }
 
-#DlgPause button {
-	display: block;
-	width: 100%;
-	margin-top: 0.5rem;
+/* End Confirmation dialog
+// ----------------------- */
+
+#DlgConfirmEnd {
+	background-color: hsl(0, 0%, 90%);
+	border: 1px solid #888;
+	border-radius: 0.5rem;
+	padding: 1rem;
 }
 
-#DlgPause button:first-child {
-	margin-top: 0;
+#DlgConfirmEnd header {
+	margin: 1rem;
+
+	font-size: 1.25rem;
+	text-align: center;
+}
+
+#DlgConfirmEnd .Btn {
+	width: 100%;
 }

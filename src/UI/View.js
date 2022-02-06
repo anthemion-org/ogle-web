@@ -37,7 +37,8 @@ View.propTypes = {
  *
  *  ~ uUpd_StApp: A dispatcher that triggers application state transitions. This
  *    prop is required.
- */
+ *
+ *  Both these props will be forwarded to the displayed view. */
 export default function View(aProps) {
 	switch (aProps.StApp) {
 		case StsApp.Setup: {
