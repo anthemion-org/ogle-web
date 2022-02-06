@@ -12,12 +12,31 @@
 	<meta name="theme-color" content="#000000" />
 
 	<title>Ogle</title>
+
+	<style>
+		#WarnScript {
+			display: grid;
+			place-items: center;
+
+			height: 100vh;
+
+			font-family: Georgia, serif;
+			font-size: 2rem;
+			line-height: 150%;
+			text-align: center;
+		}
+	</style>
 </head>
 
 <!-- We will be using the right mouse button to enter words: -->
 <body oncontextmenu="event.preventDefault()">
 	<noscript>
-		Ogle uses JavaScript! You must whitelist the site in your script blocker to play.
+		<div id="WarnScript">
+			<div>
+				<strong>Ogle requires JavaScript</strong><br />
+				You must whitelist the site in your script blocker to play
+			</div>
+		</div>
 	</noscript>
 
 	<audio id="AudMouseOver" src="MouseOver.wav"></audio>
