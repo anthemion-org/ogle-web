@@ -206,7 +206,7 @@ export default function ViewScore(aProps) {
 	}
 
 	function ouLinesScorePlay() {
-		const oCtRow = 5;
+		const oCtRow = Cfg.CtStoreScoreHigh;
 		const oTag = aProps.Setup.uTag();
 		const oScores = oScoresHigh.uScores(oTag).slice(0, (oCtRow + 1));
 		if (oScores.length < oCtRow) {
