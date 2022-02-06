@@ -13,7 +13,7 @@ import BackDie from "./BackDie.js";
 import ConnSel from "./ConnSel.js";
 import LookDie from "./LookDie.js";
 import { tBoard } from "../Board/Board.js";
-import { tPt2 } from "../Util/Pt2.js";
+import { tEntWord } from "../Round/EntWord.js";
 import * as Cfg from "../Cfg.js";
 
 import React from "react";
@@ -22,20 +22,29 @@ import PropTypes from "prop-types";
 // LookBoard
 // ---------
 
+LookBoard.propTypes = {
+	Board: PropTypes.instanceOf(tBoard).isRequired,
+	Ent: PropTypes.instanceOf(tEntWord),
+	CkPause: PropTypes.bool,
+	uCallTog: PropTypes.func,
+	uCallClear: PropTypes.func,
+	uCallRecord: PropTypes.func
+};
+
 /** Displays the board, and accepts user play input. The following props are
  *  supported:
  *
- *  ~ Board: A tBoard instance representing the board to be played. This prop is
- *    required;
+ *  ~ Board: A tBoard instance representing the board to be displayed. This prop
+ *    is required;
  *
- *  ~ Ent: A tEntWord instance representing the board selection, or 'undefined'
- *    if there is no selection;
+ *  ~ Ent: A tEntWord instance representing the board selection, or 'null' or
+ *    'undefined' if there is no selection;
  *
- *  ~ uCallTog: A function to be invoked when the die is left-clicked;
+ *  ~ uCallTog: A function to be invoked if the die is left-clicked;
  *
- *  ~ uCallClear: A function to be invoked when the die is middle-clicked;
+ *  ~ uCallClear: A function to be invoked if the die is middle-clicked;
  *
- *  ~ uCallRecord: A function to be invoked when the die is right-clicked.
+ *  ~ uCallRecord: A function to be invoked if the die is right-clicked.
  */
 export default function LookBoard(aProps) {
 	/** Returns 'true' if the specified board position can be selected or
@@ -107,7 +116,3 @@ export default function LookBoard(aProps) {
 		</div>
 	);
 }
-
-LookBoard.propTypes = {
-	Board: PropTypes.instanceOf(tBoard).isRequired
-};

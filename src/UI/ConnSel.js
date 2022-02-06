@@ -16,15 +16,21 @@ import PropTypes from "prop-types";
 // ConnSel
 // -------
 
+ConnSel.propTypes = {
+	Pos: PropTypes.instanceOf(tPt2).isRequired,
+	PosFrom: PropTypes.instanceOf(tPt2)
+};
+
 /** Draws a selection connecting line between one die and another. The following
  *  props are supported:
  *
- *  ~ Pos: The board position that contains this instance. If PosFrom is
- *    defined, this is the end position of the connector. This prop is required.
+ *  ~ Pos: A tPt2 instance representing the board position that contains this
+ *    instance. If PosFrom is defined, this is the end position of the
+ *    connector. This prop is required;
  *
- *  ~ PosFrom: The board position where the connecting line originates, if this
- *    instance is part of a selection, and if it is not the first die in the
- *    selection. 'undefined' otherwise.
+ *  ~ PosFrom: A tPt2 instance representing the board position where the
+ *    connecting line originates, if this instance is part of a selection, and
+ *    if it is not the first die in the selection. 'undefined' otherwise.
  */
 export default function ConnSel(aProps) {
 	function ouFrom() {
@@ -69,8 +75,3 @@ export default function ConnSel(aProps) {
 		</svg >
 	);
 }
-
-ConnSel.propTypes = {
-	Pos: PropTypes.instanceOf(tPt2).isRequired,
-	PosFrom: PropTypes.instanceOf(tPt2)
-};

@@ -15,8 +15,10 @@ import Btn from "./Btn.js";
 import StsApp from "../StsApp.js";
 import { tSetup } from "../Round/Setup.js";
 import { tBoard } from "../Board/Board.js";
+import { tCard } from "../Round/Card.js";
 import { StatsWord, uScoresCoversFromCards } from "../Round/ScoreWord.js";
 import { tScorePlay } from "../Round/ScorePlay.js";
+import { tScoresHigh } from "../Round/ScoresHigh.js";
 import * as Store from "../Store.js";
 import * as Cfg from "../Cfg.js";
 import * as Misc from "../Util/Misc.js";
@@ -27,16 +29,33 @@ import PropTypes from "prop-types";
 // ViewScore
 // ---------
 
-/** Implements the Score view. Along with StApp and uUpd_StApp, the following
- *  props are supported:
+ViewScore.propTypes = {
+	StApp: PropTypes.string.isRequired,
+	uUpd_StApp: PropTypes.func.isRequired,
+	Setup: PropTypes.instanceOf(tSetup).isRequired,
+	Board: PropTypes.instanceOf(tBoard).isRequired,
+	CardOgle: PropTypes.instanceOf(tCard).isRequired,
+	CardUser: PropTypes.instanceOf(tCard).isRequired
+};
+
+/** Implements the Score view, which displays the result of the last round of
+ *  play. Along with StApp and uUpd_StApp, the following props are supported:
  *
- *  ~ Setup: A tSetup instance for the completed round. This prop is required.
+ *  ~ Setup: The tSetup used to generate the completed round. This prop is
+ *    required;
  *
- *  ~ BoardRest: A tBoard instance for the completed round.
+ *  ~ Board: A tBoard instance representing the board that was played. This prop
+ *    is required;
+ *
+ *  ~ CardOgle: A tCard instance that gives the words scored by Ogle. This prop
+ *    is required;
+ *
+ *  ~ CardUser: A tCard instance that gives the words scored by the user. This
+ *    prop is required.
  */
 export default function ViewScore(aProps) {
-	/** An array of tScoresHigh instance that records high scores. */
-	const [oScoresHigh, ouSet_ScoresHigh] = useState(aProps.ScoresHighRest);
+	/** A tScoresHigh instance that records all high score data. */
+	const [oScoresHigh, ouSet_ScoresHigh] = useState(() => uScoresHighInit());
 	/** Set to the tScoreWord that is being displayed in the Word Score dialog, or
 	 *  'null' if no entry is being displayed. */
 	const [oScoreWord, ouSet_ScoreWord] = useState(null);
@@ -288,9 +307,6 @@ export default function ViewScore(aProps) {
 	);
 }
 
-ViewScore.propTypes = {
-	StApp: PropTypes.string.isRequired,
-	uUpd_StApp: PropTypes.func.isRequired,
-	Setup: PropTypes.instanceOf(tSetup).isRequired,
-	Board: PropTypes.instanceOf(tBoard).isRequired
-};
+function uScoresHighInit() {
+	return tScoresHigh.suFromPOD(Store.uGetPOD("ScoresHigh"));
+}

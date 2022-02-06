@@ -19,6 +19,22 @@ import PropTypes from "prop-types";
 // DlgNamePlay
 // -----------
 
+DlgNamePlay.propTypes = {
+	ScoreUser: PropTypes.number.isRequired,
+	ScoreOgle: PropTypes.number.isRequired,
+	uHandName: PropTypes.func.isRequired
+};
+
+/** The Player name dialog, used to query the player name after a high-scoring
+ *  round. The following props are supported:
+ *
+ *  ~ ScoreUser: The number of points scored by the user. This prop is required;
+ *
+ *  ~ ScoreOgle: The number of points scored by Ogle. This prop is required;
+ *
+ *  ~ uHandName: The handler to be invoked when a name is entered. This prop is
+ *    required.
+ */
 export default function DlgNamePlay(aProps) {
 	/** The Name input value. */
 	const [oName, ouSet_Name] = useState(uNameLast());
@@ -69,9 +85,6 @@ export default function DlgNamePlay(aProps) {
 		</div>
 	);
 }
-
-DlgNamePlay.propTypes = {
-};
 
 function uNameLast() {
 	return Store.uGetPOD("NamePlayLast") || "";

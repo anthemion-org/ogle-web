@@ -21,26 +21,40 @@ import PropTypes from "prop-types";
 // LookDie
 // -------
 
-/** Displays the text for one die within the board, and forwards mouse input.
- *  The following props are supported:
+LookDie.propTypes = {
+	Pos: PropTypes.instanceOf(tPt2).isRequired,
+	Die: PropTypes.instanceOf(tDie).isRequired,
+	CkSel: PropTypes.bool,
+	CkEnab: PropTypes.bool,
+	CkPause: PropTypes.bool,
+	CkDisp: PropTypes.bool,
+	uCallTog: PropTypes.func,
+	uCallClear: PropTypes.func,
+	uCallRecord: PropTypes.func
+};
+
+/** Displays the text and other foreground for one die within the board, and
+ *  forwards mouse input. The following props are supported:
  *
- *  ~ Pos: The board position that contains this instance. This prop is
- *    required;
+ *  ~ Pos: A tPt2 instance representing the board position that contains this
+ *    instance. This prop is required;
  *
  *  ~ Die: The tDie instance at this board position. This prop is required;
+ *
+ *  ~ CkSel: Set to 'true' if this die is selected;
+ *
+ *  ~ CkEnab: Set to 'true' if this die can be selected or unselected;
+ *
+ *  ~ CkPause: Set to 'true' if the board is being rendered in 'pause' mode;
  *
  *  ~ CkDisp: Set to 'true' if the board is being rendered in 'display-only'
  *    mode;
  *
- *  ~ CkSel: Set to 'true' if this die is selected;
+ *  ~ uCallTog: A function to be invoked if the die is left-clicked;
  *
- *  ~ CkEnab: Set to 'true' if this die can be clicked;
+ *  ~ uCallClear: A function to be invoked if the die is middle-clicked;
  *
- *  ~ uCallTog: A function to be invoked when the die is left-clicked;
- *
- *  ~ uCallClear: A function to be invoked when the die is middle-clicked;
- *
- *  ~ uCallRecord: A function to be invoked when the die is right-clicked.
+ *  ~ uCallRecord: A function to be invoked if the die is right-clicked.
  */
 export default function LookDie(aProps) {
 	function ouHandMouseOver(aEvt) {
@@ -206,13 +220,3 @@ export default function LookDie(aProps) {
 		</svg >
 	);
 }
-
-LookDie.propTypes = {
-	Pos: PropTypes.instanceOf(tPt2).isRequired,
-	Die: PropTypes.instanceOf(tDie).isRequired,
-	CkSel: PropTypes.bool,
-	CkEnab: PropTypes.bool,
-	uCallTog: PropTypes.func,
-	uCallClear: PropTypes.func,
-	uCallRecord: PropTypes.func
-};

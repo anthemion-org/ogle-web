@@ -17,7 +17,15 @@ import * as Cfg from "../Cfg.js";
 import React from "react";
 import PropTypes from "prop-types";
 
-/** The About view. */
+// ViewAbout
+// ---------
+
+ViewAbout.propTypes = {
+	StApp: PropTypes.string.isRequired,
+	uUpd_StApp: PropTypes.func.isRequired
+};
+
+/** The About view. Aside from StApp and uUpd_StApp, no props are supported. */
 export default function ViewAbout(aProps) {
 	function ouHandOK(aEvt) {
 		aProps.uUpd_StApp(StsApp.Setup);
@@ -62,8 +70,3 @@ export default function ViewAbout(aProps) {
 		</div>
 	);
 }
-
-ViewAbout.propTypes = {
-	StApp: PropTypes.string.isRequired,
-	uUpd_StApp: PropTypes.func.isRequired
-};

@@ -17,14 +17,22 @@ import PropTypes from "prop-types";
 // BackDie
 // -------
 
+BackDie.propTypes = {
+	Pos: PropTypes.instanceOf(tPt2).isRequired,
+	CkEnab: PropTypes.bool,
+	CkDisp: PropTypes.bool
+};
+
 /** Renders the background of one die within the board. The following props are
  *  supported:
  *
  *  ~ Pos: The board position that contains this instance. This prop is
- *    required.
+ *    required;
  *
- *  ~ CkDisp: Set to 'true' if the board is being rendered in 'display-only'
- *    mode;
+ *  ~ CkEnab: Set to 'true' if the die can be selected or unselected;
+ *
+ *  ~ CkDisp: Set to 'true' if the die is being rendered in 'display-only'
+ *    mode.
  */
 export default function BackDie(aProps) {
 	const oSty = {
@@ -110,7 +118,3 @@ export default function BackDie(aProps) {
 		</svg >
 	);
 }
-
-BackDie.propTypes = {
-	Pos: PropTypes.instanceOf(tPt2).isRequired
-};

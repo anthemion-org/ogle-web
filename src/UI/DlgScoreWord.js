@@ -9,14 +9,35 @@
 //
 
 import "./DlgScoreWord.css";
+import { tBoard } from "../Board/Board.js";
+import { tScoreWord, StatsWord } from "../Round/ScoreWord.js";
 import LookBoard from "./LookBoard.js";
 import Btn from "./Btn.js";
-import { tScoreWord, StatsWord } from "../Round/ScoreWord.js";
 
 import React from "react";
 import PropTypes from "prop-types";
 
-/** The Word Score dialog. */
+// DlgScoreWord
+// ------------
+
+DlgScoreWord.propTypes = {
+	Board: PropTypes.instanceOf(tBoard).isRequired,
+	ScoreWord: PropTypes.instanceOf(tScoreWord).isRequired,
+	uHandOK: PropTypes.func.isRequired
+};
+
+/** The Word Score dialog, to be displayed when a word entry is clicked in the
+ *  Score view. The following props are supported:
+ *
+ *  ~ Board: A tBoard instance representing the board to be displayed. This prop
+ *    is required;
+ *
+ *  ~ ScoreWord: A tScoreWord instance representing the word entry to be
+ *    displayed. This prop is required;
+ *
+ *  ~ uHandOK: The handler to be invoked when the OK button is clicked. This
+ *    prop is required.
+ */
 export default function DlgScoreWord(aProps) {
 	const oTextEnt = aProps.ScoreWord.Ent.uTextAll();
 	const oURL = "https://en.wiktionary.org/wiki/" + oTextEnt;
@@ -89,15 +110,10 @@ export default function DlgScoreWord(aProps) {
 							<label>{ouLblPoint(false)}</label>
 						</article>
 					</div>
-
-					<Btn className="Group" onClick={aProps.uHandOK}>OK</Btn>
 				</section>
+
+				<Btn id="BtnOK" className="Group" onClick={aProps.uHandOK}>OK</Btn>
 			</div>
 		</div>
 	);
 }
-
-DlgScoreWord.propTypes = {
-	ScoreWord: PropTypes.instanceOf(tScoreWord).isRequired,
-	uHandOK: PropTypes.func.isRequired
-};

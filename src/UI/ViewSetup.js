@@ -28,21 +28,18 @@ import PropTypes from "prop-types";
 // can be changed to offer different real configurations without affecting any
 // other part of the app.
 
-/** Implements the Setup view, which is displayed when Ogle starts. Along with
- *  StApp and uUpd_StApp, the following props are supported:
- *
- *  ~ Setup: A tSetup instance that stores the original user settings. This prop
- *    is required.
- */
+/** Implements the Setup view, which is displayed when Ogle starts. Aside from
+ *  StApp and uUpd_StApp, no props are supported. */
 export default class ViewSetup extends React.Component {
 	constructor(aProps) {
 		super(aProps);
 
+		const oSetupInit = uSetupInit();
 		this.state = {
-			/** The selected Yield.Vals index. */
-			jYield: Yield.uIdxVal(aProps.SetupRest),
-			/** The selected Pace.Vals index. */
-			jPace: Pace.uIdxVal(aProps.SetupRest)
+			/** The selected 'Yield.Vals' index. */
+			jYield: Yield.uIdxVal(oSetupInit),
+			/** The selected 'Pace.Vals' index. */
+			jPace: Pace.uIdxVal(oSetupInit)
 		};
 
 		this.uHandChange = this.uHandChange.bind(this);
@@ -127,6 +124,9 @@ export default class ViewSetup extends React.Component {
 
 ViewSetup.propTypes = {
 	StApp: PropTypes.string.isRequired,
-	uUpd_StApp: PropTypes.func.isRequired,
-	SetupRest: PropTypes.instanceOf(tSetup).isRequired
+	uUpd_StApp: PropTypes.func.isRequired
 };
+
+export function uSetupInit() {
+	return tSetup.suFromPOD(Store.uGetPOD("Setup"));
+}

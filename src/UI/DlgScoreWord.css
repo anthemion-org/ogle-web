@@ -104,8 +104,9 @@
 	flex-direction: column;
 }
 
-#DlgScoreWord .Btn {
-	margin-top: 0.5rem;
+#DlgScoreWord #BtnOK {
+	grid-column: 3;
+	grid-row: 3;
 }
 
 #DlgScoreWord article {

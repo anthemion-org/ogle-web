@@ -28,32 +28,37 @@ import PropTypes from "prop-types";
 // ViewPlay
 // --------
 
-/** Implements the Play view. Along with StApp and uUpd_StApp, the following
- *  props are supported:
+ViewPlay.propTypes = {
+	StApp: PropTypes.string.isRequired,
+	uUpd_StApp: PropTypes.func.isRequired,
+	Setup: PropTypes.instanceOf(tSetup).isRequired
+};
+
+/** Implements the Play view, which displays the board, accepts user word
+ *  entries, and manages the timer during play. Along with StApp and uUpd_StApp,
+ *  the following props are supported:
  *
  *  ~ Setup: A tSetup instance that configures the current round. This prop is
  *    required.
- *
- *  ~ BoardRest: A tBoard instance representing a board that was restored from
- *    the local storage, or 'null' if no board has been created.
  */
 export default function ViewPlay(aProps) {
-	/** The board, or 'null' if the board has not been generated yet. */
-	const [oBoard, ouSet_Board] = useState(aProps.BoardRest);
-	/** The Ogle scorecard, or 'null' if the board has not been generated yet. */
-	const [oCardOgle, ouSet_CardOgle] = useState(aProps.CardOgleRest);
-	/** The user's current board selection, or 'null' if there is no selection. */
+	/** A tBoard instance representing the board that is being played, or 'null'
+	 *  if the board has not been generated yet. */
+	const [oBoard, ouSet_Board] = useState(() => uBoardInit());
+	/** A tCard instance representing the Ogle scorecard, or 'null' if the board
+	 *  has not been generated yet. */
+	const [oCardOgle, ouSet_CardOgle] = useState(() => uCardOgleInit());
+	/** A tEntWord instance representing the user's current board selection, or
+	 *  'null' if there is no selection. */
 	const [oEntUser, ouSet_EntUser] = useState(null);
-	/** The user scorecard. */
-	const [oCardUser, ouSet_CardUser] = useState(() =>
-		aProps.CardUserRest || tCard.suNew()
-	);
+	/** A tCard instance representing the user scorecard. */
+	const [oCardUser, ouSet_CardUser] = useState(() => uCardUserInit());
 	/** Set to 'true' if play is paused. */
-	const [oCkPause, ouSet_CkPause] = useState(!!aProps.BoardRest);
+	const [oCkPause, ouSet_CkPause] = useState(() => uCkPauseInit());
 	/** Set to 'true' if a word is being verified. */
 	const [oCkVerWord, ouSet_CkVerWord] = useState(false);
 	/** The elapsed play time, in milliseconds. */
-	const [oTimeElap, ouSet_TimeElap] = useState(aProps.TimeElapRest || 0);
+	const [oTimeElap, ouSet_TimeElap] = useState(() => uTimeElapInit());
 
 	// Keyboard input
 	// --------------
@@ -137,8 +142,8 @@ export default function ViewPlay(aProps) {
 		// already stopped when play is paused, so there is no need to do that when
 		// quitting play early.
 	}
-	useEffect(ouMonit_TimeRemain, [aProps, aProps.Setup, oBoard, oCkPause, oCkVerWord,
-		oCardUser.CtBonusTime, oTimeElap]);
+	useEffect(ouMonit_TimeRemain, [aProps, aProps.Setup, oBoard, oCkPause,
+		oCkVerWord, oCardUser.CtBonusTime, oTimeElap]);
 
 	// Board generation
 	// ----------------
@@ -427,15 +432,29 @@ export default function ViewPlay(aProps) {
 	);
 }
 
-ViewPlay.propTypes = {
-	StApp: PropTypes.string.isRequired,
-	uUpd_StApp: PropTypes.func.isRequired,
-	Setup: PropTypes.instanceOf(tSetup).isRequired,
-	Board: PropTypes.instanceOf(tBoard)
-};
-
 /** Returns the play time remaining, in milliseconds. */
 function uTimeRemain(aSetup, aCtBonus, aTimeElap) {
 	const oTimeAllow = (aSetup.PaceStart + (aSetup.PaceBonus * aCtBonus)) * 1000;
 	return oTimeAllow - aTimeElap;
 }
+
+function uBoardInit() {
+	return tBoard.suFromPOD(Store.uGetPOD("Board"));
+}
+
+function uCardOgleInit() {
+	return tCard.suFromPOD(Store.uGetPOD("CardOgle"));
+}
+
+function uCardUserInit() {
+	return tCard.suFromPOD(Store.uGetPOD("CardUser")) || tCard.suNew();
+}
+
+function uCkPauseInit() {
+	return !!Store.uGetPOD("Board");
+}
+
+function uTimeElapInit() {
+	return Store.uGetPOD("TimeElap") || 0;
+}
+

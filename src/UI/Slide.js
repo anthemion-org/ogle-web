@@ -11,11 +11,25 @@
 import Sound from "../Sound.js";
 
 import React from "react";
+import PropTypes from "prop-types";
 
 // Slide
 // -----
 
-/** A custom range input component that plays mouse over and change sounds. */
+Slide.propTypes = {
+	onMouseOver: PropTypes.func,
+	onChange: PropTypes.func
+};
+
+/** A custom range input component that plays mouse-over and change sounds. The
+ *  following props are supported:
+ *
+ *  ~ onMouseOver: The handler to be invoked when the user mouses over the
+ *    slider;
+ *
+ *  ~ onChange: The handler to be invoked when the user moves the slider.
+ *
+ *  Other props will be forwarded to the 'button' element. */
 export default function Slide(aProps) {
 	function ouHandMouseOver(aEvt) {
 		Sound.uMouseOver();
@@ -36,7 +50,7 @@ export default function Slide(aProps) {
 	}
 
 	return (
-		<input {...aProps} type="range" className={ouClassName()} onChange={ouHandChange}
-			onMouseOver={ouHandMouseOver} />
+		<input {...aProps} type="range" className={ouClassName()}
+			onChange={ouHandChange} onMouseOver={ouHandMouseOver} />
 	);
 }
