@@ -10,6 +10,7 @@
 
 import * as Store from "./Store.js";
 import StsApp from "./StsApp.js";
+import BackPage from "./UI/BackPage.js";
 import View from "./UI/View.js";
 
 import { React, useReducer, useEffect } from "react";
@@ -24,7 +25,10 @@ export default function App() {
 	useEffect(ouStore_StApp, [oStApp]);
 
 	return (
-		<View StApp={oStApp} uUpd_StApp={ouUpd_StApp} />
+		<>
+			<BackPage />
+			<View StApp={oStApp} uUpd_StApp={ouUpd_StApp} />
+		</>
 	);
 }
 

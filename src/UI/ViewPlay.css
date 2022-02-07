@@ -4,6 +4,8 @@
 // www.anthemion.org */
 
 #ViewPlay main {
+	max-width: 38rem;
+
 	display: flex;
 	gap: 0.5rem;
 

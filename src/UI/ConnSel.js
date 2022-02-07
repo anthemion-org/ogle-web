@@ -43,12 +43,12 @@ export default function ConnSel(aProps) {
 		// center of the previous die:
 		const oXStart = (50 + (oPosRelFrom.X * 100));
 		const oYStart = (50 + (oPosRelFrom.Y * 100));
-		const oCmd = `M${oXStart} ${oYStart} L50 50`;
+		const oCmd = `M${oXStart},${oYStart} L50,50`;
 		return (
 			<path className="From"
 				fill="none"
 				stroke="#000000"
-				strokeDasharray="3, 3"
+				strokeDasharray="3,3"
 				strokeDashoffset="0"
 				strokeLinejoin="round"
 				strokeMiterlimit="4"
@@ -65,7 +65,8 @@ export default function ConnSel(aProps) {
 		gridRowStart: (aProps.Pos.Y + 1)
 	};
 
-	// Set 'overflow' to 'visible' so the element can outside its own viewport:
+	// Set 'overflow' to 'visible' so the element can draw outside its own
+	// viewport:
 	return (
 		<svg className="ConnSel" style={oSty}
 			xmlns="http://www.w3.org/2000/svg"

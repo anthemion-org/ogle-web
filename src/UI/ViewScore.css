@@ -4,7 +4,8 @@
 // www.anthemion.org */
 
 #ViewScore main {
-	height: 80vh;
+	width: calc(min(80vw, 75vh));
+	height: calc(min(80vw, 75vh));
 
 	display: flex;
 	gap: 0.5rem;
@@ -18,8 +19,8 @@
 }
 
 #ViewScore #ColWords {
-	/* This box should consume whatever is left over by #ColMisc. */
-	flex-grow: 1;
+	/* This column should consume whatever is left by #ColMisc. */
+	flex: 0 1 55%;
 
 	display: flex;
 	flex-direction: column;
@@ -64,10 +65,7 @@
 }
 
 #ViewScore #ColMisc {
-	/* It does not seem possible to specify a percent width in 'flex' unless this
-	// is done: */
-	width: 0;
-	flex: 0 0 45%;
+	flex: 1 0 0;
 
 	display: flex;
 	flex-direction: column;

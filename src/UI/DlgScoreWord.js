@@ -69,7 +69,7 @@ export default function DlgScoreWord(aProps) {
 
 	return (
 		<div className="ScreenDlg">
-			<div id="DlgScoreWord">
+			<div id="DlgScoreWord" className="Dlg">
 				<section id="BoxLen" className="Box">
 					<var>{oTextEnt.length}</var>
 					<label>Letters</label>

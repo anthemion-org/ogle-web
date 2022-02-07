@@ -86,7 +86,7 @@ export default class ViewSetup extends React.Component {
 		const oSetup = this.uSetup();
 
 		return (
-			<form id="ViewSetup">
+			<form id="ViewSetup" className="View">
 				<h1>Ogle setup</h1>
 
 				<section>

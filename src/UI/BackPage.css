@@ -1,0 +1,37 @@
+/* BackPage.css
+// ------------
+// Copyright ©2022 Jeremy Kelly
+// www.anthemion.org */
+
+#BackPage {
+	z-index: -1;
+	position: fixed;
+	left: calc((100vw - max(100vw, 100vh)) / 2);
+	top: calc((100vh - max(100vw, 100vh)) / 2);
+	width: calc(max(100vw, 100vh));
+	height: calc(max(100vw, 100vh));
+}
+
+#BackPage .Ray {
+	fill: hsl(0, 0%, 30%);
+
+	stroke-width: 0.1;
+	stroke: hsl(0, 0%, 70%);
+}
+
+/* #BackPage {
+	animation-name: BackPageRot;
+	animation-duration: 600s;
+	animation-timing-function: linear;
+	animation-iteration-count: infinite;
+}
+
+@keyframes BackPageRot {
+	from {
+		transform: rotate(0);
+	}
+
+	to {
+		transform: rotate(360deg);
+	}
+} */

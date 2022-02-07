@@ -62,7 +62,7 @@ export default function DlgNamePlay(aProps) {
 
 	return (
 		<div className="ScreenDlg">
-			<div id="DlgNamePlay">
+			<div id="DlgNamePlay" className="Dlg">
 				<header>
 					<div><em>{aProps.ScoreUser}</em> Player</div>
 					<div><em>{ouPerc()}%</em></div>

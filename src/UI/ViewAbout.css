@@ -11,7 +11,11 @@
 #ViewAbout #Logo {
 	width: 5rem;
 	height: 5rem;
-	margin: 2rem 0 0 0;
+	margin: 1.5rem 0 0 0;
+
+	/* Need to use filter here, or the shadow won't be rendered under transparent
+	// areas in the SVG: */
+	filter: drop-shadow(0 0 2px hsla(0, 0%, 0%, 0.5));
 }
 
 #ViewAbout h1 {
@@ -20,4 +24,8 @@
 
 #ViewAbout h3 {
 	margin: 0;
+}
+
+#ViewAbout .Btns {
+	margin: 1.5rem 0 1rem 0;
 }

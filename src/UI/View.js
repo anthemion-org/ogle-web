@@ -8,6 +8,7 @@
 //   import View from "./UI/View.js";
 //
 
+import "./View.css";
 import ViewSetup from "./ViewSetup";
 import ViewAbout from "./ViewAbout";
 import ViewPlay from "./ViewPlay";

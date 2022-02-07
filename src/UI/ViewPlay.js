@@ -89,7 +89,8 @@ export default function ViewPlay(aProps) {
 
 	function ouListen_Keys() {
 		function ouHand(aEvt) {
-			if (document.hidden) ouSet_StPlay(StsPlay.Pause);
+			if (document.hidden && (oStPlay === StsPlay.Play) && !oCkVerWord)
+				ouSet_StPlay(StsPlay.Pause);
 		}
 
 		// Unlike Chrome, Firefox does not fire this event when the browser window
@@ -225,7 +226,7 @@ export default function ViewPlay(aProps) {
 
 		return (
 			<div className="ScreenDlg">
-				<div id="DlgPause">
+				<div id="DlgPause" className="Dlg">
 					<header>
 						Your game is paused
 					</header>
@@ -259,14 +260,14 @@ export default function ViewPlay(aProps) {
 
 		return (
 			<div className="ScreenDlg">
-				<div id="DlgConfirmEnd">
+				<div id="DlgConfirmEnd" className="Dlg">
 					<header>
 						Are you sure you want<br />to end this round?
 					</header>
 
 					<div className="Btns">
-						<Btn onClick={ouHandYesConfirmEnd}>Yes</Btn>
-						<Btn onClick={ouHandNoConfirmEnd}>No</Btn>
+						<Btn onClick={ouHandYesConfirmEnd}>End round</Btn>
+						<Btn onClick={ouHandNoConfirmEnd}>Resume</Btn>
 					</div>
 				</div>
 			</div>
@@ -435,7 +436,7 @@ export default function ViewPlay(aProps) {
 	}
 
 	return (
-		<div id="ViewPlay">
+		<div id="ViewPlay" className="View">
 			<h1>Ogle</h1>
 
 			<main>
@@ -498,6 +499,8 @@ export default function ViewPlay(aProps) {
 
 /** Stores properties representing the play state. */
 export const StsPlay = {
+	// Manage the word verification state here? [design]
+
 	Play: "Play",
 	Pause: "Pause",
 	ConfirmEnd: "ConfirmEnd"

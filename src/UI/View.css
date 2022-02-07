@@ -1,0 +1,16 @@
+/* View.css
+// --------
+// Copyright ©2022 Jeremy Kelly
+// www.anthemion.org */
+
+.View {
+	border-radius: 0.25rem;
+	padding: 1rem;
+
+	background-color: hsl(0, 0%, 90%);
+	box-shadow: 0 0 10px black;
+}
+
+.View h1 {
+	margin: 0 0 1rem 0;
+}

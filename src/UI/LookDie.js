@@ -145,7 +145,7 @@ export default function LookDie(aProps) {
 				strokeMiterlimit="4"
 				strokeOpacity="1"
 				strokeWidth="2"
-				d="M26 83 h48"
+				d="M26,83 h48"
 				stopColor="#000000"
 			></path>
 		);

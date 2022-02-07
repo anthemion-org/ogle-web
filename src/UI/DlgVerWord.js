@@ -42,7 +42,7 @@ export default function DlgVerWord(aProps) {
 
 	return (
 		<div className="ScreenDlg">
-			<div id="DlgVerWord">
+			<div id="DlgVerWord" className="Dlg">
 				<div id="BoxWik">
 					This word is not found in the Ogle lexicon:
 

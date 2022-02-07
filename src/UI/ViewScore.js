@@ -237,7 +237,7 @@ export default function ViewScore(aProps) {
 	}
 
 	return (
-		<div id="ViewScore">
+		<div id="ViewScore" className="View">
 			<h1>Ogle score</h1>
 
 			<main>

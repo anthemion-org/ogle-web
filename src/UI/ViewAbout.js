@@ -33,7 +33,7 @@ export default function ViewAbout(aProps) {
 	}
 
 	return (
-		<div id="ViewAbout">
+		<div id="ViewAbout" className="View">
 			<Logo id="Logo" />
 			<h1>Ogle</h1>
 
@@ -65,7 +65,7 @@ export default function ViewAbout(aProps) {
 				<a href="mailto://support@anthemion.org">support@anthemion.org</a>
 			</div>
 
-			<div className="Btns Ctr MargV3">
+			<div className="Btns Ctr">
 				<Btn onClick={ouHandOK}>OK</Btn>
 			</div>
 		</div>

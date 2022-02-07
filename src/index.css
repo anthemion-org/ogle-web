@@ -8,25 +8,20 @@
 @import "~sanitize.css/forms.css";
 
 html {
-	background-color: hsl(0, 0%, 100%);;
-}
-
-body {
-	width: 40%;
-	height: 100vh;
-	background-color: hsl(0, 0%, 90%);
-	/* We want to 'capture' the top margin of the first contained element,
-	// otherwise the body background will start below the 'html' top. See here for
-	// more on this:
-	//
-	//   https://stackoverflow.com/questions/1762539/margin-on-child-element-moves-parent-element
-	*/
-	border-top: 1px solid transparent;
-	margin: 0 auto;
-	padding: 0 2rem 2rem 2rem;
+	background-color: hsl(0, 0%, 15%);
 
 	/* Not in MacOS: [to do] */
 	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+}
+
+#Root {
+	height: 100vh;
+
+	display: grid;
+	place-items: center;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -106,6 +101,15 @@ button, input[type="submit"], a.Btn {
 	padding: 0.5rem 1rem;
 	border: 1px solid transparent;
 	border-radius: 0.25rem;
+
+	/* Prevent text wrapping by default. This is useful when the containing dialog
+	// (for instance #DlgConfirmEnd) has no explicit width. You might guess that
+	// the button text would contribute to the dialog width, but instead, the
+	// dialog width is set according to its text content, and then the buttons are
+	// made to wrap their text to fit that width, unless this is set: */
+	white-space: nowrap;
+
+	box-shadow: 0 0 3px hsla(0, 0%, 0%, 0.5);
 }
 
 button:focus, input[type="submit"]:focus, a:focus.Btn {
@@ -283,6 +287,10 @@ input[type="range"]:hover::-moz-range-track {
 
 	display: grid;
 	place-items: center;
+}
+
+.Dlg {
+	box-shadow: 0 0 10px hsla(0, 0%, 0%, 0.7);
 }
 
 /* Modifiers
