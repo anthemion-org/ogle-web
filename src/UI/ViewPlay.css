@@ -141,8 +141,10 @@
 }
 
 #ViewPlay main {
+	width: 100%;
+
 	display: grid;
-	grid-template-columns: 75% auto;
+	grid-template-columns: auto 10rem;
 	grid-template-rows: auto 1fr auto;
 	gap: 0.5rem;
 }
@@ -209,7 +211,7 @@
 	}
 
 	#ViewPlay main {
-		grid-template-columns: auto auto;
+		grid-template-columns: auto 10rem;
 		grid-template-rows: auto auto;
 	}
 
@@ -232,7 +234,6 @@
 		grid-row: 2;
 	}
 
-
 	#ViewPlay #ColBoard {
 		display: flex;
 		gap: 0.75rem;
@@ -240,6 +241,7 @@
 
 	#ViewPlay #BoxEnt {
 		height: initial;
+		width: 4rem;
 		flex-direction: column-reverse;
 		justify-content: space-between;
 	}
@@ -259,6 +261,11 @@
 		transform: rotate(180deg);
 
 		padding: 0 0 1.5rem 0;
+	}
+
+	#ViewPlay #TextEnt {
+		writing-mode: vertical-rl;
+		transform: rotate(180deg);
 	}
 }
 
