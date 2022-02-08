@@ -4,24 +4,18 @@
 // www.anthemion.org */
 
 #ViewPlay main {
-	max-width: 38rem;
-
-	display: flex;
-	gap: 0.5rem;
-
 	font-size: 1.1rem;
 }
 
 #ViewPlay #ColBoard {
-	/* This box should consume whatever is left over by #ColStat. */
-
-	border: 1px solid #AAA;
-	border-radius: 0.25rem;
 	padding: 0.75rem 1rem;
+
+	text-align: center;
 }
 
 #ViewPlay #BoxEnt {
 	height: 3.5rem;
+
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
@@ -31,23 +25,29 @@
 
 #ViewPlay #TextInstruct {
 	padding-right: 1rem;
-
-	text-align: center;
 }
 
 #ViewPlay #TextEnt {
 	font-family: Georgia, serif;
 	font-weight: bold;
 	font-size: 2.5rem;
-	text-overflow: ellipsis;
 	overflow: hidden;
+	text-overflow: ellipsis;
 	white-space: nowrap;
-	/* This is questionable: [to do] */
-	max-width: 24vw;
 }
 
 #ViewPlay #TextEnt::after {
 	content: "_";
+
+	animation-name: BlinkCursTextEnt;
+	animation-duration: 0.75s;
+	animation-timing-function: steps(2, jump-none);
+	animation-iteration-count: infinite;
+}
+
+@keyframes BlinkCursTextEnt {
+	from { color: black; }
+	to { color: transparent; }
 }
 
 #ViewPlay #TextCtls {
@@ -55,8 +55,7 @@
 }
 
 #ViewPlay #BoxWait {
-	/* We could try to do something fancy here, but it is visible for just a
-	// fraction of a second. */
+	/* We could do something fancy here, but it is visible just momentarily. */
 
 	width: 100%;
 	aspect-ratio: 1 / 1;
@@ -74,53 +73,36 @@
 	color: hsl(30, 38%, 93%);
 }
 
-#ViewPlay #ColStat {
-	/* It does not seem possible to specify a percent width in 'flex' unless this
-	// is done: */
-	width: 0;
-	flex: 0 0 25%;
-
+#ViewPlay #BoxTime,
+#ViewPlay #BoxScore {
 	display: flex;
 	flex-direction: column;
+	align-items: center;
 	gap: 0.5rem;
-}
-
-#ViewPlay #BoxTime {
-	border: 1px solid #AAA;
-	border-radius: 0.25rem;
-	padding: 1rem;
-
-	display: grid;
-	place-items: center;
 
 	font-size: 1rem;
-}
-
-#ViewPlay #Time {
-	font-family: Georgia, serif;
-	font-size: 2.5rem;
-	font-weight: bold;
-	line-height: 100%;
+	text-align: center;
 }
 
 #ViewPlay #BtnPause,
 #ViewPlay #BtnEnt {
 	display: block;
 	width: 100%;
+}
 
-	margin-bottom: 0.5rem;
+#ViewPlay #LblTime,
+#ViewPlay #LblScore {
+	font-family: Georgia, serif;
+	font-size: 2.5rem;
+	font-weight: bold;
+	line-height: 100%;
 }
 
 #ViewPlay #BoxSetup {
-	flex-grow: 1;
-
-	border: 1px solid #AAA;
-	border-radius: 0.25rem;
-	padding: 1rem;
-
 	display: flex;
-	flex-direction: column;
 	justify-content: space-around;
+
+	text-align: center;
 }
 
 #ViewPlay #BoxSetup h3 {
@@ -136,50 +118,80 @@
 	font-weight: bold;
 }
 
-#ViewPlay #BoxSetup hr {
-	width: 100%;
-}
-
-#ViewPlay #BoxScore {
-	border: 1px solid #AAA;
-	border-radius: 0.25rem;
-	padding: 0.75rem 1rem;
-}
-
-#ViewPlay #Score {
-	font-family: Georgia, serif;
-	font-size: 2.5rem;
-	font-weight: bold;
-	line-height: 100%;
-}
-
 /* Pause dialog
 // ------------ */
 
-#DlgPause {
-	background-color: hsl(0, 0%, 90%);
-	border: 1px solid #AAA;
-	border-radius: 0.5rem;
-	padding: 1rem;
+#DlgPause p {
+	margin: 0.5rem 1rem 1rem 1rem;
 }
 
 /* End Confirmation dialog
 // ----------------------- */
 
-#DlgConfirmEnd {
-	background-color: hsl(0, 0%, 90%);
-	border: 1px solid #AAA;
-	border-radius: 0.5rem;
-	padding: 1rem;
-}
-
-#DlgConfirmEnd header {
-	margin: 1rem;
-
-	font-size: 1.25rem;
-	text-align: center;
+#DlgConfirmEnd p {
+	margin: 0.5rem 1rem 1rem 1rem;
 }
 
 #DlgConfirmEnd .Btn {
 	width: 100%;
+}
+
+/* Responsive layout
+// ----------------- */
+
+#ViewPlay {
+	width: 40rem;
+}
+
+#ViewPlay main {
+	display: grid;
+	grid-template-columns: 75% auto;
+	grid-template-rows: auto 1fr auto;
+	gap: 0.5rem;
+}
+
+#ViewPlay #ColBoard {
+	grid-column: 1;
+	grid-row: 1 / span 3;
+}
+
+#ViewPlay #BoxTime {
+	grid-column: 2;
+	grid-row: 1;
+}
+
+#ViewPlay #BoxSetup {
+	grid-column: 2;
+	grid-row: 2;
+}
+
+#ViewPlay #BoxScore {
+	grid-column: 2;
+	grid-row: 3;
+}
+
+#ViewPlay #BoxSetup {
+	flex-direction: column;
+}
+
+#ViewPlay #BoxSetup hr {
+	width: 100%;
+}
+
+@media screen and (orientation: landscape) and (max-height: 700px) {
+	#ViewPlay {
+	}
+
+	#ViewPlay main {
+		grid-template-columns: 75% auto;
+		grid-template-rows: auto 1fr auto;
+	}
+
+	#ViewPlay .Desk {
+		display: none;
+	}
+
+	#ViewPlay .Mob {
+		display: block;
+	}
 }

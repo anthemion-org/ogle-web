@@ -102,6 +102,7 @@ button, input[type="submit"], a.Btn {
 	border: 1px solid transparent;
 	border-radius: 0.25rem;
 
+	font-size: 1.1rem;
 	/* Prevent text wrapping by default. This is useful when the containing dialog
 	// (for instance #DlgConfirmEnd) has no explicit width. You might guess that
 	// the button text would contribute to the dialog width, but instead, the
@@ -139,7 +140,7 @@ a.Btn {
 .Box {
 	border: 1px solid #AAA;
 	border-radius: 0.25rem;
-	padding: 0.75rem 1rem;
+	padding: 1rem;
 }
 
 /* Button rows
@@ -289,9 +290,22 @@ input[type="range"]:hover::-moz-range-track {
 }
 
 .Dlg {
+	border: 1px solid #AAA;
+	border-radius: 0.5rem;
+	padding: 1rem;
+	background-color: hsl(0, 0%, 90%);
 	box-shadow: 0 0 10px hsla(0, 0%, 0%, 0.7);
 
+	font-size: 1.1rem;
 	text-align: center;
+}
+
+/* Responsive
+// ---------- */
+
+.Mob {
+	/* 'visibility: collapse' does not seem to work the way it should: */
+	display: none;
 }
 
 /* Modifiers

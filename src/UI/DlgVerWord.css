@@ -6,11 +6,6 @@
 #DlgVerWord {
 	width: 30%;
 
-	border: 1px solid #AAA;
-	border-radius: 0.5rem;
-	padding: 1rem;
-	background-color: hsl(0, 0%, 90%);
-
 	text-align: left;
 }
 

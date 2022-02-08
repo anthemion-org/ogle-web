@@ -150,7 +150,7 @@ export default function ViewPlay(aProps) {
 			oTimeElap);
 		if (oTimeRemain < 1) {
 			Sound.uStop_Tick();
-			aProps.uUpd_StApp(StsApp.Score);
+			// aProps.uUpd_StApp(StsApp.Score);
 			return;
 		}
 
@@ -227,11 +227,11 @@ export default function ViewPlay(aProps) {
 		return (
 			<div className="ScreenDlg">
 				<div id="DlgPause" className="Dlg">
-					<header>
+					<p>
 						Your game is paused
-					</header>
+					</p>
 
-					<div className="Btns">
+					<div className="Btns MargT4">
 						<Btn onClick={ouHandEnd}>End round</Btn>
 						<Btn onClick={ouHandResume}>Resume</Btn>
 					</div>
@@ -261,9 +261,9 @@ export default function ViewPlay(aProps) {
 		return (
 			<div className="ScreenDlg">
 				<div id="DlgConfirmEnd" className="Dlg">
-					<header>
+					<p>
 						Are you sure you want<br />to end this round?
-					</header>
+					</p>
 
 					<div className="Btns">
 						<Btn onClick={ouHandYesConfirmEnd}>End</Btn>
@@ -394,7 +394,6 @@ export default function ViewPlay(aProps) {
 
 	/** Returns entry box content. */
 	function ouContBoxEnt() {
-		let oCont;
 		if (oEntUser) return (
 			<div id="TextEnt">
 				{oEntUser.uTextAll()}
@@ -440,53 +439,54 @@ export default function ViewPlay(aProps) {
 			<h1>Ogle</h1>
 
 			<main>
-				<section id="ColBoard">
+				<section id="ColBoard" className="Box">
 					<div id="BoxEnt">
 						{ouContBoxEnt()}
 					</div>
 
 					{ouLookBoard()}
 
-					<div id="TextCtls">
+					<div id="TextCtls" className="Desk">
 						Left-click to select letters. Click again to unselect.
 						Right-click to enter word. Middle-click to clear.
 					</div>
 				</section>
 
-				<section id="ColStat">
-					<section id="BoxTime">
-						<Btn id="BtnPause" onClick={ouHandPause}>
-							<div id="Time">
-								{ouTextTimeRemain()}
-							</div>
-							Seconds
-						</Btn>
-
-						Press to pause
-					</section>
-
-					<section id="BoxSetup">
-						<div>
-							<h3>Yield</h3>
-							<div>{aProps.Setup.uTextShortYield()}</div>
+				<section id="BoxTime" className="Box">
+					<Btn id="BtnPause" onClick={ouHandPause}>
+						<div id="LblTime">
+							{ouTextTimeRemain()}
 						</div>
-						<hr />
-						<div>
-							<h3>Pace</h3>
-							<div>{aProps.Setup.uTextShortPace()}</div>
-						</div>
-					</section>
+						Seconds
+					</Btn>
 
-					<section id="BoxScore">
-						<Btn id="BtnEnt" disabled={ouCkDisabBtnScore()}
-							onClick={ouRecord_Ent} CkDisabSoundClick={true}>
-							<div id="Score">
-								{oCardUser.Score ?? 0}
-							</div>
-							Score
-						</Btn>
-						Press to enter word
-					</section>
+					<div className="Desk">Click to pause</div>
+					<div className="Mob">Tap to pause</div>
+				</section>
+
+				<section id="BoxSetup" className="Box">
+					<div>
+						<h3>Yield</h3>
+						<div>{aProps.Setup.uTextShortYield()}</div>
+					</div>
+					<hr />
+					<div>
+						<h3>Pace</h3>
+						<div>{aProps.Setup.uTextShortPace()}</div>
+					</div>
+				</section>
+
+				<section id="BoxScore" className="Box">
+					<Btn id="BtnEnt" disabled={ouCkDisabBtnScore()}
+						onClick={ouRecord_Ent} CkDisabSoundClick={true}>
+						<div id="LblScore">
+							{oCardUser.Score ?? 0}
+						</div>
+						Score
+					</Btn>
+
+					<div className="Desk">Click to enter</div>
+					<div className="Mob">Tap to enter</div>
 				</section>
 
 				{ouDlgPause()}

@@ -32,7 +32,8 @@
 /* Responsive layout
 // -----------------
 // This view has a fixed width, and uses as much vertical space as it requires
-// for that width. */
+// for that width. The width increases and the sliders are arrayed horizontally
+// when a short landscape display is used. */
 
 #ViewSetup section {
 	margin-top: 0.5rem;
