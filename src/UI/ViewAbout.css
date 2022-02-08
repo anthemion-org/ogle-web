@@ -3,18 +3,17 @@
 // Copyright ©2022 Jeremy Kelly
 // www.anthemion.org */
 
-#ViewAbout {
-	text-align: center;
+#ViewAbout section {
 	font-size: 115%;
+	text-align: center;
 }
 
 #ViewAbout #Logo {
 	width: 5rem;
 	height: 5rem;
-	margin: 1.5rem 0 0 0;
 
-	/* Need to use filter here, or the shadow won't be rendered under transparent
-	// areas in the SVG: */
+	/* Need to use 'filter' here, or the shadow won't be rendered under
+	// transparent areas within the SVG: */
 	filter: drop-shadow(0 0 2px hsla(0, 0%, 0%, 0.5));
 }
 
@@ -27,5 +26,51 @@
 }
 
 #ViewAbout .Btns {
+	justify-content: center;
+}
+
+/* Responsive layout
+// -----------------
+// The width and height of this view are determined by its content. */
+
+#ViewAbout #Logo {
+	margin-top: 1.5rem;
+}
+
+#ViewAbout .Btns {
 	margin: 1.5rem 0 1rem 0;
+}
+
+@media screen and (orientation: landscape) and (max-height: 700px) {
+	#ViewAbout {
+		padding: 1rem 0;
+	}
+
+	#ViewAbout main {
+		display: flex;
+		justify-content: space-evenly;
+	}
+
+	#ViewAbout section {
+		flex: 1;
+
+		border-left: 1px solid #AAA;
+		padding: 0 1.5rem;
+	}
+
+	#ViewAbout section:nth-child(1) {
+		border-left: none;
+	}
+
+	#ViewAbout section:nth-child(2) {
+		flex: 3;
+	}
+
+	#ViewAbout #Logo {
+		margin-top: 1rem;
+	}
+
+	#ViewAbout .Btns {
+		margin: 0.5rem 0 0 0;
+	}
 }

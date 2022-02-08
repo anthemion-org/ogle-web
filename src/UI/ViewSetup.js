@@ -86,38 +86,40 @@ export default class ViewSetup extends React.Component {
 		const oSetup = this.uSetup();
 
 		return (
-			<form id="ViewSetup" className="View">
+			<div id="ViewSetup" className="View">
 				<h1>Ogle setup</h1>
 
-				<section>
-					<label htmlFor="RgYield">Yield</label>
-					<div className="Name">
-						{oSetup.uTextShortYield()}
-					</div>
-					<Slide id="RgYield" name="jYield" value={this.state.jYield}
-						max={Yield.Vals.length - 1} onChange={this.uHandChange} />
-					<div className="Instruct">
-						{Yield.uInstruct(this.state.jYield)}
-					</div>
-				</section>
+				<main>
+					<section>
+						<label htmlFor="RgYield">Yield</label>
+						<div className="Name">
+							{oSetup.uTextShortYield()}
+						</div>
+						<Slide id="RgYield" name="jYield" value={this.state.jYield}
+							max={Yield.Vals.length - 1} onChange={this.uHandChange} />
+						<div className="Instruct">
+							{Yield.uInstruct(this.state.jYield)}
+						</div>
+					</section>
 
-				<section>
-					<label htmlFor="RgPace">Pace</label>
-					<div className="Name">
-						{oSetup.uTextShortPace()}
-					</div>
-					<Slide id="RgPace" name="jPace" value={this.state.jPace}
-						max={Pace.Vals.length - 1} onChange={this.uHandChange} />
-					<div className="Instruct">
-						{Pace.uInstruct(this.state.jPace)}
-					</div>
-				</section>
+					<section>
+						<label htmlFor="RgPace">Pace</label>
+						<div className="Name">
+							{oSetup.uTextShortPace()}
+						</div>
+						<Slide id="RgPace" name="jPace" value={this.state.jPace}
+							max={Pace.Vals.length - 1} onChange={this.uHandChange} />
+						<div className="Instruct">
+							{Pace.uInstruct(this.state.jPace)}
+						</div>
+					</section>
+				</main>
 
-				<div className="Btns">
+				<div className="Btns MargT3">
 					<Btn onClick={this.uHandAbout}>About</Btn>
 					<Btn className="Group" onClick={this.uHandPlay}>Play</Btn>
 				</div>
-			</form>
+			</div>
 		);
 	}
 }

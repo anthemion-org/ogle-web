@@ -87,7 +87,7 @@ export default function ViewPlay(aProps) {
 	// Window focus management
 	// -----------------------
 
-	function ouListen_Keys() {
+	function ouMonit_Focus() {
 		function ouHand(aEvt) {
 			if (document.hidden && (oStPlay === StsPlay.Play) && !oCkVerWord)
 				ouSet_StPlay(StsPlay.Pause);
@@ -105,7 +105,7 @@ export default function ViewPlay(aProps) {
 			document.removeEventListener("visibilitychange", ouHand);
 		}
 	}
-	useEffect(ouListen_Keys, []);
+	useEffect(ouMonit_Focus, [oStPlay, oCkVerWord]);
 
 	// Timer management
 	// ----------------
@@ -266,7 +266,7 @@ export default function ViewPlay(aProps) {
 					</header>
 
 					<div className="Btns">
-						<Btn onClick={ouHandYesConfirmEnd}>End round</Btn>
+						<Btn onClick={ouHandYesConfirmEnd}>End</Btn>
 						<Btn onClick={ouHandNoConfirmEnd}>Resume</Btn>
 					</div>
 				</div>

@@ -3,12 +3,14 @@
 // Copyright ©2022 Jeremy Kelly
 // www.anthemion.org */
 
+#ViewSetup {
+	width: 30rem;
+}
+
 #ViewSetup section {
-	margin: 0.5rem 0;
 	border-radius: 0.25rem;
 	padding: 0.5rem 1rem;
 	background-color: hsl(0, 0%, 100%);
-
 	box-shadow: 0 0 3px hsla(0, 0%, 0%, 0.5);
 }
 
@@ -25,4 +27,37 @@
 
 #ViewSetup .Instruct {
 	text-align: center;
+}
+
+/* Responsive layout
+// -----------------
+// This view has a fixed width, and uses as much vertical space as it requires
+// for that width. */
+
+#ViewSetup section {
+	margin-top: 0.5rem;
+}
+
+@media screen and (orientation: portrait) and (max-width: 30rem) {
+	#ViewSetup {
+		width: calc(100vw - 1rem);
+	}
+}
+
+@media screen and (orientation: landscape) and (max-height: 500px) {
+	#ViewSetup {
+		width: calc(100vw - 1rem);
+		max-width: 40rem;
+	}
+
+	#ViewSetup main {
+		display: flex;
+		gap: 0.5rem;
+	}
+
+	#ViewSetup section {
+		flex: 1;
+
+		margin: 0;
+	}
 }

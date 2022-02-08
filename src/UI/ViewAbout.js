@@ -34,38 +34,46 @@ export default function ViewAbout(aProps) {
 
 	return (
 		<div id="ViewAbout" className="View">
-			<Logo id="Logo" />
-			<h1>Ogle</h1>
+			<main>
+				<section>
+					<Logo id="Logo" />
+					<h1>Ogle</h1>
 
-			<div>Version {Cfg.VerApp}</div>
+					<div>Version {Cfg.VerApp}</div>
+				</section>
 
-			<div className="MargV2">
-				Copyright ©2007-2022 Jeremy Kelly<br />
-				<a href="https://www.anthemion.org/ogle.html" target="_blank"
-					rel="noopener noreferrer">
-					www.anthemion.org
-				</a>
-			</div>
+				<section>
+					<p>
+						Copyright ©2007-2022 Jeremy Kelly<br />
+						<a href="https://www.anthemion.org/ogle.html" target="_blank"
+							rel="noopener noreferrer">
+							www.anthemion.org
+						</a>
+					</p>
 
-			<div className="MargV2">
-				Ogle word lists derive from<br />
-				<a href="http://wordlist.aspell.net/" target="_blank"
-					rel="noopener noreferrer">SCOWL</a><br />
-				Copyright ©2000-2004 Kevin Atkinson
-			</div>
+					<p>
+						Ogle word lists derive from<br />
+						<a href="http://wordlist.aspell.net/" target="_blank"
+							rel="noopener noreferrer">SCOWL</a><br />
+						Copyright ©2000-2004 Kevin Atkinson
+					</p>
+				</section>
 
-			<div className="MargV2">
-				View Ogle source code at<br />
-				<a href="https://github.com/anthemion-org/ogle-web" target="_blank"
-					rel="noopener noreferrer">GitHub</a>
-			</div>
+				<section>
+					<p>
+						View Ogle source code at<br />
+						<a href="https://github.com/anthemion-org/ogle-web" target="_blank"
+							rel="noopener noreferrer">GitHub</a>
+					</p>
 
-			<div className="MargV2">
-				Send your questions to<br />
-				<a href="mailto://support@anthemion.org">support@anthemion.org</a>
-			</div>
+					<p>
+						Send your questions to<br />
+						<a href="mailto://support@anthemion.org">support@anthemion.org</a>
+					</p>
+				</section>
+			</main>
 
-			<div className="Btns Ctr">
+			<div className="Btns">
 				<Btn onClick={ouHandOK}>OK</Btn>
 			</div>
 		</div>

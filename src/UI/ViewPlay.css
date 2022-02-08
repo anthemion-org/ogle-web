@@ -10,7 +10,6 @@
 	gap: 0.5rem;
 
 	font-size: 1.1rem;
-	text-align: center;
 }
 
 #ViewPlay #ColBoard {
@@ -159,7 +158,7 @@
 
 #DlgPause {
 	background-color: hsl(0, 0%, 90%);
-	border: 1px solid #888;
+	border: 1px solid #AAA;
 	border-radius: 0.5rem;
 	padding: 1rem;
 }
@@ -169,7 +168,7 @@
 
 #DlgConfirmEnd {
 	background-color: hsl(0, 0%, 90%);
-	border: 1px solid #888;
+	border: 1px solid #AAA;
 	border-radius: 0.5rem;
 	padding: 1rem;
 }

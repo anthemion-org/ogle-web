@@ -147,7 +147,6 @@ a.Btn {
 
 .Btns {
 	display: flex;
-	margin-top: 1rem;;
 }
 
 .Btns * {
@@ -291,27 +290,54 @@ input[type="range"]:hover::-moz-range-track {
 
 .Dlg {
 	box-shadow: 0 0 10px hsla(0, 0%, 0%, 0.7);
+
+	text-align: center;
 }
 
 /* Modifiers
 // --------- */
 
-.MargV1 {
+.MargT2 {
+	margin-top: 0.5em;
+}
+
+.MargT3 {
+	margin-top: 0.75em;
+}
+
+.MargT4 {
+	margin-top: 1em;
+}
+
+.MargT6 {
+	margin-top: 1.5em;
+}
+
+.MargT8 {
+	margin-top: 2em;
+}
+
+.MargV2 {
 	margin-top: 0.5em;
 	margin-bottom: 0.5em;
 }
 
-.MargV2 {
+.MargV3 {
+	margin-top: 0.75em;
+	margin-bottom: 0.75em;
+}
+
+.MargV4 {
 	margin-top: 1em;
 	margin-bottom: 1em;
 }
 
-.MargV3 {
+.MargV6 {
 	margin-top: 1.5em;
 	margin-bottom: 1.5em;
 }
 
-.MargV4 {
+.MargV8 {
 	margin-top: 2em;
 	margin-bottom: 2em;
 }
@@ -330,6 +356,10 @@ input[type="range"]:hover::-moz-range-track {
 
 .Left {
 	text-align: left;
+}
+
+.Ctr {
+	text-align: center;
 }
 
 .Right {
