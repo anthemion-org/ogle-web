@@ -466,13 +466,13 @@ export default function ViewPlay(aProps) {
 
 				<section id="BoxSetup" className="Box">
 					<div>
-						<h3>Yield</h3>
 						<div>{aProps.Setup.uTextShortYield()}</div>
+						<h3>Yield</h3>
 					</div>
 					<hr />
 					<div>
-						<h3>Pace</h3>
 						<div>{aProps.Setup.uTextShortPace()}</div>
+						<h3>Pace</h3>
 					</div>
 				</section>
 
