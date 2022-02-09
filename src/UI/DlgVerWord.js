@@ -44,14 +44,18 @@ export default function DlgVerWord(aProps) {
 		<div className="ScreenDlg">
 			<div id="DlgVerWord" className="Dlg">
 				<div id="BoxWik">
-					This word is not found in the Ogle lexicon:
+					<div id="TextIntro">
+						This word is not found in the Ogle lexicon:
+					</div>
 
-					<a className="Btn" href={oURL} target="_blank"
+					<a id="BtnWik" className="Btn" href={oURL} target="_blank"
 						rel="noopener noreferrer">
 						{oTextEnt}
 					</a>
 
-					Click for Wiktionary entry.
+					<div id="TextPromptClick">
+						Click for Wiktionary entry.
+					</div>
 				</div>
 
 				<hr />

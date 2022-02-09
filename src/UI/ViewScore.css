@@ -3,15 +3,20 @@
 // Copyright ©2022 Jeremy Kelly
 // www.anthemion.org */
 
-#ViewScore main {
+#ViewScore {
 	width: calc(min(80vw, 75vh));
-	height: calc(min(80vw, 75vh));
+}
 
-	display: flex;
-	gap: 0.5rem;
+#ViewScore main {
+	height: calc(100vh - 11rem);
 
 	font-size: 1.1rem;
 	text-align: center;
+
+	display: grid;
+	grid-template-columns: 52% 1fr;
+	grid-template-rows: 1fr auto auto;
+	gap: 0.5rem;
 }
 
 #ViewScore aside {
@@ -19,15 +24,14 @@
 }
 
 #ViewScore #ColWords {
-	/* This column should consume whatever is left by #ColMisc. */
-	flex: 0 1 55%;
-
-	display: flex;
-	flex-direction: column;
+	grid-column: 1;
+	grid-row: 1 / span 3;
 
 	border: 1px solid #AAA;
 	border-radius: 0.25rem;
 	padding: 0.75rem 1rem;
+
+	display: flex;
 }
 
 #ViewScore #ColWords header {
@@ -64,24 +68,16 @@
 	color: hsl(0, 60%, 50%);
 }
 
-#ViewScore #ColMisc {
-	flex: 1 0 0;
-
-	display: flex;
-	flex-direction: column;
-	gap: 0.5rem;
-}
-
 #ViewScore #BoxSetup {
-	flex-grow: 1;
-
-	display: flex;
-	flex-direction: row;
-	justify-content: space-evenly;
-	align-items: center;
+	grid-column: 2;
+	grid-row: 1;
 
 	border: 1px solid #AAA;
 	border-radius: 0.25rem;
+
+	display: flex;
+	justify-content: space-evenly;
+	align-items: center;
 }
 
 #ViewScore #BoxSetup hr {
@@ -113,4 +109,193 @@
 
 #ViewScore .BoxStat h3 {
 	margin: 0 0 0.75rem 0;
+}
+
+#ViewScore #BoxCover {
+	grid-column: 2;
+	grid-row: 2;
+}
+
+#ViewScore #BoxHigh {
+	grid-column: 2;
+	grid-row: 3;
+}
+
+#ViewScore .Btns {
+	margin-top: 0.75rem;
+}
+
+/* Responsive layout
+// ----------------- */
+
+#ViewScore main {
+}
+
+#ViewScore aside {
+	margin-top: 0.5rem;
+}
+
+#ViewScore #ColWords {
+	flex: 0 1 55%;
+
+	flex-direction: column;
+}
+
+/* Short or narrow viewport
+// ------------------------
+// If the viewport becomes narrow, we will also apply 'narrow viewport' rules
+// after this set. These properties are prerequisites for those. */
+
+@media screen and (max-height: 800px), screen and (max-width: 700px) {
+	/* There is no way to fit this view into a small display, so the view as a
+	// whole must scroll. #BoxWords scrolls in the desktop layout, but we don't
+	// want an element that scrolls inside another element that also scrolls, so
+	// we will change the word list table to a wrapping flex container. */
+
+	#ViewScore {
+		width: calc(100vw - 3rem);
+		max-width: 50rem;
+
+		margin-top: 0.5rem;
+		padding: 1rem;
+
+		display: flex;
+		flex-direction: column;
+		gap: 0;
+	}
+
+	#ViewScore main {
+		height: 0%;
+		flex: 1 1 0;
+
+		grid-template-columns: auto 1fr 1fr;
+		grid-template-rows: auto 1fr;
+	}
+
+	#ViewScore #BoxSetup {
+		grid-column: 1;
+		grid-row: 1;
+
+		padding: 1rem 1.5rem;
+
+		flex-direction: column;
+	}
+
+	#ViewScore #BoxSetup hr {
+		width: 100%;
+		height: 1px;
+
+		margin: 0;
+		border: 0;
+		border-top: 1px solid #AAA;
+	}
+
+	#ViewScore #BoxCover {
+		grid-column: 2;
+		grid-row: 1;
+	}
+
+	#ViewScore #BoxHigh {
+		grid-column: 3;
+		grid-row: 1;
+	}
+
+	#ViewScore #ColWords {
+		grid-column: 1 / span 3;
+		grid-row: 2;
+	}
+
+	#ViewScore #ColWords header {
+		border-bottom: 1px solid #AAA;
+		padding-bottom: 0.25rem;
+	}
+
+	#ViewScore #ColWords table {
+		display: block;
+	}
+
+	#ViewScore #ColWords tbody {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+	}
+
+	#ViewScore #ColWords tr {
+		flex: 1;
+
+		min-width: 8rem;
+		display: flex;
+		justify-content: space-between;
+
+		margin: 0.1rem 0.1rem;
+		border-radius: 0.2rem;
+
+		background-color: hsl(0, 0%, 82.5%);
+		border: 1px solid #AAA;
+	}
+
+	#ViewScore #ColWords td {
+		display: inline;
+	}
+
+	#ViewScore #ColWords td:nth-child(2) {
+		/* Within the row, only the 'td' elements produce the click events we use to
+		// display the Word Score dialog, so these must be made to span the entire
+		// width: */
+		flex: 1;
+
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	#ViewScore #BoxWords {
+		height: initial;
+		overflow-y: initial;
+	}
+}
+
+/* Narrow viewport
+// ---------------
+// Note that the 'Short or narrow viewport' properties are also applied when the
+// viewport narrows. */
+
+@media screen and (max-width: 700px) {
+	#ViewScore main {
+		grid-template-columns: auto;
+		grid-template-rows: auto auto auto auto;
+	}
+
+	#ViewScore #BoxSetup {
+		grid-column: 1;
+		grid-row: 1;
+
+		padding: 1rem 1.5rem;
+
+		flex-direction: row;
+	}
+
+	#ViewScore #BoxSetup hr {
+		height: 100%;
+		width: 1px;
+
+		margin: 0;
+		border: 0;
+		border-left: 1px solid #AAA;
+	}
+
+	#ViewScore #BoxCover {
+		grid-column: 1;
+		grid-row: 2;
+	}
+
+	#ViewScore #BoxHigh {
+		grid-column: 1;
+		grid-row: 3;
+	}
+
+	#ViewScore #ColWords {
+		grid-column: 1;
+		grid-row: 4;
+	}
 }

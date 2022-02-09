@@ -150,7 +150,7 @@ export default function ViewPlay(aProps) {
 			oTimeElap);
 		if (oTimeRemain < 1) {
 			Sound.uStop_Tick();
-			// aProps.uUpd_StApp(StsApp.Score);
+			aProps.uUpd_StApp(StsApp.Score);
 			return;
 		}
 
@@ -420,7 +420,7 @@ export default function ViewPlay(aProps) {
 		);
 
 		return (
-			<div id="BoxWait">Working...</div>
+			<div id="BoxWork">Working...</div>
 		);
 	}
 

@@ -4,7 +4,8 @@
 // www.anthemion.org */
 
 #DlgVerWord {
-	width: 30%;
+	width: calc(100vw - 2rem);
+	max-width: 35rem;
 
 	text-align: left;
 }
@@ -13,7 +14,7 @@
 	text-align: center;
 }
 
-#DlgVerWord #BoxWik a.Btn {
+#DlgVerWord #BtnWik {
 	display: block;
 	width: 100%;
 	height: 4rem;
@@ -23,7 +24,7 @@
 
 	font-family: Georgia, serif;
 	font-weight: bold;
-	font-size: 2rem;
+	font-size: 2em;
 
 	display: grid;
 	place-items: center start;
@@ -31,4 +32,29 @@
 
 #DlgVerWord hr {
 	margin: 0.75rem 0;
+}
+
+#DlgVerWord .Btns {
+	margin-top: 1rem;
+}
+
+/* Responsive layout
+// ----------------- */
+
+@media screen and (max-height: 700px) {
+	#DlgVerWord {
+		max-width: initial;
+
+		font-size: 90%;
+	}
+
+	#DlgVerWord #TextIntro,
+	#DlgVerWord #TextPromptClick,
+	#DlgVerWord hr {
+		display: none;
+	}
+
+	#DlgVerWord #BtnWik {
+		margin-bottom: 0.75rem;
+	}
 }

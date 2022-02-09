@@ -131,7 +131,7 @@ class tPoolText {
 				const oDrop = 4.0;
 				// The minimum text count. Increase this number to see more duplicates
 				// among rare values:
-				const oMin = 0.25;
+				const oMin = 0.1;
 
 				const oCtOld = this._CtsByText[onText];
 				const oCtNew = Math.max((oCtOld - oDrop), oMin);

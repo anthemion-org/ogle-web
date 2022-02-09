@@ -139,7 +139,7 @@ export default function ViewScore(aProps) {
 
 		return (
 			<DlgNamePlay ScoreUser={aProps.CardUser.Score}
-				ScoreOgle={aProps.CardOgle.Score} uHandName={ouHandNamePlay}/>
+				ScoreOgle={aProps.CardOgle.Score} uHandName={ouHandNamePlay} />
 		);
 	}
 
@@ -257,42 +257,40 @@ export default function ViewScore(aProps) {
 					</div>
 				</section>
 
-				<section id="ColMisc">
-					<section id="BoxSetup">
-						<div>
-							<h3>Yield</h3>
-							<div>{aProps.Setup.uTextShortYield()}</div>
-						</div>
-						<hr />
-						<div>
-							<h3>Pace</h3>
-							<div>{aProps.Setup.uTextShortPace()}</div>
-						</div>
-					</section>
+				<section id="BoxSetup">
+					<div>
+						<h3>Yield</h3>
+						<div>{aProps.Setup.uTextShortYield()}</div>
+					</div>
+					<hr />
+					<div>
+						<h3>Pace</h3>
+						<div>{aProps.Setup.uTextShortPace()}</div>
+					</div>
+				</section>
 
-					<section className="BoxStat">
-						<h3>Coverage</h3>
+				<section id="BoxCover" className="BoxStat">
+					<h3>Coverage</h3>
 
-						<table>
-							<tbody>
-								{ouLinesCover()}
-							</tbody>
-						</table>
+					<table>
+						<tbody>
+							{ouLinesCover()}
+						</tbody>
+					</table>
 
-						<aside>
-							Your score, by word length
-						</aside>
-					</section>
+					<aside>
+						Your score, by word length
+					</aside>
+				</section>
 
-					<section className="BoxStat">
-						<h3>High scores</h3>
+				<section id="BoxHigh" className="BoxStat">
+					<h3>High scores</h3>
 
-						<table>
-							<tbody>
-								{ouLinesScorePlay()}
-							</tbody>
-						</table>
-					</section>
+					<table>
+						<tbody>
+							{ouLinesScorePlay()}
+						</tbody>
+					</table>
 				</section>
 			</main>
 
