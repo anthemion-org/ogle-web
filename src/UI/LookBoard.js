@@ -54,8 +54,6 @@ export default function LookBoard(aProps) {
 	}
 
 	function ouHandClick(aEvt) {
-		aEvt.preventDefault();
-
 		// We handle these here because, if they were handled in LookDie with the
 		// left mouse button, and if the user happened to click the gap between two
 		// dice, they would be missed:

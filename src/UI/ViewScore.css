@@ -10,7 +10,7 @@
 #ViewScore main {
 	height: calc(100vh - 11rem);
 
-	font-size: 1.1rem;
+	font-size: 1.2rem;
 	text-align: center;
 
 	display: grid;
