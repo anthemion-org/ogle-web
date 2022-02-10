@@ -28,9 +28,7 @@ LookDie.propTypes = {
 	CkEnab: PropTypes.bool,
 	CkPause: PropTypes.bool,
 	CkDisp: PropTypes.bool,
-	uCallTog: PropTypes.func,
-	uCallClear: PropTypes.func,
-	uCallRecord: PropTypes.func
+	uCallTog: PropTypes.func
 };
 
 /** Displays the text and other foreground for one die within the board, and
@@ -50,11 +48,7 @@ LookDie.propTypes = {
  *  ~ CkDisp: Set to 'true' if the board is being rendered in 'display-only'
  *    mode;
  *
- *  ~ uCallTog: A function to be invoked if the die is left-clicked;
- *
- *  ~ uCallClear: A function to be invoked if the die is middle-clicked;
- *
- *  ~ uCallRecord: A function to be invoked if the die is right-clicked.
+ *  ~ uCallTog: A function to be invoked if the die is left-clicked.
  */
 export default function LookDie(aProps) {
 	function ouHandMouseOver(aEvt) {
@@ -63,20 +57,12 @@ export default function LookDie(aProps) {
 
 	function ouHandClick(aEvt) {
 		aEvt.preventDefault();
-		switch (aEvt.button) {
-			// The left button:
-			case 0:
-				if (aProps.uCallTog) aProps.uCallTog(aProps.Pos);
-				break;
-			// The middle button:
-			case 1:
-				if (aProps.uCallClear) aProps.uCallClear();
-				break;
-			// The right button:
-			case 2:
-				if (aProps.uCallRecord) aProps.uCallRecord();
-				break;
-		}
+
+		// The left button:
+		if ((aEvt.button === 0) && aProps.uCallTog)
+			aProps.uCallTog(aProps.Pos);
+
+		// The middle and right buttons are handled in LookBoard.
 	}
 
 	function ouBackText() {

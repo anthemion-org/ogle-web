@@ -228,10 +228,16 @@
 		display: inline;
 	}
 
+	/* Within the row, only the 'td' elements produce the click events we use to
+	// display the Word Score dialog, so these must be made to span the entire
+	// width. */
+
+	#ViewScore #ColWords td {
+		/* Fix the size of the score cells so that the word is always centered: */
+		flex: 0 0 1.25em;
+	}
+
 	#ViewScore #ColWords td:nth-child(2) {
-		/* Within the row, only the 'td' elements produce the click events we use to
-		// display the Word Score dialog, so these must be made to span the entire
-		// width: */
 		flex: 1;
 
 		overflow: hidden;
