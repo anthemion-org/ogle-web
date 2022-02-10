@@ -205,13 +205,15 @@ export default function LookDie(aProps) {
 
 	// When selecting dice quickly, there is a tendency to click and drag, which
 	// causes many selection to be missed if onClick is used. For this reason,
-	// we use onMouseDown instead:
+	// we use onMouseDown instead. onPointerDown appears to be the touchscreen
+	// equivalent of that event:
 	return (
 		<svg className={oClasses} style={oSty}
 			xmlns="http://www.w3.org/2000/svg"
 			viewBox="0 0 100 100"
 			onMouseOver={ouHandMouseOver}
 			onMouseDown={ouHandClick}
+			onPointerDown={ouHandClick}
 		>
 			{ouBackText()}
 			{ouGroupText()}

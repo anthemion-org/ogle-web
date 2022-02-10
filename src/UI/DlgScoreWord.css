@@ -63,9 +63,14 @@
 	margin-top: 1rem;
 }
 
-#DlgScoreWord #BoxScore {
+#DlgScoreWord #BoxScoreBtns {
 	margin-top: 0.75rem;
 
+	display: flex;
+	flex-direction: column;
+}
+
+#DlgScoreWord #BoxScore {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
@@ -125,37 +130,22 @@
 	}
 
 	#DlgScoreWord .LookBoard {
-		grid-column: 2;
-		grid-row: 1;
-
 		margin: 0 0 0 1rem;
 	}
 
-	#DlgScoreWord #BoxScore {
-		grid-column: 3;
-		grid-row: 1;
-
-		flex-direction: column;
+	#DlgScoreWord #BoxScoreBtns {
+		justify-content: space-between;
 
 		margin: 0 0.25rem 0 1.25rem;
 	}
 
-	#DlgScoreWord .Btns {
-		grid-column: 4;
-		grid-row: 1;
+	#DlgScoreWord #BoxScore {
+		flex: 1;
 
-		margin: 0 0 0 1rem;
-		border: none;
-		border-left: 1px solid #AAA;
-		padding: 0 0 0 1rem;
+		flex-direction: column;
 	}
 
 	#DlgScoreWord .Btn {
-		min-width: initial;
-	}
-
-	#DlgScoreWord .Btn div {
-		writing-mode: vertical-rl;
-		transform: rotate(180deg);
+		width: 100%;
 	}
 }

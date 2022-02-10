@@ -16,11 +16,18 @@
 #ViewPlay #BoxEnt {
 	display: flex;
 	justify-content: space-between;
-	align-items: center;
 }
 
 #ViewPlay #TextInstruct {
+	align-self: start;
+
 	padding-right: 1rem;
+
+	text-align: left;
+}
+
+#ViewPlay #BtnHelp {
+	align-self: center;
 }
 
 #ViewPlay #TextEnt {
@@ -239,10 +246,11 @@
 	}
 
 	#ViewPlay #BoxEnt {
-		height: 5rem;
+		height: 4rem;
 	}
 
 	#ViewPlay #TextInstruct {
+		align-self: center;
 		font-size: 90%;
 	}
 
@@ -355,6 +363,6 @@
 
 @media screen and (orientation: landscape) and (max-height: 400px) {
 	#ViewPlay #TextInstruct {
-		font-size: 90%;
+		font-size: 80%;
 	}
 }

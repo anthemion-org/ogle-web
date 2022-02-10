@@ -83,29 +83,31 @@ export default function DlgScoreWord(aProps) {
 
 				<LookBoard Board={aProps.Board} Ent={aProps.ScoreWord.Ent} />
 
-				<div id="BoxScore">
-					<article>
-						<label>Player</label>
-						<var>{ouTextStat(true)}</var>
-						<label>{ouTextPoint(true)} {ouLblPoint(true)}</label>
-					</article>
+				<div id="BoxScoreBtns">
+					<div id="BoxScore">
+						<article>
+							<label>Player</label>
+							<var>{ouTextStat(true)}</var>
+							<label>{ouTextPoint(true)} {ouLblPoint(true)}</label>
+						</article>
 
-					<article id="BoxLen">
-						<var>{oTextEnt.length}</var>
-						<label>Letters</label>
-					</article>
+						<article id="BoxLen">
+							<var>{oTextEnt.length}</var>
+							<label>Letters</label>
+						</article>
 
-					<article>
-						<label>Ogle</label>
-						<var>{ouTextStat(false)}</var>
-						<label>{ouTextPoint(false)} {ouLblPoint(false)}</label>
-					</article>
-				</div>
+						<article>
+							<label>Ogle</label>
+							<var>{ouTextStat(false)}</var>
+							<label>{ouTextPoint(false)} {ouLblPoint(false)}</label>
+						</article>
+					</div>
 
-				<div className="Btns Ctr">
-					<Btn id="BtnOK" onClick={aProps.uHandOK}>
-						<div>OK</div>
-					</Btn>
+					<div className="Btns Ctr">
+						<Btn id="BtnOK" onClick={aProps.uHandOK}>
+							<div>OK</div>
+						</Btn>
+					</div>
 				</div>
 			</div>
 		</div>
