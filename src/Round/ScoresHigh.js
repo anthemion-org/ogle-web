@@ -16,6 +16,11 @@ import * as Cfg from "../Cfg.js";
 
 /** Manages the player high score data. This class is immutable. */
 export class tScoresHigh {
+	/** Creates and returns a new instance. */
+	static suNew() {
+		return new tScoresHigh({});
+	}
+
 	/** Creates an instance from the specified POD and returns it. */
 	static suFromPOD(aPOD) {
 		if (!aPOD) return null;

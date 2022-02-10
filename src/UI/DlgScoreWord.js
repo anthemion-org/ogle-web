@@ -53,7 +53,7 @@ export default function DlgScoreWord(aProps) {
 		const oStat = aCkUser
 			? aProps.ScoreWord.StatUser
 			: aProps.ScoreWord.StatOgle;
-		return (oStat === StatsWord.Score) ? "Point" : "Points";
+		return (oStat === StatsWord.Score) ? "point" : "points";
 	}
 
 	function ouTextStat(aCkUser) {
@@ -70,49 +70,43 @@ export default function DlgScoreWord(aProps) {
 	return (
 		<div className="ScreenDlg">
 			<div id="DlgScoreWord" className="Dlg">
-				<section id="BoxLen" className="Box">
-					<var>{oTextEnt.length}</var>
-					<label>Letters</label>
-				</section>
-
-				<section id="BoxWik" className="Box">
-					<a className="Btn" href={oURL} target="_blank"
+				<div id="BoxWik">
+					<a id="BtnWik" className="Btn" href={oURL} target="_blank"
 						rel="noopener noreferrer">
 						{oTextEnt}
 					</a>
 
-					<label>
+					<label id="InstructWik">
 						Click for Wiktionary
 					</label>
-				</section>
+				</div>
 
 				<LookBoard Board={aProps.Board} Ent={aProps.ScoreWord.Ent} />
 
-				<section id="BoxScoreUser" className="Box">
+				<div id="BoxScore">
 					<article>
 						<label>Player</label>
-						<var>{ouTextPoint(true)}</var>
-						<label>{ouLblPoint(true)}</label>
+						<var>{ouTextStat(true)}</var>
+						<label>{ouTextPoint(true)} {ouLblPoint(true)}</label>
 					</article>
-					<var className="SideUp">
-						{ouTextStat(true)}
-					</var>
-				</section>
 
-				<section id="CellRightBtm">
-					<div id="BoxScoreOgle" className="Box">
-						<var className="SideDown">
-							{ouTextStat(false)}
-						</var>
-						<article>
-							<label>Ogle</label>
-							<var>{ouTextPoint(false)}</var>
-							<label>{ouLblPoint(false)}</label>
-						</article>
-					</div>
-				</section>
+					<article id="BoxLen">
+						<var>{oTextEnt.length}</var>
+						<label>Letters</label>
+					</article>
 
-				<Btn id="BtnOK" className="Group" onClick={aProps.uHandOK}>OK</Btn>
+					<article>
+						<label>Ogle</label>
+						<var>{ouTextStat(false)}</var>
+						<label>{ouTextPoint(false)} {ouLblPoint(false)}</label>
+					</article>
+				</div>
+
+				<div className="Btns Ctr">
+					<Btn id="BtnOK" onClick={aProps.uHandOK}>
+						<div>OK</div>
+					</Btn>
+				</div>
 			</div>
 		</div>
 	);

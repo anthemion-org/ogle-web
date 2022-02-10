@@ -38,8 +38,8 @@
 	margin-top: 1rem;
 }
 
-/* Responsive layout
-// ----------------- */
+/* Responsive layouts
+// ------------------ */
 
 @media screen and (max-height: 700px) {
 	#DlgVerWord {

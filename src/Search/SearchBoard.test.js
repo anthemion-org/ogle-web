@@ -64,7 +64,7 @@ test("SearchBoard uExec: Speed", () => {
 	}
 	const oTimeEnd = Date.now();
 	const oTimePer = (oTimeEnd - oTimeStart) / oCt;
-	console.log(`Search time: ${oTimePer}ms`);
+	// console.log(`Search time: ${oTimePer}ms`);
 
 	// This will vary on different machines. On mine, the search takes less than
 	// 10ms:

@@ -26,12 +26,14 @@
 #ViewScore #ColWords {
 	grid-column: 1;
 	grid-row: 1 / span 3;
+	flex: 0 1 55%;
 
 	border: 1px solid #AAA;
 	border-radius: 0.25rem;
 	padding: 0.75rem 1rem;
 
 	display: flex;
+	flex-direction: column;
 }
 
 #ViewScore #ColWords header {
@@ -125,32 +127,20 @@
 	margin-top: 0.75rem;
 }
 
-/* Responsive layout
-// ----------------- */
-
-#ViewScore main {
-}
-
-#ViewScore aside {
-	margin-top: 0.5rem;
-}
-
-#ViewScore #ColWords {
-	flex: 0 1 55%;
-
-	flex-direction: column;
-}
+/* ------------------
+// Responsive layouts
+// ------------------ */
 
 /* Short or narrow viewport
 // ------------------------
-// If the viewport becomes narrow, we will also apply 'narrow viewport' rules
-// after this set. These properties are prerequisites for those. */
+// If the viewport narrows, we will also apply 'narrow viewport' rules after
+// this set. These properties are prerequisites for those. */
 
 @media screen and (max-height: 800px), screen and (max-width: 700px) {
 	/* There is no way to fit this view into a small display, so the view as a
 	// whole must scroll. #BoxWords scrolls in the desktop layout, but we don't
 	// want an element that scrolls inside another element that also scrolls, so
-	// we will change the word list table to a wrapping flex container. */
+	// we will change that table to a wrapping flex container. */
 
 	#ViewScore {
 		width: calc(100vw - 3rem);

@@ -26,7 +26,7 @@ onmessage = function (aMsg) {
 			throw Error("WorkSearch onmessage: Cannot create board");
 	}
 
-	console.log("WorkSearch: Selected board " + oj);
+	// console.log("WorkSearch: Selected board " + oj);
 
 	postMessage({
 		Board: oBoard,
