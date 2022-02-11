@@ -43,7 +43,7 @@
 
 @media screen and (max-height: 700px) {
 	#DlgVerWord {
-		max-width: 40rem;
+		max-width: 39rem;
 
 		font-size: 90%;
 	}

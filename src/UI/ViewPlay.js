@@ -90,7 +90,7 @@ export default function ViewPlay(aProps) {
 	function ouMonit_Focus() {
 		function ouHand(aEvt) {
 			if (document.hidden && (oStPlay === StsPlay.Play) && !oCkVerWord)
-				;//ouSet_StPlay(StsPlay.Pause);
+				ouSet_StPlay(StsPlay.Pause);
 		}
 
 		// Unlike Chrome, Firefox does not fire this event when the browser window
@@ -150,7 +150,7 @@ export default function ViewPlay(aProps) {
 			oTimeElap);
 		if (oTimeRemain < 1) {
 			Sound.uStop_Tick();
-			//aProps.uUpd_StApp(StsApp.Score);
+			aProps.uUpd_StApp(StsApp.Score);
 			return;
 		}
 
@@ -350,14 +350,24 @@ export default function ViewPlay(aProps) {
 	function ouRecord_Ent() {
 		// There is no selection:
 		if (!oEntUser) {
-			Sound.uUnselDie();
+			// I was playing the 'unselect' sound here and also when the selection was
+			// too short to be entered:
+			//
+			//   Sound.uUnselDie();
+			//
+			// However, it was necessary to remove the 'preventDefault' calls from the
+			// mouse and pointer event handlers, and that caused the unselect sound
+			// and the entry sound to be played together when a word was entered,
+			// unless the left mouse button happened to be down when the right was
+			// pressed. I don't care much about audio feedback in this event, so we
+			// will skip it for now. See the comments in 'LookDie.js' for more on
+			// this.
 			return;
 		}
 
 		// The selection is too short:
 		const oText = oEntUser.uTextAll();
 		if (oText.length < Cfg.LenWordMin) {
-			Sound.uUnselDie();
 			return;
 		}
 

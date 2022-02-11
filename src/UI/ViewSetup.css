@@ -9,7 +9,7 @@
 
 #ViewSetup section {
 	border-radius: 0.25rem;
-	padding: 0.5rem 1rem;
+	padding: 0.5rem 1rem 0.75rem 1rem;
 	background-color: hsl(0, 0%, 100%);
 	box-shadow: 0 0 3px hsla(0, 0%, 0%, 0.5);
 }
@@ -26,6 +26,8 @@
 }
 
 #ViewSetup .Instruct {
+	font-size: 1.1rem;
+
 	text-align: center;
 }
 

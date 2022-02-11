@@ -12,6 +12,8 @@
 	width: 5rem;
 	height: 5rem;
 
+	margin-top: 1.5rem;
+
 	/* Need to use 'filter' here, or the shadow won't be rendered under
 	// transparent areas within the SVG: */
 	filter: drop-shadow(0 0 2px hsla(0, 0%, 0%, 0.5));
@@ -26,6 +28,8 @@
 }
 
 #ViewAbout .Btns {
+	margin: 1.5rem 0 1rem 0;
+
 	justify-content: center;
 }
 
@@ -33,16 +37,10 @@
 // ------------------
 // The width and height of this view are determined by its content. */
 
-#ViewAbout #Logo {
-	margin-top: 1.5rem;
-}
-
-#ViewAbout .Btns {
-	margin: 1.5rem 0 1rem 0;
-}
-
 @media screen and (orientation: landscape) and (max-height: 700px) {
 	#ViewAbout {
+		max-width: calc(100vw - 1rem);
+
 		padding: 1rem 0;
 	}
 

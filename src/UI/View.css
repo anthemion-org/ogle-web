@@ -4,7 +4,7 @@
 // www.anthemion.org */
 
 .View {
-	border-radius: 0.25rem;
+	border-radius: 0.5rem;
 	padding: 1rem;
 
 	background-color:  hsl(30, 20%, 93%);

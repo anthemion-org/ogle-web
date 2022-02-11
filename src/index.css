@@ -8,14 +8,10 @@
 @import "~sanitize.css/forms.css";
 
 html {
-	background-color: hsl(0, 0%, 15%);
 	background-color: hsl(30, 4%, 20%);
 
 	/* Not in MacOS: [to do] */
 	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-}
-
-body {
 }
 
 #Root {
@@ -35,8 +31,7 @@ a {
 
 hr {
 	border: none;
-	border-top: 1px solid #AAA;
-border-top: 1px dashed black;
+	border-top: 1px dashed black;
 }
 
 ul {
