@@ -14,24 +14,21 @@
 
 #BackPage .Ray {
 	fill: hsl(0, 0%, 30%);
+	fill: hsl(30, 4%, 30%);
 
 	stroke-width: 0.1;
 	stroke: hsl(0, 0%, 70%);
+	stroke: hsl(30, 8%, 50%);
 }
 
 /* #BackPage {
 	animation-name: BackPageRot;
-	animation-duration: 600s;
+	animation-duration: 1200s;
 	animation-timing-function: linear;
 	animation-iteration-count: infinite;
 }
 
 @keyframes BackPageRot {
-	from {
-		transform: rotate(0);
-	}
-
-	to {
-		transform: rotate(360deg);
-	}
+	from { transform: rotate(0); }
+	to { transform: rotate(360deg); }
 } */

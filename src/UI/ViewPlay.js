@@ -90,7 +90,7 @@ export default function ViewPlay(aProps) {
 	function ouMonit_Focus() {
 		function ouHand(aEvt) {
 			if (document.hidden && (oStPlay === StsPlay.Play) && !oCkVerWord)
-				ouSet_StPlay(StsPlay.Pause);
+				;//ouSet_StPlay(StsPlay.Pause);
 		}
 
 		// Unlike Chrome, Firefox does not fire this event when the browser window
@@ -150,7 +150,7 @@ export default function ViewPlay(aProps) {
 			oTimeElap);
 		if (oTimeRemain < 1) {
 			Sound.uStop_Tick();
-			aProps.uUpd_StApp(StsApp.Score);
+			//aProps.uUpd_StApp(StsApp.Score);
 			return;
 		}
 
@@ -403,8 +403,7 @@ export default function ViewPlay(aProps) {
 		return (
 			<>
 				<div id="TextInstruct">
-					Enter as many words of <em>four or more letters</em> as you can
-					before time runs out.
+					Enter words of <em>four or more letters</em> before time runs out.
 				</div>
 				<Btn id="BtnHelp" onClick={ouHandHelp}>Help</Btn>
 			</>
@@ -436,10 +435,13 @@ export default function ViewPlay(aProps) {
 
 	return (
 		<div id="ViewPlay" className="View">
-			<h1>Ogle</h1>
-
 			<main>
-				<section id="ColBoard" className="Box">
+				<section id="BoxTitle">
+					<h1>Ogle</h1>
+					<hr />
+				</section>
+
+				<section id="ColBoard">
 					<div id="BoxEnt">
 						{ouContBoxEnt()}
 					</div>
@@ -447,12 +449,12 @@ export default function ViewPlay(aProps) {
 					{ouLookBoard()}
 
 					<div id="TextCtls" className="Desk">
-						Left-click to select letters. Click again to unselect.
-						Right-click to enter word. Middle-click to clear.
+						Left-click to select or unselect letters.
+						Right-click to enter word. Middle-click to cancel.
 					</div>
 				</section>
 
-				<section id="BoxTime" className="Box">
+				<section id="BoxTime">
 					<Btn id="BtnPause" onClick={ouHandPause}>
 						<div id="LblTime">
 							{ouTextTimeRemain()}
@@ -464,19 +466,19 @@ export default function ViewPlay(aProps) {
 					<div className="Mob">Tap to pause</div>
 				</section>
 
-				<section id="BoxSetup" className="Box">
-					<div>
-						<div>{aProps.Setup.uTextShortYield()}</div>
-						<h3>Yield</h3>
-					</div>
-					<hr />
+				<section id="BoxSetup">
 					<div>
 						<div>{aProps.Setup.uTextShortPace()}</div>
 						<h3>Pace</h3>
 					</div>
+					<hr />
+					<div>
+						<div>{aProps.Setup.uTextShortYield()}</div>
+						<h3>Yield</h3>
+					</div>
 				</section>
 
-				<section id="BoxScore" className="Box">
+				<section id="BoxScore">
 					<Btn id="BtnEnt" disabled={ouCkDisabBtnScore()}
 						onClick={ouRecord_Ent} CkDisabSoundClick={true}>
 						<div id="LblScore">

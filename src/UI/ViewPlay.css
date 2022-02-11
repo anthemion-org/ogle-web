@@ -3,17 +3,36 @@
 // Copyright ©2022 Jeremy Kelly
 // www.anthemion.org */
 
-#ViewPlay main {
+#ViewPlay {
+	width: 40rem;
+
+	padding: 1.5rem;
+
 	font-size: 1.1rem;
 }
 
+#ViewPlay main {
+	display: grid;
+	grid-template-columns: auto 10rem;
+	grid-template-rows: auto auto 1fr auto;
+}
+
 #ViewPlay #ColBoard {
-	padding: 0.75rem 1rem;
+	grid-column: 1;
+	grid-row: 1 / span 4;
+
+	margin-right: 1.5rem;
+	border-right: 1px dashed black;
+	padding-right: 1.5rem;
 
 	text-align: center;
 }
 
 #ViewPlay #BoxEnt {
+	height: 3.5rem;
+
+	margin-bottom: 0.5rem;
+
 	display: flex;
 	justify-content: space-between;
 }
@@ -34,6 +53,7 @@
 	font-family: Georgia, serif;
 	font-weight: bold;
 	font-size: 2.5rem;
+	line-height: 100%;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
@@ -76,6 +96,23 @@
 	color: hsl(30, 38%, 93%);
 }
 
+#ViewPlay #BoxTitle {
+	grid-column: 2;
+	grid-row: 1;
+
+	margin-bottom: 0.75rem;
+}
+
+#ViewPlay #BoxTime {
+	grid-column: 2;
+	grid-row: 2;
+}
+
+#ViewPlay #BoxScore {
+	grid-column: 2;
+	grid-row: 4;
+}
+
 #ViewPlay #BoxTime,
 #ViewPlay #BoxScore {
 	display: flex;
@@ -103,8 +140,12 @@
 }
 
 #ViewPlay #BoxSetup {
+	grid-column: 2;
+	grid-row: 3;
+
 	display: flex;
-	justify-content: space-around;
+	flex-direction: column;
+	justify-content: center;
 
 	text-align: center;
 }
@@ -120,6 +161,10 @@
 	font-family: Georgia, serif;
 	font-size: 1.75rem;
 	font-weight: bold;
+}
+
+#ViewPlay #BoxSetup hr {
+	margin: 0.75rem 0;
 }
 
 /* Pause dialog
@@ -142,53 +187,6 @@
 
 /* Responsive layouts
 // ------------------ */
-
-#ViewPlay {
-	width: 40rem;
-}
-
-#ViewPlay main {
-	width: 100%;
-
-	display: grid;
-	grid-template-columns: auto 10rem;
-	grid-template-rows: auto 1fr auto;
-	gap: 0.5rem;
-}
-
-#ViewPlay #ColBoard {
-	grid-column: 1;
-	grid-row: 1 / span 3;
-}
-
-#ViewPlay #BoxEnt {
-	height: 3.5rem;
-
-	margin-bottom: 0.5rem;
-}
-
-#ViewPlay #BoxTime {
-	grid-column: 2;
-	grid-row: 1;
-}
-
-#ViewPlay #BoxSetup {
-	grid-column: 2;
-	grid-row: 2;
-}
-
-#ViewPlay #BoxScore {
-	grid-column: 2;
-	grid-row: 3;
-}
-
-#ViewPlay #BoxSetup {
-	flex-direction: column;
-}
-
-#ViewPlay #BoxSetup hr {
-	width: 100%;
-}
 
 @media screen and (orientation: portrait) and (max-width: 700px) {
 	#ViewPlay {
@@ -280,13 +278,6 @@
 		display: flex;
 	}
 
-	#ViewPlay h1 {
-		writing-mode: vertical-rl;
-		transform: rotate(180deg);
-
-		margin: 0 0.75rem 0 0;
-	}
-
 	#ViewPlay .Desk {
 		display: none;
 	}
@@ -302,27 +293,9 @@
 	}
 
 	#ViewPlay main {
+		display: grid;
 		grid-template-columns: auto 10rem;
-		grid-template-rows: auto auto;
-	}
-
-	#ViewPlay #ColBoard {
-		grid-column: 1;
-		grid-row: 1 / span 2;
-	}
-
-	#ViewPlay #BoxSetup {
-		display: none;
-	}
-
-	#ViewPlay #BoxTime {
-		grid-column: 2;
-		grid-row: 1;
-	}
-
-	#ViewPlay #BoxScore {
-		grid-column: 2;
-		grid-row: 2;
+		grid-template-rows: auto auto 1fr auto;
 	}
 
 	#ViewPlay #ColBoard {
@@ -339,11 +312,11 @@
 
 	#ViewPlay #BoxWork,
 	#ViewPlay .LookBoard {
-		height: calc(100vh - 5rem);
-		width: calc(100vh - 5rem);
-
-		min-height: 285px;
-		min-width: 285px;
+		/* This resizes the form: */
+		height: calc(100vh - 4rem);
+		width: calc(100vh - 4rem);
+		min-height: calc(360px - 4rem);
+		min-width: calc(360px - 4rem);
 	}
 
 	#ViewPlay #TextInstruct {
@@ -352,17 +325,40 @@
 		writing-mode: vertical-rl;
 		transform: rotate(180deg);
 
-		padding: 0 0 1.5rem 0;
+		padding: 0 0 1rem 0;
 	}
 
 	#ViewPlay #TextEnt {
 		writing-mode: vertical-rl;
 		transform: rotate(180deg);
 	}
+
+	#ViewPlay #BoxSetup {
+		display: none;
+	}
 }
 
-@media screen and (orientation: landscape) and (max-height: 400px) {
+@media screen and (orientation: landscape) and (max-height: 500px) {
+	#ViewPlay main {
+		grid-template-columns: auto 8rem;
+	}
+
 	#ViewPlay #TextInstruct {
-		font-size: 80%;
+		font-size: 95%;
+	}
+
+	#ViewPlay #BoxTime,
+	#ViewPlay #BoxScore {
+		font-size: 0.8rem;
+	}
+
+	#ViewPlay #BtnPause,
+	#ViewPlay #BtnEnt {
+		font-size: 0.8rem;
+	}
+
+	#ViewPlay #LblTime,
+	#ViewPlay #LblScore {
+		font-size: 2rem;
 	}
 }
