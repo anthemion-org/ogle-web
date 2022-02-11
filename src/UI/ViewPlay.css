@@ -121,6 +121,8 @@
 	align-items: center;
 	gap: 0.5rem;
 
+	padding: 0;
+
 	font-size: 1rem;
 	text-align: center;
 }
@@ -195,27 +197,60 @@
 	}
 
 	#ViewPlay main {
-		grid-template-columns: 1fr 1fr;
+		grid-template-columns: auto 1fr 1fr;
 		grid-template-rows: auto auto;
 	}
 
 	#ViewPlay #ColBoard {
-		grid-column: 1 / span 2;
+		grid-column: 1 / span 3;
 		grid-row: 1;
+
+		margin: 0 0 1.5rem 0;
+		border: none;
+		padding: 0;
+	}
+
+	#ViewPlay #BoxTitle {
+		grid-column: 1;
+		grid-row: 2;
+
+		margin: 0;
+
+		display: grid;
+		place-content: center;
+
+		margin: 0 1.25rem 0 0;
+		border-right: 1px dashed black;
+		padding: 0 1.25rem 0 0;
+	}
+
+	#ViewPlay #BoxTitle h1 {
+		writing-mode: vertical-rl;
+		transform: rotate(180deg);
+
+		margin: 0;
+
+		line-height: 100%;
+	}
+
+	#ViewPlay #BoxTitle hr {
+		display: none;
+	}
+
+	#ViewPlay #BoxTime {
+		grid-column: 2;
+		grid-row: 2;
 	}
 
 	#ViewPlay #BoxSetup {
 		display: none;
 	}
 
-	#ViewPlay #BoxTime {
-		grid-column: 1;
-		grid-row: 2;
-	}
-
 	#ViewPlay #BoxScore {
-		grid-column: 2;
+		grid-column: 3;
 		grid-row: 2;
+
+		margin: 0 0 0 1rem;
 	}
 
 	#ViewPlay .Desk {
@@ -227,48 +262,24 @@
 	}
 }
 
-@media screen and (orientation: portrait) and (max-width: 540px) {
-	#ViewPlay {
-		width: calc(100vw - 1rem);
-		max-width: initial;
-		width: calc(100vw - 1rem);
-	}
-
-	#ViewPlay h1 {
-		margin: 0;
-	}
-
-	#ViewPlay #ColBoard {
-		border: none;
-		padding: 0;
-	}
-
-	#ViewPlay #BoxEnt {
-		height: 4rem;
-	}
-
+@media screen and (orientation: portrait) and (max-width: 500px) {
 	#ViewPlay #TextInstruct {
-		align-self: center;
-		font-size: 90%;
+		font-size: 95%;
 	}
 
 	#ViewPlay #BoxTime,
 	#ViewPlay #BoxScore {
-		border: none;
-		padding: 0;
-	}
-}
-
-@media screen and (orientation: portrait) and (max-width: 540px)
-	and (max-height: 720px) {
-
-	#ViewPlay #ColBoard {
-		margin-bottom: 0.5rem;
+		font-size: 0.9rem;
 	}
 
-	#ViewPlay #TextInstruct {
-		font-size: 80%;
-		text-align: left;
+	#ViewPlay #BtnPause,
+	#ViewPlay #BtnEnt {
+		font-size: 0.9rem;
+	}
+
+	#ViewPlay #LblTime,
+	#ViewPlay #LblScore {
+		font-size: 2rem;
 	}
 }
 
@@ -312,7 +323,7 @@
 
 	#ViewPlay #BoxWork,
 	#ViewPlay .LookBoard {
-		/* This resizes the form: */
+		/* This drives the form resizing: */
 		height: calc(100vh - 4rem);
 		width: calc(100vh - 4rem);
 		min-height: calc(360px - 4rem);
@@ -339,6 +350,12 @@
 }
 
 @media screen and (orientation: landscape) and (max-height: 500px) {
+	/* The board is always square, and it is sized relative to the viewport
+	// height, so, when the right column can no longer be compressed, the form
+	// can't be made any shorter without causing the board to move away from the
+	// form side. Therefore, we must reduce the size of the right column boxes if
+	// we want to go shorter. */
+
 	#ViewPlay main {
 		grid-template-columns: auto 8rem;
 	}
