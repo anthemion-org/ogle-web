@@ -269,7 +269,7 @@ export default function ViewScore(aProps) {
 					</div>
 				</section>
 
-				<section id="BoxCover" className="BoxStat">
+				<section id="BoxCover">
 					<h3>Coverage</h3>
 
 					<table>
@@ -283,7 +283,7 @@ export default function ViewScore(aProps) {
 					</aside>
 				</section>
 
-				<section id="BoxHigh" className="BoxStat">
+				<section id="BoxHigh">
 					<h3>High scores</h3>
 
 					<table>
@@ -291,6 +291,10 @@ export default function ViewScore(aProps) {
 							{ouLinesScorePlay()}
 						</tbody>
 					</table>
+
+					<aside>
+						Games using this setup
+					</aside>
 				</section>
 			</main>
 

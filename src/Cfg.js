@@ -37,4 +37,7 @@ export const LenWordMax = CtDie * 2;
  *  view. */
 export const LenCoverMax = 9;
 /** The number of high scores to be stored and displayed. */
-export const CtStoreScoreHigh = 5;
+//
+// For aesthetic reasons, we'll match the number of lines in the Score view
+// Coverage table:
+export const CtStoreScoreHigh = 6;

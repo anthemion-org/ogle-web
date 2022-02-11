@@ -87,7 +87,11 @@ td:last-child {
 }
 
 tbody tr:nth-child(odd) {
-	background-color: hsl(0, 0%, 82.5%);
+	/* Or:
+	//
+	//   background-color:  hsl(30, 50%, 98%);
+	*/
+	background-color:  hsl(30, 10%, 86%);
 }
 
 /* Buttons
@@ -129,18 +133,6 @@ button:active, input[type="submit"]:active, a:active.Btn {
 
 a.Btn {
 	color: black;
-}
-
-/* Boxes
-// ----- */
-
-.Box {
-	border: 1px solid #AAA;
-	border-radius: 0.25rem;
-	padding: 1rem;
-
-border: none;
-border-radius: 0;
 }
 
 /* Button rows

@@ -196,11 +196,10 @@ export default function LookDie(aProps) {
 	// left mouse button down while clicking the right, however, and using
 	// onMouseDown and onPointerDown together prevented the right button click
 	// from firing, so I removed onMouseDown, leaving all mouse and touchscreen
-	// input to be handled by onPointerDown alone. I also removed the
-	// 'preventDefault' calls from the handlers; I don't know why they were there
-	// in the first place. Everything seems to be working now, but this is
-	// obviously more complex than expected. This document might help if there is
-	// more trouble:
+	// input to be handled by onPointerDown alone. The 'preventDefault' calls that
+	// were in the handlers produced the same problem, so I removed those too.
+	// Everything seems to be working now, but this is obviously more complex than
+	// expected. This document might help if there is more trouble:
 	//
 	//   https://w3c.github.io/pointerevents/
 	//
