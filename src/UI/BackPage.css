@@ -13,12 +13,11 @@
 }
 
 #BackPage .Ray {
-	fill: hsl(0, 0%, 30%);
-	fill: hsl(30, 4%, 30%);
+	fill: hsl(30, 4%, 24%);
 
 	stroke-width: 0.1;
-	stroke: hsl(0, 0%, 70%);
-	stroke: hsl(30, 8%, 50%);
+	stroke: hsl(30, 8%, 40%);
+	/* filter: drop-shadow(0 0 1px hsla(0, 0%, 0%, 0.5)); */
 }
 
 /* #BackPage {

@@ -83,7 +83,7 @@
 
 #DlgScoreWord .Btns {
 	margin-top: 1rem;
-	border-top: 1px solid #AAA;
+	border-top: 1px dashed black;
 	padding-top: 1rem;
 }
 
@@ -153,6 +153,14 @@
 		flex: 1;
 
 		flex-direction: column;
+	}
+
+	#DlgScoreWord #BoxScore label {
+		font-size: 1rem;
+	}
+
+	#DlgScoreWord #BoxScore var {
+		font-size: 1.5rem;
 	}
 
 	#DlgScoreWord .Btn {

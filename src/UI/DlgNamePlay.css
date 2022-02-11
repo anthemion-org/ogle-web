@@ -32,5 +32,14 @@
 
 #DlgNamePlay label {
 	display: block;
+
 	font-size: 1.1rem;
+}
+
+#DlgNamePlay input {
+	margin-top: 0.5rem;
+}
+
+#DlgNamePlay .Btn {
+	margin-top: 0.5rem;
 }

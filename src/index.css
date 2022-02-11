@@ -8,7 +8,8 @@
 @import "~sanitize.css/forms.css";
 
 html {
-	background-color: hsl(30, 4%, 20%);
+	background-color: hsl(30, 4%, 16%);
+	/* background-color: hsl(30, 4%, 20%); */
 
 	/* Not in MacOS: [to do] */
 	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
@@ -282,9 +283,8 @@ input[type="range"]:hover::-moz-range-track {
 }
 
 .Dlg {
-	border: 1px solid #AAA;
 	border-radius: 0.5rem;
-	padding: 1rem;
+	padding: 1.25rem;
 	background-color: hsl(0, 0%, 90%);
 	box-shadow: 0 0 10px hsla(0, 0%, 0%, 0.7);
 
