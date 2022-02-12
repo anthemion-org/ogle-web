@@ -75,6 +75,9 @@
 }
 
 .LookDie .MarkSel {
-	fill: hsl(0, 45%, 50%, 0.3);
-	fill: hsla(30, 50%, 50%, 0.3);
+	fill: hsla(30, 50%, 50%, 0.4);
+}
+
+.LookDie .MarkSel.First {
+	fill: hsla(0, 45%, 50%, 0.4);
 }

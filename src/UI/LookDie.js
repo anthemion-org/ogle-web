@@ -149,8 +149,11 @@ export default function LookDie(aProps) {
 	function ouMarkSel() {
 		if (!aProps.CkSel) return null;
 
+		let oClasses = "MarkSel";
+		if (aProps.CkSelFirst) oClasses += " First";
+
 		return (
-			<circle className="MarkSel"
+			<circle className={oClasses}
 				cx="50" cy="50"
 				r={MetrDie.RadSel}
 				stroke="#000000"
@@ -211,9 +214,9 @@ export default function LookDie(aProps) {
 			onPointerDown={ouHandClick}
 		>
 			{ouBackText()}
-			{ouGroupText()}
 			{ouMarkSel()}
 			{ouMarkEnab()}
+			{ouGroupText()}
 		</svg >
 	);
 }

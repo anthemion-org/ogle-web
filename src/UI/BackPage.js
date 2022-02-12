@@ -16,42 +16,68 @@ import React from "react";
 // --------
 
 export default function BackPage(aProps) {
-	function ouRay(aCt, aj) {
-		const oWthSpan = 2 * Math.PI / aCt;
-		const oWthRay = oWthSpan / 2;
-		const oStart = oWthSpan * aj;
-		const oEnd = oStart + oWthRay;
+	function ouDie(ajX, ajY, aCkLt) {
+		const oSize = 4;
+		const oMarg = 0.1;
+		const oRadCrn = 0.4;
 
-		const oDist = 150;
-		const oXStart = 50 + (Math.cos(oStart) * oDist);
-		const oYStart = 50 + (Math.sin(oStart) * oDist);
-		const oXEnd = 50 + (Math.cos(oEnd) * oDist);
-		const oYEnd = 50 + (Math.sin(oEnd) * oDist);
-
-		const oCmd = `M50,50 L${oXStart},${oYStart} L${oXEnd},${oYEnd} L50,50`;
+		const oNameClassExt = aCkLt ? "Lt" : "";
+		const oX = oSize * ajX;
+		const oY = oSize * ajY;
+		const oXMid = oX + (oSize / 2);
+		const oYMid = oY + (oSize / 2);
 		return (
-			<path key={aj} className="Ray"
-				strokeLinejoin="round"
-				strokeOpacity="1"
-				d={oCmd}
-				stopColor="#000000"
-			></path>
+			<>
+				<rect className={"BackDieFace " + oNameClassExt}
+					x={oX + oMarg} y={oY + oMarg}
+					width={oSize - (oMarg * 2)} height={oSize - (oMarg * 2)}
+					rx={oRadCrn} ry={oRadCrn}
+				/>
+				<text className={"BackDieText " + oNameClassExt}
+					x={oXMid} y={oYMid}
+					textAnchor="middle" dominantBaseline="central"
+					fontSize="3" letterSpacing="0" wordSpacing="0"
+					fontFamily="Georgia, serif" fontWeight="bold"
+					strokeWidth="0px" user-select="none" >
+					O
+				</text>
+			</>
 		);
 	}
 
-	function ouRays(aCt) {
-		const oIdxs = Array.from(Array(aCt), (a, aj) => aj);
-		return oIdxs.map(a => ouRay(aCt, a));
-	}
-
 	return (
-	// Set 'overflow' to 'visible' so the element can draw outside its own
-	// viewport:
 		<svg id="BackPage"
 			xmlns="http://www.w3.org/2000/svg"
-			viewBox="0 0 100 100" overflow="visible"
+			viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice"
+			overflow="visible"
 		>
-			{ouRays(24)}
+			<defs>
+				<pattern id="PattDie"
+					x="0" y="0"
+					width="16" height="12"
+					patternTransform="rotate(-45)"
+					patternUnits="userSpaceOnUse">
+
+					{ouDie(0, 0, false)}
+					{ouDie(1, 0, false)}
+					{ouDie(2, 0, false)}
+					{ouDie(3, 0, false)}
+					{ouDie(0, 1, false)}
+					{ouDie(1, 1, false)}
+					{ouDie(2, 1, false)}
+					{ouDie(3, 1, true)}
+					{ouDie(0, 2, false)}
+					{ouDie(1, 2, true)}
+					{ouDie(2, 2, false)}
+					{ouDie(3, 2, false)}
+				</pattern>
+			</defs>
+
+			<rect
+				x="0" y="0"
+				width="100" height="100"
+				strokeWidth="0" fill="url(#PattDie)"
+			/>
 		</svg >
 	);
 }
