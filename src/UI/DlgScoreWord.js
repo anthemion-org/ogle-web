@@ -85,7 +85,7 @@ export default function DlgScoreWord(aProps) {
 
 				<div id="BoxScoreBtns">
 					<div id="BoxScore">
-						<article>
+						<article className="BoxStatUser">
 							<label>Player</label>
 							<var>{ouTextStat(true)}</var>
 							<label>{ouTextPoint(true)} {ouLblPoint(true)}</label>
@@ -96,7 +96,7 @@ export default function DlgScoreWord(aProps) {
 							<label>Letters</label>
 						</article>
 
-						<article>
+						<article className="BoxStatOgle">
 							<label>Ogle</label>
 							<var>{ouTextStat(false)}</var>
 							<label>{ouTextPoint(false)} {ouLblPoint(false)}</label>

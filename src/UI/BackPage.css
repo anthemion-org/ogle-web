@@ -11,14 +11,13 @@
 
 	width: 100vw;
 	height: 100vh;
-
 	overflow: clip;
 }
 
 #BackPage {
-	width: 1920px;
+	width: 1800px;
+	height: 1000px;
 	min-width: 100vw;
-	height: 1080px;
 	min-height: 100vh;
 
 	background-color: hsl(30, 4%, 15%);

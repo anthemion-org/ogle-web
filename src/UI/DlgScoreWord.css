@@ -18,7 +18,7 @@
 	font-size: 1.75rem;
 	font-weight: bold;
 	font-style: normal;
-	line-height: 100%;
+	line-height: 110%;
 }
 
 #DlgScoreWord label {
@@ -77,6 +77,16 @@
 	align-items: center;
 }
 
+#DlgScoreWord .BoxStatUser {
+	flex: 1 0 0;
+	text-align: left;
+}
+
+#DlgScoreWord .BoxStatOgle {
+	flex: 1 0 0;
+	text-align: right;
+}
+
 #DlgScoreWord #BoxLen label {
 	margin-top: 0.25rem;
 }
@@ -94,6 +104,20 @@
 /* ------------------
 // Responsive layouts
 // ------------------ */
+
+@media screen and (max-width: 500px) {
+	#DlgScoreWord #InstructWik {
+		font-size: 1rem;
+	}
+
+	#DlgScoreWord #BoxScore label {
+		font-size: 1rem;
+	}
+
+	#DlgScoreWord #BoxScore var {
+		font-size: 1.33rem;
+	}
+}
 
 @media screen and (orientation: landscape) and (max-height: 700px) {
 	#DlgScoreWord {
@@ -126,6 +150,8 @@
 		transform: rotate(180deg);
 
 		margin: 1rem 0 1rem 0;
+
+		font-size: 1rem;
 	}
 
 	#DlgScoreWord .LookBoard {
@@ -153,6 +179,12 @@
 		flex: 1;
 
 		flex-direction: column;
+	}
+
+	#DlgScoreWord .BoxStatUser,
+	#DlgScoreWord .BoxStatOgle {
+		flex-grow: initial;
+		text-align: center;
 	}
 
 	#DlgScoreWord #BoxScore label {

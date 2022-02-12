@@ -35,14 +35,15 @@ export class tCard {
 	static suFromSelsBoard(aSels) {
 		const oEntsAll = aSels.map(a => a.uEntWord());
 		// This comparison function sorts longer words before shorter words when one
-		// follows the other; otherwise tCard.uAdd would store followed words before
-		// it could know that they are followed:
+		// follows the other; otherwise 'tCard.uAdd' would store followed words
+		// before it could know that they are followed:
 		oEntsAll.sort(uCompareEntWord);
 
 		const oCard = tCard.suNew();
 		// Slow, but easy:
 		for (const oEnt of oEntsAll)
-			oCard.uAdd(oEnt, false)
+			//oCard.uAdd(oEnt, false)
+			oCard.uAdd(oEnt, true)
 		return oCard;
 	}
 

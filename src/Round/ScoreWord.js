@@ -65,34 +65,51 @@ export class tCover {
  */
 export function uScoresCoversFromCards(aCardOgle, aCardUser) {
 
-	// Compile score elements
-	// ----------------------
+	// Process user words
+	// ------------------
 
-	// Add user words:
-	const oScores = aCardUser.Ents.map(aEnt =>
+	const oScoresUser = aCardUser.Ents.map(aEnt =>
 		new tScoreWord(aEnt, StatsWord.Miss, StatsWord.Score)
 	);
-	oScores.sort(uCompareByText);
+	oScoresUser.sort(uCompareByText);
 
-	// Marked followed user words. Followed words were not stored in the Ogle
-	// card:
 	let oTextPrev = null;
 	// Start from the end because longer words have been sorted after shorter:
-	for (let oj = (oScores.length - 1); oj >= 0; --oj) {
-		const oScoreUser = oScores[oj];
-		if (oTextPrev && Text.uCkEqBegin(oScoreUser.Text, oTextPrev))
-			oScoreUser.StatUser = StatsWord.Follow;
-		oTextPrev = oScoreUser.Text;
+	for (let oj = (oScoresUser.length - 1); oj >= 0; --oj) {
+		const oScore = oScoresUser[oj];
+		if (oTextPrev && Text.uCkEqBegin(oScore.Text, oTextPrev))
+			oScore.StatUser = StatsWord.Follow;
+		oTextPrev = oScore.Text;
 	}
 
+	// Process Ogle words
+	// ------------------
+
+	const oScoresOgle = aCardOgle.Ents.map(aEnt =>
+		new tScoreWord(aEnt, StatsWord.Score, StatsWord.Miss)
+	);
+	oScoresOgle.sort(uCompareByText);
+
+	oTextPrev = null;
+	// Start from the end because longer words have been sorted after shorter:
+	for (let oj = (oScoresOgle.length - 1); oj >= 0; --oj) {
+		const oScore = oScoresOgle[oj];
+		if (oTextPrev && Text.uCkEqBegin(oScore.Text, oTextPrev))
+			oScore.StatOgle = StatsWord.Follow;
+		oTextPrev = oScore.Text;
+	}
+
+	// Combine word lists
+	// ------------------
+
+	const oScores = [...oScoresUser];
+
 	// Add Ogle words:
-	for (const oEnt of aCardOgle.Ents) {
-		const oScoreOgle = new tScoreWord(oEnt, StatsWord.Score, StatsWord.Miss);
+	for (const oScoreOgle of oScoresOgle) {
 		const [oCk, oj] = Search.uBin(oScores, oScoreOgle, uCompareByText);
-		if (oCk) {
-			const oScoreShare = oScores[oj];
-			oScoreShare.StatOgle = StatsWord.Score;
-		}
+		// Combine word statuses:
+		if (oCk) oScores[oj].StatOgle = oScoreOgle.StatOgle;
+		// or add new word:
 		else oScores.splice(oj, 0, oScoreOgle);
 	}
 

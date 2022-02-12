@@ -159,7 +159,6 @@ export default function ViewScore(aProps) {
 	function ouLinesScore() {
 		function ouTextScore(aStat) {
 			if (aStat === StatsWord.Score) return "1";
-			if (aStat === StatsWord.Follow) return "0";
 			return "";
 		}
 
