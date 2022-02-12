@@ -3,13 +3,24 @@
 // Copyright ©2022 Jeremy Kelly
 // www.anthemion.org */
 
-#BackPage {
+#ContBackPage {
 	z-index: -1;
-	position: absolute;
+	position: fixed;
 	left: 0;
 	top: 0;
+
 	width: 100vw;
 	height: 100vh;
+
+	overflow: clip;
+}
+
+#BackPage {
+	width: 1920px;
+	min-width: 100vw;
+	height: 1080px;
+	min-height: 100vh;
+
 	background-color: hsl(30, 4%, 15%);
 }
 

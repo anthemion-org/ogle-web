@@ -46,38 +46,40 @@ export default function BackPage(aProps) {
 	}
 
 	return (
-		<svg id="BackPage"
-			xmlns="http://www.w3.org/2000/svg"
-			viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice"
-			overflow="visible"
-		>
-			<defs>
-				<pattern id="PattDie"
+		<div id="ContBackPage">
+			<svg id="BackPage"
+				xmlns="http://www.w3.org/2000/svg"
+				viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice"
+				overflow="visible"
+			>
+				<defs>
+					<pattern id="PattDie"
+						x="0" y="0"
+						width="16" height="12"
+						patternTransform="rotate(-45)"
+						patternUnits="userSpaceOnUse">
+
+						{ouDie(0, 0, false)}
+						{ouDie(1, 0, false)}
+						{ouDie(2, 0, false)}
+						{ouDie(3, 0, false)}
+						{ouDie(0, 1, false)}
+						{ouDie(1, 1, false)}
+						{ouDie(2, 1, false)}
+						{ouDie(3, 1, true)}
+						{ouDie(0, 2, false)}
+						{ouDie(1, 2, true)}
+						{ouDie(2, 2, false)}
+						{ouDie(3, 2, false)}
+					</pattern>
+				</defs>
+
+				<rect
 					x="0" y="0"
-					width="16" height="12"
-					patternTransform="rotate(-45)"
-					patternUnits="userSpaceOnUse">
-
-					{ouDie(0, 0, false)}
-					{ouDie(1, 0, false)}
-					{ouDie(2, 0, false)}
-					{ouDie(3, 0, false)}
-					{ouDie(0, 1, false)}
-					{ouDie(1, 1, false)}
-					{ouDie(2, 1, false)}
-					{ouDie(3, 1, true)}
-					{ouDie(0, 2, false)}
-					{ouDie(1, 2, true)}
-					{ouDie(2, 2, false)}
-					{ouDie(3, 2, false)}
-				</pattern>
-			</defs>
-
-			<rect
-				x="0" y="0"
-				width="100" height="100"
-				strokeWidth="0" fill="url(#PattDie)"
-			/>
-		</svg >
+					width="100" height="100"
+					strokeWidth="0" fill="url(#PattDie)"
+				/>
+			</svg >
+		</div>
 	);
 }
