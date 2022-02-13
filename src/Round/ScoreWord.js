@@ -16,7 +16,8 @@ import * as Cfg from "../Cfg.js";
 // tScoreWord
 // ----------
 
-/** Stores score data for one word. This class is mutable. */
+/** Stores score data for a word that was entered during play. This class is
+ *  mutable. */
 export class tScoreWord {
 	constructor(aEnt, aStatOgle, aStatUser) {
 		/** An entry that generates this word. This may or may not be the entry

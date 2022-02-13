@@ -29,8 +29,8 @@ export function uProseNum(aNum) {
 	return aNum.toString();
 }
 
-/** Returns 'true' if either string matches the beginning of the other, or if
- *  either string is empty. */
+/** Returns 'true' if either string is found at the beginning of the other, or
+ *  if either string is empty. */
 export function uCkEqBegin(aL, aR) {
 	// Use 'startsWith' instead?:
 	if (aL.length > aR.length) aL = aL.substr(0, aR.length);

@@ -158,8 +158,7 @@ export default function ViewScore(aProps) {
 
 	function ouLinesScore() {
 		function ouTextScore(aStat) {
-			if (aStat === StatsWord.Score) return "1";
-			return "";
+			return (aStat === StatsWord.Score) ? "1" : "";
 		}
 
 		const oLines = oScores.map((aScore, aj) => (

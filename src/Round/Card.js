@@ -30,8 +30,8 @@ export class tCard {
 		return new tCard(aPOD.TimeStart, oEnts, aPOD.Score, aPOD.CtBonusTime);
 	}
 
-	/** Creates a new instance from the specified board search results, and
-	 *  returns it. */
+	/** Creates a new instance from an array of tSelBoard instances and returns
+	 *  it. This produces an Ogle card from 'SearchBoard.uExec' output. */
 	static suFromSelsBoard(aSels) {
 		const oEntsAll = aSels.map(a => a.uEntWord());
 		// This comparison function sorts longer words before shorter words when one
@@ -42,7 +42,6 @@ export class tCard {
 		const oCard = tCard.suNew();
 		// Slow, but easy:
 		for (const oEnt of oEntsAll)
-			//oCard.uAdd(oEnt, false)
 			oCard.uAdd(oEnt, true)
 		return oCard;
 	}
@@ -56,13 +55,14 @@ export class tCard {
 		this.CtBonusTime = aCtBonusTime;
 	}
 
-	/** Adds the specified entry, if it meets the minimum length, and if it is not
-	 *  a duplicate, and returns 'true' if a valid, unfollowed word was entered.
-	 *  If the entry is new, this will be the number of letters in the entry, less
-	 *  the minimum word length, plus one. If the entry is already followed, it
-	 *  will be zero. If the entry follows an existing entry, it will be the
-	 *  number of letters by which the original entry length has been exceeded.
-	 *  Set aCkAddFollow to 'false' if followed entries should not be added. */
+	/** Adds the specified tEntWord instance to Ents, if it meets the minimum
+	 *  length, and if it is not a duplicate, and returns 'true' if a valid,
+	 *  unfollowed word was entered. If the entry is new, this will be the number
+	 *  of letters in the entry, less the minimum word length, plus one. If the
+	 *  entry is already followed, it will be zero. If the entry follows an
+	 *  existing entry, it will be the number of letters by which the original
+	 *  entry length has been exceeded. Set aCkAddFollow to 'false' if followed
+	 *  entries should not be added. */
 	uAdd(aEnt, aCkAddFollow) {
 		const oTextAdd = aEnt.uTextAll();
 		if (oTextAdd.length < Cfg.LenWordMin) return false;
@@ -71,7 +71,7 @@ export class tCard {
 		let oCtBonus = 1 + oTextAdd.length - Cfg.LenWordMin;
 		for (const oEntBefore of this.Ents) {
 			const oTextBefore = oEntBefore.uTextAll();
-			if (Text.uCkEqBegin(oTextAdd, oTextBefore)) {
+			if (uCkFollowEither(oTextAdd, oTextBefore)) {
 				oCkScore = false;
 
 				// The new word is a duplicate:
@@ -100,4 +100,9 @@ export class tCard {
 		return new tCard(this.TimeStart, [...this.Ents], this.Score,
 			this.CtBonusTime);
 	}
+}
+
+/** Returns 'true' if either word follows the other, or if they are identical. */
+function uCkFollowEither(aL, aR) {
+	return Text.uCkEqBegin(aL, aR);
 }
