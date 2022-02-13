@@ -1,0 +1,110 @@
+/* DlgHelp.css
+// -----------
+// Copyright ©2022 Jeremy Kelly
+// www.anthemion.org */
+
+#DlgHelp {
+	z-index: 1;
+	position: fixed;
+	left: 0;
+	top: 0;
+
+	width: 100vw;
+	height: 100vh;
+	background-color: hsla(0, 0%, 0%, 0.85);
+
+	/* Just centering here; the real layout is in 'article': */
+	display: grid;
+	place-items: center;
+
+	text-align: center;
+	color: white;
+}
+
+#DlgHelp article {
+	max-width: 28rem;
+
+	padding: 1rem 1.5rem;
+
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	justify-content: center;
+}
+
+#DlgHelp h1 {
+	margin: 0;
+
+	font-size: 1.75rem;
+}
+
+#DlgHelp h2 {
+	margin: 0.75rem 0 0.5rem;
+
+	font-size: 1.5rem;
+}
+
+#DlgHelp p {
+	margin: 0.5rem 0;
+}
+
+#DlgHelp .Btns {
+	display: flex;
+	justify-content: center;
+
+	margin-top: 1rem;
+}
+
+#DlgHelp button {
+	border-color: white;
+	background-color: black;
+}
+
+#DlgHelp button:focus {
+	outline: 1px solid hsl(0, 60%, 60%);;
+}
+
+#DlgHelp button:hover {
+	background-color: hsl(0, 0%, 15%);
+}
+
+#DlgHelp button:active {
+	background-color: hsl(0, 0%, 30%);
+}
+
+/* Responsive layouts
+// ------------------ */
+
+@media screen and (orientation: landscape) and (max-height: 750px) {
+	#DlgHelp article {
+		max-width: 700px;
+
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		grid-template-rows: auto 4rem;
+		column-gap: 1.5rem;
+	}
+
+	#DlgHelp #SecGen {
+		grid-column: 1;
+		grid-row: 1 / span 2;
+
+		/* text-align: left; */
+	}
+
+	#DlgHelp #SecFollow {
+		grid-column: 2;
+		grid-row: 1;
+
+		/* text-align: right; */
+	}
+
+	#DlgHelp h2 {
+		margin: 0;
+	}
+
+	#DlgHelp .Btns {
+		grid-column: 2;
+		grid-row: 2;
+	}
+}

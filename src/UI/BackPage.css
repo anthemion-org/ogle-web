@@ -23,18 +23,18 @@
 	background-color: hsl(30, 4%, 15%);
 }
 
-.BackDieFace {
+#BackPage .BackDieFace {
 	fill: hsl(30, 4%, 10%);
 }
 
-.BackDieText {
+#BackPage .BackDieText {
 	fill: hsl(30, 4%, 15%);
 }
 
-.BackDieFace.Lt {
+#BackPage .BackDieFace.Alt {
 	display: none;
 }
 
-.BackDieText.Lt {
+#BackPage .BackDieText.Alt {
 	fill: hsl(30, 4%, 10%);
 }

@@ -65,6 +65,8 @@ export class tCover {
  *    the number of words of each length that were scored by each player.
  */
 export function uScoresCoversFromCards(aCardOgle, aCardUser) {
+	// Note that a word-following check is also performed in 'tCard.Add'. I don't
+	// see a good way to share the functionality, however.
 
 	// Process user words
 	// ------------------

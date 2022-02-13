@@ -16,28 +16,31 @@ import React from "react";
 // --------
 
 export default function BackPage(aProps) {
-	function ouDie(ajX, ajY, aNameClassExt) {
+	function ouDie(ajX, ajY, aCkAlt) {
 		const oSize = 4;
 		const oMarg = 0.1;
 		const oRadCrn = 0.4;
 
+		const oNameClassExt = aCkAlt ? "Alt" : "";
 		const oX = oSize * ajX;
 		const oY = oSize * ajY;
 		const oXMid = oX + (oSize / 2);
 		const oYMid = oY + (oSize / 2);
+		const oTrans = aCkAlt ? `rotate(90 ${oXMid} ${oYMid})` : "";
 		return (
 			<>
-				<rect className={"BackDieFace " + aNameClassExt}
+				<rect className={"BackDieFace " + oNameClassExt}
 					x={oX + oMarg} y={oY + oMarg}
 					width={oSize - (oMarg * 2)} height={oSize - (oMarg * 2)}
 					rx={oRadCrn} ry={oRadCrn}
 				/>
-				<text className={"BackDieText " + aNameClassExt}
+				<text className={"BackDieText " + oNameClassExt}
 					x={oXMid} y={oYMid}
 					textAnchor="middle" dominantBaseline="central"
 					fontSize="3" letterSpacing="0" wordSpacing="0"
 					fontFamily="Georgia, serif" fontWeight="bold"
-					strokeWidth="0px" user-select="none" >
+					strokeWidth="0px" user-select="none"
+					transform={oTrans}>
 					O
 				</text>
 			</>
@@ -58,22 +61,25 @@ export default function BackPage(aProps) {
 				<defs>
 					<pattern id="PattDie"
 						x="0" y="0"
-						width="16" height="12"
+						width="20" height="12"
 						patternTransform="rotate(-45)"
 						patternUnits="userSpaceOnUse">
 
-						{ouDie(0, 0, "")}
-						{ouDie(1, 0, "")}
-						{ouDie(2, 0, "")}
-						{ouDie(3, 0, "")}
-						{ouDie(0, 1, "")}
-						{ouDie(1, 1, "")}
-						{ouDie(2, 1, "")}
-						{ouDie(3, 1, "Lt")}
-						{ouDie(0, 2, "")}
-						{ouDie(1, 2, "Lt")}
-						{ouDie(2, 2, "")}
-						{ouDie(3, 2, "")}
+						{ouDie(0, 0, false)}
+						{ouDie(1, 0, false)}
+						{ouDie(2, 0, false)}
+						{ouDie(3, 0, false)}
+						{ouDie(4, 0, false)}
+						{ouDie(0, 1, false)}
+						{ouDie(1, 1, false)}
+						{ouDie(2, 1, false)}
+						{ouDie(3, 1, false)}
+						{ouDie(4, 1, true)}
+						{ouDie(0, 2, false)}
+						{ouDie(1, 2, true)}
+						{ouDie(2, 2, false)}
+						{ouDie(3, 2, false)}
+						{ouDie(4, 2, false)}
 					</pattern>
 				</defs>
 

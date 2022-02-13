@@ -70,6 +70,10 @@ export class tCard {
 		let oCkScore = true;
 		let oCtBonus = 1 + oTextAdd.length - Cfg.LenWordMin;
 		for (const oEntBefore of this.Ents) {
+			// Note that a word-following check is also performed in 'ScoreWord
+			// uScoresCoversFromCards'. I don't see a good way to share the
+			// functionality, however.
+
 			const oTextBefore = oEntBefore.uTextAll();
 			if (uCkFollowEither(oTextAdd, oTextBefore)) {
 				oCkScore = false;

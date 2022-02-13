@@ -16,6 +16,7 @@ import { tBoard } from "../Board/Board.js";
 import { tEntWord } from "../Round/EntWord.js";
 import { tCard } from "../Round/Card.js";
 import LookBoard from "./LookBoard.js";
+import DlgHelp from "./DlgHelp.js";
 import DlgVerWord from "./DlgVerWord.js";
 import Lex from "../Search/Lex.js";
 import Sound from "../Sound.js";
@@ -195,13 +196,6 @@ export default function ViewPlay(aProps) {
 	}
 	useEffect(ouStore_Board, [oBoard, oCardOgle]);
 
-	// Help
-	// ----
-
-	/** Handles the Help button click. */
-	function ouHandHelp(aEvt) {
-	}
-
 	// Pause dialog
 	// ------------
 
@@ -237,6 +231,27 @@ export default function ViewPlay(aProps) {
 					</div>
 				</div>
 			</div>
+		);
+	}
+
+	// Help
+	// ----
+
+	/** Handles the Help button click. */
+	function ouHandHelp(aEvt) {
+		ouSet_StPlay(StsPlay.Help);
+	}
+
+	/** Handles the Help dialog OK button click. */
+	function ouHandOKHelp(aEvt) {
+		ouSet_StPlay(StsPlay.Play);
+	}
+
+	function ouDlgHelp() {
+		if (oStPlay !== StsPlay.Help) return;
+
+		return (
+			<DlgHelp uHandOK={ouHandOKHelp} />
 		);
 	}
 
@@ -502,6 +517,7 @@ export default function ViewPlay(aProps) {
 				</section>
 
 				{ouDlgPause()}
+				{ouDlgHelp()}
 				{ouDlgConfirmEnd()}
 				{ouDlgVerWord()}
 			</main>
@@ -515,6 +531,7 @@ export const StsPlay = {
 
 	Play: "Play",
 	Pause: "Pause",
+	Help: "Help",
 	ConfirmEnd: "ConfirmEnd"
 };
 Object.freeze(StsPlay);

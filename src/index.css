@@ -9,7 +9,6 @@
 
 html {
 	background-color: hsl(30, 4%, 16%);
-	/* background-color: hsl(30, 4%, 20%); */
 
 	/* Not in MacOS: [to do] */
 	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
@@ -116,8 +115,7 @@ button, input[type="submit"], a.Btn {
 }
 
 button:focus, input[type="submit"]:focus, a:focus.Btn {
-	outline: none;
-	border: 1px dashed #AAA;
+	outline: 1px solid hsl(0, 60%, 40%);;
 }
 
 button:disabled, input[type="submit"]:disabled, a:disabled.Btn {
