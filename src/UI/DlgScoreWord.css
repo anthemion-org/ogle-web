@@ -24,7 +24,7 @@
 #DlgScoreWord label {
 	display: block;
 
-	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+	font-family: var(--FontFamilySans);
 	font-weight: normal;
 	line-height: 150%;
 }

@@ -21,7 +21,7 @@
 #DlgNamePlay header em {
 	font-weight: bold;
 	font-style: normal;
-	color: hsl(0, 60%, 50%);
+	color: var(--ColorRed);
 }
 
 #DlgNamePlay h2 {

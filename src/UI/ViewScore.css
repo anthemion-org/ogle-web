@@ -54,7 +54,7 @@
 #ViewScore #ColWords header em {
 	font-weight: bold;
 	font-style: normal;
-	color: hsl(0, 60%, 50%);
+	color: var(--ColorRed);
 }
 
 #ViewScore #BoxWords {
@@ -75,7 +75,7 @@
 	font-family: var(--FontFamilySerif);
 	font-weight: bold;
 	font-size: 1.1rem;
-	color: hsl(0, 60%, 50%);
+	color: var(--ColorRed);
 }
 
 #ViewScore #BoxSetup {
@@ -101,7 +101,7 @@
 
 #ViewScore #BoxSetup h3 {
 	margin: 0;
-	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+	font-family: var(--FontFamilySans);
 	font-weight: normal;
 	font-size: 1rem;
 }

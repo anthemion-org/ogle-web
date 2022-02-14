@@ -157,7 +157,7 @@
 
 #ViewPlay #BoxSetup h3 {
 	margin: 0;
-	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+	font-family: var(--FontFamilySerif);
 	font-weight: normal;
 	font-size: 1rem;
 	line-height: 100%;

@@ -9,13 +9,15 @@
 
 :root {
 	--FontFamilySerif: "Brygada 1918", serif;
+	--FontFamilySans: "Open Sans", sans-serif;
+
+	--ColorRed: hsl(0, 60%, 50%);
 }
 
 html {
 	background-color: hsl(30, 4%, 16%);
 
-	/* Not in MacOS: [to do] */
-	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+	font-family: var(--FontFamilySans);
 }
 
 #Root {
