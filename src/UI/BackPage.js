@@ -37,8 +37,8 @@ export default function BackPage(aProps) {
 				<text className={"BackDieText " + oNameClassExt}
 					x={oXMid} y={oYMid}
 					textAnchor="middle" dominantBaseline="central"
-					fontSize="3" letterSpacing="0" wordSpacing="0"
-					fontFamily="Georgia, serif" fontWeight="bold"
+					fontSize="3.33" letterSpacing="0" wordSpacing="0"
+					fontFamily="'Brygada 1918', serif" fontWeight="bold"
 					strokeWidth="0px" user-select="none"
 					transform={oTrans}>
 					O

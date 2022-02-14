@@ -28,7 +28,6 @@
 
 	display: flex;
 	flex-direction: column;
-	justify-content: space-between;
 	justify-content: center;
 }
 
@@ -57,7 +56,7 @@
 
 #DlgHelp button {
 	border-color: white;
-	background-color: black;
+	background-color: transparent;
 }
 
 #DlgHelp button:focus {
@@ -65,11 +64,11 @@
 }
 
 #DlgHelp button:hover {
-	background-color: hsl(0, 0%, 15%);
+	background-color: hsla(0, 0%, 100%, 0.1);
 }
 
 #DlgHelp button:active {
-	background-color: hsl(0, 0%, 30%);
+	background-color: hsla(0, 0%, 100%, 0.25);
 }
 
 /* Responsive layouts
@@ -88,15 +87,11 @@
 	#DlgHelp #SecGen {
 		grid-column: 1;
 		grid-row: 1 / span 2;
-
-		/* text-align: left; */
 	}
 
 	#DlgHelp #SecFollow {
 		grid-column: 2;
 		grid-row: 1;
-
-		/* text-align: right; */
 	}
 
 	#DlgHelp h2 {

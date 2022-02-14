@@ -77,13 +77,13 @@ export default function LookDie(aProps) {
 		if (aProps.CkPause)
 			return (
 				<text className="TextPause"
-					// Looks better when we shift this up slightly:
-					x="50" y="48.5"
+					x="50" y="50"
 					fontSize="70px"
 					letterSpacing="0px"
 					stroke="#000000" strokeWidth="0px"
 					textAnchor="middle" dominantBaseline="central"
-					wordSpacing="0px">
+					wordSpacing="0px"
+				>
 					?
 				</text>
 			);
@@ -91,13 +91,13 @@ export default function LookDie(aProps) {
 		if (aProps.Die.Text.length > 1)
 			return (
 				<text className="TextDbl"
-					// Looks better when we shift this up slightly:
-					x="50" y="48.5"
-					fontSize="50px"
+					x="50" y="50"
+					fontSize="55px"
 					letterSpacing="0px"
 					stroke="#000000" strokeWidth="0px"
 					textAnchor="middle" dominantBaseline="central"
-					wordSpacing="0px">
+					wordSpacing="0px"
+				>
 					{aProps.Die.Text}
 				</text>
 			);
@@ -105,11 +105,12 @@ export default function LookDie(aProps) {
 		return (
 			<text className="TextSing"
 				x="50" y="50"
-				fontSize="66px"
+				fontSize="70px"
 				letterSpacing="0px"
 				stroke="#000000" strokeWidth="0px"
 				textAnchor="middle" dominantBaseline="central"
-				wordSpacing="0px">
+				wordSpacing="0px"
+			>
 				{aProps.Die.Text}
 			</text>
 		);

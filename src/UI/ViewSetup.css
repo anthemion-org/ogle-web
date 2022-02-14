@@ -15,12 +15,15 @@
 }
 
 #ViewSetup label {
+	font-family: var(--FontFamilySerif);
+	font-weight: bold;
 	font-size: 1.25rem;
 }
 
 #ViewSetup .Name {
 	float: right;
-	font-family: Georgia, serif;
+
+	font-family: var(--FontFamilySerif);
 	font-weight: bold;
 	font-size: 1.25rem;
 }

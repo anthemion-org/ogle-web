@@ -22,7 +22,7 @@
 	margin: 0.25rem 0;
 	padding: 0 0.75rem;
 
-	font-family: Georgia, serif;
+	font-family: var(--FontFamilySerif);
 	font-weight: bold;
 	font-size: 2em;
 

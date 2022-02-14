@@ -14,11 +14,12 @@
 
 	margin-bottom: 0.75rem;
 
-	font-family: Georgia, serif;
+	font-family: var(--FontFamilySerif);
 	font-size: 1.5rem;
 }
 
 #DlgNamePlay header em {
+	font-weight: bold;
 	font-style: normal;
 	color: hsl(0, 60%, 50%);
 }

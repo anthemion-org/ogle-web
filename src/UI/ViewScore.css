@@ -47,11 +47,12 @@
 
 	margin-bottom: 0.75rem;
 
-	font-family: Georgia, serif;
+	font-family: var(--FontFamilySerif);
 	font-size: 1.5rem;
 }
 
 #ViewScore #ColWords header em {
+	font-weight: bold;
 	font-style: normal;
 	color: hsl(0, 60%, 50%);
 }
@@ -71,7 +72,9 @@
 #ViewScore #BoxWords td:first-child,
 #ViewScore #BoxWords th:last-child,
 #ViewScore #BoxWords td:last-child {
-	font-family: Georgia, serif;
+	font-family: var(--FontFamilySerif);
+	font-weight: bold;
+	font-size: 1.1rem;
 	color: hsl(0, 60%, 50%);
 }
 
@@ -104,9 +107,9 @@
 }
 
 #ViewScore #BoxSetup div {
-	font-family: Georgia, serif;
-	font-size: 1.75rem;
+	font-family: var(--FontFamilySerif);
 	font-weight: bold;
+	font-size: 1.75rem;
 }
 
 #ViewScore #BoxCover {
@@ -227,6 +230,7 @@
 		min-width: 8rem;
 		display: flex;
 		justify-content: space-between;
+		align-items: center;
 
 		margin: 0.1rem 0.1rem;
 		border-radius: 0.2rem;

@@ -14,10 +14,10 @@
 #DlgScoreWord var {
 	display: block;
 
-	font-family: Georgia, serif;
-	font-size: 1.75rem;
+	font-family: var(--FontFamilySerif);
 	font-weight: bold;
 	font-style: normal;
+	font-size: 1.75rem;
 	line-height: 110%;
 }
 
@@ -41,7 +41,7 @@
 	min-width: 4rem;
 	padding: 0 0.75rem;
 
-	font-family: Georgia, serif;
+	font-family: var(--FontFamilySerif);
 	font-weight: bold;
 	font-size: 2rem;
 

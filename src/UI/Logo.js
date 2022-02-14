@@ -151,7 +151,7 @@ export default function Logo(aProps) {
 					y="78.298"
 					fill="#000"
 					stroke="none"
-					fontFamily="Georgia"
+					fontFamily="'Brygada 1918'"
 					fontWeight="bold"
 				>
 					O

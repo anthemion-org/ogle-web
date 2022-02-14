@@ -7,6 +7,10 @@
 @import "~sanitize.css/typography.css";
 @import "~sanitize.css/forms.css";
 
+:root {
+	--FontFamilySerif: "Brygada 1918", serif;
+}
+
 html {
 	background-color: hsl(30, 4%, 16%);
 
@@ -22,7 +26,7 @@ html {
 }
 
 h1, h2, h3, h4, h5, h6 {
-	font-family: Georgia, serif;
+	font-family: var(--FontFamilySerif);
 }
 
 a {
@@ -168,8 +172,10 @@ input {
 	background-color: white;
 	border: 1px solid hsl(0, 60%, 40%);
 
-	font-family: Georgia, serif;
+	font-family: var(--FontFamilySerif);
+	font-weight: bold;
 	font-size: 1.5rem;
+
 	text-align: center;
 }
 
