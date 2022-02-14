@@ -52,7 +52,7 @@
 	#ViewAbout section {
 		flex: 1;
 
-		border-left: 1px dashed black;
+		border-left: 1px dashed var(--ColorRule);
 		padding: 0 1.5rem;
 	}
 

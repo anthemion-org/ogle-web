@@ -10,25 +10,21 @@
 }
 
 .BackDie .CrnSE {
-	/* #C7B9AB */
-	fill: hsl(30, 22%, 68%);
+	fill: var(--ColorDieCrnSE);
 }
 
 .BackDie .CrnSW,
 .BackDie .CrnNE {
-	/* #EBDDCE */
-	fill: hsl(31, 35%, 85%);
+	fill: var(--ColorDieCrnSWNE);
 }
 
 .BackDie .CrnNW {
-	/* #FFFFFF */
-	fill: hsl(0, 0%, 100%);
+	fill: var(--ColorDieCrnNW);
 }
 
 .BackDie .Face,
 .LookDie .BackText {
-	/* #F5EFE9 */
-	fill: hsl(30, 38%, 93%);
+	fill: var(--ColorDieFace);
 }
 
 .BackDie:not(.CkDisp, .CkEnab) .CrnSE,
@@ -45,7 +41,7 @@
 .LookDie .TextPause {
 	font-family: var(--FontFamilySerif);
 	font-weight: bold;
-	fill: black;
+	fill: var(--ColorDieText);
 	/* Prevent letter text from being selected if the user drags while clicking: */
 	user-select: none;
 }
@@ -75,9 +71,9 @@
 }
 
 .LookDie .MarkSel {
-	fill: hsla(30, 50%, 50%, 0.4);
+	fill: var(--ColorDieMarkSel);
 }
 
 .LookDie .MarkSel.First {
-	fill: hsla(0, 45%, 50%, 0.4);
+	fill: var(--ColorDieMarkFirst);
 }

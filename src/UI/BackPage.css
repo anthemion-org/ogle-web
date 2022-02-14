@@ -20,15 +20,15 @@
 	min-width: 100vw;
 	min-height: 100vh;
 
-	background-color: hsl(30, 4%, 15%);
+	background-color: var(--ColorPattBackDk);
 }
 
 #BackPage .BackDieFace {
-	fill: hsl(30, 4%, 10%);
+	fill: var(--ColorPattBackLt);
 }
 
 #BackPage .BackDieText {
-	fill: hsl(30, 4%, 15%);
+	fill: var(--ColorPattBackDk);
 }
 
 #BackPage .BackDieFace.Alt {
@@ -36,5 +36,5 @@
 }
 
 #BackPage .BackDieText.Alt {
-	fill: hsl(30, 4%, 10%);
+	fill: var(--ColorPattBackLt);
 }

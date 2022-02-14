@@ -11,13 +11,113 @@
 	--FontFamilySerif: "Brygada 1918", serif;
 	--FontFamilySans: "Open Sans", sans-serif;
 
-	--ColorRed: hsl(0, 60%, 50%);
+	/* Color styles
+	// ------------ */
+
+	--ColorViewBack: hsl(30, 20%, 93%);
+	--ColorViewBackAlt: hsl(30, 10%, 86%);
+
+	--ColorDlgBack: hsl(0, 0%, 90%);
+
+	--ColorText: black;
+	--ColorTextAlt: hsl(0, 60%, 50%);
+	--ColorLink: initial;
+	--ColorLinkVisit: initial;
+
+	--ColorRule: black;
+
+	--ColorBtnBack: white;
+	--ColorBtnBackDisab: hsl(0, 0%, 85%);
+	--ColorBtnBackHov: hsl(0, 0%, 95%);
+	--ColorBtnBackAct: hsl(0, 0%, 85%);
+	--ColorBtnOutFoc: hsl(0, 60%, 40%);
+	--ColorBtnBord: transparent;
+	--ColorBtnText: black;
+	--ColorBtnTextDisab: hsl(0, 0%, 50%);
+
+	--ColorInBack: white;
+	--ColorInBord: hsl(0, 60%, 40%);
+	--ColorInOutFoc: hsl(0, 60%, 40%);
+	--ColorInText: black;
+
+	--ColorSlideBack: white;
+	--ColorSlideBordFoc: #AAA;
+	--ColorSlideTrack: #AAA;
+	--ColorSlideTrackHov: hsl(0, 60%, 40%);
+	--ColorSlideThumb: black;
+	--ColorSlideThumbHov: hsl(0, 60%, 40%);
+
+	--ColorBoardBord: black;
+	--ColorBoardBack: black;
+
+	--ColorDieCrnSE: hsl(30, 22%, 68%);
+	--ColorDieCrnSWNE: hsl(31, 35%, 85%);
+	--ColorDieCrnNW: white;
+	--ColorDieFace: hsl(30, 38%, 93%);
+	--ColorDieMarkSel: hsla(30, 50%, 50%, 0.4);
+	--ColorDieMarkFirst: hsla(0, 45%, 50%, 0.4);
+	--ColorDieText: black;
+
+	--ColorBaseBackDk: hsl(30, 4%, 16%);
+	--ColorPattBackDk: hsl(30, 4%, 15%);
+	--ColorPattBackLt: hsl(30, 4%, 10%)
 }
 
+/* :root {
+	--ColorViewBack: hsl(18, 14%, 20%);
+	--ColorViewBackAlt: hsl(18, 12%, 26%);
+
+	--ColorDlgBack: hsl(18, 14%, 20%);
+
+	--ColorText: hsl(0, 0%, 90%);
+	--ColorTextAlt: hsl(0, 60%, 70%);
+	--ColorLink: hsl(0, 60%, 70%);
+	--ColorLinkVisit: hsl(18, 14%, 60%);
+
+	--ColorRule: hsl(0, 0%, 90%);
+
+	--ColorBtnBack: transparent;
+	--ColorBtnBackDisab: hsl(18, 14%, 30%);
+	--ColorBtnBackHov: hsl(18, 14%, 30%);
+	--ColorBtnBackAct: hsl(18, 12%, 15%);
+	--ColorBtnOutFoc: hsl(0, 60%, 60%);
+	--ColorBtnBord: hsl(0, 0%, 90%);
+	--ColorBtnText: hsl(0, 0%, 90%);
+	--ColorBtnTextDisab: hsl(0, 0%, 70%);
+
+	--ColorInBack: hsl(18, 14%, 30%);
+	--ColorInBord: hsl(0, 60%, 40%);
+	--ColorInOutFoc: hsl(0, 60%, 40%);
+	--ColorInText: hsl(0, 0%, 90%);
+
+	--ColorSlideBack: hsl(18, 12%, 26%);
+	--ColorSlideBordFoc: #AAA;
+	--ColorSlideTrack: hsl(0, 0%, 70%);
+	--ColorSlideTrackHov: hsl(0, 60%, 60%);
+	--ColorSlideThumb: hsl(0, 0%, 90%);
+	--ColorSlideThumbHov: hsl(0, 60%, 60%);
+
+	--ColorBoardBord: hsl(18, 14%, 35%);
+	--ColorBoardBack: hsl(18, 14%, 12%);
+
+	--ColorDieCrnSE: hsl(30, 12%, 58%);
+	--ColorDieCrnSWNE: hsl(31, 25%, 75%);
+	--ColorDieCrnNW: hsl(0, 0%, 92%);
+	--ColorDieFace: hsl(30, 25%, 83%);
+	--ColorDieMarkSel: hsla(30, 50%, 50%, 0.4);
+	--ColorDieMarkFirst: hsla(0, 45%, 50%, 0.4);
+	--ColorDieText: black;
+
+	--ColorBaseBackDk: hsl(30, 4%, 16%);
+	--ColorPattBackDk: hsl(30, 4%, 15%);
+	--ColorPattBackLt: hsl(30, 4%, 10%)
+} */
+
 html {
-	background-color: hsl(30, 4%, 16%);
+	background-color: var(--ColorBaseBackDk);
 
 	font-family: var(--FontFamilySans);
+	color: var(--ColorText);
 }
 
 #Root {
@@ -33,11 +133,16 @@ h1, h2, h3, h4, h5, h6 {
 
 a {
 	text-decoration: none;
+	color: var(--ColorLink);
+}
+
+a:visited {
+	color: var(--ColorLinkVisit);
 }
 
 hr {
 	border: none;
-	border-top: 1px dashed black;
+	border-top: 1px dashed var(--ColorRule);
 }
 
 ul {
@@ -60,7 +165,7 @@ table {
 }
 
 thead {
-	border-bottom: 1px solid hsl(0, 0%, 60%);
+	border-bottom: 1px solid var(--ColorRule);
 }
 
 th {
@@ -93,20 +198,16 @@ td:last-child {
 }
 
 tbody tr:nth-child(odd) {
-	/* Or:
-	//
-	//   background-color:  hsl(30, 50%, 98%);
-	*/
-	background-color:  hsl(30, 10%, 86%);
+	background-color: var(--ColorViewBackAlt);
 }
 
 /* Buttons
 // ------- */
 
 button, input[type="submit"], a.Btn {
-	background-color: hsl(0, 0%, 100%);
+	background-color: var(--ColorBtnBack);
 	padding: 0.5rem 1rem;
-	border: 1px solid transparent;
+	border: 1px solid var(--ColorBtnBord);
 	border-radius: 0.25rem;
 
 	font-size: 1.1rem;
@@ -116,28 +217,33 @@ button, input[type="submit"], a.Btn {
 	// dialog width is set according to its text content, and then the buttons are
 	// made to wrap their text to fit that width, unless this is set: */
 	white-space: nowrap;
+	color: var(--ColorBtnText);
 
 	box-shadow: 0 0 3px hsla(0, 0%, 0%, 0.5);
 }
 
 button:focus, input[type="submit"]:focus, a:focus.Btn {
-	outline: 1px solid hsl(0, 60%, 40%);;
+	outline: 1px solid var(--ColorBtnOutFoc);
 }
 
 button:disabled, input[type="submit"]:disabled, a:disabled.Btn {
-	background-color: hsl(0, 0%, 85%);
+	background-color: var(--ColorBtnBackDisab);
+	color: var(--ColorBtnTextDisab);
+}
+
+button:disabled:active, input[type="submit"]:disabled:active,
+	a:disabled:active.Btn {
+
+	background-color: var(--ColorBtnBackDisab);
+	color: var(--ColorBtnTextDisab);
 }
 
 button:hover, input[type="submit"]:hover, a:hover.Btn {
-	background-color: hsl(0, 0%, 95%);
+	background-color: var(--ColorBtnBackHov);
 }
 
 button:active, input[type="submit"]:active, a:active.Btn {
-	background-color: hsl(0, 0%, 85%);
-}
-
-a.Btn {
-	color: black;
+	background-color: var(--ColorBtnBackAct);
 }
 
 /* Button rows
@@ -171,19 +277,20 @@ input {
 	width: 100%;
 	margin: 0.25rem 0 0.5rem 0;
 
-	background-color: white;
-	border: 1px solid hsl(0, 60%, 40%);
+	background-color: var(--ColorInBack);
+	border: 1px solid var(--ColorInBord);
 
 	font-family: var(--FontFamilySerif);
 	font-weight: bold;
 	font-size: 1.5rem;
 
+	color: var(--ColorInText);
 	text-align: center;
 }
 
 input:focus {
-	/* Use 'outline' here to thicken the border without shifting the layout: */
-	outline: 1px solid hsl(0, 60%, 40%);
+	/* Use 'outline' to thicken the border without shifting the layout: */
+	outline: 1px solid var(--ColorInOutFoc);
 }
 
 /* Range inputs
@@ -209,13 +316,9 @@ input[type="range"] {
 	margin: 1rem 0;
 }
 
-input[type="range"]::-webkit-slider-thumb {
-	-webkit-appearance: none;
-}
-
 input[type="range"]:focus {
 	outline: none;
-	border: 1px dashed #AAA;
+	border: 1px dashed var(--ColorSlideBordFoc);
 }
 
 input[type="range"]::-webkit-slider-thumb {
@@ -226,13 +329,13 @@ input[type="range"]::-webkit-slider-thumb {
 	width: 10px;
 	border: none;
 	border-radius: 5.5px;
-	background: black;
+	background: var(--ColorSlideThumb);
 	cursor: pointer;
 	margin-top: -4.5px;
 }
 
 input[type="range"]:hover::-webkit-slider-thumb {
-	background: hsl(0, 60%, 40%);
+	background: var(--ColorSlideThumbHov);
 }
 
 input[type="range"]::-moz-range-thumb {
@@ -241,35 +344,35 @@ input[type="range"]::-moz-range-thumb {
 	width: 11px;
 	border: none;
 	border-radius: 5.5px;
-	background: black;
+	background: var(--ColorSlideThumb);
 	cursor: pointer;
 }
 
 input[type="range"]:hover::-moz-range-thumb {
-	background: hsl(0, 60%, 40%);
+	background: var(--ColorSlideThumbHov);
 }
 
 input[type="range"]::-webkit-slider-runnable-track {
 	width: 100%;
 	/* Sometimes Chrome renders this as 2px, other times 1px: */
 	height: 1px;
-	background: #AAA;
+	background: var(--ColorSlideTrack);
 	cursor: pointer;
 }
 
 input[type="range"]:hover::-webkit-slider-runnable-track {
-	background: hsl(0, 60%, 40%);
+	background: var(--ColorSlideTrackHov);
 }
 
 input[type="range"]::-moz-range-track {
 	width: 100%;
 	height: 1px;
-	background: #AAA;
+	background: var(--ColorSlideTrack);
 	cursor: pointer;
 }
 
 input[type="range"]:hover::-moz-range-track {
-	background: hsl(0, 60%, 40%);
+	background: var(--ColorSlideTrackHov);
 }
 
 /* Dialogs
@@ -291,7 +394,7 @@ input[type="range"]:hover::-moz-range-track {
 .Dlg {
 	border-radius: 0.5rem;
 	padding: 1.25rem;
-	background-color: hsl(0, 0%, 90%);
+	background-color: var(--ColorDlgBack);
 	box-shadow: 0 0 10px hsla(0, 0%, 0%, 0.7);
 
 	font-size: 1.1rem;

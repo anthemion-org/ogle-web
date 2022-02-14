@@ -93,7 +93,7 @@
 
 #DlgScoreWord .Btns {
 	margin-top: 1rem;
-	border-top: 1px dashed black;
+	border-top: 1px dashed var(--ColorRule);
 	padding-top: 1rem;
 }
 
