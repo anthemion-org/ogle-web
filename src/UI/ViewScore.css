@@ -121,6 +121,14 @@
 	padding-bottom: 1rem;
 }
 
+#ViewScore #BoxCover td {
+	text-align: right;
+}
+
+#ViewScore #BoxCover td:first-child {
+	text-align: left;
+}
+
 #ViewScore #BoxHigh {
 	grid-column: 2;
 	grid-row: 3;

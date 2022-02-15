@@ -7,12 +7,15 @@
 	width: 100%;
 	aspect-ratio: 1 / 1;
 
+	/** Something going on with the spacing to require this asymmetry, don't know
+	// what: */
+	padding: 2px 2px 2px 3px;
+	border: 3px solid var(--ColorBoardBord);
+	border-radius: 3.4%;
+
 	/* Each die uses the 'style' attribute to set its own 'grid-column-start' and
 	// 'grid-row-start': */
 	display: grid;
-	gap: 0.4% 0.4%;
-	padding: 0.8%;
-
+	gap: 0.4%;
 	background-color: var(--ColorBoardBack);
-	border-radius: 3%;
 }

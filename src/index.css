@@ -47,7 +47,7 @@
 	--ColorSlideThumb: black;
 	--ColorSlideThumbHov: hsl(0, 60%, 40%);
 
-	--ColorBoardBord: black;
+	--ColorBoardBord: hsl(0, 0%, 50%);
 	--ColorBoardBack: black;
 
 	--ColorDieCrnSE: hsl(30, 22%, 68%);
@@ -62,56 +62,6 @@
 	--ColorPattBackDk: hsl(30, 4%, 15%);
 	--ColorPattBackLt: hsl(30, 4%, 10%)
 }
-
-/* :root {
-	--ColorViewBack: hsl(18, 14%, 20%);
-	--ColorViewBackAlt: hsl(18, 12%, 26%);
-
-	--ColorDlgBack: hsl(18, 14%, 20%);
-
-	--ColorText: hsl(0, 0%, 90%);
-	--ColorTextAlt: hsl(0, 60%, 70%);
-	--ColorLink: hsl(0, 60%, 70%);
-	--ColorLinkVisit: hsl(18, 14%, 60%);
-
-	--ColorRule: hsl(0, 0%, 90%);
-
-	--ColorBtnBack: transparent;
-	--ColorBtnBackDisab: hsl(18, 14%, 30%);
-	--ColorBtnBackHov: hsl(18, 14%, 30%);
-	--ColorBtnBackAct: hsl(18, 12%, 15%);
-	--ColorBtnOutFoc: hsl(0, 60%, 60%);
-	--ColorBtnBord: hsl(0, 0%, 90%);
-	--ColorBtnText: hsl(0, 0%, 90%);
-	--ColorBtnTextDisab: hsl(0, 0%, 70%);
-
-	--ColorInBack: hsl(18, 14%, 30%);
-	--ColorInBord: hsl(0, 60%, 40%);
-	--ColorInOutFoc: hsl(0, 60%, 40%);
-	--ColorInText: hsl(0, 0%, 90%);
-
-	--ColorSlideBack: hsl(18, 12%, 26%);
-	--ColorSlideBordFoc: #AAA;
-	--ColorSlideTrack: hsl(0, 0%, 70%);
-	--ColorSlideTrackHov: hsl(0, 60%, 60%);
-	--ColorSlideThumb: hsl(0, 0%, 90%);
-	--ColorSlideThumbHov: hsl(0, 60%, 60%);
-
-	--ColorBoardBord: hsl(18, 14%, 35%);
-	--ColorBoardBack: hsl(18, 14%, 12%);
-
-	--ColorDieCrnSE: hsl(30, 12%, 58%);
-	--ColorDieCrnSWNE: hsl(31, 25%, 75%);
-	--ColorDieCrnNW: hsl(0, 0%, 92%);
-	--ColorDieFace: hsl(30, 25%, 83%);
-	--ColorDieMarkSel: hsla(30, 50%, 50%, 0.4);
-	--ColorDieMarkFirst: hsla(0, 45%, 50%, 0.4);
-	--ColorDieText: black;
-
-	--ColorBaseBackDk: hsl(30, 4%, 16%);
-	--ColorPattBackDk: hsl(30, 4%, 15%);
-	--ColorPattBackLt: hsl(30, 4%, 10%)
-} */
 
 html {
 	background-color: var(--ColorBaseBackDk);
