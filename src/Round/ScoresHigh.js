@@ -38,8 +38,8 @@ export class tScoresHigh {
 		Object.freeze(this);
 	}
 
-	/** Returns an array containing the scores associated with the specified
-	 *  tSetup tag. */
+	/** Returns an array of tScorePlay instances containing the scores associated
+	 *  with the specified tSetup tag. */
 	uScores(aTagSetup) {
 		const oScores = this._ByTag[aTagSetup];
 		return oScores ? Array.from(oScores) : [];

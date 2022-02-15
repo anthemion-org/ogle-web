@@ -51,10 +51,16 @@
 	font-size: 1.5rem;
 }
 
-#ViewScore #ColWords header em {
+#ViewScore #ColWords header strong {
 	font-weight: bold;
 	font-style: normal;
 	color: var(--ColorTextAlt1);
+}
+
+#ViewScore #ColWords header em {
+	font-weight: bold;
+	font-style: normal;
+	color: var(--ColorTextAlt2);
 }
 
 #ViewScore #BoxWords {
@@ -132,6 +138,10 @@
 #ViewScore #BoxHigh {
 	grid-column: 2;
 	grid-row: 3;
+}
+
+#ViewScore #BoxHigh tr.High {
+	color: var(--ColorTextAlt1);
 }
 
 #ViewScore #BoxCover h3,

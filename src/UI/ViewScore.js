@@ -203,7 +203,7 @@ export default function ViewScore(aProps) {
 		return oLines;
 	}
 
-	function ouLinesScorePlay() {
+	function ouLinesScoreHigh() {
 		const oCtRow = Cfg.CtStoreScoreHigh;
 		const oTag = aProps.Setup.uTag();
 		const oScores = oScoresHigh.uScores(oTag).slice(0, (oCtRow + 1));
@@ -214,6 +214,12 @@ export default function ViewScore(aProps) {
 
 		function ouKey(aScore, aj) {
 			return aj.toString() + (aScore ? aScore.TimeStart : "");
+		}
+
+		function ouClass(aScore) {
+			return (aScore && (aScore.TimeStart === aProps.CardUser.TimeStart))
+				? "High"
+				: "";
 		}
 
 		function ouName(aScore) {
@@ -228,7 +234,7 @@ export default function ViewScore(aProps) {
 		}
 
 		return oScores.map((aScore, aj) => (
-			<tr key={ouKey(aScore, aj)}>
+			<tr key={ouKey(aScore, aj)} className={ouClass(aScore)}>
 				<td>{ouName(aScore)}</td><td>{ouPerc(aScore)}</td>
 			</tr>
 		));
@@ -242,7 +248,7 @@ export default function ViewScore(aProps) {
 				<section id="ColWords">
 					<header>
 						<div><em>{aProps.CardUser.Score}</em> Player</div>
-						<div><em>{ouPerc()}%</em></div>
+						<div><strong>{ouPerc()}%</strong></div>
 						<div>Ogle <em>{aProps.CardOgle.Score}</em></div>
 					</header>
 
@@ -286,7 +292,7 @@ export default function ViewScore(aProps) {
 
 					<table>
 						<tbody>
-							{ouLinesScorePlay()}
+							{ouLinesScoreHigh()}
 						</tbody>
 					</table>
 

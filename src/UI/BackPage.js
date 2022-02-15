@@ -16,7 +16,7 @@ import React from "react";
 // --------
 
 export default function BackPage(aProps) {
-	function ouDie(ajX, ajY, aCkAlt) {
+	function ouDie(ajX, ajY, aText, aRot, aCkAlt) {
 		const oSize = 4;
 		const oMarg = 0.1;
 		const oRadCrn = 0.4;
@@ -26,7 +26,7 @@ export default function BackPage(aProps) {
 		const oY = oSize * ajY;
 		const oXMid = oX + (oSize / 2);
 		const oYMid = oY + (oSize / 2);
-		const oTrans = aCkAlt ? `rotate(90 ${oXMid} ${oYMid})` : "";
+		const oTrans = `rotate(${aRot} ${oXMid} ${oYMid})`;
 		return (
 			<>
 				<rect className={"BackDieFace " + oNameClassExt}
@@ -41,7 +41,7 @@ export default function BackPage(aProps) {
 					fontFamily="'Brygada 1918', serif" fontWeight="bold"
 					strokeWidth="0px" user-select="none"
 					transform={oTrans}>
-					O
+					{aText}
 				</text>
 			</>
 		);
@@ -61,25 +61,26 @@ export default function BackPage(aProps) {
 				<defs>
 					<pattern id="PattDie"
 						x="0" y="0"
-						width="20" height="12"
+						width="16" height="16"
 						patternTransform="rotate(-45)"
 						patternUnits="userSpaceOnUse">
 
-						{ouDie(0, 0, false)}
-						{ouDie(1, 0, false)}
-						{ouDie(2, 0, false)}
-						{ouDie(3, 0, false)}
-						{ouDie(4, 0, false)}
-						{ouDie(0, 1, false)}
-						{ouDie(1, 1, false)}
-						{ouDie(2, 1, false)}
-						{ouDie(3, 1, false)}
-						{ouDie(4, 1, true)}
-						{ouDie(0, 2, false)}
-						{ouDie(1, 2, true)}
-						{ouDie(2, 2, false)}
-						{ouDie(3, 2, false)}
-						{ouDie(4, 2, false)}
+						{ouDie(0, 0, "O", 0, true)}
+						{ouDie(1, 0, "G", 90, false)}
+						{ouDie(2, 0, "O", 180, false)}
+						{ouDie(3, 0, "G", 270, false)}
+						{ouDie(0, 1, "L", 0, false)}
+						{ouDie(1, 1, "E", 90, false)}
+						{ouDie(2, 1, "L", 180, true)}
+						{ouDie(3, 1, "E", 270, false)}
+						{ouDie(0, 2, "O", 0, false)}
+						{ouDie(1, 2, "G", 90, true)}
+						{ouDie(2, 2, "O", 180, false)}
+						{ouDie(3, 2, "G", 270, false)}
+						{ouDie(0, 3, "L", 0, false)}
+						{ouDie(1, 3, "E", 90, false)}
+						{ouDie(2, 3, "L", 180, false)}
+						{ouDie(3, 3, "E", 270, true)}
 					</pattern>
 				</defs>
 

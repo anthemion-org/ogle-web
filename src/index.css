@@ -13,6 +13,10 @@
 }
 
 .ThemeLt {
+	--ColorBaseBack: hsl(30, 4%, 16%);
+	--ColorPattBackDk: hsl(30, 4%, 15%);
+	--ColorPattBackLt: hsl(30, 4%, 10%);
+
 	--ColorViewBack: hsl(30, 20%, 93%);
 	--ColorViewBackAlt: hsl(30, 10%, 86%);
 
@@ -58,17 +62,17 @@
 	--ColorDieMarkSel: hsla(30, 50%, 50%, 0.4);
 	--ColorDieMarkFirst: hsla(0, 45%, 50%, 0.4);
 	--ColorDieText: black;
-
-	--ColorBaseBack: hsl(30, 4%, 16%);
-	--ColorPattBackDk: hsl(30, 4%, 15%);
-	--ColorPattBackLt: hsl(30, 4%, 10%)
 }
 
 .ThemeDk {
-	--ColorViewBack: hsl(18, 4%, 20%);
-	--ColorViewBackAlt: hsl(18, 4%, 26%);
+	--ColorBaseBack: hsl(0, 4%, 15%);
+	--ColorPattBackDk: hsl(0, 4%, 15%);
+	--ColorPattBackLt: hsl(0, 4%, 10%);
 
-	--ColorDlgBack: hsl(18, 4%, 20%);
+	--ColorViewBack: hsl(0, 4%, 20%);
+	--ColorViewBackAlt: hsl(0, 4%, 26%);
+
+	--ColorDlgBack: hsl(0, 4%, 20%);
 
 	--ColorText: hsl(0, 0%, 90%);
 	--ColorTextAlt1: hsl(0, 60%, 70%);
@@ -77,31 +81,31 @@
 	--ColorLink: hsl(30, 60%, 70%);
 	--ColorLinkVisit: hsl(30, 60%, 70%);
 
-	--ColorRule:  hsl(18, 4%, 75%);
+	--ColorRule:  hsl(0, 4%, 75%);
 
 	--ColorBtnBack: transparent;
-	--ColorBtnBackDisab: hsl(18, 4%, 30%);
-	--ColorBtnBackHov: hsl(18, 4%, 30%);
-	--ColorBtnBackAct: hsl(18, 2%, 15%);
+	--ColorBtnBackDisab: hsl(0, 4%, 30%);
+	--ColorBtnBackHov: hsl(0, 4%, 30%);
+	--ColorBtnBackAct: hsl(0, 2%, 15%);
 	--StyBtnOutFoc: 1px solid hsl(30, 60%, 40%);
-	--ColorBtnBord: hsl(18, 4%, 75%);
+	--ColorBtnBord: hsl(0, 4%, 75%);
 	--ColorBtnText: hsl(0, 0%, 90%);
 	--ColorBtnTextDisab: hsl(0, 0%, 70%);
 
-	--ColorInBack: hsl(18, 4%, 30%);
-	--ColorInBord: hsl(18, 4%, 75%);
+	--ColorInBack: hsl(0, 4%, 30%);
+	--ColorInBord: hsl(0, 4%, 75%);
 	--StyInOutFoc: 1px solid hsl(30, 60%, 40%);
 	--ColorInText: hsl(0, 0%, 90%);
 
-	--ColorSlideBack: hsl(18, 4%, 26%);
+	--ColorSlideBack: hsl(0, 4%, 26%);
 	--StySlideBordFoc: 1px dashed hsl(30, 60%, 60%);
-	--ColorSlideTrack: hsl(18, 4%, 75%);
+	--ColorSlideTrack: hsl(0, 4%, 75%);
 	--ColorSlideTrackHov: hsl(30, 60%, 60%);
 	--ColorSlideThumb: hsl(0, 0%, 90%);
 	--ColorSlideThumbHov: hsl(30, 60%, 60%);
 
-	--ColorBoardBord: hsl(18, 4%, 35%);
-	--ColorBoardBack: hsl(18, 4%, 12%);
+	--ColorBoardBord: hsl(0, 4%, 35%);
+	--ColorBoardBack: hsl(0, 4%, 12%);
 
 	--ColorDieCrnSE: hsl(30, 12%, 55%);
 	--ColorDieCrnSWNE: hsl(30, 22%, 70%);
@@ -110,10 +114,6 @@
 	--ColorDieMarkSel: hsla(30, 50%, 50%, 0.45);
 	--ColorDieMarkFirst: hsla(0, 45%, 50%, 0.45);
 	--ColorDieText: black;
-
-	--ColorBaseBack: hsl(18, 4%, 15%);
-	--ColorPattBackDk: hsl(18, 4%, 15%);
-	--ColorPattBackLt: hsl(18, 4%, 10%)
 }
 
 #Root {
