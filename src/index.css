@@ -20,7 +20,9 @@
 	--ColorDlgBack: hsl(0, 0%, 90%);
 
 	--ColorText: black;
-	--ColorTextAlt: hsl(0, 60%, 50%);
+	--ColorTextAlt1: hsl(0, 60%, 50%);
+	--ColorTextAlt2: hsl(30, 60%, 50%);
+
 	--ColorLink: initial;
 	--ColorLinkVisit: initial;
 
@@ -30,18 +32,18 @@
 	--ColorBtnBackDisab: hsl(0, 0%, 85%);
 	--ColorBtnBackHov: hsl(0, 0%, 95%);
 	--ColorBtnBackAct: hsl(0, 0%, 85%);
-	--ColorBtnOutFoc: hsl(0, 60%, 40%);
+	--StyBtnOutFoc: 1px solid hsl(0, 60%, 40%);
 	--ColorBtnBord: transparent;
 	--ColorBtnText: black;
 	--ColorBtnTextDisab: hsl(0, 0%, 50%);
 
 	--ColorInBack: white;
 	--ColorInBord: hsl(0, 60%, 40%);
-	--ColorInOutFoc: hsl(0, 60%, 40%);
+	--StyInOutFoc: 1px solid hsl(0, 60%, 40%);
 	--ColorInText: black;
 
 	--ColorSlideBack: white;
-	--ColorSlideBordFoc: #AAA;
+	--StySlideBordFoc: 1px dashed #AAA;
 	--ColorSlideTrack: #AAA;
 	--ColorSlideTrackHov: hsl(0, 60%, 40%);
 	--ColorSlideThumb: black;
@@ -58,13 +60,65 @@
 	--ColorDieMarkFirst: hsla(0, 45%, 50%, 0.4);
 	--ColorDieText: black;
 
-	--ColorBaseBackDk: hsl(30, 4%, 16%);
+	--ColorBaseBack: hsl(30, 4%, 16%);
 	--ColorPattBackDk: hsl(30, 4%, 15%);
 	--ColorPattBackLt: hsl(30, 4%, 10%)
 }
 
+/* :root {
+	--ColorViewBack: hsl(18, 4%, 20%);
+	--ColorViewBackAlt: hsl(18, 4%, 26%);
+
+	--ColorDlgBack: hsl(18, 4%, 20%);
+
+	--ColorText: hsl(0, 0%, 90%);
+	--ColorTextAlt1: hsl(0, 60%, 70%);
+	--ColorTextAlt2: hsl(30, 60%, 70%);
+
+	--ColorLink: hsl(30, 60%, 70%);
+	--ColorLinkVisit: hsl(30, 60%, 70%);
+
+	--ColorRule: hsl(0, 0%, 90%);
+
+	--ColorBtnBack: transparent;
+	--ColorBtnBackDisab: hsl(18, 4%, 30%);
+	--ColorBtnBackHov: hsl(18, 4%, 30%);
+	--ColorBtnBackAct: hsl(18, 2%, 15%);
+	--StyBtnOutFoc: 1px solid hsl(30, 60%, 40%);
+	--ColorBtnBord: hsl(0, 0%, 70%);
+	--ColorBtnText: hsl(0, 0%, 90%);
+	--ColorBtnTextDisab: hsl(0, 0%, 70%);
+
+	--ColorInBack: hsl(18, 4%, 30%);
+	--ColorInBord: hsl(0, 0%, 70%);
+	--StyInOutFoc: 1px solid hsl(30, 60%, 40%);
+	--ColorInText: hsl(0, 0%, 90%);
+
+	--ColorSlideBack: hsl(18, 4%, 26%);
+	--StySlideBordFoc: 1px dashed hsl(30, 40%, 60%);
+	--ColorSlideTrack: hsl(0, 0%, 70%);
+	--ColorSlideTrackHov: hsl(30, 60%, 60%);
+	--ColorSlideThumb: hsl(0, 0%, 90%);
+	--ColorSlideThumbHov: hsl(30, 60%, 60%);
+
+	--ColorBoardBord: hsl(18, 4%, 35%);
+	--ColorBoardBack: hsl(18, 4%, 12%);
+
+	--ColorDieCrnSE: hsl(30, 12%, 55%);
+	--ColorDieCrnSWNE: hsl(30, 22%, 70%);
+	--ColorDieCrnNW: hsl(0, 0%, 92%);
+	--ColorDieFace: hsl(30, 22%, 85%);
+	--ColorDieMarkSel: hsla(30, 50%, 50%, 0.45);
+	--ColorDieMarkFirst: hsla(0, 45%, 50%, 0.45);
+	--ColorDieText: black;
+
+	--ColorBaseBack: hsl(18, 4%, 15%);
+	--ColorPattBackDk: hsl(18, 4%, 15%);
+	--ColorPattBackLt: hsl(18, 4%, 10%)
+} */
+
 html {
-	background-color: var(--ColorBaseBackDk);
+	background-color: var(--ColorBaseBack);
 
 	font-family: var(--FontFamilySans);
 	color: var(--ColorText);
@@ -148,6 +202,7 @@ td:last-child {
 }
 
 tbody tr:nth-child(odd) {
+	/* Would like to round these corners, but 'border-radius' is ignored here: */
 	background-color: var(--ColorViewBackAlt);
 }
 
@@ -173,7 +228,7 @@ button, input[type="submit"], a.Btn {
 }
 
 button:focus, input[type="submit"]:focus, a:focus.Btn {
-	outline: 1px solid var(--ColorBtnOutFoc);
+	outline: var(--StyBtnOutFoc);
 }
 
 button:disabled, input[type="submit"]:disabled, a:disabled.Btn {
@@ -240,7 +295,7 @@ input {
 
 input:focus {
 	/* Use 'outline' to thicken the border without shifting the layout: */
-	outline: 1px solid var(--ColorInOutFoc);
+	outline: var(--StyInOutFoc);
 }
 
 /* Range inputs
@@ -268,7 +323,7 @@ input[type="range"] {
 
 input[type="range"]:focus {
 	outline: none;
-	border: 1px dashed var(--ColorSlideBordFoc);
+	border: var(--StySlideBordFoc);
 }
 
 input[type="range"]::-webkit-slider-thumb {

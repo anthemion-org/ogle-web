@@ -36,6 +36,7 @@
 	filter: brightness(0.85);
 }
 
+.Logo .Text,
 .LookDie .TextSing,
 .LookDie .TextDbl,
 .LookDie .TextPause {

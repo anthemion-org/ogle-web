@@ -7,9 +7,9 @@
 	width: 100%;
 	aspect-ratio: 1 / 1;
 
-	/** Something going on with the spacing to require this asymmetry, don't know
-	// what: */
-	padding: 2px 2px 2px 3px;
+	/** Rounding causes one-pixel discrepancies on two sides when the browser
+	//  zooms. Nothing to be done about that: */
+	padding: 3px;
 	border: 3px solid var(--ColorBoardBord);
 	border-radius: 3.4%;
 

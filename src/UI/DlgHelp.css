@@ -57,6 +57,7 @@
 #DlgHelp button {
 	border-color: white;
 	background-color: transparent;
+	color: white;
 }
 
 #DlgHelp button:focus {
