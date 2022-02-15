@@ -47,8 +47,13 @@ export class tCard {
 	}
 
 	constructor(aTimeStart, aEnts, aScore, aCtBonusTime) {
+		/** The UNIX time when this round started. This should be unique across all
+		 *  rounds on a given browser. */
 		this.TimeStart = aTimeStart;
+		/** An array of tEntWord instances representing the word entries recorded by
+		 *  this player. */
 		this.Ents = Array.from(aEnts);
+		/** The score recorded by this player. */
 		this.Score = aScore;
 		/** The number of time bonuses accrued. Subtract the time elapsed to get the
 		 *  time remaining to the player. */

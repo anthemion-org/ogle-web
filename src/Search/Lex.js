@@ -37,14 +37,27 @@ import WordsOgle from "./WordsOgle.json";
  *  words. This class is mutable. */
 class tLex {
 	constructor() {
-		const oWordsUser = Store.uGetPOD("WordsUser");
-		/** All searchable words. This array will be shared with tLookText when a
-		 *  search is performed. */
-		this.WordsSearch = Array.from(WordsOgle).concat(oWordsUser);
+		/** An array of strings representing all user-entered words. */
+		this.WordsUser = Store.uGetPOD("WordsUser");
+		this.WordsUser.sort(Search.uCompareStrFast);
+
+		/** An array of strings representing all searchable words. This array will
+		 *  be shared with tLookText when a search is performed. */
+		this.WordsSearch = Array.from(WordsOgle).concat(this.WordsUser);
 		this.WordsSearch.sort(Search.uCompareStrFast);
 
-		/** User-entered words that have yet to be merged. */
+		/** An array of strings representing user-entered words that have yet to be
+		 *  merged. */
 		this.WordsUserPend = [];
+	}
+
+	/** Returns 'true' if the specified word is user-entered. */
+	uCkUser(aWord) {
+		// Ogle does not allow capital letters or accents, so this fast comparison
+		// is good enough:
+		const ouCompare = Search.uCompareStrFast;
+		const [oCk] = Search.uBin(this.WordsUser, aWord, ouCompare);
+		return oCk;
 	}
 
 	/** Returns 'true' if the specified word is known. */
@@ -63,12 +76,11 @@ class tLex {
 	/** Adds the specified word to the user storage and the unmerged user word
 	 *  list. */
 	uAdd_WordUser(aWord) {
-		const oWordsUser = Store.uGetPOD("WordsUser");
-		oWordsUser.push(aWord);
-		Store.uSet("WordsUser", oWordsUser);
+		this.WordsUser.push(aWord);
+		this.WordsUser.sort(Search.uCompareStrFast);
+		Store.uSet("WordsUser", this.WordsUser);
 
 		this.WordsUserPend.push(aWord);
-		// We must keep this sorted for uCkKnown:
 		this.WordsUserPend.sort(Search.uCompareStrFast);
 	}
 

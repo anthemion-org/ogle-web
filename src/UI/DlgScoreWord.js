@@ -42,6 +42,10 @@ export default function DlgScoreWord(aProps) {
 	const oTextEnt = aProps.ScoreWord.Ent.uTextAll();
 	const oURL = "https://en.wiktionary.org/wiki/" + oTextEnt;
 
+	const oTextInstructWik = aProps.ScoreWord.CkWordUser
+		? "User-entered"
+		: "Click for Wiktionary";
+
 	function ouTextPoint(aCkUser) {
 		const oStat = aCkUser
 			? aProps.ScoreWord.StatUser
@@ -77,7 +81,7 @@ export default function DlgScoreWord(aProps) {
 					</a>
 
 					<label id="InstructWik">
-						Click for Wiktionary
+						{oTextInstructWik}
 					</label>
 				</div>
 

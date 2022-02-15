@@ -9,6 +9,7 @@
 //     from "./Round/ScoreWord.js";
 //
 
+import Lex from "../Search/Lex.js";
 import * as Search from "../Util/Search.js";
 import * as Text from "../Util/Text.js";
 import * as Cfg from "../Cfg.js";
@@ -19,7 +20,7 @@ import * as Cfg from "../Cfg.js";
 /** Stores score data for a word that was entered during play. This class is
  *  mutable. */
 export class tScoreWord {
-	constructor(aEnt, aStatOgle, aStatUser) {
+	constructor(aEnt, aStatOgle, aStatUser, aCkWordUser) {
 		/** An entry that generates this word. This may or may not be the entry
 		 *  selected by a given player. */
 		this.Ent = aEnt;
@@ -29,6 +30,9 @@ export class tScoreWord {
 		this.StatOgle = aStatOgle;
 		/** A StatsWord value that indicates whether the user scored this word. */
 		this.StatUser = aStatUser;
+		/** Set to 'true' if the word represented by this instance is part of the
+		 *  user-entered lexicon. */
+		this.CkWordUser = aCkWordUser;
 	}
 }
 
@@ -65,11 +69,15 @@ export class tCover {
  *    the number of words of each length that were scored by each player.
  */
 export function uScoresCoversFromCards(aCardOgle, aCardUser) {
+	function ouCkWordUser(aEnt) {
+		return Lex.uCkUser(aEnt.uTextAll());
+	}
+
 	const oScoresUser = aCardUser.Ents.map(aEnt =>
-		new tScoreWord(aEnt, StatsWord.Miss, StatsWord.Score)
+		new tScoreWord(aEnt, StatsWord.Miss, StatsWord.Score, ouCkWordUser(aEnt))
 	);
 	const oScoresOgle = aCardOgle.Ents.map(aEnt =>
-		new tScoreWord(aEnt, StatsWord.Score, StatsWord.Miss)
+		new tScoreWord(aEnt, StatsWord.Score, StatsWord.Miss, ouCkWordUser(aEnt))
 	);
 
 	// Combine word lists

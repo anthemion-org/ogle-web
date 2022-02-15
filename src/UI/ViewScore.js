@@ -157,12 +157,18 @@ export default function ViewScore(aProps) {
 	}
 
 	function ouLinesScore() {
+		function ouClass(aScore) {
+			return aScore.CkWordUser ? "User" : "";
+		}
+
 		function ouTextScore(aStat) {
 			return (aStat === StatsWord.Score) ? "1" : "";
 		}
 
 		const oLines = oScores.map((aScore, aj) => (
-			<tr key={aScore.Text} data-idx-word={aj} onClick={ouHandClickWord}>
+			<tr key={aScore.Text} data-idx-word={aj} className={ouClass(aScore)}
+				onClick={ouHandClickWord}>
+
 				<td>{ouTextScore(aScore.StatUser)}</td>
 				<td>{aScore.Text}</td>
 				<td>{ouTextScore(aScore.StatOgle)}</td>
@@ -245,34 +251,6 @@ export default function ViewScore(aProps) {
 			<h1>Ogle score</h1>
 
 			<main>
-				<section id="ColWords">
-					<header>
-						<div><em>{aProps.CardUser.Score}</em> Player</div>
-						<div><strong>{ouPerc()}%</strong></div>
-						<div>Ogle <em>{aProps.CardOgle.Score}</em></div>
-					</header>
-
-					<div id="BoxWords">
-						<table>
-							<tbody>
-								{ouLinesScore()}
-							</tbody>
-						</table>
-					</div>
-				</section>
-
-				<section id="BoxSetup">
-					<div>
-						<h3>Yield</h3>
-						<div>{aProps.Setup.uTextShortYield()}</div>
-					</div>
-					<hr />
-					<div>
-						<h3>Pace</h3>
-						<div>{aProps.Setup.uTextShortPace()}</div>
-					</div>
-				</section>
-
 				<section id="BoxCover">
 					<h3>Coverage</h3>
 
@@ -287,6 +265,18 @@ export default function ViewScore(aProps) {
 					</aside>
 				</section>
 
+				<section id="BoxSetup">
+					<div>
+						<h3>Yield</h3>
+						<div>{aProps.Setup.uTextShortYield()}</div>
+					</div>
+					<hr />
+					<div>
+						<h3>Pace</h3>
+						<div>{aProps.Setup.uTextShortPace()}</div>
+					</div>
+				</section>
+
 				<section id="BoxHigh">
 					<h3>High scores</h3>
 
@@ -299,6 +289,22 @@ export default function ViewScore(aProps) {
 					<aside>
 						Games using this setup
 					</aside>
+				</section>
+
+				<section id="ColWords">
+					<header>
+						<div><em>{aProps.CardUser.Score}</em> Player</div>
+						<div><strong>{ouPerc()}%</strong></div>
+						<div>Ogle <em>{aProps.CardOgle.Score}</em></div>
+					</header>
+
+					<div id="BoxWords">
+						<table>
+							<tbody>
+								{ouLinesScore()}
+							</tbody>
+						</table>
+					</div>
 				</section>
 			</main>
 
