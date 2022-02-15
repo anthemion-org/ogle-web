@@ -65,47 +65,19 @@ export class tCover {
  *    the number of words of each length that were scored by each player.
  */
 export function uScoresCoversFromCards(aCardOgle, aCardUser) {
-	// Note that a word-following check is also performed in 'tCard.Add'. I don't
-	// see a good way to share the functionality, however.
-
-	// Process user words
-	// ------------------
-
 	const oScoresUser = aCardUser.Ents.map(aEnt =>
 		new tScoreWord(aEnt, StatsWord.Miss, StatsWord.Score)
 	);
-	oScoresUser.sort(uCompareByText);
-
-	let oTextPrev = null;
-	// Start from the end because longer words have been sorted after shorter:
-	for (let oj = (oScoresUser.length - 1); oj >= 0; --oj) {
-		const oScore = oScoresUser[oj];
-		if (oTextPrev && Text.uCkEqBegin(oScore.Text, oTextPrev))
-			oScore.StatUser = StatsWord.Follow;
-		oTextPrev = oScore.Text;
-	}
-
-	// Process Ogle words
-	// ------------------
-
 	const oScoresOgle = aCardOgle.Ents.map(aEnt =>
 		new tScoreWord(aEnt, StatsWord.Score, StatsWord.Miss)
 	);
-	oScoresOgle.sort(uCompareByText);
-
-	oTextPrev = null;
-	// Start from the end because longer words have been sorted after shorter:
-	for (let oj = (oScoresOgle.length - 1); oj >= 0; --oj) {
-		const oScore = oScoresOgle[oj];
-		if (oTextPrev && Text.uCkEqBegin(oScore.Text, oTextPrev))
-			oScore.StatOgle = StatsWord.Follow;
-		oTextPrev = oScore.Text;
-	}
 
 	// Combine word lists
 	// ------------------
 
 	const oScores = [...oScoresUser];
+	// So that 'Search.uBin' can be used:
+	oScores.sort(uCompareByText);
 
 	// Add Ogle words:
 	for (const oScoreOgle of oScoresOgle) {
@@ -114,6 +86,25 @@ export function uScoresCoversFromCards(aCardOgle, aCardUser) {
 		if (oCk) oScores[oj].StatOgle = oScoreOgle.StatOgle;
 		// or add new word:
 		else oScores.splice(oj, 0, oScoreOgle);
+	}
+
+	// Mark followed words
+	// -------------------
+	// Note that a word-following check is also performed in 'tCard.Add'. I don't
+	// see a good way to share the functionality, however.
+
+	let oTextPrevUser = null;
+	let oTextPrevOgle = null;
+	// Start from the end because longer words have been sorted after shorter:
+	for (let oj = (oScores.length - 1); oj >= 0; --oj) {
+		const oScore = oScores[oj];
+		if (oTextPrevUser && Text.uCkEqBegin(oScore.Text, oTextPrevUser))
+			oScore.StatUser = StatsWord.Follow;
+		if (oTextPrevOgle && Text.uCkEqBegin(oScore.Text, oTextPrevOgle))
+			oScore.StatOgle = StatsWord.Follow;
+
+		if (oScore.StatUser === StatsWord.Score) oTextPrevUser = oScore.Text;
+		if (oScore.StatOgle === StatsWord.Score) oTextPrevOgle = oScore.Text;
 	}
 
 	oScores.sort(uCompareByLen);
