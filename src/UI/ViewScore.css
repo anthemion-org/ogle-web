@@ -4,13 +4,17 @@
 // www.anthemion.org */
 
 #ViewScore {
-	width: calc(min(80vw, 80vh));
+	width: calc(100vw - 3rem);
+	max-width: 50rem;
 
+	margin: 0.5rem 0;
 	padding: 1.5rem;
 }
 
 #ViewScore main {
-	height: calc(100vh - 13rem);
+	flex: 1 1 0;
+
+	height: 0%;
 
 	margin-bottom: 1rem;
 	border-bottom: 1px dashed var(--ColorRule);
@@ -20,8 +24,8 @@
 	text-align: center;
 
 	display: grid;
-	grid-template-columns: 55% 1fr;
-	grid-template-rows: auto 1fr auto;
+	grid-template-columns: 1fr auto 1fr;
+	grid-template-rows: auto 1fr;
 }
 
 #ViewScore aside {
@@ -29,13 +33,11 @@
 }
 
 #ViewScore #ColWords {
-	grid-column: 1;
-	grid-row: 1 / span 3;
-	flex: 0 1 55%;
+	grid-column: 1 / span 3;
+	grid-row: 2;
 
-	margin-right: 1.5rem;
-	border-right: 1px dashed var(--ColorRule);
-	padding-right: 1.5rem;
+	border-top: 1px dashed var(--ColorRule);
+	padding: 0.75rem 0 0 0;
 
 	display: flex;
 	flex-direction: column;
@@ -46,6 +48,7 @@
 	justify-content: space-between;
 
 	margin-bottom: 0.75rem;
+	padding: 0 0.25rem;
 
 	font-family: var(--FontFamilySerif);
 	font-size: 1.5rem;
@@ -63,11 +66,51 @@
 	color: var(--ColorTextAlt2);
 }
 
-#ViewScore #BoxWords {
+#ViewScore #ColWords table {
+	/* #BoxWords was displayed as a table, but the wrapping flex layout seems much
+	// better. The 'table' HTML should perhaps be replaced: */
+	display: block;
+}
+
+#ViewScore #ColWords tbody {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+}
+
+#ViewScore #ColWords tr {
 	flex: 1;
 
-	height: 100%;
-	overflow-y: scroll;
+	min-width: 8rem;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+
+	margin: 0.1rem 0.1rem;
+	border-radius: 0.2rem;
+
+	background-color: var(--ColorViewBackAlt);
+}
+
+#ViewScore #ColWords td {
+	display: inline;
+}
+
+/* Within the row, only the 'td' elements produce the click events we use to
+// display the Word Score dialog, so these must be made to span the entire
+// width. */
+
+#ViewScore #ColWords td {
+	/* Fix the size of the score cells so that the word is always centered: */
+	flex: 0 0 1.25em;
+}
+
+#ViewScore #ColWords td:nth-child(2) {
+	flex: 1;
+
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 #ViewScore #BoxWords tr {
@@ -86,23 +129,23 @@
 
 #ViewScore #BoxSetup {
 	grid-column: 2;
-	grid-row: 2;
+	grid-row: 1;
 
-	margin-bottom: 1rem;
-	border-bottom: 1px dashed var(--ColorRule);
+	margin: 0 3rem;
 	padding-bottom: 1rem;
 
 	display: flex;
+	flex-direction: column;
 	justify-content: space-evenly;
 	align-items: center;
 }
 
 #ViewScore #BoxSetup hr {
-	height: 3.5rem;
+	width: 100%;
+	height: 1px;
 
 	margin: 0;
-	border: 0;
-	border-right: 1px dashed var(--ColorRule);
+	border-top: 1px dashed var(--ColorRule);
 }
 
 #ViewScore #BoxSetup h3 {
@@ -119,11 +162,9 @@
 }
 
 #ViewScore #BoxCover {
-	grid-column: 2;
+	grid-column: 1;
 	grid-row: 1;
 
-	margin-bottom: 1rem;
-	border-bottom: 1px dashed var(--ColorRule);
 	padding-bottom: 1rem;
 }
 
@@ -136,8 +177,8 @@
 }
 
 #ViewScore #BoxHigh {
-	grid-column: 2;
-	grid-row: 3;
+	grid-column: 3;
+	grid-row: 1;
 }
 
 #ViewScore #BoxHigh tr.High {
@@ -153,140 +194,8 @@
 	margin-top: 1.25rem;
 }
 
-/* ------------------
-// Responsive layouts
+/* Responsive layouts
 // ------------------ */
-
-/* Short or narrow viewport
-// ------------------------
-// If the viewport narrows, we will also apply 'narrow viewport' rules after
-// this set. These properties are prerequisites for those. */
-
-@media screen and (max-height: 900px), screen and (max-width: 800px) {
-	/* There is no way to fit this view into a small display, so the view as a
-	// whole must scroll. #BoxWords scrolls in the desktop layout, but we don't
-	// want an element that scrolls inside another element that also scrolls, so
-	// we will change that table to a wrapping flex container. */
-
-	#ViewScore {
-		width: calc(100vw - 3rem);
-		max-width: 50rem;
-
-		margin: 0.5rem 0;
-	}
-
-	#ViewScore main {
-		height: 0%;
-		flex: 1 1 0;
-
-		grid-template-columns: 1fr auto 1fr;
-		grid-template-rows: auto 1fr;
-	}
-
-	#ViewScore #BoxCover {
-		grid-column: 1;
-		grid-row: 1;
-
-		margin: 0;
-		border: none;
-	}
-
-	#ViewScore #BoxSetup {
-		grid-column: 2;
-		grid-row: 1;
-
-		border: none;
-		margin: 0 3rem;
-
-		flex-direction: column;
-	}
-
-	#ViewScore #BoxSetup hr {
-		width: 100%;
-		height: 1px;
-
-		margin: 0;
-		border: none;
-		border-top: 1px dashed var(--ColorRule);
-	}
-
-	#ViewScore #BoxHigh {
-		grid-column: 3;
-		grid-row: 1;
-
-		margin: 0;
-		border: none;
-	}
-
-	#ViewScore #ColWords {
-		grid-column: 1 / span 3;
-		grid-row: 2;
-
-		margin: 0;
-		border: none;
-		border-top: 1px dashed var(--ColorRule);
-		padding: 0.75rem 0 0 0;
-	}
-
-	#ViewScore #ColWords header {
-		padding: 0 0.25rem;
-	}
-
-	#ViewScore #ColWords table {
-		display: block;
-	}
-
-	#ViewScore #ColWords tbody {
-		display: flex;
-		flex-wrap: wrap;
-		justify-content: space-between;
-	}
-
-	#ViewScore #ColWords tr {
-		flex: 1;
-
-		min-width: 8rem;
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-
-		margin: 0.1rem 0.1rem;
-		border-radius: 0.2rem;
-
-		background-color: var(--ColorViewBackAlt);
-	}
-
-	#ViewScore #ColWords td {
-		display: inline;
-	}
-
-	/* Within the row, only the 'td' elements produce the click events we use to
-	// display the Word Score dialog, so these must be made to span the entire
-	// width. */
-
-	#ViewScore #ColWords td {
-		/* Fix the size of the score cells so that the word is always centered: */
-		flex: 0 0 1.25em;
-	}
-
-	#ViewScore #ColWords td:nth-child(2) {
-		flex: 1;
-
-		overflow: hidden;
-		text-overflow: ellipsis;
-		white-space: nowrap;
-	}
-
-	#ViewScore #BoxWords {
-		height: initial;
-		overflow-y: initial;
-	}
-}
-
-/* Narrow viewport
-// ---------------
-// Note that the 'Short or narrow viewport' properties are also applied when the
-// viewport narrows. */
 
 @media screen and (max-width: 800px) {
 	#ViewScore main {
