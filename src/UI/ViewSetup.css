@@ -8,6 +8,8 @@
 }
 
 #ViewSetup section {
+	/* min-height: 12rem; */
+
 	border-radius: 0.25rem;
 	padding: 0.5rem 1rem 0.75rem 1rem;
 	background-color: var(--ColorSlideBack);

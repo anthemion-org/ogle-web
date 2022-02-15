@@ -16,7 +16,7 @@
 
 	/* Need to use 'filter' here, or the shadow won't be rendered under
 	// transparent areas within the SVG: */
-	filter: drop-shadow(0 0 4px black);
+	filter: drop-shadow(0 0 2px black);
 }
 
 #ViewAbout h1 {

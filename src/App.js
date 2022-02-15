@@ -25,10 +25,10 @@ export default function App() {
 	useEffect(ouStore_StApp, [oStApp]);
 
 	return (
-		<>
+		<div id="ContainTheme" className="ThemeDk">
 			<BackPage />
 			<View StApp={oStApp} uUpd_StApp={ouUpd_StApp} />
-		</>
+		</div>
 	);
 }
 
