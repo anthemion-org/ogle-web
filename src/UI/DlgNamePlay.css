@@ -18,10 +18,16 @@
 	font-size: 1.5rem;
 }
 
-#DlgNamePlay header em {
+#DlgNamePlay header strong {
 	font-weight: bold;
 	font-style: normal;
 	color: var(--ColorTextAlt1);
+}
+
+#DlgNamePlay header em {
+	font-weight: bold;
+	font-style: normal;
+	color: var(--ColorTextAlt2);
 }
 
 #DlgNamePlay h2 {

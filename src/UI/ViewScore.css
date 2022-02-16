@@ -4,7 +4,7 @@
 // www.anthemion.org */
 
 #ViewScore {
-	width: calc(100vw - 3rem);
+	width: calc(100vw - 1rem);
 	max-width: 65rem;
 
 	margin: 0.5rem 0;
@@ -153,33 +153,32 @@
 	background-color: var(--ColorViewBackAlt);
 }
 
-#ViewScore #ColWords td {
-	display: inline;
-}
-
-/* Within the row, only the 'td' elements produce the click events we use to
-// display the Word Score dialog, so these must be made to span the entire
-// width. */
-
-#ViewScore #ColWords td {
-	/* Fix the size of the score cells so that the word is always centered: */
-	flex: 0 0 1.25em;
-}
-
-#ViewScore #ColWords td:nth-child(2) {
-	flex: 1;
-
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-}
-
 #ViewScore #BoxWords tr {
 	cursor: pointer;
 }
 
 #ViewScore #BoxWords tr.User {
 	font-style: italic;
+}
+
+/* Within the row, only the 'td' elements produce the click events we use to
+// display the Word Score dialog, so these must be made to span the entire
+// width. */
+
+#ViewScore #BoxWords td {
+	display: inline;
+	/* Fix the size of the score cells so that the word is always centered: */
+	flex: 0 0 1.25em;
+
+	text-align: center;
+}
+
+#ViewScore #BoxWords td:nth-child(2) {
+	flex: 1;
+
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 #ViewScore #BoxWords th:first-child,

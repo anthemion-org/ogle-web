@@ -162,7 +162,11 @@ export default function ViewScore(aProps) {
 		}
 
 		function ouTextScore(aStat) {
-			return (aStat === StatsWord.Score) ? "1" : "";
+			switch (aStat) {
+				case StatsWord.Score: return "1";
+				case StatsWord.Follow: return "·";
+				default: return "";
+			}
 		}
 
 		const oLines = oScores.map((aScore, aj) => (

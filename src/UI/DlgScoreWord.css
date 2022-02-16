@@ -101,8 +101,7 @@
 	min-width: 4rem;
 }
 
-/* ------------------
-// Responsive layouts
+/* Responsive layouts
 // ------------------ */
 
 @media screen and (max-width: 500px) {
