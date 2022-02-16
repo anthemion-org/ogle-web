@@ -4,6 +4,7 @@
 // www.anthemion.org */
 
 .View {
+	border: var(--StyViewBord);
 	border-radius: 0.5rem;
 	padding: 1rem;
 

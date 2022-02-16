@@ -3,40 +3,47 @@
 // Copyright ©2022 Jeremy Kelly
 // www.anthemion.org */
 
-#ContBackPage {
+#ContainBackPage {
 	z-index: -1;
 	position: fixed;
-	left: 0;
+	/* We are ensuring that the background always covers the viewport, and that it
+	// is always square. We will also position it so that it is always centered in
+	// the viewport: */
+	width: calc(max(100vw, 100vh));
+	height: calc(max(100vw, 100vh));
+	left: calc(50vw - 50vh);
 	top: 0;
-
-	width: 100vw;
-	height: 100vh;
-	overflow: clip;
-}
-
-#BackPage {
-	/* Because the pattern stretches to maintain its aspect ratio, these
-	// dimensions implicitly determine the smallest possible pattern size: */
-	width: 1600px;
-	height: 1000px;
-	min-width: 100vw;
-	min-height: 100vh;
 
 	background-color: var(--ColorPattBackDk);
 }
 
-#BackPage .BackDieFace {
-	fill: var(--ColorPattBackLt);
+@media screen and (orientation: landscape) {
+	#ContainBackPage {
+		left: 0;
+		top: calc(50vh - 50vw);
+	}
 }
 
-#BackPage .BackDieText {
+#BackPage {
+	background-color: var(--ColorPattBackDk);
+}
+
+#BackPage .Ray {
+	fill: none;
+
+	stroke-width: 0.1;
+	stroke: hsl(0, 4%, 20%);
+}
+
+#BackPage .Circ {
+	fill: transparent;
+
+	stroke-width: 0.25;
+	stroke: var(--ColorPattBackDk);
+}
+
+#BackPage .Ctr {
 	fill: var(--ColorPattBackDk);
-}
 
-#BackPage .BackDieFace.Alt {
-	display: none;
-}
-
-#BackPage .BackDieText.Alt {
-	fill: var(--ColorPattBackLt);
+	stroke-width: 0;
 }
