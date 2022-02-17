@@ -51,11 +51,11 @@ LookDie.propTypes = {
  *  ~ uCallTog: A function to be invoked if the die is left-clicked.
  */
 export default function LookDie(aProps) {
-	function ouHandMouseOver(aEvt) {
-		if (!aProps.CkDisp) Sound.uMouseOver();
+	function ouHandPointOver(aEvt) {
+		if (!aProps.CkDisp) Sound.uPointOver();
 	}
 
-	function ouHandClick(aEvt) {
+	function ouHandPointDown(aEvt) {
 		// The left button:
 		if ((aEvt.button === 0) && aProps.uCallTog)
 			aProps.uCallTog(aProps.Pos);
@@ -193,26 +193,16 @@ export default function LookDie(aProps) {
 
 	// When entering words quickly, there is a tendency to click and drag, which
 	// causes many selections to be missed if onClick is used to toggle die
-	// selections. For that reason, I replaced onClick with onMouseDown. On mobile
-	// devices, that event appears not to fire until the finger is lifted, just
-	// like onClick, so I added onPointerDown, and associated it with the same
-	// handler. That seemed okay at first. There is also a tendency to leave the
-	// left mouse button down while clicking the right, however, and using
-	// onMouseDown and onPointerDown together prevented the right button click
-	// from firing, so I removed onMouseDown, leaving all mouse and touchscreen
-	// input to be handled by onPointerDown alone. The 'preventDefault' calls that
-	// were in the handlers produced the same problem, so I removed those too.
-	// Everything seems to be working now, but this is obviously more complex than
-	// expected. This document might help if there is more trouble:
+	// selections. For that reason, I replaced onClick with onMouseDown, and later
+	// onPointerDown.
 	//
-	//   https://w3c.github.io/pointerevents/
-	//
+	// Note that only the left mouse button clicks are handled here; the middle
+	// and right are left to LookBoard:
 	return (
 		<svg className={oClasses} style={oSty}
 			xmlns="http://www.w3.org/2000/svg"
 			viewBox="0 0 100 100"
-			onMouseOver={ouHandMouseOver}
-			onPointerDown={ouHandClick}
+			onPointerOver={ouHandPointOver} onPointerDown={ouHandPointDown}
 		>
 			{ouBackText()}
 			{ouMarkSel()}

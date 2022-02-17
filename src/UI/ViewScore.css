@@ -157,10 +157,6 @@
 	cursor: pointer;
 }
 
-#ViewScore #BoxWords tr.User {
-	font-style: italic;
-}
-
 /* Within the row, only the 'td' elements produce the click events we use to
 // display the Word Score dialog, so these must be made to span the entire
 // width. */
@@ -179,6 +175,10 @@
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
+}
+
+#ViewScore #BoxWords tr.User td:nth-child(2) {
+	font-style: italic;
 }
 
 #ViewScore #BoxWords th:first-child,
@@ -223,30 +223,30 @@
 		border-left: 1px dashed var(--ColorRule);
 	}
 
-	#ViewScore #BoxCover {
+	#ViewScore #ColWords {
 		grid-column: 1;
 		grid-row: 2;
 
-		margin: 0;
-		border: none;
-		border-top: 1px dashed var(--ColorRule);
-		padding: 1rem 0;
+		padding: 1rem 0 1.75rem 0;
 	}
 
-	#ViewScore #BoxHigh {
+	#ViewScore #BoxCover {
 		grid-column: 1;
 		grid-row: 3;
 
 		margin: 0;
 		border: none;
 		border-top: 1px dashed var(--ColorRule);
-		padding: 1rem 0 0 0;
+		padding: 1rem 0 1.25rem 0;
 	}
 
-	#ViewScore #ColWords {
+	#ViewScore #BoxHigh {
 		grid-column: 1;
 		grid-row: 4;
 
-		margin: 1rem 0 0 0;
+		margin: 0;
+		border: none;
+		border-top: 1px dashed var(--ColorRule);
+		padding: 1rem 0 0 0;
 	}
 }

@@ -18,28 +18,28 @@ import PropTypes from "prop-types";
 
 Btn.propTypes = {
 	CkDisabSoundClick: PropTypes.bool,
-	onMouseOver: PropTypes.func,
+	onPointOver: PropTypes.func,
 	onClick: PropTypes.func
 };
 
-/** A custom button component that plays mouse over and click sounds. The
- *  following props are supported:
+/** A custom button component that plays mouse over and click sounds. The button
+ *  uses no special styling. The following props are supported:
  *
  *  ~ CkDisabSoundClick: Set to 'true' if the click sound should not be played.
  *    This is useful when the button triggers an action that produces its own
  *    sound;
  *
- *  ~ onMouseOver: The handler to be invoked when the user mouses over this
+ *  ~ onPointOver: The handler to be invoked when the user mouses over this
  *    button;
  *
  *  ~ onClick: The handler to be invoked when the user clicks this button.
  *
  *  Other props will be forwarded to the 'button' element. */
 export default function Btn(aProps) {
-	function ouHandMouseOver(aEvt) {
-		Sound.uMouseOver();
+	function ouHandPointOver(aEvt) {
+		Sound.uPointOver();
 
-		if (aProps.onMouseOver) aProps.onMouseOver(aEvt);
+		if (aProps.onPointOver) aProps.onPointOver(aEvt);
 	}
 
 	function ouHandClick(aEvt) {
@@ -63,8 +63,8 @@ export default function Btn(aProps) {
 	}
 
 	return (
-		<button {...ouPropsPass()} className={ouClassName()} onClick={ouHandClick}
-			onMouseOver={ouHandMouseOver}>
+		<button {...ouPropsPass()} className={ouClassName()}
+			onPointerOver={ouHandPointOver} onClick={ouHandClick}>
 			{aProps.children}
 		</button>
 	);

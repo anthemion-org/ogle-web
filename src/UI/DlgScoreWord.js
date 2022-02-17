@@ -75,7 +75,7 @@ export default function DlgScoreWord(aProps) {
 		<div className="ScreenDlg">
 			<div id="DlgScoreWord" className="Dlg">
 				<div id="BoxWik">
-					<a id="BtnWik" className="Btn" href={oURL} target="_blank"
+					<a id="BtnWik" className="BtnLink" href={oURL} target="_blank"
 						rel="noopener noreferrer">
 						{oTextEnt}
 					</a>

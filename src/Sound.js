@@ -14,7 +14,7 @@ import { tTimer } from "./Util/Timer.js";
  *  mutable. */
 class tSound {
 	constructor() {
-		this._AudMouseOver = document.querySelector("#AudMouseOver");
+		this._AudPointOver = document.querySelector("#AudPointOver");
 		this._AudSelDie = document.querySelector("#AudSelDie");
 		this._AudUnselDie = document.querySelector("#AudUnselDie");
 		this._AudEntVal = document.querySelector("#AudEntVal");
@@ -31,8 +31,8 @@ class tSound {
 		this._TimerLoop = new tTimer(this._uWorkTimerLoop, 250, true);
 	}
 
-	uMouseOver() {
-		this._AudMouseOver.play();
+	uPointOver() {
+		this._AudPointOver.play();
 	}
 
 	uSelDie() {

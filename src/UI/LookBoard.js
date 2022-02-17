@@ -53,7 +53,7 @@ export default function LookBoard(aProps) {
 		return !aProps.Ent || aProps.Ent.uCkTogAt(aPos);
 	}
 
-	function ouHandClick(aEvt) {
+	function ouHandPointDown(aEvt) {
 		// We handle these here because, if they were handled in LookDie with the
 		// left mouse button, and if the user happened to click the gap between two
 		// dice, they would be missed:
@@ -123,11 +123,20 @@ export default function LookBoard(aProps) {
 	//
 	// As an alternative, LookDie could adjust the connection start and end points
 	// to meet the selection circles, but it is difficult for that component to
-	// know its neighbors' positions:
+	// know its neighbors' positions.
+	//
+	// There is a tendency to leave the left mouse button down while clicking the
+	// right, and for whatever reason, that prevents the click from firing when
+	// onPointerDown is used by itself. The 'preventDefault' calls that were in
+	// the handlers produced the same problem, so I removed those too. Everything
+	// seems to be working now, but this is obviously more complex than expected.
+	// This document might help if there is more trouble:
+	//
+	//   https://w3c.github.io/pointerevents/
+	//
 	return (
 		<div className="LookBoard"
-			onMouseDown={ouHandClick}
-			onPointerDown={ouHandClick}
+			onMouseDown={ouHandPointDown} onPointerDown={ouHandPointDown}
 		>
 			{ouBacksDie()}
 			{ouConnsSel()}

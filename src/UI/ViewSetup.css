@@ -7,6 +7,10 @@
 	width: 30rem;
 }
 
+#ViewSetup section:focus-within {
+	outline: var(--StyBtnOutFoc);
+}
+
 #ViewSetup section {
 	margin-top: 0.5rem;
 	border-radius: 0.25rem;

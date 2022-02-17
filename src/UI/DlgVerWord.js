@@ -48,7 +48,7 @@ export default function DlgVerWord(aProps) {
 						This word is not found in the Ogle lexicon:
 					</div>
 
-					<a id="BtnWik" className="Btn" href={oURL} target="_blank"
+					<a id="BtnWik" className="BtnLink" href={oURL} target="_blank"
 						rel="noopener noreferrer">
 						{oTextEnt}
 					</a>

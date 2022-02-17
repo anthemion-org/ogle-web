@@ -9,6 +9,8 @@
 	padding: 1.5rem;
 
 	font-size: 1.1rem;
+	/** I have been selecting by accident when using touchscreen: */
+	user-select: none;
 }
 
 #ViewPlay main {
@@ -269,6 +271,10 @@
 }
 
 @media screen and (orientation: portrait) and (max-width: 500px) {
+	#ViewPlay {
+		padding: 1rem;
+	}
+
 	#ViewPlay #TextInstruct {
 		font-size: 95%;
 	}
@@ -280,6 +286,8 @@
 
 	#ViewPlay #BtnPause,
 	#ViewPlay #BtnEnt {
+		min-height: 6rem;
+
 		font-size: 0.9rem;
 	}
 
