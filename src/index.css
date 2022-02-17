@@ -46,7 +46,6 @@
 	--ColorInText: black;
 
 	--ColorSlideBack: white;
-	--StySlideBordFoc: 1px dashed #AAA;
 	--ColorSlideTrack: #AAA;
 	--ColorSlideTrackHov: hsl(0, 60%, 40%);
 	--ColorSlideThumb: black;
@@ -98,7 +97,6 @@
 	--ColorInText: hsl(0, 0%, 90%);
 
 	--ColorSlideBack: hsl(0, 4%, 26%);
-	--StySlideBordFoc: 1px dashed hsl(30, 60%, 60%);
 	--ColorSlideTrack: hsl(0, 4%, 75%);
 	--ColorSlideTrackHov: hsl(30, 60%, 60%);
 	--ColorSlideThumb: hsl(0, 0%, 90%);

@@ -3,6 +3,12 @@
 // Copyright ©2022 Jeremy Kelly
 // www.anthemion.org
 //
+// An earlier version indicated the focus state with a dashed rectangle around
+// the slider. That looked nice, but the padding made it difficult to calculate
+// click positions. I tried to make something similar with a container, but
+// strange vertical centering problems resulted. This version does not show that
+// it is focused, so the container must do so with 'focus-within'.
+//
 // Selectors adapted from:
 //
 //   https://css-tricks.com/styling-cross-browser-compatible-range-inputs-css/
@@ -17,7 +23,12 @@ input[type="range"].Slide {
 	margin: 0;
 	border: 1px solid transparent;
 	outline: none;
-	padding: 2rem 1rem 1.5rem 1rem;
+	/* Do not set vertical padding here! When that is done, a single down click
+	// anywhere inside the padding continues to set the value successfully, but to
+	// drag, it becomes necessary that the first click land very close to the
+	// track. I think the padding consumes area that otherwise is used to accept
+	// some important part of the input: */
+	padding: 0 1rem;
 
 	background: transparent;
 }

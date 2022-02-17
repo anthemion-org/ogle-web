@@ -11,34 +11,18 @@
 import "./Slide.css";
 import Sound from "../Sound.js";
 
-import { React, useRef } from "react";
-import PropTypes from "prop-types";
+import React from "react";
 
 // Slide
 // -----
 
-Slide.propTypes = {
-	onPointOver: PropTypes.func,
-	onChange: PropTypes.func
-};
-
 /** A custom range input component that plays mouse-over and change sounds.
  *  Unlike the built-in range control, a single click always changes the value,
  *  even if the click position is only slighly offset from the thumb. The
- *  following props are supported:
- *
- *  ~ onPointOver: The handler to be invoked when the user mouses over the
- *    slider;
- *
- *  ~ onChange: The handler to be invoked when the user moves the slider. An
- *    event other than onChange may be passed to this handler.
- *
- *  Other props will be forwarded to the 'button' element. */
+ *  usual range inputs props are supported. */
 export default function Slide(aProps) {
 	function ouHandPointOver(aEvt) {
 		Sound.uPointOver();
-
-		if (aProps.onPointOver) aProps.onPointOver(aEvt);
 	}
 
 	function ouHandPointDown(aEvt) {
@@ -50,8 +34,7 @@ export default function Slide(aProps) {
 		const oFracClick = (aEvt.clientX - oIn.offsetLeft) / oWthIn;
 
 		let oVal = Math.round(oIn.max * oFracClick);
-		// 'value' is a string:
-		if (oVal == oIn.value) {
+		if (oVal === parseInt(oIn.value)) {
 			if (oFracClick > oFracOrig) oVal = Math.min((oVal + 1), oIn.max);
 			else if (oFracClick < oFracOrig) oVal = Math.max((oVal - 1), 0);
 		}
@@ -73,8 +56,7 @@ export default function Slide(aProps) {
 		// Don't select the value on the other side, as in ouHandPointDown, or it
 		// will 'bounce' as the user drags:
 		const oVal = Math.round(oIn.max * oFracClick);
-		// 'value' is a string:
-		if (oVal == oIn.value) return;
+		if (oVal === parseInt(oIn.value)) return;
 
 		oIn.value = oVal.toString();
 		ouHandChange(aEvt);
@@ -86,17 +68,20 @@ export default function Slide(aProps) {
 		if (aProps.onChange) aProps.onChange(aEvt);
 	}
 
-	function ouClassName() {
+	function ouClasses() {
 		let oName = "Slide";
 		if (aProps.className) oName += (" " + aProps.className);
 		return oName;
 	}
 
 	// 'onPointerOver' fires when the mouse first enters the control region.
-	// 'onPointerMove' continues to fire as the pointer moves:
+	// 'onPointerMove' continues to fire as the pointer moves.
+	//
+	// Note that we are overwriting the 'onChange' handler that was assigned in
+	// the component invocation. That handler will be called within ouHandChange:
 	return (
-		<input {...aProps} type="range" className={ouClassName()}
+		<input {...aProps} type="range" className={ouClasses()}
 			onPointerOver={ouHandPointOver} onPointerDown={ouHandPointDown}
-			onPointerMove={ouHandPointMove} />
+			onPointerMove={ouHandPointMove} onChange={ouHandChange} />
 	);
 }
