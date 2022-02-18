@@ -21,6 +21,7 @@
 	--StyViewBord: none;
 
 	--ColorDlgBack: hsl(30, 10%, 93%);
+	--StyDlgBord: none;
 
 	--ColorText: black;
 	--ColorTextAlt1: hsl(0, 60%, 50%);
@@ -72,6 +73,7 @@
 	--StyViewBord: 1px solid hsl(0, 4%, 40%);
 
 	--ColorDlgBack: hsl(0, 4%, 20%);
+	--StyDlgBord: 1px solid hsl(0, 4%, 30%);
 
 	--ColorText: hsl(0, 0%, 90%);
 	--ColorTextAlt1: hsl(0, 60%, 70%);
@@ -312,6 +314,7 @@ input:focus {
 	border-radius: 0.5rem;
 	padding: 1.25rem;
 	background-color: var(--ColorDlgBack);
+	border: var(--StyDlgBord);
 	box-shadow: 0 0 10px hsla(0, 0%, 0%, 0.7);
 
 	font-size: 1.1rem;

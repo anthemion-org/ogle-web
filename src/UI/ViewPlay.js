@@ -184,6 +184,11 @@ export default function ViewPlay(aProps) {
 		});
 
 		Work.onmessage = function (aMsg) {
+			if (!aMsg.data.Board) {
+				aProps.uUpd_StApp(StsApp.Setup);
+				return;
+			}
+
 			ouSet_Board(tBoard.suFromPOD(aMsg.data.Board));
 			ouSet_CardOgle(tCard.suFromPOD(aMsg.data.CardOgle));
 		};

@@ -56,7 +56,6 @@ export default class ViewSetup extends React.Component {
 	}
 
 	uHandChange(aEvt) {
-console.log("CHG: " + Date.now());
 		const oEl = aEvt.target;
 		const oVal = (oEl.type === "checkbox") ? oEl.checked : oEl.value;
 		const oState = { [aEvt.target.name]: oVal };

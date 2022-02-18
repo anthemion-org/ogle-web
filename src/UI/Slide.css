@@ -18,7 +18,7 @@ input[type="range"].Slide {
 	/* This hides the original slider, but it also hides the tick marks:*/
 	-webkit-appearance: none;
 	width: 100%;
-	height: 3rem;
+	height: 4rem;
 
 	margin: 0;
 	border: 1px solid transparent;
