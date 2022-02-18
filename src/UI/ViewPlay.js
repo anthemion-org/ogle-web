@@ -43,6 +43,13 @@ ViewPlay.propTypes = {
  *    required.
  */
 export default function ViewPlay(aProps) {
+	/** The time remaining, in milliseconds, when the user is considered to be low
+	 *  on time. */
+	//
+	// I want the fast ticking to start at ten seconds, but the displayed time is
+	// rounded up, so eleven seconds better matches that output:
+	const oTimeRemainLow = 11000;
+
 	/** A tBoard instance representing the board that is being played, or 'null'
 	 *  if the board has not been generated yet. */
 	const [oBoard, ouSet_Board] = useState(() => uBoardInit());
@@ -60,6 +67,8 @@ export default function ViewPlay(aProps) {
 	const [oCkVerWord, ouSet_CkVerWord] = useState(false);
 	/** The elapsed play time, in milliseconds. */
 	const [oTimeElap, ouSet_TimeElap] = useState(() => uTimeElapInit());
+	/** Set to 'true' if the Pause button should blink to show that time is low. */
+	const [oCkBlinkPause, ouSet_CkBlinkPause] = useState(false);
 
 	// Keyboard input
 	// --------------
@@ -143,6 +152,7 @@ export default function ViewPlay(aProps) {
 		// the Sound class, which is much easier than managing that state here.
 
 		if (!oBoard || (oStPlay !== StsPlay.Play) || oCkVerWord) {
+			ouSet_CkBlinkPause(false);
 			Sound.uStop_Tick();
 			return;
 		}
@@ -155,10 +165,14 @@ export default function ViewPlay(aProps) {
 			return;
 		}
 
-		// I want the fast ticking to start at ten seconds, but the displayed time
-		// is rounded up, so eleven seconds better matches that output:
-		if (oTimeRemain < 11000) Sound.uLoopFast_Tick();
-		else Sound.uLoopSlow_Tick();
+		if (oTimeRemain < oTimeRemainLow) {
+			ouSet_CkBlinkPause(true);
+			Sound.uLoopFast_Tick();
+		}
+		else {
+			ouSet_CkBlinkPause(false);
+			Sound.uLoopSlow_Tick();
+		}
 
 		// Note that we cannot return a clean-up function; doing so would cause the
 		// tick loop to stop and restart arbitrarily, disrupting its timing. The
@@ -224,7 +238,7 @@ export default function ViewPlay(aProps) {
 		if (oStPlay !== StsPlay.Pause) return null;
 
 		return (
-			<div className="ScreenDlg">
+			<div className="ScrimDlg">
 				<div id="DlgPause" className="Dlg">
 					<p>
 						Your game is paused
@@ -279,7 +293,7 @@ export default function ViewPlay(aProps) {
 		if (oStPlay !== StsPlay.ConfirmEnd) return null;
 
 		return (
-			<div className="ScreenDlg">
+			<div className="ScrimDlg">
 				<div id="DlgConfirmEnd" className="Dlg">
 					<p>
 						Are you sure you want<br />to end this round?
@@ -453,6 +467,10 @@ export default function ViewPlay(aProps) {
 		);
 	}
 
+	function ouClassBtnPause() {
+		return oCkBlinkPause ? "Blink" : "";
+	}
+
 	function ouTextTimeRemain() {
 		const oTime = uTimeRemain(aProps.Setup, oCardUser.CtBonusTime, oTimeElap);
 		return Math.ceil(oTime / 1000);
@@ -485,7 +503,9 @@ export default function ViewPlay(aProps) {
 				</section>
 
 				<section id="BoxTime">
-					<Btn id="BtnPause" onClick={ouHandPause}>
+					<Btn id="BtnPause" className={ouClassBtnPause()}
+						onClick={ouHandPause}>
+
 						<div id="LblTime">
 							{ouTextTimeRemain()}
 						</div>

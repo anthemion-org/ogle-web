@@ -41,7 +41,7 @@ export default function DlgVerWord(aProps) {
 	const oURL = "https://en.wiktionary.org/wiki/" + oTextEnt;
 
 	return (
-		<div className="ScreenDlg">
+		<div className="ScrimDlg">
 			<div id="DlgVerWord" className="Dlg">
 				<div id="BoxWik">
 					<div id="TextIntro">

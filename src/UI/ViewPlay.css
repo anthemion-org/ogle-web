@@ -140,6 +140,20 @@
 	display: block;
 }
 
+#ViewPlay #BtnPause.Blink {
+	animation-name: BlinkBtnPause;
+	animation-duration: 0.5s;
+	animation-timing-function: steps(2, jump-none);
+	animation-timing-function: ease-in-out;
+	animation-iteration-count: infinite;
+}
+
+@keyframes BlinkBtnPause {
+	0% { color: var(--ColorTextBlink) }
+	50% { color: var(--ColorText) }
+	100% { color: var(--ColorText) }
+}
+
 #ViewPlay #LblTime,
 #ViewPlay #LblScore {
 	font-family: var(--FontFamilySerif);

@@ -72,7 +72,7 @@ export default function DlgScoreWord(aProps) {
 	}
 
 	return (
-		<div className="ScreenDlg">
+		<div className="ScrimDlg">
 			<div id="DlgScoreWord" className="Dlg">
 				<div id="BoxWik">
 					<a id="BtnWik" className="BtnLink" href={oURL} target="_blank"
