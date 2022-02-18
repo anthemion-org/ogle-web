@@ -1,7 +1,10 @@
 /* ViewScore.css
-// -------------
-// Copyright ©2022 Jeremy Kelly
-// www.anthemion.org */
+ * -------------
+ * Copyright ©2022 Jeremy Kelly
+ * www.anthemion.org
+ *
+ * We could use more of the page, but even when the entire width is consumed,
+ * many boards require scrolling. */
 
 #ViewScore {
 	width: calc(100vw - 1rem);
@@ -129,7 +132,7 @@
 
 #ViewScore #ColWords table {
 	/* #BoxWords was displayed as a table, but the wrapping flex layout seems much
-	// better. The 'table' HTML should perhaps be replaced: */
+	 * better. The 'table' HTML should perhaps be replaced: */
 	display: block;
 }
 
@@ -158,8 +161,8 @@
 }
 
 /* Within the row, only the 'td' elements produce the click events we use to
-// display the Word Score dialog, so these must be made to span the entire
-// width. */
+ * display the Word Score dialog, so these must be made to span the entire
+ * width. */
 
 #ViewScore #BoxWords td {
 	display: inline;
@@ -196,7 +199,7 @@
 }
 
 /* Responsive layouts
-// ------------------ */
+ * ------------------ */
 
 @media screen and (max-width: 800px) {
 	#ViewScore main {

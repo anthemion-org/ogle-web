@@ -1,14 +1,14 @@
 /* BackPage.css
-// ------------
-// Copyright ©2022 Jeremy Kelly
-// www.anthemion.org */
+ * ------------
+ * Copyright ©2022 Jeremy Kelly
+ * www.anthemion.org */
 
 #ContainBackPage {
 	z-index: -1;
 	position: fixed;
 	/* We are ensuring that the background always covers the viewport, and that it
-	// is always square. We will also position it so that it is always centered in
-	// the viewport: */
+	 * is always square. We will also position it so that it is always centered in
+	 * the viewport: */
 	width: calc(max(100vw, 100vh));
 	height: calc(max(100vw, 100vh));
 	left: calc(50vw - 50vh);

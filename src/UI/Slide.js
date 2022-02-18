@@ -71,8 +71,8 @@ export default function Slide(aProps) {
 		const oFracNew = (aEvt.clientX - oIn.offsetLeft) / oIn.offsetWidth;
 		const oFracPer = 1.0 / oIn.max;
 		// We must make it slightly easier to select the next value, otherwise it
-		// will be impossible to drag to the first or last values, which have
-		// fractional positions of zero and one:
+		// will be impossible to drag to the first or last values, beyond which the
+		// user cannot drag:
 		const oFracPerMod = oFracPer * (1 - oFracDead);
 		// Don't select the value on the other side, as in ouHandPointDown, unless
 		// the mouse is very close to the next value:

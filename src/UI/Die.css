@@ -1,9 +1,17 @@
 /* Die.css
-// -------
-// Copyright ©2022 Jeremy Kelly
-// www.anthemion.org
-//
-// These styles are shared by BackDie, ConnSel, and LookDie. */
+ * -------
+ * Copyright ©2022 Jeremy Kelly
+ * www.anthemion.org
+ *
+ * These styles are shared by BackDie, ConnSel, and LookDie. */
+
+.BackDie,
+.ConnSel,
+.LookDie {
+	/* Safari requires that these be set explicitly: */
+	width: 100%;
+	height: 100%;
+}
 
 .BackDie:hover {
 	cursor: pointer;

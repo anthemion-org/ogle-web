@@ -1,7 +1,7 @@
 /* ViewSetup.css
-// -------------
-// Copyright ©2022 Jeremy Kelly
-// www.anthemion.org */
+ * -------------
+ * Copyright ©2022 Jeremy Kelly
+ * www.anthemion.org */
 
 #ViewSetup {
 	width: 30rem;
@@ -41,7 +41,7 @@
 }
 
 /* Responsive layouts
-// ------------------ */
+ * ------------------ */
 
 @media screen and (orientation: portrait) and (max-width: 30rem) {
 	#ViewSetup {

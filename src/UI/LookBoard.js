@@ -37,8 +37,8 @@ LookBoard.propTypes = {
  *  ~ Board: A tBoard instance representing the board to be displayed. This prop
  *    is required;
  *
- *  ~ Ent: A tEntWord instance representing the board selection, or 'null' or
- *    'undefined' if there is no selection;
+ *  ~ Ent: A tEntWord instance representing the board selection, or a falsy
+ *    value if there is no selection;
  *
  *  ~ uCallTog: A function to be invoked if a die is left-clicked;
  *

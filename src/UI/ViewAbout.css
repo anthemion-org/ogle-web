@@ -1,7 +1,7 @@
 /* ViewAbout.css
-// -------------
-// Copyright ©2022 Jeremy Kelly
-// www.anthemion.org */
+ * -------------
+ * Copyright ©2022 Jeremy Kelly
+ * www.anthemion.org */
 
 #ViewAbout section {
 	font-size: 115%;
@@ -15,7 +15,7 @@
 	margin-top: 1.5rem;
 
 	/* Need to use 'filter' here, or the shadow won't be rendered under
-	// transparent areas within the SVG: */
+	 * transparent areas within the SVG: */
 	filter: drop-shadow(0 0 2px black);
 }
 
@@ -34,8 +34,8 @@
 }
 
 /* Responsive layouts
-// ------------------
-// The width and height of this view are determined by its content. */
+ * ------------------
+ * The width and height of this view are determined by its content. */
 
 @media screen and (orientation: landscape) and (max-height: 700px) {
 	#ViewAbout {

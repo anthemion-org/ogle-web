@@ -1,7 +1,7 @@
 /* ViewPlay.css
-// ------------
-// Copyright ©2022 Jeremy Kelly
-// www.anthemion.org */
+ * ------------
+ * Copyright ©2022 Jeremy Kelly
+ * www.anthemion.org */
 
 #ViewPlay {
 	width: 40rem;
@@ -178,14 +178,14 @@
 }
 
 /* Pause dialog
-// ------------ */
+ * ------------ */
 
 #DlgPause p {
 	margin: 0.5rem 1rem 1rem 1rem;
 }
 
 /* End Confirmation dialog
-// ----------------------- */
+ * ----------------------- */
 
 #DlgConfirmEnd p {
 	margin: 0.5rem 1rem 1rem 1rem;
@@ -196,7 +196,7 @@
 }
 
 /* Responsive layouts
-// ------------------ */
+ * ------------------ */
 
 @media screen and (orientation: portrait) and (max-width: 700px) {
 	#ViewPlay {
@@ -365,10 +365,10 @@
 
 @media screen and (orientation: landscape) and (max-height: 500px) {
 	/* The board is always square, and it is sized relative to the viewport
-	// height, so, when the right column can no longer be compressed, the form
-	// can't be made any shorter without causing the board to move away from the
-	// form side. Therefore, we must reduce the size of the right column boxes if
-	// we want to go shorter. */
+	 * height, so, when the right column can no longer be compressed, the form
+	 * can't be made any shorter without causing the board to move away from the
+	 * form side. Therefore, we must reduce the size of the right column boxes if
+	 * we want to go shorter. */
 
 	#ViewPlay main {
 		grid-template-columns: auto 8rem;

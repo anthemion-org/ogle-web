@@ -193,7 +193,7 @@ export default function ViewPlay(aProps) {
 			ouSet_CardOgle(tCard.suFromPOD(aMsg.data.CardOgle));
 		};
 	}
-	useEffect(ouCreate_WorkSearch, [aProps.Setup, oBoard]);
+	useEffect(ouCreate_WorkSearch, [aProps, oBoard]);
 
 	function ouStore_Board() {
 		Store.uSet("Board", oBoard);
@@ -517,7 +517,7 @@ export default function ViewPlay(aProps) {
 						Score
 					</Btn>
 
-					<div className="Desk">Click to enter</div>
+					<div className="Desk">Click to enter word</div>
 					<div className="Mob">Tap to enter</div>
 				</section>
 

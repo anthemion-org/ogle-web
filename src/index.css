@@ -1,7 +1,7 @@
 /* index.css
-// ---------
-// Copyright ©2022 Jeremy Kelly
-// www.anthemion.org */
+ * ---------
+ * Copyright ©2022 Jeremy Kelly
+ * www.anthemion.org */
 
 @import "~sanitize.css";
 @import "~sanitize.css/typography.css";
@@ -158,7 +158,7 @@ aside {
 }
 
 /* Tables
-// ------ */
+ * ------ */
 
 table {
 	width: 100%;
@@ -173,8 +173,8 @@ th {
 }
 
 /* 'thead', 'tbody', and 'tr' all lack padding, so there is otherwise no way to
-// add space between the 'thead' border and the first body row. Don't add this
-// spacing unless there actually is a heading, however: */
+ * add space between the 'thead' border and the first body row. Don't add this
+ * spacing unless there actually is a heading, however: */
 thead + tbody:before {
 	content: "";
 	display: table-row;
@@ -203,7 +203,7 @@ tbody tr:nth-child(odd) {
 }
 
 /* Buttons
-// ------- */
+ * ------- */
 
 button, input[type="submit"], a.BtnLink {
 	background-color: var(--ColorBtnBack);
@@ -213,10 +213,10 @@ button, input[type="submit"], a.BtnLink {
 
 	font-size: 1.1rem;
 	/* Prevent text wrapping by default. This is useful when the containing dialog
-	// (for instance #DlgConfirmEnd) has no explicit width. You might guess that
-	// the button text would contribute to the dialog width, but instead, the
-	// dialog width is set according to its text content, and then the buttons are
-	// made to wrap their text to fit that width, unless this is set: */
+	 * (for instance #DlgConfirmEnd) has no explicit width. You might guess that
+	 * the button text would contribute to the dialog width, but instead, the
+	 * dialog width is set according to its text content, and then the buttons are
+	 * made to wrap their text to fit that width, unless this is set: */
 	white-space: nowrap;
 	color: var(--ColorBtnText);
 
@@ -248,7 +248,7 @@ button:active, input[type="submit"]:active, a:active.BtnLink {
 }
 
 /* Button rows
-// ----------- */
+ * ----------- */
 
 .Btns {
 	display: flex;
@@ -272,7 +272,7 @@ button:active, input[type="submit"]:active, a:active.BtnLink {
 }
 
 /* Text inputs
-// ----------- */
+ * ----------- */
 
 input {
 	width: 100%;
@@ -295,7 +295,7 @@ input:focus {
 }
 
 /* Dialogs
-// ------- */
+ * ------- */
 
 .ScreenDlg {
 	z-index: 1;
@@ -322,7 +322,7 @@ input:focus {
 }
 
 /* Responsive
-// ---------- */
+ * ---------- */
 
 .Mob {
 	/* 'visibility: collapse' does not seem to work the way it should: */
@@ -330,7 +330,7 @@ input:focus {
 }
 
 /* Modifiers
-// --------- */
+ * --------- */
 
 .MargT2 {
 	margin-top: 0.5em;

@@ -1,7 +1,7 @@
 /* DlgHelp.css
-// -----------
-// Copyright ©2022 Jeremy Kelly
-// www.anthemion.org */
+ * -----------
+ * Copyright ©2022 Jeremy Kelly
+ * www.anthemion.org */
 
 #DlgHelp {
 	z-index: 1;
@@ -73,7 +73,7 @@
 }
 
 /* Responsive layouts
-// ------------------ */
+ * ------------------ */
 
 @media screen and (orientation: landscape) and (max-height: 750px) {
 	#DlgHelp article {

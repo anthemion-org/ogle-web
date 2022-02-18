@@ -1,7 +1,7 @@
 /* DlgScoreWord.css
-// ----------------
-// Copyright ©2022 Jeremy Kelly
-// www.anthemion.org */
+ * ----------------
+ * Copyright ©2022 Jeremy Kelly
+ * www.anthemion.org */
 
 #DlgScoreWord {
 	width: calc(100vw - 2rem);
@@ -102,7 +102,7 @@
 }
 
 /* Responsive layouts
-// ------------------ */
+ * ------------------ */
 
 @media screen and (max-width: 500px) {
 	#DlgScoreWord #InstructWik {
