@@ -25,21 +25,38 @@ export default function Slide(aProps) {
 		Sound.uPointOver();
 	}
 
+	// Different rules are used in ouHandPointDown and ouHandPointMove to
+	// determine whether a new value is selected; for this reason, there must be
+	// no track position to which both rules apply, otherwise the thumb may
+	// 'bounce' between values as the user click down, and then generates one or
+	// more drag events. This boundary is determined implicitly by oFracDead.
+
+	/** The distance on either side of the thumb that does not cause the adjacent
+	 *  value to be selected during a 'pointer down' event, as a fraction of the
+	 *  total distance between values. */
+	const oFracDead = 0.1;
+
 	function ouHandPointDown(aEvt) {
 		aEvt.preventDefault();
 
 		const oIn = aEvt.target;
-		const oWthIn = oIn.offsetWidth;
-		const oFracOrig = oIn.value / oIn.max;
-		const oFracClick = (aEvt.clientX - oIn.offsetLeft) / oWthIn;
-
-		let oVal = Math.round(oIn.max * oFracClick);
-		if (oVal === parseInt(oIn.value)) {
-			if (oFracClick > oFracOrig) oVal = Math.min((oVal + 1), oIn.max);
-			else if (oFracClick < oFracOrig) oVal = Math.max((oVal - 1), 0);
+		const oFracNew = (aEvt.clientX - oIn.offsetLeft) / oIn.offsetWidth;
+		let oValNew = Math.round(oIn.max * oFracNew);
+		if (oValNew === parseInt(oIn.value)) {
+			const oFracOrig = oIn.value / oIn.max;
+			const oFracDiff = oFracNew - oFracOrig;
+			const oFracPer = 1.0 / oIn.max;
+			const oFracDeadPer = oFracPer * oFracDead;
+			// Select the value on the other side of the click unless the mouse is
+			// very close to the current value:
+			if (oFracDiff > oFracDeadPer)
+				oValNew = Math.min((oValNew + 1), oIn.max);
+			else if (oFracDiff < -oFracDeadPer)
+				oValNew = Math.max((oValNew - 1), 0);
+			else return;
 		}
 
-		oIn.value = oVal.toString();
+		oIn.value = oValNew.toString();
 		ouHandChange(aEvt);
 	}
 
@@ -50,15 +67,19 @@ export default function Slide(aProps) {
 		aEvt.preventDefault();
 
 		const oIn = aEvt.target;
-		const oWthIn = oIn.offsetWidth;
-		const oFracClick = (aEvt.clientX - oIn.offsetLeft) / oWthIn;
+		const oFracOrig = oIn.value / oIn.max;
+		const oFracNew = (aEvt.clientX - oIn.offsetLeft) / oIn.offsetWidth;
+		const oFracPer = 1.0 / oIn.max;
+		// We must make it slightly easier to select the next value, otherwise it
+		// will be impossible to drag to the first or last values, which have
+		// fractional positions of zero and one:
+		const oFracPerMod = oFracPer * (1 - oFracDead);
+		// Don't select the value on the other side, as in ouHandPointDown, unless
+		// the mouse is very close to the next value:
+		if (Math.abs(oFracNew - oFracOrig) < oFracPerMod) return;
 
-		// Don't select the value on the other side, as in ouHandPointDown, or it
-		// will 'bounce' as the user drags:
-		const oVal = Math.round(oIn.max * oFracClick);
-		if (oVal === parseInt(oIn.value)) return;
-
-		oIn.value = oVal.toString();
+		const oValNew = Math.round(oIn.max * oFracNew);
+		oIn.value = oValNew.toString();
 		ouHandChange(aEvt);
 	}
 
