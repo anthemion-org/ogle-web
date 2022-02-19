@@ -244,7 +244,7 @@ export default function ViewPlay(aProps) {
 						Your game is paused
 					</p>
 
-					<div className="Btns MargT4">
+					<div className="Btns">
 						<Btn onClick={ouHandEnd}>End round</Btn>
 						<Btn onClick={ouHandResume}>Resume</Btn>
 					</div>
