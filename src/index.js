@@ -7,8 +7,10 @@ import React from "react";
 import ReactDOM from "react-dom";
 //import ReportPerform from "./ReportPerform";
 
-import App from "./App";
 import "./index.css";
+import App from "./App";
+
+import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
 ReactDOM.render(
 	<React.StrictMode>
@@ -19,3 +21,5 @@ ReactDOM.render(
 
 // Write performance data to the browser console:
 //ReportPerform(console.log);
+
+serviceWorkerRegistration.register();
