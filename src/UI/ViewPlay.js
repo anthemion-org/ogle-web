@@ -503,8 +503,8 @@ export default function ViewPlay(aProps) {
 				</section>
 
 				<section id="BoxTime">
-					<Btn id="BtnPause" className={ouClassBtnPause()}
-						onClick={ouHandPause}>
+					<Btn id="BtnPause" className={ouClassBtnPause()} onClick={ouHandPause}
+						CkDownClick={true}>
 
 						<div id="LblTime">
 							{ouTextTimeRemain()}
@@ -529,8 +529,9 @@ export default function ViewPlay(aProps) {
 				</section>
 
 				<section id="BoxScore">
-					<Btn id="BtnEnt" disabled={ouCkDisabBtnScore()}
-						onClick={ouRecord_Ent} CkDisabSoundClick={true}>
+					<Btn id="BtnEnt" disabled={ouCkDisabBtnScore()} onClick={ouRecord_Ent}
+						CkDownClick={true} CkDisabSoundClick={true}>
+
 						<div id="LblScore">
 							{oCardUser.Score ?? 0}
 						</div>

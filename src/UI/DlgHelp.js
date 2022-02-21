@@ -41,10 +41,13 @@ export default function DlgHelp(aProps) {
 						<em>Enter all the words you can before time runs out.</em>
 					</p>
 					<p>
-						Words must be <em>four or more letters</em> long. The <em>Qu</em> die counts as two letters. No names, abbreviations, acronymns, accents, or punctuation marks are allowed.
+						Words must be <em>four or more letters</em> long.
+						The <em>Qu</em> die counts as two letters. No names, acronymns,
+						accents, or punctuation marks are allowed.
 					</p>
 					<p>
-						Each valid word scores one point. Words also add time to the clock, with longer words adding more time.
+						Each valid word scores one point. Words also add time to the clock,
+						with longer words adding more time.
 					</p>
 				</section>
 
@@ -52,7 +55,10 @@ export default function DlgHelp(aProps) {
 					<h2>Followed words</h2>
 
 					<p>
-						A word is <em>followed</em> if it can be made into another word by appending letters. If you enter one word and <em>follow</em> it with another, the followed word will be discarded. Enter the longest word by itself to maximize your points and time.
+						A word is <em>followed</em> if it can be made into another word by
+						appending letters. If you enter one word and <em>follow</em> it with
+						another, the followed word will be discarded. Enter the longest word
+						by itself to maximize your points and time.
 					</p>
 				</section>
 

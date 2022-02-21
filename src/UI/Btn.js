@@ -25,14 +25,18 @@ Btn.propTypes = {
 /** A custom button component that plays mouse over and click sounds. The button
  *  uses no special styling. The following props are supported:
  *
- *  ~ CkDisabSoundClick: Set to 'true' if the click sound should not be played.
- *    This is useful when the button triggers an action that produces its own
- *    sound;
- *
  *  ~ onPointOver: The handler to be invoked when the user mouses over this
  *    button;
  *
  *  ~ onClick: The handler to be invoked when the user clicks this button.
+ *
+ *  ~ CkDownClick: Set to 'true' if the click handler should be invoked for the
+ *    'pointer down' event. Android sometimes fails to register very brief taps
+ *    as clicks, so this may be helpful for buttons that are used during play.
+ *
+ *  ~ CkDisabSoundClick: Set to 'true' if the click sound should not be played.
+ *    This is useful when the button triggers an action that produces its own
+ *    sound;
  *
  *  Other props will be forwarded to the 'button' element. */
 export default function Btn(aProps) {
@@ -40,6 +44,13 @@ export default function Btn(aProps) {
 		Sound.uPointOver();
 
 		if (aProps.onPointOver) aProps.onPointOver(aEvt);
+	}
+
+	function ouHandPointDown(aEvt) {
+		if (!aProps.CkDownClick) return;
+
+		aEvt.preventDefault();
+		ouHandClick(aEvt);
 	}
 
 	function ouHandClick(aEvt) {
@@ -64,7 +75,8 @@ export default function Btn(aProps) {
 
 	return (
 		<button {...ouPropsPass()} className={ouClassName()}
-			onPointerOver={ouHandPointOver} onClick={ouHandClick}>
+			onPointerOver={ouHandPointOver} onPointerDown={ouHandPointDown}
+			onClick={ouHandClick}>
 			{aProps.children}
 		</button>
 	);
