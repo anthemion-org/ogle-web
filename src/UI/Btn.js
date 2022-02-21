@@ -17,6 +17,7 @@ import PropTypes from "prop-types";
 // ---
 
 Btn.propTypes = {
+	CkDownClick: PropTypes.bool,
 	CkDisabSoundClick: PropTypes.bool,
 	onPointOver: PropTypes.func,
 	onClick: PropTypes.func
@@ -63,6 +64,7 @@ export default function Btn(aProps) {
 	 *  should not be passed to the 'button' element: */
 	function ouPropsPass() {
 		const oProps = {...aProps};
+		delete oProps.CkDownClick;
 		delete oProps.CkDisabSoundClick;
 		return oProps;
 	}
