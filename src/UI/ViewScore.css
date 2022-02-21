@@ -252,4 +252,33 @@
 		border-top: 1px dashed var(--ColorRule);
 		padding: 1rem 0 0 0;
 	}
+
+	/* Button tray
+	// ----------- */
+
+	#ViewScore {
+		--HeightTrayBtn: 4rem;
+
+		margin-bottom: calc(var(--HeightTrayBtn) + 0.5rem);
+		padding-bottom: 0.5rem;
+	}
+
+	#ViewScore main {
+		border-bottom: none;
+		padding-bottom: 0;
+	}
+
+	#ViewScore .Btns {
+		position: fixed;
+		left: 0;
+		bottom: 0;
+		width: 100%;
+		height: var(--HeightTrayBtn);
+
+		border-top: var(--StyViewBord);
+		padding: 0.5rem;
+
+		background-color: var(--ColorViewBack);
+		box-shadow: 0 0 10px hsla(0, 0%, 0%, 0.5);
+	}
 }
