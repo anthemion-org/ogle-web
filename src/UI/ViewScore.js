@@ -312,7 +312,7 @@ export default function ViewScore(aProps) {
 				</section>
 			</main>
 
-			<div className="Btns">
+			<div id="BtnsMain" className="Btns">
 				<Btn onClick={ouHandSetup}>Setup</Btn>
 				<Btn className="Group" onClick={ouHandPlay}>Play again</Btn>
 			</div>
