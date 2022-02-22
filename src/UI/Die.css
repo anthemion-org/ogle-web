@@ -41,7 +41,7 @@
 .BackDie:not(.CkDisp, .CkEnab) .CrnNW,
 .BackDie:not(.CkDisp, .CkEnab) .Face,
 .LookDie:not(.CkDisp, .CkEnab) .BackText {
-	filter: brightness(0.85);
+	filter: brightness(var(--BrightDieDisab));
 }
 
 .Logo .Text,

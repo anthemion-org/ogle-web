@@ -31,6 +31,8 @@ The project was created with _create-react-app_.
 
 I did not use the `cra-template-pwa` option when I ran `create-react-app`; instead, I used the default template, and later added `service-worker.js` and `serviceWorkerRegistration.js`, as copied from the [cra-template/pwa](https://github.com/cra-template/pwa/tree/main/packages/cra-template-pwa/template/src) repository. Then I added a `register` call to `index.js`. Instructions can be found [here](https://dev.to/myfatemi04/turn-your-create-react-app-into-a-progressive-web-app-in-100-seconds-3c11).
 
+[realfavicongenerator.net](realfavicongenerator.net) creates a `site.webmanifest` file and a `link` element that references it, but we already have `manifest.json`. I used `site.webmanifest` to update `manifest.json`, then I deleted it, along with the `link`. I replaced `play-ogle` in the other generated links with `%PUBLIC_URL%`.
+
 
 ## Design notes
 
