@@ -14,14 +14,12 @@ import { tTimer } from "./Util/Timer.js";
  *  mutable. */
 class tSound {
 	constructor() {
-		this._AudPointOver = document.querySelector("#AudPointOver");
-		this._AudSelDie = document.querySelector("#AudSelDie");
-		this._AudUnselDie = document.querySelector("#AudUnselDie");
-		this._AudEntVal = document.querySelector("#AudEntVal");
-		this._AudEntInval = document.querySelector("#AudEntInval");
-
-		this._AudTick = document.querySelector("#AudTick");
-		this._AudTick.volume = 0.8;
+		this._AudPointOver = uReady_Aud("#AudPointOver", 1.0);
+		this._AudSelDie = uReady_Aud("#AudSelDie", 1.0);
+		this._AudUnselDie = uReady_Aud("#AudUnselDie", 1.0);
+		this._AudEntVal = uReady_Aud("#AudEntVal", 1.0);
+		this._AudEntInval = uReady_Aud("#AudEntInval", 1.0);
+		this._AudTick = uReady_Aud("#AudTick", 0.8);
 
 		/** The loop play state, which determines whether the tick loop generates
 		 *  sound. The loop timer always runs. */
@@ -80,6 +78,17 @@ class tSound {
 		if ((this._StLoop === StsLoop.TickFast) || (this._jLoop % 2))
 			this.uTick();
 	}
+}
+
+/** Uses selector aSelEl to find the element in the document, sets its volume,
+ *  and then returns it, throwing instead if the element cannot be found. */
+function uReady_Aud(aSelEl, aVol) {
+	const oEl = document.querySelector(aSelEl);
+	if (!oEl)
+		throw Error(`tSound._suReady_Aud: Cannot load element '${aSelEl}'`);
+
+	oEl.volume = aVol ?? 1.0;
+	return oEl;
 }
 
 /** Stores properties representing the loop play state. */
