@@ -23,8 +23,8 @@
 	],
 	"start_url": "./index.html",
 	"scope": ".",
-	"display": "fullscreen",
+	"display": "standalone",
 	"orientation": "any",
-	"theme_color": "#ffffff",
-	"background_color": "#f1edea"
+	"theme_color": "#282525",
+	"background_color": "#ccbeb3"
 }

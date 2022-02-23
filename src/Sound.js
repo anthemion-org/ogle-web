@@ -12,7 +12,7 @@
 // ----------------
 // Twice I have encountered WAV file loading problems in this module that were
 // very difficult to diagnose. In both cases, the development build stopped
-// playing sounds, and the following message appeared in the DevTools console:
+// playing sounds, and this confusing message appeared in the DevTools console:
 //
 //   DOMException: The element has no supported sources
 //
@@ -56,16 +56,12 @@
 //
 // to:
 //
-//   <audio id="AudPointOver" src="%PUBLIC_URL%/PointOver.wav"></audio>
-//
-// This produces:
-//
 //   <audio id="AudPointOver" src="/play-ogle/AudPointOver.wav"></audio>
 //
 // in the browser. Now the sounds play whether '/play-ogle/' is appended to
 // 'localhost:3000' or not. These files were always siblings of the 'index.html'
 // file that references them, so I don't understand this fix, nor do I
-// understand why the development server would fail this way, if the path were
+// understand why the development server would fail this way, if the paths were
 // simply wrong.
 
 import { tTimer } from "./Util/Timer.js";

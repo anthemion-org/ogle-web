@@ -128,6 +128,8 @@ export default function ViewScore(aProps) {
 
 	/** Handles the Player Name dialog OK click. */
 	function ouHandNamePlay(aName) {
+		aName = aName.trim();
+
 		const oFracPerc = aProps.CardUser.Score / aProps.CardOgle.Score;
 		const oScore = new tScorePlay(aProps.CardUser.TimeStart, aName, oFracPerc);
 		ouSet_ScoresHigh(a => a.uCloneAdd(aProps.Setup, oScore));
