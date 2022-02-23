@@ -8,6 +8,66 @@
 //   import Sound from "../Sound.js";
 //
 
+// Loading problems
+// ----------------
+// Twice I have encountered WAV file loading problems in this module that were
+// very difficult to diagnose. In both cases, the development build stopped
+// playing sounds, and the following message appeared in the DevTools console:
+//
+//   DOMException: The element has no supported sources
+//
+// In actual fact, 'null' values were being returned when 'querySelector' was
+// used to reference the 'audio' elements. No changes had been made to the WAV
+// files in the 'public' folder, however, and reverting to earlier commits did
+// not fix the problem. In both cases, production builds continued to play
+// sounds as expected.
+//
+// The first time this happened, I was able to fix it by restarting the
+// development server with 'npm run start'.
+//
+// The second time, the development server restart did not work, nor did a
+// reboot of my development PC. Looking at the WAV files in the DevTools Network
+// tab, it appeared that the files were not being completely loaded, as their
+// size was reported as 2.9KB in each case, even though most are larger. Then I
+// noticed that the development server was setting their 'Content-Type' to
+// 'text/plain', while the production server correctly set this to 'audio/wav'.
+// I considered reconfiguring the WebPack development server to ensure that the
+// correct type would be set, but it seemed like I would need something like
+// 'react-app-rewired', which I do not want right now.
+//
+// Finally, I noticed that changing the development URL from:
+//
+//   http://localhost:3000
+//
+// to:
+//
+//   http://localhost:3000/play-ogle/
+//
+// allowed the sounds to be played. The second URL is the one listed by 'npm
+// start', though it was not originally. I traced that change to the 'homepage'
+// property I added to 'package.json' nine days ago. If that is the cause, I
+// don't understand why it would take so long for the problem to appear, and it
+// is hard to believe that the files were cached this whole time.
+//
+// Finally, I prefixed the 'audio' element paths in 'index.html' with
+// '%PUBLIC_URL%', changing them from:
+//
+//   <audio id="AudPointOver" src="AudPointOver.wav"></audio>
+//
+// to:
+//
+//   <audio id="AudPointOver" src="%PUBLIC_URL%/PointOver.wav"></audio>
+//
+// This produces:
+//
+//   <audio id="AudPointOver" src="/play-ogle/AudPointOver.wav"></audio>
+//
+// in the browser. Now the sounds play whether '/play-ogle/' is appended to
+// 'localhost:3000' or not. These files were always siblings of the 'index.html'
+// file that references them, so I don't understand this fix, nor do I
+// understand why the development server would fail this way, if the path were
+// simply wrong.
+
 import { tTimer } from "./Util/Timer.js";
 
 /** Manages all audio resources and playback for the application. This class is
