@@ -4,11 +4,8 @@
  * www.anthemion.org */
 
 .LookBoard {
-	width: 100%;
-	aspect-ratio: 1 / 1;
-
 	/** Rounding causes one-pixel discrepancies on two sides when the browser
-	 *  zooms. Nothing to be done about that: */
+	 *  zooms. Nothing we can do about that: */
 	padding: 3px;
 	border: 3px solid var(--ColorBoardBord);
 	border-radius: 3.4%;

@@ -64,6 +64,6 @@ function uRead_DataPOD() {
 /** Writes the specified value to the local storage, after prefixing aName with
  *  PrefixNameStore. Also updates the VerApp value. */
 function uWrite_Val(aName, aData) {
-	localStorage[PrefixNameStore + "VerApp"] = `"${Pack.version}"`;
+	localStorage[PrefixNameStore + "VerApp"] = JSON.stringify(Pack.version);
 	localStorage[PrefixNameStore + aName] = JSON.stringify(aData);
 }

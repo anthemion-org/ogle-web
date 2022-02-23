@@ -4,12 +4,14 @@
  * www.anthemion.org */
 
 #ViewPlay {
-	width: 40rem;
+	/* The width and height of the board element. This will determine the size of
+	 * the view as a whole. */
+	--SizeBoard: 24rem;
 
 	padding: 1.5rem;
 
 	font-size: 1.1rem;
-	/** I have been selecting by accident when using touchscreen: */
+	/** It is easy to select by accident when using a touchscreen: */
 	user-select: none;
 }
 
@@ -31,6 +33,7 @@
 }
 
 #ViewPlay #BoxEnt {
+	width: var(--SizeBoard);
 	height: 3.5rem;
 
 	margin-bottom: 0.5rem;
@@ -75,15 +78,14 @@
 	to { color: transparent; }
 }
 
-#ViewPlay #TextCtls {
-	margin-top: 0.5rem;
+#ViewPlay .LookBoard,
+#ViewPlay #BoxWork {
+	width: var(--SizeBoard);
+	height: var(--SizeBoard);
 }
 
 #ViewPlay #BoxWork {
 	/* We could do something fancy here, but it is visible just momentarily. */
-
-	width: 100%;
-	aspect-ratio: 1 / 1;
 
 	display: grid;
 	place-items: center;
@@ -98,6 +100,12 @@
 	font-weight: bold;
 	font-size: 2rem;
 	color: var(--ColorText);
+}
+
+#ViewPlay #TextCtls {
+	width: var(--SizeBoard);
+
+	margin-top: 0.5rem;
 }
 
 #ViewPlay #BoxTitle {
@@ -214,8 +222,7 @@
 
 @media screen and (orientation: portrait) and (max-width: 700px) {
 	#ViewPlay {
-		width: calc(100vw - 1rem);
-		max-width: 480px;
+		--SizeBoard: clamp((360px - 4rem), (100vw - 4rem), 24rem);
 	}
 
 	#ViewPlay main {
@@ -313,7 +320,8 @@
 
 @media screen and (orientation: landscape) and (max-height: 700px) {
 	#ViewPlay {
-		width: 45rem;
+		--SizeBoard: clamp((360px - 4rem), (100vh - 6rem), 28rem);
+
 		display: flex;
 	}
 
@@ -327,10 +335,6 @@
 }
 
 @media screen and (orientation: landscape) and (max-height: 600px) {
-	#ViewPlay {
-		width: auto;
-	}
-
 	#ViewPlay main {
 		display: grid;
 		grid-template-columns: auto 10rem;
@@ -347,15 +351,6 @@
 		width: 4rem;
 		flex-direction: column-reverse;
 		justify-content: space-between;
-	}
-
-	#ViewPlay #BoxWork,
-	#ViewPlay .LookBoard {
-		/* This drives the form resizing: */
-		height: calc(100vh - 4rem);
-		width: calc(100vh - 4rem);
-		min-height: calc(360px - 4rem);
-		min-width: calc(360px - 4rem);
 	}
 
 	#ViewPlay #TextInstruct {
@@ -390,6 +385,10 @@
 
 	#ViewPlay #TextInstruct {
 		font-size: 95%;
+	}
+
+	#ViewPlay h1 {
+		margin-bottom: 0.75rem;
 	}
 
 	#ViewPlay #BoxTime,
