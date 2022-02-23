@@ -16,7 +16,9 @@
 
 import StsApp from "./StsApp.js";
 import { tSetup } from "./Round/Setup.js";
-import * as Cfg from "./Cfg.js";
+// This exposes 'package.json' to the client, which is said to have security
+// implications in some cases, but ours is already open to the public:
+import Pack from "../package.json";
 
 /** Returns a POD representation of the value or object with the specified name,
  *  or the default data, if there is such, or 'undefined'. */
@@ -62,6 +64,6 @@ function uRead_DataPOD() {
 /** Writes the specified value to the local storage, after prefixing aName with
  *  PrefixNameStore. Also updates the VerApp value. */
 function uWrite_Val(aName, aData) {
-	localStorage[PrefixNameStore + "VerApp"] = Cfg.VerApp;
+	localStorage[PrefixNameStore + "VerApp"] = `"${Pack.version}"`;
 	localStorage[PrefixNameStore + aName] = JSON.stringify(aData);
 }

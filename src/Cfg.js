@@ -11,9 +11,6 @@
 import { tPt2 } from "./Util/Pt2.js";
 import { tRect } from "./Util/Rect.js";
 
-/** The Ogle version. */
-export const VerApp = 0;
-
 /** The board width, in dice. */
 export const WthBoard = 5;
 /** The board height, in dice. */

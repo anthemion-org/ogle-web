@@ -12,7 +12,9 @@ import "./ViewAbout.css";
 import Logo from "./Logo.js";
 import Btn from "./Btn.js";
 import StsApp from "../StsApp.js";
-import * as Cfg from "../Cfg.js";
+// This exposes 'package.json' to the client, which is said to have security
+// implications in some cases, but ours is already open to the public:
+import Pack from "../../package.json";
 
 import React from "react";
 import PropTypes from "prop-types";
@@ -39,7 +41,7 @@ export default function ViewAbout(aProps) {
 					<Logo id="Logo" />
 					<h1>Ogle</h1>
 
-					<div>Version {Cfg.VerApp}</div>
+					<div>Version {Pack.version}</div>
 				</section>
 
 				<section>
