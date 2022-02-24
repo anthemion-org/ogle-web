@@ -8,8 +8,18 @@
 //   import Sound from "../Sound.js";
 //
 
-// Loading problems
-// ----------------
+// Audio on mobile devices
+// -----------------------
+// Audio performance on Android devices is truly abysmal. The playback latency
+// is often very long, the loop timing is extremely variable (even though tTimer
+// regulates the timing), my devices won't loop faster than once per second, and
+// the volume on the Pixel 4a waxes and wanes very noticeably for no reason I
+// can understand. I have therefore decided to disable audio on all mobile
+// devices, which might be what users prefer in the first place.
+//
+//
+// Audio loading problems
+// ----------------------
 // Twice I have encountered WAV file loading problems in this module that were
 // very difficult to diagnose. In both cases, the development build stopped
 // playing sounds, and this confusing message appeared in the DevTools console:
@@ -18,22 +28,19 @@
 //
 // In actual fact, 'null' values were being returned when 'querySelector' was
 // used to reference the 'audio' elements. No changes had been made to the WAV
-// files in the 'public' folder, however, and reverting to earlier commits did
-// not fix the problem. In both cases, production builds continued to play
-// sounds as expected.
+// files, however, and reverting to earlier commits did not fix the problem. In
+// both cases, production builds continued to play sounds as expected.
 //
 // The first time this happened, I was able to fix it by restarting the
-// development server with 'npm run start'.
-//
-// The second time, the development server restart did not work, nor did a
-// reboot of my development PC. Looking at the WAV files in the DevTools Network
-// tab, it appeared that the files were not being completely loaded, as their
-// size was reported as 2.9KB in each case, even though most are larger. Then I
-// noticed that the development server was setting their 'Content-Type' to
-// 'text/plain', while the production server correctly set this to 'audio/wav'.
-// I considered reconfiguring the WebPack development server to ensure that the
-// correct type would be set, but it seemed like I would need something like
-// 'react-app-rewired', which I do not want right now.
+// development server with 'npm run start'. The second time, restarts did not
+// help, nor did a reboot of my development PC. Looking at the WAV files in the
+// DevTools Network tab, it appeared that the files were not being completely
+// loaded, as their size was reported as 2.9KB in each case, even though most
+// are larger. Then I noticed that the development server was setting their
+// 'Content-Type' to 'text/plain', while the production server correctly set
+// this to 'audio/wav'. I considered reconfiguring the WebPack development
+// server to ensure that the correct type would be set, but it seemed like I
+// would need something like 'react-app-rewired', which I do not want right now.
 //
 // Finally, I noticed that changing the development URL from:
 //
@@ -49,8 +56,8 @@
 // don't understand why it would take so long for the problem to appear, and it
 // is hard to believe that the files were cached this whole time.
 //
-// Finally, I prefixed the 'audio' element paths in 'index.html' with
-// '%PUBLIC_URL%', changing them from:
+// So, finally, I prefixed the 'audio' element paths in 'index.html' with
+// '%PUBLIC_URL%'. This changes the served HTML from:
 //
 //   <audio id="AudPointOver" src="AudPointOver.wav"></audio>
 //
@@ -58,11 +65,10 @@
 //
 //   <audio id="AudPointOver" src="/play-ogle/AudPointOver.wav"></audio>
 //
-// in the browser. Now the sounds play whether '/play-ogle/' is appended to
-// 'localhost:3000' or not. These files were always siblings of the 'index.html'
-// file that references them, so I don't understand this fix, nor do I
-// understand why the development server would fail this way, if the paths were
-// simply wrong.
+// Now the sounds play whether '/play-ogle/' is appended to 'localhost:3000' or
+// not. These files were always siblings of the 'index.html' file that
+// references them, so I don't understand this fix, nor do I understand why the
+// development server would fail this way, if the paths were simply wrong.
 
 import { tTimer } from "./Util/Timer.js";
 
@@ -70,6 +76,10 @@ import { tTimer } from "./Util/Timer.js";
  *  mutable. */
 class tSound {
 	constructor() {
+		/** Set to 'true' if the app is running on a mobile device. */
+		this._CkMob = /Mobi/.test(navigator.userAgent);
+		if (this._CkMob) return;
+
 		this._AudPointOver = uReady_Aud("#AudPointOver", 1.0);
 		this._AudSelDie = uReady_Aud("#AudSelDie", 1.0);
 		this._AudUnselDie = uReady_Aud("#AudUnselDie", 1.0);
@@ -86,41 +96,50 @@ class tSound {
 	}
 
 	uPointOver() {
+		if (this._CkMob) return;
 		this._AudPointOver.play();
 	}
 
 	uSelDie() {
+		if (this._CkMob) return;
 		this._AudSelDie.play();
 	}
 
 	uUnselDie() {
+		if (this._CkMob) return;
 		this._AudUnselDie.play();
 	}
 
 	uEntVal() {
+		if (this._CkMob) return;
 		this._AudEntVal.play();
 	}
 
 	uEntInval() {
+		if (this._CkMob) return;
 		this._AudEntInval.play();
 	}
 
 	uTick() {
+		if (this._CkMob) return;
 		this._AudTick.play();
 	}
 
 	/** Starts the 'slow' tick loop. */
 	uLoopSlow_Tick() {
+		if (this._CkMob) return;
 		this._StLoop = StsLoop.TickSlow;
 	}
 
 	/** Starts the 'fast' tick loop. */
 	uLoopFast_Tick() {
+		if (this._CkMob) return;
 		this._StLoop = StsLoop.TickFast;
 	}
 
 	/** Stops the tick loop. */
 	uStop_Tick() {
+		if (this._CkMob) return;
 		this._StLoop = StsLoop.Stop;
 	}
 

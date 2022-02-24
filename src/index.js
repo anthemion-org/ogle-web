@@ -22,4 +22,5 @@ ReactDOM.render(
 // Write performance data to the browser console:
 //ReportPerform(console.log);
 
+// This function checks for the production build:
 serviceWorkerRegistration.register();
