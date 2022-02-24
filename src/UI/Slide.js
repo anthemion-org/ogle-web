@@ -9,20 +9,20 @@
 //
 
 import "./Slide.css";
-import Sound from "../Sound.js";
+import Feed from "../Feed.js";
 
 import React from "react";
 
 // Slide
 // -----
 
-/** A custom range input component that plays mouse-over and change sounds.
- *  Unlike the built-in range control, a single click always changes the value,
- *  even if the click position is only slighly offset from the thumb. The
- *  usual range inputs props are supported. */
+/** A custom range input component that plays mouse-over and change sounds or
+ *  vibrations. Unlike the built-in range control, a single click always changes
+ *  the value, even if the click position is only slighly offset from the thumb.
+ *  The usual range inputs props are supported. */
 export default function Slide(aProps) {
 	function ouHandPointOver(aEvt) {
-		Sound.uPointOver();
+		Feed.uPointOver();
 	}
 
 	// Different rules are used in ouHandPointDown and ouHandPointMove to
@@ -84,7 +84,7 @@ export default function Slide(aProps) {
 	}
 
 	function ouHandChange(aEvt) {
-		Sound.uSelDie();
+		Feed.uSelDie();
 
 		if (aProps.onChange) aProps.onChange(aEvt);
 	}

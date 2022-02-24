@@ -19,7 +19,7 @@ import LookBoard from "./LookBoard.js";
 import DlgHelp from "./DlgHelp.js";
 import DlgVerWord from "./DlgVerWord.js";
 import Lex from "../Search/Lex.js";
-import Sound from "../Sound.js";
+import Feed from "../Feed.js";
 import * as Store from "../Store.js";
 import * as Cfg from "../Cfg.js";
 
@@ -149,29 +149,29 @@ export default function ViewPlay(aProps) {
 		//
 		// I tried a number of designs that manage the tick timing here, in the
 		// effect, but none of them worked well. This approach delegates timing to
-		// the Sound class, which is much easier than managing that state here.
+		// the Feed class, which is much easier than managing that state here.
 
 		if (!oBoard || (oStPlay !== StsPlay.Play) || oCkVerWord) {
 			ouSet_CkBlinkPause(false);
-			Sound.uStop_Tick();
+			Feed.uStop_Tick();
 			return;
 		}
 
 		const oTimeRemain = uTimeRemain(aProps.Setup, oCardUser.CtBonusTime,
 			oTimeElap);
 		if (oTimeRemain < 1) {
-			Sound.uStop_Tick();
+			Feed.uStop_Tick();
 			aProps.uUpd_StApp(StsApp.Score);
 			return;
 		}
 
 		if (oTimeRemain < oTimeRemainLow) {
 			ouSet_CkBlinkPause(true);
-			Sound.uLoopFast_Tick();
+			Feed.uLoopFast_Tick();
 		}
 		else {
 			ouSet_CkBlinkPause(false);
-			Sound.uLoopSlow_Tick();
+			Feed.uLoopSlow_Tick();
 		}
 
 		// Note that we cannot return a clean-up function; doing so would cause the
@@ -355,7 +355,7 @@ export default function ViewPlay(aProps) {
 			const oText = oBoard.uDie(aPos).Text;
 			const oEntNew = tEntWord.suFromPosText(aPos, oText);
 			ouSet_EntUser(oEntNew);
-			Sound.uSelDie();
+			Feed.uSelDie();
 			return;
 		}
 
@@ -363,7 +363,7 @@ export default function ViewPlay(aProps) {
 		if (oEntUser.uCkAt(aPos)) {
 			const oEntPrev = oEntUser.uClonePrev(aPos);
 			ouSet_EntUser(oEntPrev);
-			Sound.uUnselDie();
+			Feed.uUnselDie();
 			return;
 		}
 
@@ -371,23 +371,23 @@ export default function ViewPlay(aProps) {
 		const oText = oBoard.uDie(aPos).Text;
 		const oEntAdd = tEntWord.suFromPosText(aPos, oText, oEntUser);
 		ouSet_EntUser(oEntAdd);
-		Sound.uSelDie();
+		Feed.uSelDie();
 	}
 
 	/** Clears the board selection. */
 	function ouClear_Ent() {
 		ouSet_EntUser(null);
-		Sound.uUnselDie();
+		Feed.uUnselDie();
 	}
 
 	/** Records the board selection as a word entry. */
 	function ouRecord_Ent() {
 		// There is no selection:
 		if (!oEntUser) {
-			// I was playing the 'unselect' sound here and also when the selection was
-			// too short to be entered:
+			// I was playing the 'unselect' feedback here and also when the selection
+			// was too short to be entered:
 			//
-			//   Sound.uUnselDie();
+			//   Feed.uUnselDie();
 			//
 			// However, it was necessary to remove the 'preventDefault' calls from the
 			// mouse and pointer event handlers, and that caused the unselect sound
@@ -408,7 +408,7 @@ export default function ViewPlay(aProps) {
 		// The word is not recognized:
 		if (!Lex.uCkKnown(oText)) {
 			ouSet_CkVerWord(true);
-			Sound.uEntInval();
+			Feed.uEntInval();
 			return;
 		}
 
@@ -419,8 +419,8 @@ export default function ViewPlay(aProps) {
 			const oCardNew = aCard.uClone();
 			const oCkVal = oCardNew.uAdd(oEntUser);
 
-			if (oCkVal) Sound.uEntVal();
-			else Sound.uEntInval();
+			if (oCkVal) Feed.uEntVal();
+			else Feed.uEntInval();
 
 			return oCardNew;
 		});
@@ -530,7 +530,7 @@ export default function ViewPlay(aProps) {
 
 				<section id="BoxScore">
 					<Btn id="BtnEnt" disabled={ouCkDisabBtnScore()} onClick={ouRecord_Ent}
-						CkDownClick={true} CkDisabSoundClick={true}>
+						CkDownClick={true} CkDisabFeedClick={true}>
 
 						<div id="LblScore">
 							{oCardUser.Score ?? 0}

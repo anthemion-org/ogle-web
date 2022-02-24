@@ -1,17 +1,17 @@
-// Sound.js
-// --------
+// Feed.js
+// -------
 // Copyright ©2022 Jeremy Kelly
 // www.anthemion.org
 //
 // Import with:
 //
-//   import Sound from "../Sound.js";
+//   import Feed from "../Feed.js";
 //
 
 // Audio on mobile devices
 // -----------------------
 // Audio performance on Android devices is really awful. The playback latency is
-// quite long, the loop timing is extremely variable (even though tTimer
+// irritatingly long, the loop timing is extremely variable (even though tTimer
 // regulates the timing), my devices won't loop faster than once per second, and
 // the volume on the Pixel 4a waxes and wanes for no reason I can understand.
 // For these reasons, I am disabling audio on all mobile devices, which might be
@@ -74,15 +74,15 @@
 import { tTimer } from "./Util/Timer.js";
 import * as Misc from "./Util/Misc.js";
 
-/** Manages all audio resources and playback for the application. This class is
- *  mutable. */
-class tSound {
+/** Provides audio or haptic feedback for various application events. This class
+ *  is mutable. */
+class tFeed {
 	constructor() {
 		/** Set to 'true' if the app is running on a mobile device. */
 		this._CkMob = Misc.CkMob();
 
 		/** The loop play state, which determines whether the tick loop generates
-		 *  sound. The loop timer always runs. */
+		 *  sound or vibrations. The loop timer always runs. */
 		this._StLoop = StsLoop.Stop;
 
 		this._uWorkTimerLoop = this._uWorkTimerLoop.bind(this);
@@ -139,7 +139,7 @@ class tSound {
 	uStop_Tick() {
 		this._StLoop = StsLoop.Stop;
 
-		// So we don't have to wait for the next timer iteration:
+		// Otherwise the loop would not stop until the next timer iteration:
 		if (this._CkMob) uCancel_Vibe();
 	}
 
@@ -205,7 +205,7 @@ class tSound {
 function uReady_Aud(aSelEl, aVol) {
 	const oEl = document.querySelector(aSelEl);
 	if (!oEl)
-		throw Error(`tSound.uReady_Aud: Cannot load element '${aSelEl}'`);
+		throw Error(`tFeed.uReady_Aud: Cannot load element '${aSelEl}'`);
 
 	oEl.volume = aVol ?? 1.0;
 	return oEl;
@@ -234,14 +234,14 @@ function uVibe_Patt() {
 
 /** Stores properties representing the loop play state. */
 export const StsLoop = {
-	/** No looped sound is played. */
+	/** No looped sound or vibration is played. */
 	Stop: "Stop",
-	/** Slow ticks are played. */
+	/** Slow tick sounds or vibrations are played. */
 	TickSlow: "TickSlow",
-	/** Fast ticks are played. */
+	/** Fast tick sounds or vibrations are played. */
 	TickFast: "TickFast"
 };
 Object.freeze(StsLoop);
 
-const Sound = new tSound();
-export default Sound;
+const Feed = new tFeed();
+export default Feed;

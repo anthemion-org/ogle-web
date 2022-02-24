@@ -11,7 +11,7 @@
 import "./Die.css";
 import { tDie } from "../Board/Die.js";
 import * as MetrDie from "./MetrDie.js";
-import Sound from "../Sound.js";
+import Feed from "../Feed.js";
 import * as Dir4 from "../Util/Dir4.js";
 import { tPt2 } from "../Util/Pt2.js";
 
@@ -52,7 +52,7 @@ LookDie.propTypes = {
  */
 export default function LookDie(aProps) {
 	function ouHandPointOver(aEvt) {
-		if (!aProps.CkDisp) Sound.uPointOver();
+		if (!aProps.CkDisp) Feed.uPointOver();
 	}
 
 	function ouHandPointDown(aEvt) {

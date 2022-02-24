@@ -1,11 +1,11 @@
-// Sound.js
-// --------
+// Feed.js
+// -------
 // Copyright ©2022 Jeremy Kelly
 // www.anthemion.org
 
-import Sound from "./Sound.js";
+import Sound from "./Feed.js";
 
-test("Play sounds", () => {
+test("Play feedbacks", () => {
 	Sound.uPointOver();
 	Sound.uSelDie();
 	Sound.uUnselDie();

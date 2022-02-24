@@ -19,7 +19,7 @@ import { tCard } from "../Round/Card.js";
 import { StatsWord, uScoresCoversFromCards } from "../Round/ScoreWord.js";
 import { tScorePlay } from "../Round/ScorePlay.js";
 import { tScoresHigh } from "../Round/ScoresHigh.js";
-import Sound from "../Sound.js";
+import Feed from "../Feed.js";
 import * as Store from "../Store.js";
 import * as Cfg from "../Cfg.js";
 import * as Misc from "../Util/Misc.js";
@@ -108,7 +108,7 @@ export default function ViewScore(aProps) {
 			const oScore = oScores[oEl.dataset.idxWord];
 			ouSet_ScoreWord(oScore);
 
-			Sound.uSelDie();
+			Feed.uSelDie();
 		}
 	}
 
