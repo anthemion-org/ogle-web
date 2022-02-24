@@ -78,7 +78,7 @@ class tSound {
 	constructor() {
 		/** Set to 'true' if the app is running on a mobile device. */
 		this._CkMob = /Mobi/.test(navigator.userAgent);
-		if (this._CkMob) return;
+		if (!this._CkMob) return;
 
 		this._AudPointOver = uReady_Aud("#AudPointOver", 1.0);
 		this._AudSelDie = uReady_Aud("#AudSelDie", 1.0);
@@ -96,51 +96,61 @@ class tSound {
 	}
 
 	uPointOver() {
-		if (this._CkMob) return;
-		this._AudPointOver.play();
+		this._PlayOrVibe(this._AudPointOver);
 	}
 
 	uSelDie() {
-		if (this._CkMob) return;
-		this._AudSelDie.play();
+		this._PlayOrVibe(this._AudSelDie);
 	}
 
 	uUnselDie() {
-		if (this._CkMob) return;
-		this._AudUnselDie.play();
+		this._PlayOrVibe(this._AudUnselDie);
 	}
 
 	uEntVal() {
-		if (this._CkMob) return;
-		this._AudEntVal.play();
+		this._PlayOrVibe(this._AudEntVal);
 	}
 
 	uEntInval() {
-		if (this._CkMob) return;
-		this._AudEntInval.play();
+		this._PlayOrVibe(this._AudEntInval);
 	}
 
 	uTick() {
-		if (this._CkMob) return;
-		this._AudTick.play();
+		this._PlayOrVibe(this._AudTick);
 	}
 
 	/** Starts the 'slow' tick loop. */
 	uLoopSlow_Tick() {
 		if (this._CkMob) return;
+
 		this._StLoop = StsLoop.TickSlow;
 	}
 
 	/** Starts the 'fast' tick loop. */
 	uLoopFast_Tick() {
 		if (this._CkMob) return;
+
 		this._StLoop = StsLoop.TickFast;
 	}
 
 	/** Stops the tick loop. */
 	uStop_Tick() {
 		if (this._CkMob) return;
+
 		this._StLoop = StsLoop.Stop;
+	}
+
+	/** Plays the specified 'audio' element, vibrating instead if the app is
+	 *  running on a mobile device. */
+	_PlayOrVibe(aAud) {
+		if (this._CkMob) {
+			// This does nothing on iOS browsers, and it is ignored on Android phones
+			// set to 'do not disturb':
+			navigator.vibrate(25);
+			return;
+		}
+
+		aAud.play();
 	}
 
 	/** The loop timer work function, which uses the loop play state to determine
