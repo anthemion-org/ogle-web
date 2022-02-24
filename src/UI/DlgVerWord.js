@@ -67,7 +67,7 @@ export default function DlgVerWord(aProps) {
 						No <em>person</em>, <em>place</em>, <em>organization</em>, or <em>brand</em> names. Words like <em>Frisbee</em> and <em>Judas</em> that have been genericized or repurposed are acceptable.
 					</li>
 					<li>
-						No <em>abbreviations</em> or <em>acronyms</em>. Words like <em>abend</em> and <em>snafu</em> that are no longer understood as abbreviations are acceptable.
+						No <em>acronyms</em>. Words like <em>snafu</em> that are no longer perceived as acronyms are acceptable.
 					</li>
 					<li>
 						No words requiring <em>accents</em> or <em>punctuation</em>, including <em>contractions</em> and <em>hyphenated</em> words.

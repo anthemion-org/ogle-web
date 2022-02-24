@@ -17,10 +17,9 @@
 #DlgVerWord #BtnWik {
 	display: block;
 	width: 100%;
-	height: 4rem;
 
 	margin: 0.25rem 0;
-	padding: 0 0.75rem;
+	padding: 0.25rem 0.75rem;
 
 	font-family: var(--FontFamilySerif);
 	font-weight: bold;
@@ -44,6 +43,8 @@
 @media screen and (max-height: 700px) {
 	#DlgVerWord {
 		max-width: 39rem;
+
+		padding: 1rem;
 
 		font-size: 90%;
 	}
