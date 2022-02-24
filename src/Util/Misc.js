@@ -13,3 +13,8 @@
 export function Gen_Arr(aLen, aVal) {
 	return Array(aLen).fill(aVal);
 }
+
+/** Returns true if the app is running on a mobile device. */
+export function CkMob() {
+	return /Mobi/.test(navigator.userAgent);
+}

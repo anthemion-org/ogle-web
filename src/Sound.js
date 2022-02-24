@@ -10,12 +10,13 @@
 
 // Audio on mobile devices
 // -----------------------
-// Audio performance on Android devices is truly abysmal. The playback latency
-// is often very long, the loop timing is extremely variable (even though tTimer
+// Audio performance on Android devices is really awful. The playback latency is
+// quite long, the loop timing is extremely variable (even though tTimer
 // regulates the timing), my devices won't loop faster than once per second, and
-// the volume on the Pixel 4a waxes and wanes very noticeably for no reason I
-// can understand. I have therefore decided to disable audio on all mobile
-// devices, which might be what users prefer in the first place.
+// the volume on the Pixel 4a waxes and wanes for no reason I can understand.
+// For these reasons, I am disabling audio on all mobile devices, which might be
+// what users prefer in the first place. I have changed this module to vibrate
+// the device, if possible, in place of the sounds that would have been played.
 //
 //
 // Audio loading problems
@@ -71,28 +72,33 @@
 // development server would fail this way, if the paths were simply wrong.
 
 import { tTimer } from "./Util/Timer.js";
+import * as Misc from "./Util/Misc.js";
 
 /** Manages all audio resources and playback for the application. This class is
  *  mutable. */
 class tSound {
 	constructor() {
 		/** Set to 'true' if the app is running on a mobile device. */
-		this._CkMob = /Mobi/.test(navigator.userAgent);
-		if (this._CkMob) return;
-
-		this._AudPointOver = uReady_Aud("#AudPointOver", 1.0);
-		this._AudSelDie = uReady_Aud("#AudSelDie", 1.0);
-		this._AudUnselDie = uReady_Aud("#AudUnselDie", 1.0);
-		this._AudEntVal = uReady_Aud("#AudEntVal", 1.0);
-		this._AudEntInval = uReady_Aud("#AudEntInval", 1.0);
-		this._AudTick = uReady_Aud("#AudTick", 0.8);
+		this._CkMob = Misc.CkMob();
 
 		/** The loop play state, which determines whether the tick loop generates
 		 *  sound. The loop timer always runs. */
 		this._StLoop = StsLoop.Stop;
+
 		this._uWorkTimerLoop = this._uWorkTimerLoop.bind(this);
+		// Many mobile devices won't allow shorter timer periods:
+		const oPer = this._CkMob ? 1000 : 250;
 		/** The timer that runs the tick loop. */
-		this._TimerLoop = new tTimer(this._uWorkTimerLoop, 250, true);
+		this._TimerLoop = new tTimer(this._uWorkTimerLoop, oPer, true);
+
+		if (!this._CkMob) {
+			this._AudPointOver = uReady_Aud("#AudPointOver", 1.0);
+			this._AudSelDie = uReady_Aud("#AudSelDie", 1.0);
+			this._AudUnselDie = uReady_Aud("#AudUnselDie", 1.0);
+			this._AudEntVal = uReady_Aud("#AudEntVal", 1.0);
+			this._AudEntInval = uReady_Aud("#AudEntInval", 1.0);
+			this._AudTick = uReady_Aud("#AudTick", 0.8);
+		}
 	}
 
 	uPointOver() {
@@ -121,32 +127,33 @@ class tSound {
 
 	/** Starts the 'slow' tick loop. */
 	uLoopSlow_Tick() {
-		if (this._CkMob) return;
-
 		this._StLoop = StsLoop.TickSlow;
 	}
 
 	/** Starts the 'fast' tick loop. */
 	uLoopFast_Tick() {
-		if (this._CkMob) return;
-
 		this._StLoop = StsLoop.TickFast;
 	}
 
 	/** Stops the tick loop. */
 	uStop_Tick() {
-		if (this._CkMob) return;
-
 		this._StLoop = StsLoop.Stop;
+
+		// So we don't have to wait for the next timer iteration:
+		if (this._CkMob) uCancel_Vibe();
 	}
 
 	/** Plays the specified 'audio' element, vibrating instead if the app is
 	 *  running on a mobile device. */
 	_PlayOrVibe(aAud) {
 		if (this._CkMob) {
-			// This does nothing on iOS browsers, and it is ignored on Android phones
-			// set to 'do not disturb':
-			navigator.vibrate(25);
+			// Playing a single pulse cancels the queued pattern, if there is one,
+			// which produces gaps in the TickFast pattern when time is low.
+			// Restarting the pattern eliminates these gaps, while still providing
+			// feedback for the die selection:
+			if (this._StLoop === StsLoop.TickFast) uVibe_Patt();
+			else uVibe_One();
+
 			return;
 		}
 
@@ -156,6 +163,34 @@ class tSound {
 	/** The loop timer work function, which uses the loop play state to determine
 	 *  whether a tick should be played. The loop timer always runs. */
 	_uWorkTimerLoop() {
+
+		// Mobile device
+		// -------------
+		// While the tick sound is played twice per second for TickSlow, and four
+		// times per second for TickFast, that seems too fast for vibrations, so we
+		// will halve those frequencies.
+
+		if (this._CkMob) {
+			switch (this._StLoop) {
+				case StsLoop.TickSlow:
+					// The desired vibration period happens to match the timer period:
+					uVibe_One();
+					return;
+
+				case StsLoop.TickFast: {
+					uVibe_Patt();
+					return;
+				}
+
+				default:
+					uCancel_Vibe();
+					return;
+			}
+		}
+
+		// Desktop browser
+		// ---------------
+
 		if (this._StLoop === StsLoop.Stop) return;
 
 		/** The index of the next loop iteration. */
@@ -170,10 +205,31 @@ class tSound {
 function uReady_Aud(aSelEl, aVol) {
 	const oEl = document.querySelector(aSelEl);
 	if (!oEl)
-		throw Error(`tSound._suReady_Aud: Cannot load element '${aSelEl}'`);
+		throw Error(`tSound.uReady_Aud: Cannot load element '${aSelEl}'`);
 
 	oEl.volume = aVol ?? 1.0;
 	return oEl;
+}
+
+/** The length, in milliseconds, of one vibration pulse. */
+const LenVibe = 20;
+
+/** Cancels any pending vibrations. */
+function uCancel_Vibe() {
+	navigator.vibrate(0);
+}
+
+/** Vibrates the device once, briefly. */
+function uVibe_One() {
+	// This does nothing on iOS browsers, and it is ignored on Android phones
+	// set to 'do not disturb':
+	navigator.vibrate(LenVibe);
+}
+
+/** Causes the device to produce a one-second vibration pattern. */
+function uVibe_Patt() {
+	const oLenOff = 500 - LenVibe;
+	navigator.vibrate([LenVibe, oLenOff, LenVibe, oLenOff]);
 }
 
 /** Stores properties representing the loop play state. */
