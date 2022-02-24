@@ -78,7 +78,7 @@ class tSound {
 	constructor() {
 		/** Set to 'true' if the app is running on a mobile device. */
 		this._CkMob = /Mobi/.test(navigator.userAgent);
-		if (!this._CkMob) return;
+		if (this._CkMob) return;
 
 		this._AudPointOver = uReady_Aud("#AudPointOver", 1.0);
 		this._AudSelDie = uReady_Aud("#AudSelDie", 1.0);
