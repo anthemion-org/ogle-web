@@ -65,11 +65,11 @@ export default function Btn(aProps) {
 	}
 
 	function ouHandClick(aEvt) {
-		// This works around a bizarre problem that appears on mobile devices, and
-		// on desktop browsers when their DevTools emulate the same. On these
+		// This works around a bizarre problem that appears on Android devices, and
+		// on desktop browsers when their DevTools emulate mobile devices. On these
 		// platforms, if the DlgPause BtnResume button happens to overlap BtnPause
-		// in ViewPlay underneath it, tapping the overlapping region within BtnPause
-		// displays DlgPause, as expected, but a click event then occurs within
+		// in ViewPlay beneath it, tapping the overlapping region within BtnPause
+		// displays DlgPause as expected, but a click event then occurs within
 		// BtnResume when the pointer is lifted, causing the dialog to be dismissed.
 		// The events occur in this order:
 		//
@@ -81,15 +81,15 @@ export default function Btn(aProps) {
 		//
 		// 4) BtnResume 'onClick'.
 		//
-		// The BtnPause uses CkDownClick, and when that code is removed, the problem
+		// BtnPause uses CkDownClick, and when that code is removed, the problem
 		// disappears. The game can be difficult to play on Android without that
 		// option, however.
 		//
 		// The view structure suggests that the problem is not caused by event
 		// capture or bubbling. The fact that it occurs on Chrome and Firefox
 		// suggests that it is not a bug; however, I don't see how it can be
-		// acceptable for a 'button' to generate 'onClick' without 'onPointerDown'
-		// and 'onPointerUp'. For now, this is all I can do:
+		// acceptable for a button to generate 'onClick' without 'onPointerDown' and
+		// 'onPointerUp'. For now, this is all I can do:
 		if (!oCkDown) return;
 
 		if (!aProps.CkDisabFeedClick) Feed.uSelDie();
