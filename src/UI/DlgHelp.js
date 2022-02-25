@@ -38,7 +38,7 @@ export default function DlgHelp(aProps) {
 					<h1>Ogle help</h1>
 
 					<p>
-						<em>Enter all the words you can before time runs out.</em>
+						<em>Find all the words you can before time runs out!</em>
 					</p>
 					<p>
 						Words must be <em>four or more letters</em> long.

@@ -10,6 +10,9 @@
 :root {
 	--FontFamilySerif: "Brygada 1918", serif;
 	--FontFamilySans: "Open Sans", sans-serif;
+
+	/** It is easy to select by accident when using a touchscreen: */
+	user-select: none;
 }
 
 .ThemeLt {
@@ -60,7 +63,7 @@
 	--ColorDieCrnSWNE: hsl(31, 35%, 85%);
 	--ColorDieCrnNW: white;
 	--ColorDieFace: hsl(30, 38%, 93%);
-	--BrightDieDisab: 0.85;
+	--BrightDieDisab: 0.8;
 	--ColorDieMarkSel: hsla(30, 50%, 50%, 0.4);
 	--ColorDieMarkFirst: hsla(0, 45%, 50%, 0.4);
 	--ColorDieText: black;
@@ -114,7 +117,7 @@
 	--ColorDieCrnSWNE: hsl(30, 22%, 70%);
 	--ColorDieCrnNW: hsl(0, 0%, 92%);
 	--ColorDieFace: hsl(30, 22%, 85%);
-	--BrightDieDisab: 0.75;
+	--BrightDieDisab: 0.7;
 	--ColorDieMarkSel: hsla(30, 50%, 50%, 0.45);
 	--ColorDieMarkFirst: hsla(0, 45%, 50%, 0.45);
 	--ColorDieText: black;
