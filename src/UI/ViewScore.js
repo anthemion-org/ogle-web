@@ -223,7 +223,7 @@ export default function ViewScore(aProps) {
 		const oTag = aProps.Setup.uTag();
 		const oScores = oScoresHigh.uScores(oTag).slice(0, (oCtRow + 1));
 		if (oScores.length < oCtRow) {
-			const oBlanks = Misc.Gen_Arr((oCtRow - oScores.length), null);
+			const oBlanks = Misc.uGen_Arr((oCtRow - oScores.length), null);
 			oScores.push(...oBlanks);
 		}
 

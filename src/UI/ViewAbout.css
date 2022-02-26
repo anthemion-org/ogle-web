@@ -34,10 +34,9 @@
 }
 
 /* Responsive layouts
- * ------------------
- * The width and height of this view are determined by its content. */
+ * ------------------ */
 
-@media screen and (orientation: landscape) and (max-height: 700px) {
+@media screen and (orientation: landscape) and (max-height: 600px) {
 	#ViewAbout {
 		max-width: calc(100vw - 1rem);
 

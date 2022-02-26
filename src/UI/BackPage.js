@@ -9,6 +9,7 @@
 //
 
 import "./BackPage.css";
+import * as Misc from "../Util/Misc.js";
 
 import React from "react";
 
@@ -16,6 +17,8 @@ import React from "react";
 // --------
 
 export default function BackPage(aProps) {
+	if (Misc.uCkMob()) return null;
+
 	function ouRay(aCt, aj) {
 		const oWthSpan = 2 * Math.PI / aCt;
 		const oWthRay = oWthSpan / 2;

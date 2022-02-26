@@ -79,7 +79,7 @@ import * as Misc from "./Util/Misc.js";
 class tFeed {
 	constructor() {
 		/** Set to 'true' if the app is running on a mobile device. */
-		this._CkMob = Misc.CkMob();
+		this._CkMob = Misc.uCkMob();
 
 		/** The loop play state, which determines whether the tick loop generates
 		 *  sound or vibrations. The loop timer always runs. */
@@ -92,12 +92,13 @@ class tFeed {
 		this._TimerLoop = new tTimer(this._uWorkTimerLoop, oPer, true);
 
 		if (!this._CkMob) {
-			this._AudPointOver = uReady_Aud("#AudPointOver", 1.0);
-			this._AudSelDie = uReady_Aud("#AudSelDie", 1.0);
-			this._AudUnselDie = uReady_Aud("#AudUnselDie", 1.0);
-			this._AudEntVal = uReady_Aud("#AudEntVal", 1.0);
-			this._AudEntInval = uReady_Aud("#AudEntInval", 1.0);
-			this._AudTick = uReady_Aud("#AudTick", 0.8);
+			const oVolBase = 0.4;
+			this._AudPointOver = uReady_Aud("#AudPointOver", oVolBase);
+			this._AudSelDie = uReady_Aud("#AudSelDie", oVolBase);
+			this._AudUnselDie = uReady_Aud("#AudUnselDie", oVolBase);
+			this._AudEntVal = uReady_Aud("#AudEntVal", oVolBase);
+			this._AudEntInval = uReady_Aud("#AudEntInval", oVolBase);
+			this._AudTick = uReady_Aud("#AudTick", (oVolBase * 0.8));
 		}
 	}
 
