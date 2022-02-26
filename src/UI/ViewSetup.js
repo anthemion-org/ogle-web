@@ -115,7 +115,7 @@ export default class ViewSetup extends React.Component {
 					</section>
 				</main>
 
-				<div className="Btns">
+				<div id="BtnsMain" className="Btns">
 					<Btn onClick={this.uHandAbout}>About</Btn>
 					<Btn className="Group" onClick={this.uHandPlay}>Play</Btn>
 				</div>
