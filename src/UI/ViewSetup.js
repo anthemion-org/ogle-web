@@ -9,6 +9,7 @@
 //
 
 import "./ViewSetup.css";
+import Logo from "./Logo.js";
 import Slide from "./Slide.js";
 import Btn from "./Btn.js";
 import * as Store from "../Store.js";
@@ -87,6 +88,7 @@ export default class ViewSetup extends React.Component {
 
 		return (
 			<div id="ViewSetup" className="View">
+				<Logo id="Logo" />
 				<h1>Ogle setup</h1>
 
 				<main>

@@ -5,6 +5,13 @@
 
 #ViewSetup {
 	width: 30rem;
+
+	display: flex;
+	flex-direction: column;
+}
+
+#ViewSetup #Logo {
+	display: none;
 }
 
 #ViewSetup section:focus-within {
@@ -12,7 +19,7 @@
 }
 
 #ViewSetup section {
-	margin-top: 0.5rem;
+	margin-bottom: 0.5rem;
 	border-radius: 0.25rem;
 	padding: 0.5rem 1rem 0.75rem 1rem;
 
@@ -47,7 +54,7 @@
 /* Responsive layouts
  * ------------------ */
 
-@media screen and (orientation: portrait) and (max-width: 30rem),
+@media screen and (orientation: portrait) and (max-width: 500px),
 	screen and (orientation: landscape) and (max-height: 500px) {
 
 	#ViewSetup {
@@ -64,10 +71,6 @@
 
 	#ViewSetup h1 {
 		margin-bottom: 0.75rem;
-	}
-
-	#ViewSetup .Instruct {
-		font-size: 0.9rem;
 	}
 
 	/* Button tray
@@ -101,8 +104,26 @@
 	}
 }
 
-@media screen and (orientation: portrait) and (max-width: 30rem) {
+@media screen and (orientation: portrait) and (max-width: 500px) {
+	#ViewSetup #Logo {
+		display: initial;
+		align-self: center;
 
+		width: 4rem;
+		height: 4rem;
+
+		margin: 1rem 0 0.75rem 0;
+
+		/* Need to use 'filter' here, or the shadow won't be rendered under
+		* transparent areas within the SVG: */
+		filter: drop-shadow(0 0 2px black);
+	}
+}
+
+@media screen and (orientation: portrait) and (max-height: 600px) {
+	#ViewSetup #Logo {
+		display: none;
+	}
 }
 
 @media screen and (orientation: landscape) and (max-height: 500px) {
