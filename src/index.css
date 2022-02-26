@@ -11,7 +11,8 @@
 	--FontFamilySerif: "Brygada 1918", serif;
 	--FontFamilySans: "Open Sans", sans-serif;
 
-	/** It is easy to select by accident when using a touchscreen: */
+	/** It is easy to select by accident when using a touchscreen, and the
+	 *  selected text is distracting: */
 	user-select: none;
 }
 

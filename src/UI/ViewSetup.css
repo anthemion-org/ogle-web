@@ -74,21 +74,10 @@
 	}
 
 	/* Button tray
-	 * -----------
-	 * In this layout, we will move the buttons to a 'tray' that is fixed to the
-	 * bottom of the viewport. Keeping the buttons visible helps users understand
-	 * what they should do next.
-	 *
-	 * In high-scoring games, the view will exceed the viewport height for desktop
-	 * users as well, and the same problem will be faced. Moving the buttons to
-	 * the bottom of a large display would make them less visible, however, so we
-	 * will hope they scroll instead.
-	 *
-	 * I considered this for the other mobile layouts, but those never exceed the
-	 * viewport height, and it would be even uglier there than it is here. */
+	 * ----------- */
 
 	#ViewSetup #BtnsMain {
-		--HeightTrayBtn: 4rem;
+		--HeightTrayBtn: 4.5rem;
 
 		position: fixed;
 		left: 0;
@@ -97,7 +86,7 @@
 		height: var(--HeightTrayBtn);
 
 		border-top: var(--StyViewBord);
-		padding: 0.5rem;
+		padding: 0.75rem;
 
 		background-color: var(--ColorViewBack);
 		box-shadow: 0 0 10px hsla(0, 0%, 0%, 0.5);
