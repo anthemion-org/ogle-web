@@ -203,15 +203,20 @@
 
 @media screen and (max-width: 800px) {
 	#ViewScore {
+		--HeightTrayBtn: 4rem;
+
 		width: 100vw;
 
 		margin-top: 0;
 		border: none;
 		border-radius: 0;
-		padding: 1rem 1rem 3.75rem 1rem;
+		padding: 1rem 1rem calc(var(--HeightTrayBtn) - 0.25rem) 1rem;
 	}
 
 	#ViewScore main {
+		border-bottom: none;
+		padding-bottom: 0;
+
 		grid-template-columns: auto;
 		grid-template-rows: auto auto auto auto;
 	}
@@ -275,15 +280,6 @@
 	 *
 	 * I considered this for the other mobile layouts, but those never exceed the
 	 * viewport height, and it would be even uglier there than it is here. */
-
-	#ViewScore {
-		--HeightTrayBtn: 4rem;
-	}
-
-	#ViewScore main {
-		border-bottom: none;
-		padding-bottom: 0;
-	}
 
 	#ViewScore #BtnsMain {
 		position: fixed;

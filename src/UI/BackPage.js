@@ -17,7 +17,7 @@ import React from "react";
 // --------
 
 export default function BackPage(aProps) {
-	if (Misc.uCkMob()) return null;
+	// if (Misc.uCkMob()) return null;
 
 	function ouRay(aCt, aj) {
 		const oWthSpan = 2 * Math.PI / aCt;
