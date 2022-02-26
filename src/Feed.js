@@ -212,8 +212,8 @@ function uReady_Aud(aSelEl, aVol) {
 	return oEl;
 }
 
-/** The length, in milliseconds, of one vibration pulse. */
-const LenVibe = 20;
+/** The vibration pulse length, in milliseconds. */
+const LenVibe = 50;
 
 /** Cancels any pending vibrations. */
 function uCancel_Vibe() {

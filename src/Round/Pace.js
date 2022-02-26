@@ -13,7 +13,7 @@ import * as Text from "../Util/Text.js";
 /** Pace values to be offered to the user. Each element stores the starting time
  *  and the bonus time. */
 export const Vals = [
-	[48, 8],
+	[99948, 8],
 	[36, 6],
 	[30, 5],
 	[24, 4],

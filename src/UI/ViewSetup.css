@@ -58,6 +58,8 @@
 	screen and (orientation: landscape) and (max-height: 500px) {
 
 	#ViewSetup {
+		--HeightTrayBtn: 4.5rem;
+
 		width: 100vw;
 		min-height: 100vh;
 
@@ -77,8 +79,6 @@
 	 * ----------- */
 
 	#ViewSetup #BtnsMain {
-		--HeightTrayBtn: 4.5rem;
-
 		position: fixed;
 		left: 0;
 		bottom: 0;
@@ -124,6 +124,8 @@
 	#ViewSetup section {
 		flex: 1;
 
-		margin: 0;
+		/* So that the view can be scrolled up if button the tray covers the
+		 * sections: */
+		margin-bottom: var(--HeightTrayBtn);
 	}
 }

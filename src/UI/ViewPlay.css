@@ -216,16 +216,20 @@
 }
 
 /* Responsive layouts
- * ------------------ */
+ * ------------------
+ * There is room on most devices for the 'Ogle' heading to appear at the top,
+ * but I don't want it next to the word entry.*/
 
 @media screen and (orientation: portrait) and (max-width: 700px) {
 	#ViewPlay {
-		--SizeBoard: clamp((360px - 4rem), (100vw - 4rem), 24rem);
+		--SizeBoard: clamp((360px - 4rem), (100vh - 6rem), 28rem);
 	}
 
 	#ViewPlay main {
 		grid-template-columns: auto 1fr 1fr;
-		grid-template-rows: auto auto;
+		grid-template-rows: 1fr auto;
+
+		height: 100%;
 	}
 
 	#ViewPlay #ColBoard {
@@ -235,6 +239,10 @@
 		margin: 0 0 1.5rem 0;
 		border: none;
 		padding: 0;
+
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
 	}
 
 	#ViewPlay #BoxTitle {
@@ -291,13 +299,19 @@
 
 @media screen and (orientation: portrait) and (max-width: 500px) {
 	#ViewPlay {
-		--SizeBoard: calc(100vw - 2.25rem);
+		--SizeBoard: calc(100vw - 2rem);
 
+		width: 100vw;
+		height: 100vh;
+
+		margin-top: 0;
+		border: none;
+		border-radius: 0;
 		padding: 1rem;
 	}
 
 	#ViewPlay #TextInstruct {
-		font-size: 95%;
+		font-size: 90%;
 	}
 
 	#ViewPlay #BoxTime,
@@ -325,6 +339,9 @@
 		display: flex;
 	}
 
+	/* Recall that we aren't hiding the mouse instructions to save space, but
+	 * because they won't apply to mobile users. */
+
 	#ViewPlay .Desk {
 		display: none;
 	}
@@ -335,28 +352,45 @@
 }
 
 @media screen and (orientation: landscape) and (max-height: 600px) {
+	#ViewPlay {
+		--SizeBoard: max((360px - 3rem), (100vh - 3rem));
+
+		width: 100vw;
+		height: calc(max(360px, 100vh));
+
+		margin-top: 0;
+		border: none;
+		border-radius: 0;
+		padding: 1.5rem;
+	}
+
 	#ViewPlay main {
-		--SizeBoard: calc(100vh - 3.25rem);
+		width: 100%;
 
 		display: grid;
-		grid-template-columns: auto 10rem;
+		grid-template-columns: 1fr 10rem;
 		grid-template-rows: auto auto 1fr auto;
 	}
 
 	#ViewPlay #ColBoard {
 		display: flex;
+		justify-content: center;
 		gap: 0.75rem;
 	}
 
 	#ViewPlay #BoxEnt {
 		height: initial;
-		width: 4rem;
+		width: 5rem;
+
 		flex-direction: column-reverse;
 		justify-content: space-between;
+		align-items: center;
 	}
 
 	#ViewPlay #TextInstruct {
 		flex: 1 1 0;
+
+		max-height: 300px;
 
 		writing-mode: vertical-rl;
 		transform: rotate(180deg);
