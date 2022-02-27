@@ -28,6 +28,7 @@ export default function App() {
 		<div id="ContainTheme" className="ThemeDk">
 			<BackPage />
 			<View StApp={oStApp} uUpd_StApp={ouUpd_StApp} />
+			<div id="ShadTop"></div>
 		</div>
 	);
 }

@@ -302,6 +302,20 @@ input:focus {
 	outline: var(--StyInOutFoc);
 }
 
+/* Top shadow
+ * ---------- */
+
+#ShadTop {
+	position: fixed;
+	width: 120vw;
+	height: 3rem;
+	left: -10vw;
+	top: calc(1px - 3rem);
+
+	border-bottom: var(--StyViewBord);
+	box-shadow: 0 0 10px hsla(0, 0%, 0%, 0.5);
+}
+
 /* Dialogs
  * ------- */
 
