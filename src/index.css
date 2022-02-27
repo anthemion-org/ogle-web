@@ -303,7 +303,9 @@ input:focus {
 }
 
 /* Top shadow
- * ---------- */
+ * ----------
+ * Would have been nice to use an 'inset' box shadow, but I don't think there is
+ * a way to do that only just one side. */
 
 #ShadTop {
 	position: fixed;

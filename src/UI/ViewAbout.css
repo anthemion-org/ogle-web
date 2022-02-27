@@ -53,6 +53,17 @@
 	}
 }
 
+@media screen and (orientation: portrait) and (max-height: 630px) {
+	#ViewAbout #Logo {
+		width: 4rem;
+		height: 4rem;
+	}
+
+	#ViewAbout section {
+		font-size: 0.9rem;
+	}
+}
+
 @media screen and (orientation: landscape) and (max-height: 600px) {
 	#ViewAbout {
 		padding: 1rem 0;
