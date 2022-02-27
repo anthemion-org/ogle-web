@@ -223,6 +223,8 @@
 @media screen and (orientation: portrait) and (max-width: 700px) {
 	#ViewPlay {
 		--SizeBoard: clamp((360px - 4rem), (100vh - 6rem), 28rem);
+
+		background-color: var(--ColorViewBackMob);
 	}
 
 	#ViewPlay main {
@@ -333,9 +335,17 @@
 	}
 }
 
+@media screen and (orientation: portrait) and (max-width: 350px) {
+	#ViewPlay #TextInstruct {
+		font-size: 80%;
+	}
+}
+
 @media screen and (orientation: landscape) and (max-height: 700px) {
 	#ViewPlay {
 		--SizeBoard: clamp((360px - 4rem), (100vh - 6rem), 28rem);
+
+		background-color: var(--ColorViewBackMob);
 
 		display: flex;
 	}

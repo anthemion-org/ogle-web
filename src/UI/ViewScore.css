@@ -211,6 +211,8 @@
 		border: none;
 		border-radius: 0;
 		padding: 1rem 1rem calc(var(--HeightTrayBtn) - 0.25rem) 1rem;
+
+		background-color: var(--ColorViewBackMob);
 	}
 
 	#ViewScore main {
@@ -291,7 +293,7 @@
 		border-top: var(--StyViewBord);
 		padding: 0.75rem;
 
-		background-color: var(--ColorViewBack);
+		background-color: var(--ColorTrayBack);
 		box-shadow: 0 0 10px hsla(0, 0%, 0%, 0.5);
 	}
 }

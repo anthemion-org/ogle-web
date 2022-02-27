@@ -17,12 +17,15 @@
 }
 
 .ThemeLt {
-	--ColorPattBackDk: hsl(30, 4%, 10%);
-	--ColorPattBackLt: hsl(30, 4%, 15%);
+	--ColorPattBackBase: hsl(30, 4%, 10%);
+	--ColorPattBackLine: hsl(30, 4%, 20%);
 
 	--ColorViewBack: hsl(30, 20%, 93%);
+	--ColorViewBackMob: hsla(0, 0%, 100%, 0.075);
 	--ColorViewBackAlt: hsl(30, 10%, 86%);
 	--StyViewBord: none;
+
+	--ColorTrayBack: hsl(30, 20%, 93%);
 
 	--ColorDlgBack: hsl(30, 10%, 93%);
 	--StyDlgBord: none;
@@ -71,12 +74,15 @@
 }
 
 .ThemeDk {
-	--ColorPattBackDk: hsl(0, 4%, 10%);
-	--ColorPattBackLt: hsl(0, 4%, 15%);
+	--ColorPattBackBase: hsl(0, 4%, 10%);
+	--ColorPattBackLine: hsl(0, 4%, 20%);
 
 	--ColorViewBack: hsl(0, 4%, 20%);
+	--ColorViewBackMob: hsla(0, 0%, 100%, 0.075);
 	--ColorViewBackAlt: hsl(0, 4%, 26%);
 	--StyViewBord: 1px solid hsl(0, 4%, 40%);
+
+	--ColorTrayBack: hsl(0, 4%, 20%);
 
 	--ColorDlgBack: hsl(0, 4%, 20%);
 	--StyDlgBord: 1px solid hsl(0, 4%, 30%);
@@ -122,6 +128,9 @@
 	--ColorDieMarkSel: hsla(30, 50%, 50%, 0.45);
 	--ColorDieMarkFirst: hsla(0, 45%, 50%, 0.45);
 	--ColorDieText: black;
+
+--ColorViewBack: hsla(0, 0%, 100%, 0.075);
+--ColorSlideBack: hsl(0, 4%, 23%);
 }
 
 #ContainTheme {

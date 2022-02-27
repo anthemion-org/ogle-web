@@ -65,6 +65,8 @@
 
 		border: none;
 		border-radius: 0;
+
+		background-color: var(--ColorViewBackMob);
 	}
 
 	#ViewSetup section {
@@ -88,7 +90,7 @@
 		border-top: var(--StyViewBord);
 		padding: 0.75rem;
 
-		background-color: var(--ColorViewBack);
+		background-color: var(--ColorTrayBack);
 		box-shadow: 0 0 10px hsla(0, 0%, 0%, 0.5);
 	}
 }

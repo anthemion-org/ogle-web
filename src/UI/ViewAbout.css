@@ -47,6 +47,7 @@
 		border: none;
 		border-radius: 0;
 		padding: 1rem 1rem calc(var(--HeightTrayBtn) - 0.25rem) 1rem;
+		background-color: var(--ColorViewBackMob);
 
 		display: grid;
 		place-items: center;

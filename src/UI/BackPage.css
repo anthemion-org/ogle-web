@@ -15,7 +15,7 @@
 	left: calc((100vw - max(100vw, 100vh)) / 2);
 	top: 0;
 
-	background-color: var(--ColorPattBackDk);
+	background-color: var(--ColorPattBackBase);
 }
 
 @media screen and (orientation: landscape) {
@@ -26,25 +26,25 @@
 }
 
 #BackPage {
-	background-color: var(--ColorPattBackDk);
+	background-color: var(--ColorPattBackBase);
 }
 
 #BackPage .Ray {
 	fill: none;
 
 	stroke-width: 0.1;
-	stroke: hsl(0, 4%, 20%);
+	stroke: var(--ColorPattBackLine);
 }
 
 #BackPage .Circ {
 	fill: transparent;
 
 	stroke-width: 0.25;
-	stroke: var(--ColorPattBackDk);
+	stroke: var(--ColorPattBackBase);
 }
 
 #BackPage .Ctr {
-	fill: var(--ColorPattBackDk);
+	fill: var(--ColorPattBackBase);
 
 	stroke-width: 0;
 }
