@@ -21,7 +21,6 @@
 	--ColorPattBackLine: hsl(30, 4%, 20%);
 
 	--ColorViewBack: hsl(30, 20%, 93%);
-	--ColorViewBackMob: hsla(0, 0%, 100%, 0.075);
 	--ColorViewBackAlt: hsl(30, 10%, 86%);
 	--StyViewBord: none;
 
@@ -77,8 +76,7 @@
 	--ColorPattBackBase: hsl(0, 4%, 10%);
 	--ColorPattBackLine: hsl(0, 4%, 20%);
 
-	--ColorViewBack: hsl(0, 4%, 20%);
-	--ColorViewBackMob: hsla(0, 0%, 100%, 0.075);
+	--ColorViewBack: hsla(0, 0%, 100%, 0.075);
 	--ColorViewBackAlt: hsl(0, 4%, 26%);
 	--StyViewBord: 1px solid hsl(0, 4%, 40%);
 
@@ -111,7 +109,7 @@
 	--StyInOutFoc: 1px solid hsl(30, 60%, 40%);
 	--ColorInText: hsl(0, 0%, 90%);
 
-	--ColorSlideBack: hsl(0, 4%, 26%);
+	--ColorSlideBack: hsl(0, 4%, 24%);
 	--ColorSlideTrack: hsl(0, 4%, 75%);
 	--ColorSlideTrackHov: hsl(30, 60%, 60%);
 	--ColorSlideThumb: hsl(0, 0%, 90%);
@@ -128,9 +126,6 @@
 	--ColorDieMarkSel: hsla(30, 50%, 50%, 0.45);
 	--ColorDieMarkFirst: hsla(0, 45%, 50%, 0.45);
 	--ColorDieText: black;
-
---ColorViewBack: hsla(0, 0%, 100%, 0.075);
---ColorSlideBack: hsl(0, 4%, 23%);
 }
 
 #ContainTheme {
@@ -309,22 +304,6 @@ input {
 input:focus {
 	/* Use 'outline' to thicken the border without shifting the layout: */
 	outline: var(--StyInOutFoc);
-}
-
-/* Top shadow
- * ----------
- * Would have been nice to use an 'inset' box shadow, but I don't think there is
- * a way to do that only just one side. */
-
-#ShadTop {
-	position: fixed;
-	width: 120vw;
-	height: 3rem;
-	left: -10vw;
-	top: calc(1px - 3rem);
-
-	border-bottom: var(--StyViewBord);
-	box-shadow: 0 0 10px hsla(0, 0%, 0%, 0.5);
 }
 
 /* Dialogs
