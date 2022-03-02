@@ -24,6 +24,11 @@
 	font-family: var(--FontFamilySerif);
 	font-weight: bold;
 	font-size: 2em;
+	overflow: hidden;
+	/* The ellipsis does not appear here, even though the same properties do cause
+	 * it to appear when applied to '#ViewPlay #TextEnt'. Not really important: */
+	text-overflow: ellipsis;
+	white-space: nowrap;
 
 	display: grid;
 	place-items: center start;

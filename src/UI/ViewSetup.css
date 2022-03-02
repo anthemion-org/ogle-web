@@ -85,7 +85,7 @@
 		width: 100%;
 		height: var(--HeightTrayBtn);
 
-		border-top: var(--StyViewBord);
+		border-top: var(--StyTrayBord);
 		padding: 0.75rem;
 
 		background-color: var(--ColorTrayBack);

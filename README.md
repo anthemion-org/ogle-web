@@ -1,14 +1,21 @@
 # Ogle: Word-finding game for the web
 
-SVG processing [to do]
-~ Inkscape and 'optimized' SVG files
+Ogle is a free word-finding game for the web and mobile. It derives from a tabletop game you’ve probably played, but the pace is much faster. [Play it now.](https://www.anthemion.org/play-ogle/)
+
+![Ogle screenshots](Art/screens_ogle.png)
+
+I created the [first version](https://github.com/anthemion-org/ogle) of this app years back, when I was learning C#. I created this version when I was learning React.
+
+Ogle is a progressive web app, so you can install and use it on your phone much like any other app. If you navigate to the play address, your phone should offer to install it. Your phone’s browser will also display _Install app_ (or similar) in its page menu.
+
+If you find a bug, [let me know](mailto://support@anthemion.org).
 
 
 ## License
 
-Ogle has copyright ©2022 Jeremy Kelly.
+Ogle has copyright ©2007-2022 Jeremy Kelly. You can view the source code here, but — for now, at least — _you may not modify, reuse, or redistribute it_. I may open-source the project some day.
 
-Open-source license [to do]
+The Ogle word lists derive from [SCOWL](https://wordlist.sourceforge.net/), copyright ©2000-2004 Kevin Atkinson. Use and distribution of SCOWL are subject to the terms of the [SCOWL License](Misc/scowl_license.txt).
 
 
 ## Conventions
@@ -35,10 +42,6 @@ I did not use the `cra-template-pwa` option when I ran `create-react-app`; inste
 
 
 ## Design notes
-
-Class components versus hooks [to do]
-~ Classes can derive from PureComponent
-~ Classes require method binding
 
 'useCallback' makes function components difficult to read, so I am skipping that until I encounter actual performance problems.
 

@@ -25,6 +25,7 @@
 	--StyViewBord: none;
 
 	--ColorTrayBack: hsl(30, 20%, 93%);
+	--StyTrayBord: none;
 
 	--ColorDlgBack: hsl(30, 10%, 93%);
 	--StyDlgBord: none;
@@ -81,6 +82,7 @@
 	--StyViewBord: 1px solid hsl(0, 4%, 40%);
 
 	--ColorTrayBack: hsl(0, 4%, 20%);
+	--StyTrayBord: 1px solid hsl(0, 4%, 30%);
 
 	--ColorDlgBack: hsl(0, 4%, 20%);
 	--StyDlgBord: 1px solid hsl(0, 4%, 30%);
@@ -338,5 +340,14 @@ input:focus {
 
 .Mob {
 	/* 'visibility: collapse' does not seem to work the way it should: */
+	display: none;
+}
+
+
+/* Miscellanea
+ * ----------- */
+
+/* Temporary Safari fix: */
+#ShadTop {
 	display: none;
 }

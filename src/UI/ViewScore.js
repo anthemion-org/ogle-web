@@ -198,13 +198,13 @@ export default function ViewScore(aProps) {
 
 		function ouFrac(aLen) {
 			const oData = oCoversByLen[aLen];
-			if (!oData) return "";
+			if (!oData) return "—";
 			return oData.CtUser + "/" + oData.CtTtl;
 		}
 
 		function ouPerc(aLen) {
 			const oData = oCoversByLen[aLen];
-			if (!oData) return "N/A";
+			if (!oData) return "—";
 			return Math.round(oData.CtUser / oData.CtTtl * 100) + "%";
 		}
 
