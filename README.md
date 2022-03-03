@@ -22,6 +22,8 @@ The Ogle word lists derive from [SCOWL](https://wordlist.sourceforge.net/), copy
 
 All class variables should be initialized and commented in the constructor. If meaningful values are not available at this point, the variables can be set to `null`.
 
+'View', 'Dlg', 'Look', et cetera [to do]
+
 ES2019 [to do]
 
 Identifier naming conventions [to do]

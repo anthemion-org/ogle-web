@@ -30,6 +30,8 @@ input[type="range"].Slide {
 	 * some important part of the input: */
 	padding: 0 1rem;
 
+	cursor: pointer;
+
 	background: transparent;
 }
 

@@ -16,7 +16,7 @@
 	 * 'grid-row-start': */
 	display: grid;
 	/* Are these needed for Safari? I don't like hard-coding the board size, and I
-	 * don't see a good way to parameterize that: [to do] */
+	 * don't see a good way to parameterize it either: [to do] */
 	grid-template-columns: repeat(5, 1fr);
 	grid-template-rows: repeat(5, 1fr);
 	gap: 0.4%;

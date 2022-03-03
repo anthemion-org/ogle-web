@@ -8,12 +8,14 @@
 .BackDie,
 .ConnSel,
 .LookDie {
-	/* Safari requires that these be set explicitly: */
+	/* Safari requires that the width be set explicitly to fill the cell, but the
+	 * height must not be set that way, or the cell will stretch to the board
+	 * height, and only one line of dice will be visible. Utter garbage: */
 	width: 100%;
-	height: 100%;
 }
 
-.BackDie:hover {
+.BackDie:hover,
+.LookDie:hover {
 	cursor: pointer;
 }
 
@@ -55,6 +57,10 @@
 	user-select: none;
 }
 
+/* LookDie fills its entire grid cell, so the MarkEnab element should appear
+ * when the user hovers anywhere within that square. That works on most
+ * browsers, but it does not work on Safari when the user hovers near the cell
+ * corners. Safari also fails to register clicks near the corners: */
 .LookDie.CkEnab:not(.CkDisp):hover .MarkEnab {
 	visibility: visible;
 
