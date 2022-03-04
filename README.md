@@ -22,7 +22,7 @@ The Ogle word lists derive from [SCOWL](https://wordlist.sourceforge.net/), copy
 
 ### Identifier naming conventions
 
-The Ogle source code uses a new identifier naming convention I am still developing. This convention was inspired by the [Split notation](https://www.anthemion.org/split_notation.html) I have used with C# and C++; JavaScript differs so much from those languages, it seems impossible to make the notations compatible.
+The Ogle source code uses a new identifier naming convention I am still developing. This convention was inspired by the [Split notation](https://www.anthemion.org/split_notation.html) I have used with C# and C++, but JavaScript differs so much from those languages, it seems impossible to make the notations compatible.
 
 Every identifer begins with zero or more prefixes, in the following order, with at most one prefix selected from each table:
 
@@ -56,17 +56,29 @@ Every identifer begins with zero or more prefixes, in the following order, with 
 | `j`    | Index variable                         |
 | `n`    | Property name variable                 |
 
-So, a class defining a static function that accepts an `async` function parameter might start with:
+The `z` prefix has no set meaning. It can be used to resolve name collisions with reserved words or third-party code, or for any other reason.
+
+So, a class defining a static function that accepts an `async` function parameter might begin with:
 
 ```
 class tBuff {
-	suFromRead(auwRead) {
-		...
+  suFromRead(auwRead) {
+    ...
 ```
 
 React requires that component names be capitalized, so component classes are _not_ prefixed with `t`.
 
-The prefixes are followed (in most cases) by a _root_ word describing the business concern or other high-level concept that is being referenced. The goal is to distinguish scope and other technical details in the prefixes, allowing the same root to be reused — without name collisions — as the concept is referenced in different ways.
+The prefixes are followed (in most cases) by a _root_ word describing the business concern or other high-level concept that is being referenced. The goal is to distinguish scope and other technical details in the prefixes, allowing the same root to be reused — without name collisions — as the concept is referenced in different ways. As an example, imagine a function that reads account data associated with a numeric index, logs the account retrieval, and then returns the data:
+
+```
+function uAcct(ajAcct) {
+	const oAcct = Accts[ajAcct];
+	uLog_AccessAcct(oAcct);
+	return oAcct;
+}
+```
+
+In this case, `uAcct`, `ajAcct`, and `oAcct` all reference the same entity, but in different ways. For this reason, they all share the same root, yet there are no name collisions.
 
 Within a root, the noun or verb that defines the concept most basically is listed _first_; modifiers follow in decreasing order of importance.
 
@@ -74,7 +86,7 @@ Functions are often defined by a verb; if that verb acts on a noun, the verb and
 
 ```
 function uUpdFull_CacheRead(aData) {
-	...
+  ...
 ```
 
 Other times, functions are named after nouns. When this is done, the noun is what the function returns.
