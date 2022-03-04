@@ -20,15 +20,57 @@ The Ogle word lists derive from [SCOWL](https://wordlist.sourceforge.net/), copy
 
 ## Conventions
 
-All class variables should be initialized and commented in the constructor. If meaningful values are not available at this point, the variables can be set to `null`.
+### Identifier prefixes
+
+The Ogle source code uses a new identifier naming convention I am still developing. This convention was inspired by the [Split notation](https://www.anthemion.org/split_notation.html) I have used with C# and C++; JavaScript differs so much from those languages, it seems impossible to make the notations compatible.
+
+Every identifer begins with zero or more prefixes, in the following order, with at most one prefix selected from each table:
+
+	| Prefix | Meaning                                |
+	|:------:|----------------------------------------|
+	| `z`    | Special                                |
+
+	| Prefix | Meaning                                |
+	|:------:|----------------------------------------|
+	| `g`    | Mutable import                         |
+	| `_`    | Private class member                   |
+	| `a`    | Function parameter                     |
+	| `o`    | Local variable or function             |
+
+	| Prefix | Meaning                                |
+	|:------:|----------------------------------------|
+	| `s`    | Class-static variable or function      |
+
+	| Prefix | Meaning                                |
+	|:------:|----------------------------------------|
+	| `t`    | Class                                  |
+	| `u`    | Function                               |
+
+	| Prefix | Meaning                                |
+	|:------:|----------------------------------------|
+	| `w`    | Asynchronous function or promise object|
+
+	| Prefix | Meaning                                |
+	|:------:|----------------------------------------|
+	| `i`    | Generator/iterator function or object  |
+	| `j`    | Index variable                         |
+	| `n`    | Property name variable                 |
+
+The prefixes are followed (in most cases) by a ‘root’ word that describes the business concern or other high-level concept that is being referenced. The goal is to distinguish scope and other technical details in the prefixes, allowing the same root to be reused — without name collisions — as the concept is referenced in different ways within a function or class.
+
+
+### Other naming identifiers
 
 'View', 'Dlg', 'Look', et cetera [to do]
 
-ES2019 [to do]
 
-Identifier naming conventions [to do]
+### Programming conventions
 
 Coordinate origin in lower-left corner [to do]
+
+All class variables should be initialized and commented in the constructor. If meaningful values are not available at this point, the variables can be set to `null`.
+
+Factory methods and constructors [to do]
 
 
 ## Project structure
