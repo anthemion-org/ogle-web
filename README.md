@@ -26,35 +26,35 @@ The Ogle source code uses a new identifier naming convention I am still developi
 
 Every identifer begins with zero or more prefixes, in the following order, with at most one prefix selected from each table:
 
-	| Prefix | Meaning                                |
-	|:------:|----------------------------------------|
-	| `z`    | Special                                |
+| Prefix | Meaning                                |
+|:------:|----------------------------------------|
+| `z`    | Special                                |
 
-	| Prefix | Meaning                                |
-	|:------:|----------------------------------------|
-	| `g`    | Mutable import                         |
-	| `_`    | Private class member                   |
-	| `a`    | Function parameter                     |
-	| `o`    | Local variable or function             |
+| Prefix | Meaning                                |
+|:------:|----------------------------------------|
+| `g`    | Mutable import                         |
+| `_`    | Private class member                   |
+| `a`    | Function parameter                     |
+| `o`    | Local variable or function             |
 
-	| Prefix | Meaning                                |
-	|:------:|----------------------------------------|
-	| `s`    | Class-static variable or function      |
+| Prefix | Meaning                                |
+|:------:|----------------------------------------|
+| `s`    | Class-static variable or function      |
 
-	| Prefix | Meaning                                |
-	|:------:|----------------------------------------|
-	| `t`    | Class                                  |
-	| `u`    | Function                               |
+| Prefix | Meaning                                |
+|:------:|----------------------------------------|
+| `t`    | Class                                  |
+| `u`    | Function                               |
 
-	| Prefix | Meaning                                |
-	|:------:|----------------------------------------|
-	| `w`    | Asynchronous function or promise object|
+| Prefix | Meaning                                |
+|:------:|----------------------------------------|
+| `w`    | Asynchronous function or promise object|
 
-	| Prefix | Meaning                                |
-	|:------:|----------------------------------------|
-	| `i`    | Generator/iterator function or object  |
-	| `j`    | Index variable                         |
-	| `n`    | Property name variable                 |
+| Prefix | Meaning                                |
+|:------:|----------------------------------------|
+| `i`    | Generator/iterator function or object  |
+| `j`    | Index variable                         |
+| `n`    | Property name variable                 |
 
 The prefixes are followed (in most cases) by a ‘root’ word that describes the business concern or other high-level concept that is being referenced. The goal is to distinguish scope and other technical details in the prefixes, allowing the same root to be reused — without name collisions — as the concept is referenced in different ways within a function or class.
 
