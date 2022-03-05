@@ -12,7 +12,7 @@ import { tPoolDie } from "./PoolDie.js";
 import { tDie } from "./Die.js";
 import * as Cfg from "../Cfg.js";
 
-/** Generates and stores a single game board. */
+/** Represents a single game board. */
 export class tBoard {
 	/** Creates an instance from the specified POD and returns it. This class is
 	 *  immutable. */

@@ -125,9 +125,19 @@ JavaScript does not offer the detailed `const` protections found in C++, so retu
 
 The project was created with _create-react-app_.
 
-In Ogle, top-level components representing pages are known as ‘views’.
+The `src` folder these subfolders:
 
-'Dlg', 'Look', et cetera [to do]
+- `Board` contains classes representing game boards and individual letter dice, plus board-generation code;
+
+- `Round` contains classes that configure or store the results of ‘rounds’ of play;
+
+- `Search` contains classes that represent the Ogle and user lexicons, plus board search functionality;
+
+- `UI` contains page-level React components;
+
+- `Util` contains general-purpose classes and utilities.
+
+In Ogle, ‘views’ are top-level components that represent pages. Each view corresponds to a `StsApp` value. ‘Dialogs’ are superimposed over views. `LookBoard` and `LookDie` display game boards and individual dice. I called these ‘looks’ because ‘view’ was already taken.
 
 
 ## PWA setup
