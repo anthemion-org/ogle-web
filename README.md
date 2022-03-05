@@ -135,27 +135,31 @@ In Ogle, top-level components representing pages are known as ‘views’.
 I did not use the `cra-template-pwa` option when I ran `create-react-app`; I used the default template instead, and later added `service-worker.js` and `serviceWorkerRegistration.js`, as copied from the [cra-template/pwa](https://github.com/cra-template/pwa/tree/main/packages/cra-template-pwa/template/src) repository. Then I added a `register` call to `index.js`. Instructions can be found [here](https://dev.to/myfatemi04/turn-your-create-react-app-into-a-progressive-web-app-in-100-seconds-3c11).
 
 
+## SVG in React
+
+Inkscape SVG files cannot be used in React without processing, even when they are deployed statically and embedded with the `img` tag. When that is done, Webpack complains that ‘Namespace tags are not supported by default’.
+
+Also, Inkscape produces very verbose SVG files. One file contained definitions for filters that had been applied once, but were no longer in use. Saving as ‘Optimized SVG’ within Inkscape helps somewhat, but the output is still difficult to use.
+
+I translated some Inkscape SVG into JSX with [svg2jsx](https://svg2jsx.com/), then I simplified and extended the JSX by hand. For simple images, it is easier to write the SVG from scratch.
+
+
 ## Design notes
-
-`useCallback` makes function components difficult to read, so I am skipping that until I encounter actual performance problems.
-
-‘Real’ and ‘nominal’ data [to do]
-
 
 ### Testing
 
 Selected functionality in this project is tested with [Jest](https://jestjs.io/).
 
-Some developers believe every function must be chaperoned by a squad of tests; I think those developers would be more pragmatic if they were writing the checks, rather than cashing them. I see no reason to create tests for simple functions that don't change.
+Some developers believe every function should be chaperoned by a squad of tests; I think those developers would be more pragmatic if they were writing the checks, rather than cashing them. I see no reason to create tests for simple functions that do not change. Commercial software has become _less reliable_ over the last twenty years, not more. TDD did not cause that problem, but I don't think it solves it, either.
 
-I would like to have automated testing at the UI level, but it is too difficult in most cases to automate that work meaningfully.
+I would like to automate testing at the UI level, but it is usually too difficult to do that in a meaningful way. Ultimately, hands-on QA work is the only way to ensure that your app works.
 
-For testing purposes, it is sometimes necessary to export classes or functions that would otherwise be private to the implementing module. Instead of exporting these directly, I have packaged and exported them within `ForTest` objects. These should not be used outside of testing.
+For testing purposes, it is sometimes necessary to export classes or functions that would otherwise be private to the implementing module. Instead of exporting these directly, I have packaged and exported them within `ForTest` objects. Those should not be used outside of testing.
 
 
 ### Classes versus closures
 
-A class like `tPoolDie` could easily be replaced with a factory function that returns a die-generating function. Many JavaScript developers would consider that more idiomatic, but how is it actually better? The class implementation:
+A class like `tPoolDie` could easily be replaced with a factory function that returns a die-generating function. Many JavaScript developers would consider that more idiomatic, but is it really better? The class implementation:
 
 - Cleanly separates initialization code from output-generating code;
 
@@ -166,21 +170,26 @@ A class like `tPoolDie` could easily be replaced with a factory function that re
 The class does expose private data that could have been hidden in a closure, but private variables are prefixed with underscores in this project, and developers who abuse private data deserve what they get. In summary, class implementations are often easier to understand, and easier to use.
 
 
+### React hooks
+
+Aside from `ViewSetup`, all components are implemented with hooks. That works well for simple components, but I'm starting to have doubts about their use in more complex ones, like `ViewPlay`. `useEffect` is a particularly awkward and difficult to use.
+
+`useCallback` makes components harder to read, so I am skipping that until I encounter actual performance problems.
+
+
 ## Credits
 
-The following creators contributed code or other resources to Ogle.
+Along with [React](https://reactjs.org/) and [Jest](https://jestjs.io/), the following resources were used to create Ogle. Thanks to everyone who contributed!
 
-React, Jest [to do]
-InkScape, Gimp
 
 ### Sanitize CSS reset
 
-https://github.com/csstools/sanitize.css [to do]
+Ogle uses [sanitize.css](https://github.com/csstools/sanitize.css) to ‘normalize’ the default CSS styles. This library is distributed under the [Creative Commons Zero v1.0 Universal](https://github.com/csstools/sanitize.css/blob/main/LICENSE.md) license.
 
 
 ### ‘bryc’ random number utilities
 
-The _xmur3_ and _mullberry32_ random number utilities were developed by [bryc](https://github.com/bryc/code/blob/master/jshash/PRNGs.md). They are in the public domain.
+The _xmur3_ and _mullberry32_ utilities provide seedable random number generation. They were developed by [bryc](https://github.com/bryc/code/blob/master/jshash/PRNGs.md). They are in the public domain.
 
 
 ### SCOWL word list
@@ -196,3 +205,8 @@ The Ogle word list derives from [SCOWL](http://wordlist.aspell.net/), copyright 
 > this permission notice appear in supporting documentation. Kevin Atkinson
 > makes no representations about the suitability of this array for any purpose.
 > It is provided "as is" without express or implied warranty.
+
+
+### Other resources
+
+Inkscape, Gimp [to do]
