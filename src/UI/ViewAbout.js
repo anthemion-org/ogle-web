@@ -46,7 +46,7 @@ export default function ViewAbout(aProps) {
 
 				<section>
 					<p>
-						Copyright ©2007-2022 Jeremy Kelly<br />
+						Copyright ©2006-2022 Jeremy Kelly<br />
 						<a href="https://www.anthemion.org/ogle.html" target="_blank"
 							rel="noopener noreferrer">
 							www.anthemion.org

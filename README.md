@@ -1,19 +1,19 @@
 # Ogle: Word-finding game for the web
 
-Ogle is a free word-finding game for the web and mobile. It derives from a tabletop game you’ve probably played, but the pace is much faster. [Play it now.](https://www.anthemion.org/play-ogle/)
+Ogle is a free word-finding game for the web and mobile. It derives from a tabletop game you’ve probably played, but the pace is much faster. [_Play it now_.](https://www.anthemion.org/play-ogle/)
 
 ![Ogle screenshots](Art/screens_ogle.png)
 
 I created the [first version](https://github.com/anthemion-org/ogle) of this app years back, when I was learning C#. I created this version when I was learning React.
 
-Ogle is a progressive web app, so you can install and use it on your phone much like any other app. If you navigate to the play address, your phone should offer to install it. Your phone’s browser will also display _Install app_ (or similar) in its page menu.
+Ogle is a progressive web app, so you can install and use it on your phone much like any other app. If you navigate to the [play address](https://www.anthemion.org/play-ogle/), your phone should offer to install it. Your phone’s browser will also display _Install app_ (or similar) in its page menu.
 
 If you find a bug, [let me know](mailto://support@anthemion.org).
 
 
 ## License
 
-Ogle has copyright ©2007-2022 Jeremy Kelly. You can view the source code here, but — for now, at least — _you may not modify, reuse, or redistribute it_. I may open-source the project some day.
+Ogle has copyright ©2006-2022 Jeremy Kelly. You can view the source code here, but — for now, at least — _you may not modify, reuse, or redistribute it_. I may open-source the project some day.
 
 The Ogle word lists derive from [SCOWL](https://wordlist.sourceforge.net/), copyright ©2000-2004 Kevin Atkinson. Use and distribution of SCOWL are subject to the terms of the [SCOWL License](Misc/scowl_license.txt).
 
@@ -58,7 +58,7 @@ Every identifer begins with zero or more prefixes, in the following order, with 
 
 The `z` prefix has no set meaning. It can be used to resolve name collisions with reserved words or third-party code, or for any other reason.
 
-So, a class defining a static function that accepts an `async` function parameter might begin with:
+Using these prefixes, a class defining a static function that accepts an `async` function parameter might begin with:
 
 ```
 class tBuff {
@@ -78,7 +78,7 @@ export function uAcct(ajAcct) {
 }
 ```
 
-In this case, `uAcct`, `ajAcct`, and `oAcct` all reference the same entity, but in different ways. For this reason, they all share the same root, yet the names do not conflict.
+`uAcct`, `ajAcct`, and `oAcct` all reference the same entity, but in different ways. For this reason, they all share the same root, yet the names do not conflict.
 
 Within the root, the noun or verb that defines the concept most basically is listed _first_; modifiers follow in decreasing order of importance.
 
@@ -98,11 +98,11 @@ Longer words are abbreviated within identifier roots, file and folder names, _et
 
 #### Constructors and function overloading
 
-All class variables should be initialized and commented in the constructor. If meaningful values are not available, variables can be set to `null`.
+All class variables should be initialized and commented in the constructor. If meaningful values are not available, variables should be set to `null`.
 
 JavaScript does not allow function overloading in the traditional sense. Some developers emulate overloading by checking parameter values and types at the start of the function, in order to define missing parameters, or call different implementations. That can become surprisingly complex, however.
 
-Overloading is most useful when constructing classes; a rectangle class might be constructed from two points, or a point and two dimensions, or a JSON string, _et cetera_. In this project, constructors are never overloaded; instead, every constructor accepts all the parameters it is possible to set from outside the class. Static factory methods are then used to invoke that contructor with varying inputs. See `tCard` for an example of this; it offers three factory methods, including `suNew`, which creates a new card from no inputs.
+Overloading is most useful when constructing classes; a rectangle might be constructed from two points, or a point and two dimensions, or a JSON string, _et cetera_. In this project, constructors are never overloaded; instead, every constructor accepts all the parameters it is possible to set from outside the class. Static factory methods are then used to invoke that contructor with varying inputs. See `tCard` for an example; it provides three factory methods, including `suNew`, which creates a new card from no inputs. Other factory methods have roots that begin with `From`. The text following `From` identifies the input expected by that factory.
 
 
 #### POD data and persistence
@@ -111,14 +111,14 @@ Ogle persists user data as JSON in the browser's local storage. The `Store` modu
 
 - `JSON.parse` restores the properties of each object, but not its class;
 
-- JSON cannot represent `NaN` or `Infinity` values. `JSON.stringify` replaces these with `null`.
+- JSON cannot represent `NaN` or `Infinity` values. `JSON.stringify` stores these as `null`.
 
-For these reasons, many classes provide `suFromPOD` methods that convert POD data to class instances. These methods infer `NaN` and `Infinity` values, as appropriate, and recursively invoke `suFromPOD` on contained instances.
+For these reasons, every class that is stored must provide a `suFromPOD` method that converts POD data to a class instance. This method should infer `NaN` and `Infinity` values, as appropriate, and recursively invoke `suFromPOD` on contained class instances.
 
 
 #### Mutability and cloning
 
-JavaScript does not offer the detailed `const` protections found in C++, so returning a reference type from a function can expose internal data that should not be mutated by the caller. This is prevented most directly by using immutable types, but immutability can make some operations much slower or harder to implement. In this project, every class is explicitly documented as ‘mutable’ or ‘immutable’. Functions that return mutable types must clone persistent data before returning it. When this is needed, the mutable class must implement a `uClone` method that produces a deep copy of the instance.
+JavaScript does not offer the detailed `const` protections found in C++, so returning a reference type from a function can expose internal data that should not be mutated by the caller. This is prevented most directly by using immutable types, but immutability can make some operations slower or harder to implement. In this project, every class is explicitly documented as ‘mutable’ or ‘immutable’. Functions that return mutable types must clone persistent data before returning it. When this is needed, the mutable class must implement a `uClone` method that produces a deep copy of the instance.
 
 
 ## Project structure
@@ -132,9 +132,7 @@ In Ogle, top-level components representing pages are known as ‘views’.
 
 ## PWA setup
 
-I did not use the `cra-template-pwa` option when I ran `create-react-app`; instead, I used the default template, and later added `service-worker.js` and `serviceWorkerRegistration.js`, as copied from the [cra-template/pwa](https://github.com/cra-template/pwa/tree/main/packages/cra-template-pwa/template/src) repository. Then I added a `register` call to `index.js`. Instructions can be found [here](https://dev.to/myfatemi04/turn-your-create-react-app-into-a-progressive-web-app-in-100-seconds-3c11).
-
-[realfavicongenerator.net](realfavicongenerator.net) creates a `site.webmanifest` file and a `link` element that references it, but we already have `manifest.json`. I used `site.webmanifest` to update `manifest.json`, then I deleted it, along with the `link`. I replaced `play-ogle` in the other generated links with `%PUBLIC_URL%`.
+I did not use the `cra-template-pwa` option when I ran `create-react-app`; I used the default template instead, and later added `service-worker.js` and `serviceWorkerRegistration.js`, as copied from the [cra-template/pwa](https://github.com/cra-template/pwa/tree/main/packages/cra-template-pwa/template/src) repository. Then I added a `register` call to `index.js`. Instructions can be found [here](https://dev.to/myfatemi04/turn-your-create-react-app-into-a-progressive-web-app-in-100-seconds-3c11).
 
 
 ## Design notes
@@ -143,10 +141,8 @@ I did not use the `cra-template-pwa` option when I ran `create-react-app`; inste
 
 ‘Real’ and ‘nominal’ data [to do]
 
-Implicit duck typing sometimes, explicit parameter type checks other times [to do]
-~ `instanceof` fails silently when checking against imported class
 
-Allow optional parameters, but avoid parameters that can have different types [to do]
+### Testing
 
 `ForTest` exports [to do]
 
@@ -168,8 +164,8 @@ The class does expose private data that could have been hidden in a closure, but
 
 The following creators contributed code or other resources to Ogle.
 
-React, et cetera [to do]
-
+React, Jest [to do]
+InkScape, Gimp
 
 ### Sanitize CSS reset
 

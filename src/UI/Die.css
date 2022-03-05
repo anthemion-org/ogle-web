@@ -14,8 +14,8 @@
 	width: 100%;
 }
 
-.BackDie:hover,
-.LookDie:hover {
+.BackDie:hover:not(.CkDisp),
+.LookDie:hover:not(.CkDisp) {
 	cursor: pointer;
 }
 
