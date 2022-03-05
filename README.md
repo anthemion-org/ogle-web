@@ -144,7 +144,13 @@ I did not use the `cra-template-pwa` option when I ran `create-react-app`; I use
 
 ### Testing
 
-`ForTest` exports [to do]
+Selected functionality in this project is tested with [Jest](https://jestjs.io/).
+
+Some developers believe every function must be chaperoned by a squad of tests; I think those developers would be more pragmatic if they were writing the checks, rather than cashing them. I see no reason to create tests for simple functions that don't change.
+
+I would like to have automated testing at the UI level, but it is too difficult in most cases to automate that work meaningfully.
+
+For testing purposes, it is sometimes necessary to export classes or functions that would otherwise be private to the implementing module. Instead of exporting these directly, I have packaged and exported them within `ForTest` objects. These should not be used outside of testing.
 
 
 ### Classes versus closures
@@ -153,11 +159,11 @@ A class like `tPoolDie` could easily be replaced with a factory function that re
 
 - Cleanly separates initialization code from output-generating code;
 
-- Allows object state to be investigated in the debugger without expanding Variables window entries, or visiting the factory function;
+- Allows object state to be investigated in the debugger without expanding _Variables_ window entries, or visiting the factory function;
 
-- Allows additional methods to be added without restructuring.
+- Allows additional methods to be added without restructuring the factory.
 
-The class does expose private data that could have been hidden in a closure, but it seems a bit late to worry about JavaScript’s ‘anything goes’ paradigm. The lesson here? _Not everything has to be a function_.
+The class does expose private data that could have been hidden in a closure, but private variables are prefixed with underscores in this project, and developers who abuse private data deserve what they get. In summary, class implementations are often easier to understand, and easier to use.
 
 
 ## Credits
