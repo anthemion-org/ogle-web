@@ -26,12 +26,12 @@ import WordsOgle from "./WordsOgle.json";
 // or not. These can be checked with uCkKnown, but they cannot necessarily be
 // found with a word search.
 //
-// We distinguish these because the tLook search requires random access to the
-// searchable words, and we don't want to sort those every time the user adds a
-// new word, especially when it is already too late to include them in the
-// current round. We do want to find the new words if the user re-enters them in
-// the same round, however. Now I wonder whether immediate merging would be
-// better. If so, this can be greatly simplified. [to do]
+// We distinguish these because the tLookupText search requires random access to
+// the searchable words, and we don't want to sort those every time the user
+// adds a new word, especially when it is already too late to include them in
+// the current round. We do want to find the new words if the user re-enters
+// them in the same round, however. Now I wonder whether immediate merging would
+// be better. If so, this can be greatly simplified. [to do]
 
 /** Manages the Ogle lexicon, including built-in Ogle words, and user-entered
  *  words. This class is mutable. */
@@ -42,7 +42,7 @@ class tLex {
 		this.WordsUser.sort(Search.uCompareStrFast);
 
 		/** An array of strings representing all searchable words. This array will
-		 *  be shared with tLookText when a search is performed. */
+		 *  be shared with tLookupText when a search is performed. */
 		this.WordsSearch = Array.from(WordsOgle).concat(this.WordsUser);
 		this.WordsSearch.sort(Search.uCompareStrFast);
 

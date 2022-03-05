@@ -1,26 +1,27 @@
-// LookText.js
-// -----------
+// LookupText.js
+// -------------
 // Copyright ©2022 Jeremy Kelly
 // www.anthemion.org
 //
 // Import with:
 //
-//   import { tLookText } from "./LookText.js";
+//   import { tLookupText } from "./LookupText.js";
 //
 
 import * as Search from "../Util/Search.js";
 
-// tLookText
-// ---------
+// tLookupText
+// -----------
 
 /** Performs a binary search within the searchable word list, and stores the
  *  state of that search, allowing it to be extended and shared as the board is
  *  enumerated. This class is mutable. */
-export class tLookText {
+export class tLookupText {
 	/** Returns a new instance that searches for aText, while reusing the search
-	 *  state produced by a previous tLookText instance. */
-	static suFromPrev(aLook, aText) {
-		return new tLookText(aLook._Words, aText, aLook._jFore, aLook._jAft);
+	 *  state produced by a previous tLookupText instance. */
+	static suFromPrev(aLookup, aText) {
+		return new tLookupText(aLookup._Words, aText, aLookup._jFore,
+			aLookup._jAft);
 	}
 
 	/** Creates an instances that searches array aWords for aText. Leave ajFore
@@ -40,7 +41,7 @@ export class tLookText {
 	 *  identified. If aCkStopFrag is 'true', the search will also stop when a
 	 *  fragment is identified. Returns the reason the search stopped. */
 	uExec(aCkStopFrag) {
-		if (this._Words.length < 1) return OutsLook.Miss;
+		if (this._Words.length < 1) return OutsLookup.Miss;
 
 		while (true) {
 			const ojMid = Math.floor((this._jFore + this._jAft) / 2);
@@ -51,8 +52,8 @@ export class tLookText {
 			// _Text sorts after oWord:
 			else if (oCompare > 0) this._jFore = ojMid;
 			else {
-				if (this._Text === oWord) return OutsLook.Match;
-				if (aCkStopFrag) return OutsLook.Frag;
+				if (this._Text === oWord) return OutsLookup.Match;
+				if (aCkStopFrag) return OutsLookup.Frag;
 				// oWord begins with the letters in _Text, but it is longer, so the match
 				// (if any) must precede ojMid:
 				this._jAft = ojMid;
@@ -60,31 +61,32 @@ export class tLookText {
 
 			// The word in the middle of the window has just been checked. If the
 			// window is now one word or less in size, no match will be found:
-			if ((this._jAft - this._jFore) <= 1) return OutsLook.Miss;
+			if ((this._jAft - this._jFore) <= 1) return OutsLookup.Miss;
 		}
 	}
 }
 
-/** Compares aTextLook with aWord, and returns a negative number if it sorts
+/** Compares aTextLookup with aWord, and returns a negative number if it sorts
  *  before, a positive number if it sorts after, and zero if it matches the
  *  beginning or entirety of aWord. */
-function uCompare(aTextLook, aWord) {
-	// aTextLook represents the current board selection. Because the selection
+function uCompare(aTextLookup, aWord) {
+	// aTextLookup represents the current board selection. Because the selection
 	// grows as the board is enumerated, we must stop when the search identifies a
 	// set of potential future matches. Going further would narrow and focus the
-	// window on the start of the word sequence beginning with aTextLook, which
+	// window on the start of the word sequence beginning with aTextLookup, which
 	// could cause words near the end of that set to be missed when the selection
 	// grows.
 	//
-	// When aTextLook is longer than aWord, we match without truncating, as aWord
-	// is necessarily too short to match the sequences following aTextLook:
-	if (aWord.length > aTextLook.length)
-		aWord = aWord.substr(0, aTextLook.length);
-	return Search.uCompareStrFast(aTextLook, aWord);
+	// When aTextLookup is longer than aWord, we match without truncating, as
+	// aWord is necessarily too short to match the sequences following
+	// aTextLookup:
+	if (aWord.length > aTextLookup.length)
+		aWord = aWord.substr(0, aTextLookup.length);
+	return Search.uCompareStrFast(aTextLookup, aWord);
 }
 
 /** Stores properties representing word search outcomes. */
-export const OutsLook = {
+export const OutsLookup = {
 	/** The word was not found. */
 	Miss: "Miss",
 	/** A word was found that begins with the letters of the sought word, but is
@@ -93,4 +95,4 @@ export const OutsLook = {
 	/** An exact match was found. */
 	Match: "Match"
 };
-Object.freeze(OutsLook);
+Object.freeze(OutsLookup);

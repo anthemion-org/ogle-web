@@ -146,17 +146,6 @@ I translated some Inkscape SVG into JSX with [svg2jsx](https://svg2jsx.com/), th
 
 ## Design notes
 
-### Testing
-
-Selected functionality in this project is tested with [Jest](https://jestjs.io/).
-
-Some developers believe every function should be chaperoned by a squad of tests; I think those developers would be more pragmatic if they were writing the checks, rather than cashing them. I see no reason to create tests for simple functions that do not change. Commercial software has become _less reliable_ over the last twenty years, not more. TDD did not cause that problem, but I don't think it solves it, either.
-
-I would like to automate testing at the UI level, but it is usually too difficult to do that in a meaningful way. Ultimately, hands-on QA work is the only way to ensure that your app works.
-
-For testing purposes, it is sometimes necessary to export classes or functions that would otherwise be private to the implementing module. Instead of exporting these directly, I have packaged and exported them within `ForTest` objects. Those should not be used outside of testing.
-
-
 ### Classes versus closures
 
 A class like `tPoolDie` could easily be replaced with a factory function that returns a die-generating function. Many JavaScript developers would consider that more idiomatic, but is it really better? The class implementation:
@@ -175,6 +164,17 @@ The class does expose private data that could have been hidden in a closure, but
 Aside from `ViewSetup`, all components are implemented with hooks. That works well for simple components, but I'm starting to have doubts about their use in more complex ones, like `ViewPlay`. `useEffect` is a particularly awkward and difficult to use.
 
 `useCallback` makes components harder to read, so I am skipping that until I encounter actual performance problems.
+
+
+### Testing
+
+Selected functionality in this project is tested with [Jest](https://jestjs.io/).
+
+Some developers believe every function must be chaperoned by a squad of tests; I think those developers would be more pragmatic if they were writing the checks, rather than cashing them. I see no reason to create tests for simple functions that do not change. Commercial software has become _less reliable_ over the last twenty years, not more. TDD did not cause that problem, but I don't think it solves it, either.
+
+I would like to automate testing at the UI level, but it is usually too difficult to do that in a meaningful way. Ultimately, hands-on QA work is the only way to ensure that your app works.
+
+For testing purposes, it is sometimes necessary to export classes or functions that would otherwise be private to the implementing module. Instead of exporting these directly, I have packaged and exported them within `ForTest` objects. Those should not be used outside of testing.
 
 
 ## Credits
@@ -209,4 +209,4 @@ The Ogle word list derives from [SCOWL](http://wordlist.aspell.net/), copyright 
 
 ### Other resources
 
-Inkscape, Gimp [to do]
+Ogle icons and screenshots were created with [Inkscape](https://inkscape.org/) and [Gimp](https://www.gimp.org/).
