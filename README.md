@@ -68,19 +68,19 @@ class tBuff {
 
 React requires that component names be capitalized, so component classes are _not_ prefixed with `t`.
 
-The prefixes are followed (in most cases) by a _root_ word describing the business concern or other high-level concept that is being referenced. The goal is to distinguish scope and other technical details in the prefixes, allowing the same root to be reused — without name collisions — as the concept is referenced in different ways. As an example, imagine a function that reads account data associated with a numeric index, logs the account retrieval, and then returns the data:
+Most prefixes are followed by a _root_ word describing the business concern or other high-level concept that is being referenced. The goal is to distinguish scope and other technical details in the prefixes, allowing the same root to be reused — without name collisions — as the concept is referenced in different ways. As an example, imagine a function that reads account data associated with a numeric index, logs the account retrieval, and then returns the data:
 
 ```
-function uAcct(ajAcct) {
-	const oAcct = Accts[ajAcct];
-	uLog_AccessAcct(oAcct);
-	return oAcct;
+export function uAcct(ajAcct) {
+  const oAcct = Accts[ajAcct];
+  uLog_AccessAcct(oAcct);
+  return oAcct;
 }
 ```
 
-In this case, `uAcct`, `ajAcct`, and `oAcct` all reference the same entity, but in different ways. For this reason, they all share the same root, yet there are no name collisions.
+In this case, `uAcct`, `ajAcct`, and `oAcct` all reference the same entity, but in different ways. For this reason, they all share the same root, yet the names do not conflict.
 
-Within a root, the noun or verb that defines the concept most basically is listed _first_; modifiers follow in decreasing order of importance.
+Within the root, the noun or verb that defines the concept most basically is listed _first_; modifiers follow in decreasing order of importance.
 
 Functions are often defined by a verb; if that verb acts on a noun, the verb and its modifiers are listed _first_, these are followed by an underscore, and then the noun is given, along with its modifiers. This clarifies which modifiers apply to the verb and which to the noun. A function that performs a ‘full update’ on the ‘read cache’ (whatever that might mean) would be named:
 
@@ -89,18 +89,36 @@ function uUpdFull_CacheRead(aData) {
   ...
 ```
 
-Other times, functions are named after nouns. When this is done, the noun is what the function returns.
+Other times, functions are named only with nouns. When this is done, the noun is what the function returns.
 
 Longer words are abbreviated within identifier roots, file and folder names, _et cetera_. A word that is abbreviated once must be abbreviated the same way in every identifier.
 
 
 ### Programming conventions
 
-Coordinate origin in lower-left corner [to do]
+#### Constructors and function overloading
 
-All class variables should be initialized and commented in the constructor. If meaningful values are not available at this point, the variables can be set to `null`.
+All class variables should be initialized and commented in the constructor. If meaningful values are not available, variables can be set to `null`.
 
-Factory methods and constructors [to do]
+JavaScript does not allow function overloading in the traditional sense. Some developers emulate overloading by checking parameter values and types at the start of the function, in order to define missing parameters, or call different implementations. That can become surprisingly complex, however.
+
+Overloading is most useful when constructing classes; a rectangle class might be constructed from two points, or a point and two dimensions, or a JSON string, _et cetera_. In this project, constructors are never overloaded; instead, every constructor accepts all the parameters it is possible to set from outside the class. Static factory methods are then used to invoke that contructor with varying inputs. See `tCard` for an example of this; it offers three factory methods, including `suNew`, which creates a new card from no inputs.
+
+
+#### POD data and persistence
+
+Ogle persists user data as JSON in the browser's local storage. The `Store` module uses `JSON.parse` to convert stored JSON to ‘plain-old-data’ (POD) objects. These have two shortcomings:
+
+- `JSON.parse` restores the properties of each object, but not its class;
+
+- JSON cannot represent `NaN` or `Infinity` values. `JSON.stringify` replaces these with `null`.
+
+For these reasons, many classes provide `suFromPOD` methods that convert POD data to class instances. These methods infer `NaN` and `Infinity` values, as appropriate, and recursively invoke `suFromPOD` on contained instances.
+
+
+#### Mutability and cloning
+
+JavaScript does not offer the detailed `const` protections found in C++, so returning a reference type from a function can expose internal data that should not be mutated by the caller. This is prevented most directly by using immutable types, but immutability can make some operations much slower or harder to implement. In this project, every class is explicitly documented as ‘mutable’ or ‘immutable’. Functions that return mutable types must clone persistent data before returning it. When this is needed, the mutable class must implement a `uClone` method that produces a deep copy of the instance.
 
 
 ## Project structure
