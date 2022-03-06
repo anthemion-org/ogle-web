@@ -62,7 +62,7 @@ Using these prefixes, a class defining a static function that accepts an `async`
 
 ```
 class tBuff {
-  suFromRead(auwRead) {
+  static suFromRead(auwRead) {
     ...
 ```
 
