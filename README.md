@@ -102,7 +102,7 @@ All class variables should be initialized and commented in the constructor. If m
 
 JavaScript does not allow function overloading in the traditional sense. Some developers emulate overloading by checking parameter values and types at the start of the function, in order to define missing parameters, or call different implementations. That can become surprisingly complex, however.
 
-Overloading is most useful when constructing classes; a rectangle might be constructed from two points, or a point and two dimensions, or a JSON string, _et cetera_. In this project, constructors are never overloaded; instead, every constructor accepts all the parameters it is possible to set from outside the class. Static factory methods are then used to invoke that contructor with varying inputs. See `tCard` for an example; it provides three factory methods, including `suNew`, which creates a new card from no inputs. Other factory methods have roots that begin with `From`. The text following `From` identifies the input expected by that factory.
+Overloading is most useful when constructing classes; a rectangle might be constructed from two points, or a point and two dimensions, or a JSON string, _et cetera_. In this project, constructors are never overloaded; instead, every constructor accepts all the parameters it is possible to set from outside the class. Static factory methods are then used to invoke that constructor with varying inputs. See `tCard` for an example; it provides three factory methods, including `suNew`, which creates a new card from no inputs. Other factory methods have roots that begin with `From`. The text following `From` identifies the input expected by that factory.
 
 
 #### POD data and persistence
@@ -171,7 +171,7 @@ The class does expose private data that could have been hidden in a closure, but
 
 ### React hooks
 
-Aside from `ViewSetup`, all components are implemented with hooks. That works well for simple components, but I'm starting to have doubts about their use in more complex ones, like `ViewPlay`. `useEffect` is a particularly awkward and difficult to use.
+Aside from `ViewSetup`, all components are implemented with hooks. That works well for simple components, but I'm starting to have doubts about their use in more complex ones, like `ViewPlay`. `useEffect` is particularly awkward and difficult to use.
 
 `useCallback` makes components harder to read, so I am skipping that until I encounter actual performance problems.
 
