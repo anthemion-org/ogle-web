@@ -9,6 +9,10 @@ import * as SearchBoard from "./SearchBoard.js";
 import { tCard } from "../Round/Card.js";
 import { tGenRnd } from "../Util/Rnd.js";
 
+/* Implements a service worker that creates one board meeting the criteria
+ * specified by the Setup object within the message. Posts a message containing
+ * the board and the corresponding Ogle score card, or 'null' values if no
+ * matching board could be created. */
 onmessage = function (aMsg) {
 	try {
 		const oGenRnd = new tGenRnd();
@@ -27,7 +31,6 @@ onmessage = function (aMsg) {
 				throw Error("WorkSearch onmessage: Cannot create board");
 		}
 
-		//console.log("WorkSearch: Selected board " + oj);
 		postMessage({ Board: oBoard, CardOgle: oCard });
 	}
 	catch (oErr) {

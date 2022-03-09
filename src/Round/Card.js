@@ -15,7 +15,8 @@ import * as Cfg from "../Cfg.js";
 // tCard
 // -----
 
-/** This class is mutable. */
+/** Stores one player's results for a single round of play. This class is
+ *  mutable. */
 export class tCard {
 	/** Creates and returns a new card. */
 	static suNew() {
