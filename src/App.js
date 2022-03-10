@@ -38,10 +38,6 @@ function uNextStApp(aSt, aAct) {
 		throw Error("uNextStApp: Invalid action");
 
 	switch (aAct) {
-		case StsApp.Setup: {
-			return StsApp.Setup;
-		}
-
 		case StsApp.PlayInit: {
 			Store.uSet("Board", null);
 			Store.uSet("CardOgle", null);

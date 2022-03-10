@@ -19,7 +19,7 @@ import { tBoard } from "../Board/Board.js";
 import { tCard } from "../Round/Card.js";
 import * as Store from "../Store.js";
 
-import { React, useReducer, useEffect } from "react";
+import { React } from "react";
 import PropTypes from "prop-types";
 
 // View

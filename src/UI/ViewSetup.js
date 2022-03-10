@@ -23,11 +23,11 @@ import PropTypes from "prop-types";
 
 // ViewSetup
 // ---------
-// The component accepts a single tSetup instance, which stores 'real' data used
-// in other parts of the app. The Yield.Vals and Pace.Vals arrays associate
-// 'nominal' form input selections with specific real configurations. The form
-// can be changed to offer different real configurations without affecting any
-// other part of the app.
+// The component reads a tSetup instance from the store, which records 'real'
+// data used in other parts of the app. The Yield.Vals and Pace.Vals arrays
+// associate 'nominal' form input selections with specific real configurations.
+// The form can be changed to offer different real configurations without
+// affecting any other part of the app.
 
 /** Implements the Setup view, which is displayed when Ogle starts. Aside from
  *  StApp and uUpd_StApp, no props are supported. */

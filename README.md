@@ -96,13 +96,9 @@ Longer words are abbreviated within identifier roots, file and folder names, _et
 
 ### Programming conventions
 
-#### Constructors and function overloading
+#### State management
 
-All class variables should be initialized and commented in the constructor. If meaningful values are not available, variables should be set to `null`.
-
-JavaScript does not allow function overloading in the traditional sense. Some developers emulate overloading by checking parameter values and types at the start of the function, in order to define missing parameters, or call different implementations. That can become surprisingly complex, however.
-
-Overloading is most useful when constructing classes; a rectangle might be constructed from two points, or a point and two dimensions, or a JSON string, _et cetera_. In this project, constructors are never overloaded; instead, every constructor accepts all the parameters it is possible to set from outside the class. Static factory methods are then used to invoke that constructor with varying inputs. See `tCard` for an example; it provides three factory methods, including `suNew`, which creates a new card from no inputs. Other factory methods have roots that begin with `From`. The text following `From` identifies the input expected by that factory.
+[to do]
 
 
 #### POD data and persistence
@@ -114,6 +110,15 @@ Ogle persists user data as JSON in the browser's local storage. The `Store` modu
 - JSON cannot represent `NaN` or `Infinity` values. `JSON.stringify` stores these as `null`.
 
 For these reasons, every class that is stored must provide a `suFromPOD` method that converts POD data to a class instance. This method should infer `NaN` and `Infinity` values, as appropriate, and recursively invoke `suFromPOD` on contained class instances.
+
+
+#### Constructors and function overloading
+
+All class variables should be initialized and commented in the constructor. If meaningful values are not available, variables should be set to `null`.
+
+JavaScript does not allow function overloading in the traditional sense. Some developers emulate overloading by checking parameter values and types at the start of the function, in order to define missing parameters, or call different implementations. That can become surprisingly complex, however.
+
+Overloading is most useful when constructing classes; a rectangle might be constructed from two points, or a point and two dimensions, or a JSON string, _et cetera_. In this project, constructors are never overloaded; instead, every constructor accepts all the parameters it is possible to set from outside the class. Static factory methods are then used to invoke that constructor with varying inputs. See `tCard` for an example; it provides three factory methods, including `suNew`, which creates a new card from no inputs. Other factory methods have roots that begin with `From`. The text following `From` identifies the input expected by that factory.
 
 
 #### Mutability and cloning

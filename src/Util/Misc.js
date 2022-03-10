@@ -20,7 +20,7 @@ export function uCkMob() {
 	//
 	//   https://developer.mozilla.org/en-US/docs/Web/HTTP/Browser_detection_using_the_user_agent
 	//
-	// They don't explain what they mean by 'mobile, however, and it seems like
+	// They don't explain what they mean by 'mobile', however, and it seems like
 	// they exclude tablets from that category. In any event, 'Mobi' does not work
 	// for the Samsung Galaxy Tab, so we will check the OS instead:
 	const oPlats = /Android|BlackBerry|iPad|iPhone|iPod|webOS|Windows Phone/i;
