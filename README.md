@@ -125,7 +125,7 @@ JavaScript does not offer the detailed `const` protections found in C++, so retu
 
 The project was created with _create-react-app_.
 
-The `src` folder these subfolders:
+The `src` folder includes these subfolders:
 
 - `Board` contains classes representing game boards and individual letter dice, plus board-generation code;
 
