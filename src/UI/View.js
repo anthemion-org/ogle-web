@@ -33,10 +33,10 @@ View.propTypes = {
 /** Selects and displays the view that corresponds to the current application
  *  state. The following props are supported:
  *
- *  ~ StApp: A StsApp value that gives the view to be displayed. This prop is
+ *  - StApp: A StsApp value that gives the view to be displayed. This prop is
  *    required;
  *
- *  ~ uUpd_StApp: A dispatcher that triggers application state transitions. This
+ *  - uUpd_StApp: A dispatcher that triggers application state transitions. This
  *    prop is required.
  *
  *  Both these props will be forwarded to the displayed view. */

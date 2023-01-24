@@ -29,13 +29,13 @@ DlgScoreWord.propTypes = {
 /** The Word Score dialog, to be displayed when a word entry is clicked in the
  *  Score view. The following props are supported:
  *
- *  ~ Board: A tBoard instance representing the board to be displayed. This prop
+ *  - Board: A tBoard instance representing the board to be displayed. This prop
  *    is required;
  *
- *  ~ ScoreWord: A tScoreWord instance representing the word entry to be
+ *  - ScoreWord: A tScoreWord instance representing the word entry to be
  *    displayed. This prop is required;
  *
- *  ~ uHandOK: The handler to be invoked when the OK button is clicked. This
+ *  - uHandOK: The handler to be invoked when the OK button is clicked. This
  *    prop is required.
  */
 export default function DlgScoreWord(aProps) {

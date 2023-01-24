@@ -34,7 +34,7 @@ export function uExec(aWords, aBoard) {
 }
 
 /** Uses the specified tSelBoard and tLookupText instances to find all word
- *  selections that begin with aSel, and adds them to aray aSelsWord. */
+ *  selections that begin with aSel, and adds them to array aSelsWord. */
 function uExecPos(aSelBoard, aLookup, aSelsWord) {
 	while (true) {
 		const oSelNext = aSelBoard.uCloneNext();

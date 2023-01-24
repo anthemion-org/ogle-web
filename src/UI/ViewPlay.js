@@ -39,7 +39,7 @@ ViewPlay.propTypes = {
  *  entries, and manages the timer during play. Along with StApp and uUpd_StApp,
  *  the following props are supported:
  *
- *  ~ Setup: A tSetup instance that configures the current round. This prop is
+ *  - Setup: A tSetup instance that configures the current round. This prop is
  *    required.
  */
 export default function ViewPlay(aProps) {

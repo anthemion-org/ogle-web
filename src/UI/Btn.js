@@ -27,16 +27,16 @@ Btn.propTypes = {
  *  vibrations. The button uses no special styling. The following props are
  *  supported:
  *
- *  ~ onPointOver: The handler to be invoked when the user mouses over this
+ *  - onPointOver: The handler to be invoked when the user mouses over this
  *    button;
  *
- *  ~ onClick: The handler to be invoked when the user clicks this button.
+ *  - onClick: The handler to be invoked when the user clicks this button.
  *
- *  ~ CkDownClick: Set to 'true' if the click handler should be invoked for the
+ *  - CkDownClick: Set to 'true' if the click handler should be invoked for the
  *    'pointer down' event. Android sometimes fails to register brief taps as
  *    clicks, so this is helpful for Play view buttons.
  *
- *  ~ CkDisabFeedClick: Set to 'true' if the click feeback should not be played.
+ *  - CkDisabFeedClick: Set to 'true' if the click feeback should not be played.
  *    This is useful when the button triggers an action that produces its own
  *    feedback;
  *

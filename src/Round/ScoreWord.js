@@ -62,10 +62,10 @@ export class tCover {
 /** Uses the specified cards to compile scoring data. Returns an array
  *  containing:
  *
- *  ~ An array of tScoreWord instances representing all the words found in the
+ *  - An array of tScoreWord instances representing all the words found in the
  *    cards;
  *
- *  ~ An object that associates word lengths with tCover instances, these giving
+ *  - An object that associates word lengths with tCover instances, these giving
  *    the number of words of each length that were scored by each player.
  */
 export function uScoresCoversFromCards(aCardOgle, aCardUser) {

@@ -26,8 +26,8 @@ import WordsOgle from "./WordsOgle.json";
 // or not. These can be checked with uCkKnown, but they cannot necessarily be
 // found with a word search.
 //
-// We distinguish these because the tLookupText search requires random access to
-// the searchable words, and we don't want to sort those every time the user
+// I distinguished these because the tLookupText search requires random access
+// to the searchable words, and I didn't want to sort those every time the user
 // adds a new word, especially when it is already too late to include them in
 // the current round. We do want to find the new words if the user re-enters
 // them in the same round, however. Now I wonder whether immediate merging would

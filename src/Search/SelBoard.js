@@ -60,11 +60,11 @@ export class tSelBoard {
 
 	/** Creates and returns a new instance selecting a board position that is:
 	 *
-	 *  ~ Adjacent to the one selected by this instance;
+	 *  - Adjacent to the one selected by this instance;
 	 *
-	 *  ~ Not already selected by this sequence; and,
+	 *  - Not already selected by this sequence; and,
 	 *
-	 *  ~ Not previously returned by this instance.
+	 *  - Not previously returned by this instance.
 	 *
 	 *  Returns 'null' if no such position exists.
 	 *

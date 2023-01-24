@@ -28,7 +28,7 @@ export default function Slide(aProps) {
 	// Different rules are used in ouHandPointDown and ouHandPointMove to
 	// determine whether a new value is selected; for this reason, there must be
 	// no track position to which both rules apply, otherwise the thumb may
-	// 'bounce' between values as the user click down, and then generates one or
+	// 'bounce' between values as the user clicks down, and then generates one or
 	// more drag events. This boundary is determined implicitly by oFracDead.
 
 	/** The distance on either side of the thumb that does not cause the adjacent

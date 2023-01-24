@@ -24,7 +24,7 @@ DlgHelp.propTypes = {
 /** The Help dialog, to be displayed when the user clicks the Play view Help
  *  button. The following prop is supported:
  *
- *  ~ uHandOK: The handler to be invoked when the OK button is clicked. This
+ *  - uHandOK: The handler to be invoked when the OK button is clicked. This
  *    prop is required.
  */
 export default function DlgHelp(aProps) {

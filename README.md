@@ -13,7 +13,7 @@ If you find a bug, [let me know](mailto://support@anthemion.org).
 
 ## License
 
-Ogle has copyright ©2006-2022 Jeremy Kelly. You can view the source code here, but — for now, at least — _you may not modify, reuse, or redistribute it_. I may open-source the project some day.
+Ogle has copyright ©2006-2022 Jeremy Kelly. You can view the source code here or copy it to your device, but — for now, at least — _you may not modify, reuse, or redistribute it_. I may open-source the project some day.
 
 The Ogle word lists derive from [SCOWL](https://wordlist.sourceforge.net/), copyright ©2000-2004 Kevin Atkinson. Use and distribution of SCOWL are subject to the terms of the [SCOWL License](Misc/scowl_license.txt).
 
@@ -159,6 +159,11 @@ Also, Inkscape produces very verbose SVG files. One file contained definitions f
 I translated some Inkscape SVG into JSX with [svg2jsx](https://svg2jsx.com/), then I simplified and extended the JSX by hand. For simple images, it is easier to write the SVG from scratch.
 
 
+## Ogle search algorithm
+
+[to do]
+
+
 ## Design notes
 
 ### Classes versus closures
@@ -185,7 +190,7 @@ Aside from `ViewSetup`, all components are implemented with hooks. That works we
 
 Selected functionality in this project is tested with [Jest](https://jestjs.io/).
 
-Some developers believe every function must be chaperoned by a squad of tests; I think those developers would be more pragmatic if they were writing the checks, rather than cashing them. I see no reason to create tests for simple functions that do not change. Commercial software has become _less reliable_ over the last twenty years, not more. TDD did not cause that problem, but I don't think it solves it, either.
+Some developers believe every function should be chaperoned by a squad of mostly superfluous tests; I think those developers would be more pragmatic if they were writing the checks, rather than cashing them. I see no reason to create tests for simple functions that do not change. Commercial software has become _less reliable_ over the last twenty years, not more. TDD did not cause that problem, but I don't think it solves it, either.
 
 I would like to automate testing at the UI level, but it is usually too difficult to do that in a meaningful way. Ultimately, hands-on QA work is the only way to ensure that your app works.
 

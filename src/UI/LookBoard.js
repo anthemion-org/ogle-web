@@ -34,17 +34,17 @@ LookBoard.propTypes = {
 /** Displays the board, and accepts user play input. The following props are
  *  supported:
  *
- *  ~ Board: A tBoard instance representing the board to be displayed. This prop
+ *  - Board: A tBoard instance representing the board to be displayed. This prop
  *    is required;
  *
- *  ~ Ent: A tEntWord instance representing the board selection, or a falsy
+ *  - Ent: A tEntWord instance representing the board selection, or a falsy
  *    value if there is no selection;
  *
- *  ~ uCallTog: A function to be invoked if a die is left-clicked;
+ *  - uCallTog: A function to be invoked if a die is left-clicked;
  *
- *  ~ uCallClear: A function to be invoked if the board is middle-clicked;
+ *  - uCallClear: A function to be invoked if the board is middle-clicked;
  *
- *  ~ uCallRecord: A function to be invoked if the board is right-clicked.
+ *  - uCallRecord: A function to be invoked if the board is right-clicked.
  */
 export default function LookBoard(aProps) {
 	/** Returns 'true' if the specified board position can be selected or
