@@ -78,11 +78,11 @@ export function uAcct(ajAcct) {
 }
 ```
 
-The function (`uAcct`), the array index (`ajAcct`), and the returned object (`oAcct`) all reference the same entity, but the names do not conflict.
+The function `uAcct`, the array index `ajAcct`, and the returned object `oAcct` all reference the same entity, but the names do not conflict.
 
 Within the root, the noun or verb that defines the concept most basically is listed _first_. Modifiers follow in decreasing order of importance.
 
-Functions are often named with a verb. If that verb acts on a direct object, the verb and its modifiers are listed _first_, these are followed by an underscore, then the verb's _object_ is given, along with its modifiers. This clarifies which modifiers apply to the verb and which to the object. As an example, a function that performs a ‘full update’ on the ‘read cache’ might be named:
+Functions are often named with a verb. If that verb acts on a direct object, the verb and its modifiers are listed _first_, these are followed by an underscore, then the verb’s _object_ is given, along with its modifiers. This clarifies which modifiers apply to the verb and which to the object. As an example, a function that performs a ‘full update’ on the ‘read cache’ might be named:
 
 ```
 function uUpdFull_CacheRead() {
@@ -107,13 +107,21 @@ Longer words are abbreviated within identifiers, file and folder names, _et cete
 
 #### POD data and persistence
 
-Ogle persists user data as JSON in the browser’s local storage. The `Store` module uses `JSON.parse` to convert stored JSON to ‘plain-old-data’ (POD) objects. These have two shortcomings:
+Ogle persists user data as JSON in the browser’s local storage. The `Store` module uses `JSON.parse` to deserialize the stored JSON. This produces two problems:
 
-- `JSON.parse` restores the properties of each object, but not its class;
+- `JSON.parse` restores the properties of the object, but not its class;
 
 - JSON cannot represent `NaN` or `Infinity` values. `JSON.stringify` stores these as `null`.
 
-For these reasons, every class that is stored provides a `suFromPOD` method that converts POD data to a class instance. This method infers `NaN` and `Infinity` values, as appropriate, and invokes `suFromPOD` on contained class instances.
+For these reasons, every storable class provides a `suFromPOD` method that converts a ‘plain-old-data’ (POD) object to a class instance. For purposes of this discussion, a ‘POD’ object has the same properties as the class it represents, with values that are primitive types, arrays, or other PODs. The `suFromPOD` method:
+
+- Accepts POD instances _or_ instances that already have the correct type;
+
+- Returns `null` if the input is falsy;
+
+- Infers `NaN` and `Infinity` property values, as appropriate;
+
+- Restores the types of all property values, invoking other `suFromPOD` functions if values should be typed as classes themselves.
 
 
 #### Constructors and function overloading
