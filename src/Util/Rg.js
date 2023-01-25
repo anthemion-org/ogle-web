@@ -11,12 +11,12 @@
 /** Represents an integer range. This class is mutable. */
 export class tRg {
 	/** Creates an instance from the specified POD and returns it. */
-	static suFromPOD(aPOD) {
-		if (!aPOD) return null;
+	static suFromPlain(aPlain) {
+		if (!aPlain) return null;
 
 		// Recall that 'JSON.stringify' writes Infinity as 'null':
-		const oStart = (aPOD.Start === null) ? -Infinity : aPOD.Start;
-		const oEnd = (aPOD.End === null) ? Infinity : aPOD.End;
+		const oStart = (aPlain.Start === null) ? -Infinity : aPlain.Start;
+		const oEnd = (aPlain.End === null) ? Infinity : aPlain.End;
 		return new tRg(oStart, oEnd);
 	}
 

@@ -14,12 +14,12 @@ import * as Cfg from "../Cfg.js";
 
 /** Represents a single game board. */
 export class tBoard {
-	/** Creates an instance from the specified POD and returns it. This class is
+	/** Creates an instance from a plain object and returns it. This class is
 	 *  immutable. */
-	static suFromPOD(aPOD) {
-		if (!aPOD) return null;
+	static suFromPlain(aPlain) {
+		if (!aPlain) return null;
 
-		const oDice = aPOD._Dice.map(a => tDie.suFromPOD(a));
+		const oDice = aPlain._Dice.map(a => tDie.suFromPlain(a));
 		return new tBoard(oDice);
 	}
 

@@ -10,8 +10,8 @@
 //
 // Ogle uses classes like `tSetup` to store data within the app, but these types
 // are lost when their data is serialized. When class instance is restored, the
-// untyped data returned by `uGetPOD` must be converted with the static
-// `suFromPOD` method provided by the destination class.
+// untyped data returned by `uGetPlain` must be converted with the static
+// `suFromPlain` method provided by the destination class.
 //
 // Import with:
 //
@@ -24,17 +24,17 @@ import { tSetup } from "./Round/Setup.js";
 // implications in some cases. Ours is already open to the public:
 import Pack from "../package.json";
 
-/** Returns a POD representation of the value or object with the specified name,
- *  or the default value, if such is defined, or 'undefined'. */
-export function uGetPOD(aName) {
-	if (_PODsByName[aName] === undefined) return _DefsByName[aName];
-	return _PODsByName[aName];
+/** Returns a plain object representation of the value or object with the
+ *  specified name, or the default value, if such is defined, or 'undefined'. */
+export function uGetPlain(aName) {
+	if (_PlainsByName[aName] === undefined) return _DefsByName[aName];
+	return _PlainsByName[aName];
 }
 
 /** Overwrites the value or object with the specified name, then updates the
  *  associated key in the local storage. */
 export function uSet(aName, aVal) {
-	_PODsByName[aName] = aVal;
+	_PlainsByName[aName] = aVal;
 	_uWrite_Val(aName, aVal);
 }
 
@@ -44,9 +44,9 @@ export function uSet(aName, aVal) {
 /** The prefix to be used for all localStorage names. */
 const _PrefixNameStore = "Ogle";
 /** The cached user data. */
-const _PODsByName = _uRead_DataPOD();
-/** The default user data. Notice that some of these values are not PODs. That
- *  should be okay, as long as they are usable as PODs. */
+const _PlainsByName = _uRead_DataPlain();
+/** The default user data. These properties can be plain or non-plain objects,
+ *  just like _PlainsByName. */
 const _DefsByName = {
 	StApp: StsApp.Setup,
 	Setup: tSetup.suDef(),
@@ -54,9 +54,9 @@ const _DefsByName = {
 	WordsUser: []
 };
 
-/** Creates and returns an single object containing POD data from all
+/** Creates and returns an single object containing plain data from all
  *  `localStorage` keys that begin with `_PrefixNameStore`. */
-function _uRead_DataPOD() {
+function _uRead_DataPlain() {
 	const oDataAll = {};
 	for (let oj = 0; oj < localStorage.length; ++oj) {
 		const onFull = localStorage.key(oj);

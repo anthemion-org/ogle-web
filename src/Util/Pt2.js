@@ -11,12 +11,12 @@
 /** Represents a two-dimensional point. This class is mutable. */
 export class tPt2 {
 	/** Creates an instance from the specified POD and returns it. */
-	static suFromPOD(aPOD) {
-		if (!aPOD) return null;
+	static suFromPlain(aPlain) {
+		if (!aPlain) return null;
 
 		// Recall that 'JSON.stringify' writes Infinity as 'null'. Is that likely to
 		// become a problem here?:
-		return new tPt2(aPOD.X, aPOD.Y);
+		return new tPt2(aPlain.X, aPlain.Y);
 	}
 
 	constructor(aX, aY) {

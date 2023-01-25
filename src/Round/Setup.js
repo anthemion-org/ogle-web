@@ -23,13 +23,13 @@ import { tRg } from "../Util/Rg.js";
 /** Stores the setup options for one round. This class is immutable. */
 export class tSetup {
 	/** Creates an instance from the specified POD and returns it. */
-	static suFromPOD(aPOD) {
-		if (!aPOD) return null;
+	static suFromPlain(aPlain) {
+		if (!aPlain) return null;
 
 		return new tSetup(
-			tRg.suFromPOD(aPOD.Yield),
-			aPOD.PaceStart,
-			aPOD.PaceBonus
+			tRg.suFromPlain(aPlain.Yield),
+			aPlain.PaceStart,
+			aPlain.PaceBonus
 		);
 	}
 

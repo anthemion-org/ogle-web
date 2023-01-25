@@ -203,8 +203,8 @@ export default function ViewPlay(aProps) {
 				return;
 			}
 
-			ouSet_Board(tBoard.suFromPOD(aMsg.data.Board));
-			ouSet_CardOgle(tCard.suFromPOD(aMsg.data.CardOgle));
+			ouSet_Board(tBoard.suFromPlain(aMsg.data.Board));
+			ouSet_CardOgle(tCard.suFromPlain(aMsg.data.CardOgle));
 		};
 	}
 	useEffect(ouCreate_WorkSearch, [aProps, oBoard]);
@@ -569,22 +569,22 @@ function uTimeRemain(aSetup, aCtBonus, aTimeElap) {
 }
 
 function uBoardInit() {
-	return tBoard.suFromPOD(Store.uGetPOD("Board"));
+	return tBoard.suFromPlain(Store.uGetPlain("Board"));
 }
 
 function uCardOgleInit() {
-	return tCard.suFromPOD(Store.uGetPOD("CardOgle"));
+	return tCard.suFromPlain(Store.uGetPlain("CardOgle"));
 }
 
 function uCardUserInit() {
-	return tCard.suFromPOD(Store.uGetPOD("CardUser")) || tCard.suNew();
+	return tCard.suFromPlain(Store.uGetPlain("CardUser")) || tCard.suNew();
 }
 
 function uStPlayInit() {
-	return Store.uGetPOD("Board") ? StsPlay.Pause : StsPlay.Play;
+	return Store.uGetPlain("Board") ? StsPlay.Pause : StsPlay.Play;
 }
 
 function uTimeElapInit() {
-	return Store.uGetPOD("TimeElap") || 0;
+	return Store.uGetPlain("TimeElap") || 0;
 }
 

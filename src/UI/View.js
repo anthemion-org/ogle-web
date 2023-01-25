@@ -50,15 +50,15 @@ export default function View(aProps) {
 			return <ViewAbout {...aProps} />;
 
 		case StsApp.Play: {
-			const oSetup = tSetup.suFromPOD(Store.uGetPOD("Setup"));
+			const oSetup = tSetup.suFromPlain(Store.uGetPlain("Setup"));
 			return <ViewPlay {...aProps} Setup={oSetup} />;
 		}
 
 		case StsApp.Score: {
-			const oSetup = tSetup.suFromPOD(Store.uGetPOD("Setup"));
-			const oBoard = tBoard.suFromPOD(Store.uGetPOD("Board"));
-			const oCardOgle = tCard.suFromPOD(Store.uGetPOD("CardOgle"));
-			const oCardUser = tCard.suFromPOD(Store.uGetPOD("CardUser"));
+			const oSetup = tSetup.suFromPlain(Store.uGetPlain("Setup"));
+			const oBoard = tBoard.suFromPlain(Store.uGetPlain("Board"));
+			const oCardOgle = tCard.suFromPlain(Store.uGetPlain("CardOgle"));
+			const oCardUser = tCard.suFromPlain(Store.uGetPlain("CardUser"));
 			return <ViewScore {...aProps} Setup={oSetup} Board={oBoard}
 				CardOgle={oCardOgle} CardUser={oCardUser} />;
 		}

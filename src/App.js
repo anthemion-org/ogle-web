@@ -18,7 +18,7 @@ import { React, useReducer, useEffect } from "react";
 /** The top-level application component, to be placed in the Root element within
  *  'index.html'. */
 export default function App() {
-	const ouStAppInit = () => Store.uGetPOD("StApp");
+	const ouStAppInit = () => Store.uGetPlain("StApp");
 	const [oStApp, ouUpd_StApp] = useReducer(uNextStApp, null, ouStAppInit);
 
 	const ouStore_StApp = () => Store.uSet("StApp", oStApp);

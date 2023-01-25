@@ -24,11 +24,11 @@ export class tCard {
 	}
 
 	/** Creates an instance from the specified POD and returns it. */
-	static suFromPOD(aPOD) {
-		if (!aPOD) return null;
+	static suFromPlain(aPlain) {
+		if (!aPlain) return null;
 
-		const oEnts = aPOD.Ents.map(a => tEntWord.suFromPOD(a));
-		return new tCard(aPOD.TimeStart, oEnts, aPOD.Score, aPOD.CtBonusTime);
+		const oEnts = aPlain.Ents.map(a => tEntWord.suFromPlain(a));
+		return new tCard(aPlain.TimeStart, oEnts, aPlain.Score, aPlain.CtBonusTime);
 	}
 
 	/** Creates a new instance from an array of tSelBoard instances and returns

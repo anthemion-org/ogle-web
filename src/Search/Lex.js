@@ -38,7 +38,7 @@ import WordsOgle from "./WordsOgle.json";
 class tLex {
 	constructor() {
 		/** An array of strings representing all user-entered words. */
-		this.WordsUser = Store.uGetPOD("WordsUser");
+		this.WordsUser = Store.uGetPlain("WordsUser");
 		this.WordsUser.sort(Search.uCompareStrFast);
 
 		/** An array of strings representing all searchable words. This array will

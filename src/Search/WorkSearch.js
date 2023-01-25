@@ -16,7 +16,7 @@ import { tGenRnd } from "../Util/Rnd.js";
 onmessage = function (aMsg) {
 	try {
 		const oGenRnd = new tGenRnd();
-		const oSetup = tSetup.suFromPOD(aMsg.data.Setup);
+		const oSetup = tSetup.suFromPlain(aMsg.data.Setup);
 
 		let oBoard;
 		let oCard;

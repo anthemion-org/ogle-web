@@ -329,5 +329,5 @@ export default function ViewScore(aProps) {
 }
 
 function uScoresHighInit() {
-	return tScoresHigh.suFromPOD(Store.uGetPOD("ScoresHigh"));
+	return tScoresHigh.suFromPlain(Store.uGetPlain("ScoresHigh"));
 }

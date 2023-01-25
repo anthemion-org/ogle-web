@@ -22,12 +22,12 @@ export class tScoresHigh {
 	}
 
 	/** Creates an instance from the specified POD and returns it. */
-	static suFromPOD(aPOD) {
-		if (!aPOD) return null;
+	static suFromPlain(aPlain) {
+		if (!aPlain) return null;
 
-		const oScoresByTag = { ...aPOD._ByTag };
+		const oScoresByTag = { ...aPlain._ByTag };
 		for (const on in oScoresByTag)
-			oScoresByTag[on] = tScorePlay.suArrFromPODs(oScoresByTag[on]);
+			oScoresByTag[on] = tScorePlay.suArrFromPlains(oScoresByTag[on]);
 		return new tScoresHigh(oScoresByTag);
 	}
 

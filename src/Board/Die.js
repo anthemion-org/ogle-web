@@ -13,10 +13,10 @@ import * as Dir4 from "../Util/Dir4.js";
 /** Represents one die within the board. This class is immutable. */
 export class tDie {
 	/** Creates an instance from the specified POD and returns it. */
-	static suFromPOD(aPOD) {
-		if (!aPOD) return null;
+	static suFromPlain(aPlain) {
+		if (!aPlain) return null;
 
-		return new tDie(aPOD.Text, Dir4.Vals[aPOD.Dir4]);
+		return new tDie(aPlain.Text, Dir4.Vals[aPlain.Dir4]);
 	}
 
 	/** Creates an instance with the specified text and orientation. Throws if

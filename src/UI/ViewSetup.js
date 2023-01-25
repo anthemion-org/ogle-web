@@ -132,5 +132,5 @@ ViewSetup.propTypes = {
 };
 
 export function uSetupInit() {
-	return tSetup.suFromPOD(Store.uGetPOD("Setup"));
+	return tSetup.suFromPlain(Store.uGetPlain("Setup"));
 }

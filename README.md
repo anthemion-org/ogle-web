@@ -92,7 +92,7 @@ function uUpdFull_CacheRead() {
 Other times, functions are named only with nouns. When this is done, the noun is what the function _returns_. Class factory methods often have roots that begin with `From`; the noun is implicit, since these static functions can be invoked only after specifying the class:
 
 ```
-const oBoard = tBoard.suFromPOD(oPODBoard);
+const oBoard = tBoard.suFromPlain(oPlainBoard);
 ```
 
 Longer words are abbreviated within identifiers, file and folder names, _et cetera_. A word that is abbreviated once is abbreviated the _same way_ throughout the project.
@@ -105,7 +105,7 @@ Longer words are abbreviated within identifiers, file and folder names, _et cete
 [to do]
 
 
-#### POD data and persistence
+#### Plain data and persistence
 
 Ogle persists user data as JSON in the browser’s local storage. The `Store` module uses `JSON.parse` to deserialize the stored JSON. This produces two problems:
 
@@ -113,15 +113,15 @@ Ogle persists user data as JSON in the browser’s local storage. The `Store` mo
 
 - JSON cannot represent `NaN` or `Infinity` values. `JSON.stringify` stores these as `null`.
 
-For these reasons, every storable class provides a `suFromPOD` method that converts a ‘plain-old-data’ (POD) object to a class instance. For purposes of this discussion, a ‘POD’ object has the same properties as the class it represents, with values that are primitive types, arrays, or other PODs. The `suFromPOD` method:
+For these reasons, every storable class provides a `suFromPlain` method that converts a ‘plain’ data object to a class instance. For purposes of this discussion, a ‘plain’ object has the same properties as the class it represents, with values that are primitive types, arrays, or other plain objects. The `suFromPlain` method:
 
-- Accepts POD instances _or_ instances that already have the correct type;
+- Accepts plain instances _or_ instances that already have the correct type;
 
 - Returns `null` if the input is falsy;
 
 - Infers `NaN` and `Infinity` property values, as appropriate;
 
-- Restores the types of all property values, invoking other `suFromPOD` functions if values should be typed as classes themselves.
+- Restores the types of all property values, invoking other `suFromPlain` functions if values should be typed as classes themselves.
 
 
 #### Constructors and function overloading

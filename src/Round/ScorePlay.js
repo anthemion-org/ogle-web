@@ -13,18 +13,18 @@
 
 /** Stores player score data for one round. This class is immutable. */
 export class tScorePlay {
-	/** Creates an instance from the specified POD and returns it. */
-	static suFromPOD(aPOD) {
-		if (!aPOD) return null;
+	/** Creates an instance from a plain object and returns it. */
+	static suFromPlain(aPlain) {
+		if (!aPlain) return null;
 
-		return new tScorePlay(aPOD.TimeStart, aPOD.Name, aPOD.FracPerc);
+		return new tScorePlay(aPlain.TimeStart, aPlain.Name, aPlain.FracPerc);
 	}
 
-	/** Creates an array of instances from the specified POD array and returns it. */
-	static suArrFromPODs(aPODs) {
-		if (!aPODs) return null;
+	/** Creates an array of instances from a plain object array and returns it. */
+	static suArrFromPlains(aPlains) {
+		if (!aPlains) return null;
 
-		return aPODs.map(aPOD => tScorePlay.suFromPOD(aPOD));
+		return aPlains.map(aPlain => tScorePlay.suFromPlain(aPlain));
 	}
 
 	constructor(aTime, aName, aFracPerc) {

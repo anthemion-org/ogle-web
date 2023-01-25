@@ -20,12 +20,12 @@ import * as Cfg from "../Cfg.js";
  *  during play, and for displaying entries in the Score view. This class is
  *  immutable. */
 export class tEntWord {
-	/** Creates an instance from the specified POD and returns it. */
-	static suFromPOD(aPOD) {
-		if (!aPOD) return null;
+	/** Creates an instance from a plain object and returns it. */
+	static suFromPlain(aPlain) {
+		if (!aPlain) return null;
 
-		const oPosi = aPOD.Posi.map(a => tPt2.suFromPOD(a));
-		return new tEntWord(oPosi, aPOD.Texts);
+		const oPosi = aPlain.Posi.map(a => tPt2.suFromPlain(a));
+		return new tEntWord(oPosi, aPlain.Texts);
 	}
 
 	/** Creates and returns a new instance that ends with the specified position

@@ -87,5 +87,5 @@ export default function DlgNamePlay(aProps) {
 }
 
 function uNameLast() {
-	return Store.uGetPOD("NamePlayLast") || "";
+	return Store.uGetPlain("NamePlayLast") || "";
 }
