@@ -109,7 +109,7 @@ Longer words are abbreviated within identifiers, file and folder names, _et cete
 
 Ogle persists user data as JSON in the browser’s local storage. The `Store` module uses `JSON.parse` to deserialize the stored JSON. This produces two problems:
 
-- `JSON.parse` restores the properties of the object, but not its class;
+- `JSON.parse` restores the properties of objects, but not their classes;
 
 - JSON cannot represent `NaN` or `Infinity` values. `JSON.stringify` stores these as `null`.
 

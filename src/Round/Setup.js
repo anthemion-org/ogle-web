@@ -33,7 +33,7 @@ export class tSetup {
 		);
 	}
 
-	/** Creates and returns an instance containing default values. */
+	/** Returns a new instance containing default values. */
 	static suDef() {
 		const [oPaceStart, oPaceBonus] = Pace.uDef();;
 		return new tSetup(Yield.uDef(), oPaceStart, oPaceBonus);

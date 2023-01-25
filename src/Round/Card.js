@@ -18,7 +18,7 @@ import * as Cfg from "../Cfg.js";
 /** Stores one player's results for a single round of play. This class is
  *  mutable. */
 export class tCard {
-	/** Creates and returns a new card. */
+	/** Returns a new card. */
 	static suNew() {
 		return new tCard(Date.now(), [], 0, 0);
 	}
@@ -105,7 +105,7 @@ export class tCard {
 		return (oCtBonus > 0);
 	}
 
-	/** Creates and returns a deep copy of this instance. */
+	/** Returns a deep copy of this instance. */
 	uClone() {
 		return new tCard(this.TimeStart, [...this.Ents], this.Score,
 			this.CtBonusTime);

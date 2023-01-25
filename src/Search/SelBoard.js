@@ -58,7 +58,7 @@ export class tSelBoard {
 		this._jNeighNext = 0;
 	}
 
-	/** Creates and returns a new instance selecting a board position that is:
+	/** Returns a new instance selecting a board position that is:
 	 *
 	 *  - Adjacent to the one selected by this instance;
 	 *

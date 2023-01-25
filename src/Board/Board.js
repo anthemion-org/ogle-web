@@ -23,7 +23,7 @@ export class tBoard {
 		return new tBoard(oDice);
 	}
 
-	/** Creates and returns a random board. */
+	/** Returns a new, random board. */
 	static suNewRnd(aGenRnd) {
 		const oDice = [];
 		const oPool = new tPoolDie(aGenRnd);

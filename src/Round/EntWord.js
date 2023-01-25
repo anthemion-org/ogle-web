@@ -28,8 +28,8 @@ export class tEntWord {
 		return new tEntWord(oPosi, aPlain.Texts);
 	}
 
-	/** Creates and returns a new instance that ends with the specified position
-	 *  and text. Define aEntPrev to create an instance that extends that one. */
+	/** Returns a new instance that ends with the specified position and text.
+	 *  Define aEntPrev to create an instance that extends that one. */
 	static suFromPosText(aPos, aText, aEntPrev) {
 		const oPosi = aEntPrev ? [...aEntPrev.Posi, aPos] : [aPos];
 		const oTexts = aEntPrev ? [...aEntPrev.Texts, aText] : [aText];
@@ -90,10 +90,9 @@ export class tEntWord {
 		return this.Texts.join("").toLowerCase();
 	}
 
-	/** Creates and returns a new instance that selects the positions in this
-	 *  entry, but stops just before the specified position. Returns 'null'
-	 *  instead if the position is not part of this entry, or if there is no
-	 *  predecessor. */
+	/** Returns a new instance that selects the positions in this entry, but stops
+	 *  just before the specified position. Returns 'null' instead if the position
+	 *  is not part of this entry, or if there is no predecessor. */
 	uClonePrev(aPos) {
 		for (let oj = 1; oj < this.Posi.length; ++oj)
 			if (this.Posi[oj].uCkEq(aPos)) {

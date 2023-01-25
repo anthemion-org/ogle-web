@@ -16,7 +16,7 @@ import * as Cfg from "../Cfg.js";
 
 /** Manages the player high score data. This class is immutable. */
 export class tScoresHigh {
-	/** Creates and returns a new instance. */
+	/** Returns a new instance. */
 	static suNew() {
 		return new tScoresHigh({});
 	}
@@ -65,7 +65,7 @@ export class tScoresHigh {
 		return oScores.some(a => a.FracPerc < oFracPerc);
 	}
 
-	/** Creates and returns a deep copy of this instance. */
+	/** Returns a deep copy of this instance. */
 	uClone() {
 		const oScoresByTag = {};
 		for (const on in this._ByTag)
@@ -73,8 +73,7 @@ export class tScoresHigh {
 		return new tScoresHigh(oScoresByTag);
 	}
 
-	/** Creates and returns a new instance that adds the specified game as a high
-	 *  score. */
+	/** Returns a new instance that adds the specified game as a high score. */
 	uCloneAdd(aSetup, aScorePlay) {
 		const oClone = this.uClone();
 		const oTagSetup = aSetup.uTag();
