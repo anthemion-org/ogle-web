@@ -24,7 +24,7 @@ export class tBoard {
 	}
 
 	/** Creates and returns a random board. */
-	static suFromRnd(aGenRnd) {
+	static suNewRnd(aGenRnd) {
 		const oDice = [];
 		const oPool = new tPoolDie(aGenRnd);
 		for (let o = 0; o < Cfg.CtDie; ++o)

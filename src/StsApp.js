@@ -8,8 +8,8 @@
 //   import StsApp from "./StsApp.js";
 //
 
-/** Lists the top-level application states. These are used as reducer actions
- *  when requesting state transitions. */
+/** This object lists the top-level application states. These properties are
+ *  used as reducer actions when requesting state transitions. */
 const StsApp = {
 	/** Displays the Setup view. */
 	Setup: "Setup",

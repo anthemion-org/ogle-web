@@ -21,7 +21,7 @@ import { tSetup } from "./Round/Setup.js";
 import Pack from "../package.json";
 
 /** Returns a POD representation of the value or object with the specified name,
- *  or the default data, if there is such, or 'undefined'. */
+ *  or the default value, if any, or 'undefined'. */
 export function uGetPOD(aName) {
 	if (DataPOD[aName] === undefined) return DataDef[aName];
 	return DataPOD[aName];

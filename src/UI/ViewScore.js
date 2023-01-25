@@ -270,7 +270,7 @@ export default function ViewScore(aProps) {
 					</table>
 
 					<aside>
-						Your score, by word length
+						Your score, by word length, versus Ogle's
 					</aside>
 				</section>
 
@@ -296,7 +296,7 @@ export default function ViewScore(aProps) {
 					</table>
 
 					<aside>
-						Games using this setup
+						All games using this setup, in this browser
 					</aside>
 				</section>
 

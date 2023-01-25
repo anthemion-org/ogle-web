@@ -22,7 +22,7 @@ onmessage = function (aMsg) {
 		let oCard;
 		let oj = 0;
 		while (true) {
-			oBoard = tBoard.suFromRnd(oGenRnd);
+			oBoard = tBoard.suNewRnd(oGenRnd);
 			const oSels = SearchBoard.uExec(aMsg.data.WordsSearch, oBoard);
 			oCard = tCard.suFromSelsBoard(oSels);
 			if (oSetup.Yield.uCkContain(oCard.Score)) break;

@@ -46,7 +46,7 @@ WordsExpDef.sort(Search.uCompareStrFast);
 
 // test("SearchBoard uExec: Output", () => {
 // 	const oGenRnd = new tGenRnd(SeedTextDef);
-// 	const oBoard = tBoard.suFromRnd(oGenRnd);
+// 	const oBoard = tBoard.suNewRnd(oGenRnd);
 // 	const oSelsWord = SearchBoard.uExec(Lex.WordsSearch, oBoard);
 // 	const oWords = oSelsWord.map(a => a.TextAll).sort(Search.uCompareStrFast);
 // 	expect(oWords).toEqual(WordsExpDef);
@@ -58,7 +58,7 @@ test("SearchBoard uExec: Speed", () => {
 
 	const oTimeStart = Date.now();
 	for (let o = 0; o < oCt; ++o) {
-		const oBoard = tBoard.suFromRnd(oGenRnd);
+		const oBoard = tBoard.suNewRnd(oGenRnd);
 		const oSelsWord = SearchBoard.uExec(Lex.WordsSearch, oBoard);
 		expect(oSelsWord.length).toBeGreaterThan(10);
 	}
