@@ -97,7 +97,7 @@
 	font-family: var(--FontFamilySerif);
 	font-weight: bold;
 	font-size: 2rem;
-	color: var(--ColorText);
+	color: var(--ColorBoardText);
 }
 
 #ViewPlay #TextCtls {

@@ -3,6 +3,11 @@
 // Copyright ©2022 Jeremy Kelly
 // www.anthemion.org
 
+// Import with:
+//
+//   import * as Store from "./Store.js";
+//
+
 // This module persists user data as JSON in the browser’s local storage.
 //
 // `uSet` stores objects and values in the `localStorage` root, after prefixing
@@ -13,11 +18,6 @@
 // untyped data returned by `uGetPlain` must be converted with the static
 // `suFromPlain` method provided by the destination class. See ‘Plain data and
 // persistence’ in `README.md` for more on this.
-
-// Import with:
-//
-//   import * as Store from "./Store.js";
-//
 
 import StsApp from "./StsApp.js";
 import { tSetup } from "./Round/Setup.js";

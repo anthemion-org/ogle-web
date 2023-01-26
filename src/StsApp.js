@@ -2,7 +2,7 @@
 // ---------
 // Copyright ©2022 Jeremy Kelly
 // www.anthemion.org
-//
+
 // Import with:
 //
 //   import StsApp from "./StsApp.js";

@@ -17,8 +17,8 @@
 }
 
 .ThemeLt {
-	--ColorPattBackBase: hsl(30, 4%, 10%);
-	--ColorPattBackLine: hsl(30, 4%, 20%);
+	--ColorPattBackBase: hsl(30, 4%, 40%);
+	--ColorPattBackLine: hsl(30, 4%, 60%);
 
 	--ColorViewBack: hsl(30, 20%, 93%);
 	--ColorViewBackAlt: hsl(30, 10%, 86%);
@@ -61,7 +61,8 @@
 	--ColorSlideThumbHov: hsl(0, 60%, 40%);
 
 	--ColorBoardBord: hsl(0, 0%, 50%);
-	--ColorBoardBack: black;
+	--ColorBoardBack: hsl(30, 4%, 10%);;
+	--ColorBoardText: hsl(30, 4%, 90%);;
 
 	--ColorDieCrnSE: hsl(30, 22%, 68%);
 	--ColorDieCrnSWNE: hsl(31, 35%, 85%);
@@ -119,6 +120,7 @@
 
 	--ColorBoardBord: hsl(0, 4%, 35%);
 	--ColorBoardBack: hsl(0, 4%, 12%);
+	--ColorBoardText: hsl(0, 0%, 90%);
 
 	--ColorDieCrnSE: hsl(30, 12%, 55%);
 	--ColorDieCrnSWNE: hsl(30, 22%, 70%);
