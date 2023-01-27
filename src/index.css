@@ -54,6 +54,9 @@
 	--StyInOutFoc: 1px solid hsl(0, 60%, 40%);
 	--ColorInText: black;
 
+	--ColorDropBack: var(--ColorBtnBack);
+	--ColorDropBackHov: var(--ColorBtnBackHov);
+
 	--ColorSlideBack: white;
 	--ColorSlideTrack: #AAA;
 	--ColorSlideTrackHov: hsl(0, 60%, 40%);
@@ -96,7 +99,7 @@
 	--ColorLink: hsl(30, 60%, 70%);
 	--ColorLinkVisit: hsl(30, 60%, 70%);
 
-	--ColorRule:  hsl(0, 4%, 75%);
+	--ColorRule: hsl(0, 4%, 75%);
 
 	--ColorBtnBack: transparent;
 	--ColorBtnBackDisab: hsl(0, 4%, 30%);
@@ -111,6 +114,9 @@
 	--ColorInBord: hsl(0, 4%, 75%);
 	--StyInOutFoc: 1px solid hsl(30, 60%, 40%);
 	--ColorInText: hsl(0, 0%, 90%);
+
+	--ColorDropBack: hsl(0, 4%, 20%);
+	--ColorDropBackHov: var(--ColorBtnBackHov);
 
 	--ColorSlideBack: hsl(0, 4%, 24%);
 	--ColorSlideTrack: hsl(0, 4%, 75%);
@@ -309,6 +315,27 @@ input {
 input:focus {
 	/* Use 'outline' to thicken the border without shifting the layout: */
 	outline: var(--StyInOutFoc);
+}
+
+/* Dropdowns
+ * --------- */
+
+select {
+	border-radius: 0.25rem;
+
+	border: 1px solid var(--ColorBtnBord);
+	/* Hide the black outline just inside the border: */
+	outline: none;
+
+	font-size: 1.1rem;
+	cursor: pointer;
+
+	background-color: var(--ColorDropBack);
+	box-shadow: 0 0 2px hsla(0, 0%, 0%, 0.5);
+}
+
+select:hover {
+	background-color: var(--ColorDropBackHov);
 }
 
 /* Dialogs

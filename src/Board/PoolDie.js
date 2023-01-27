@@ -10,7 +10,7 @@
 
 import { tDie } from "./Die.js";
 import * as Dir4 from "../Util/Dir4.js";
-import * as Cfg from "../Cfg.js";
+import * as Const from "../Const.js";
 
 /** Stores a pool of text values, which can be drawn randomly as tDie instances
  *  to produce a board. This class is mutable. */
@@ -26,9 +26,9 @@ export class tPoolDie {
 		const oRatioVow = 9 / 25;
 
 		/** The number of vowels yet to be drawn. */
-		this._CtVow = Math.round(oRatioVow * Cfg.CtDie);
+		this._CtVow = Math.round(oRatioVow * Const.CtDie);
 		/** The number of consonants yet to be drawn. */
-		this._CtConson = Cfg.CtDie - this._CtVow;
+		this._CtConson = Const.CtDie - this._CtVow;
 
 		// Wikipedia:
 		//

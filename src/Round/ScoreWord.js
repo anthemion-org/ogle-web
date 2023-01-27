@@ -12,7 +12,7 @@
 import Lex from "../Search/Lex.js";
 import * as Search from "../Util/Search.js";
 import * as Text from "../Util/Text.js";
-import * as Cfg from "../Cfg.js";
+import * as Const from "../Const.js";
 
 // tScoreWord
 // ----------
@@ -123,7 +123,7 @@ export function uScoresCoversFromCards(aCardOgle, aCardUser) {
 	const oCoversByLen = {};
 
 	for (const oScore of oScores) {
-		const oLen = Math.min(oScore.Text.length, Cfg.LenCoverMax);
+		const oLen = Math.min(oScore.Text.length, Const.LenCoverMax);
 
 		let oData = oCoversByLen[oLen];
 		if (!oData) {

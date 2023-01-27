@@ -21,7 +21,7 @@ import DlgVerWord from "./DlgVerWord.js";
 import Lex from "../Search/Lex.js";
 import Feed from "../Feed.js";
 import * as Store from "../Store.js";
-import * as Cfg from "../Cfg.js";
+import * as Const from "../Const.js";
 
 import { React, useState, useEffect } from "react";
 import PropTypes from "prop-types";
@@ -401,7 +401,7 @@ export default function ViewPlay(aProps) {
 
 		// The selection is too short:
 		const oText = oEntUser.uTextAll();
-		if (oText.length < Cfg.LenWordMin) {
+		if (oText.length < Const.LenWordMin) {
 			return;
 		}
 
@@ -478,7 +478,7 @@ export default function ViewPlay(aProps) {
 
 	function ouCkDisabBtnScore() {
 		const oText = oEntUser?.uTextAll();
-		return !oText || (oText.length < Cfg.LenWordMin);
+		return !oText || (oText.length < Const.LenWordMin);
 	}
 
 	return (

@@ -10,7 +10,7 @@
 
 import { tPoolDie } from "./PoolDie.js";
 import { tDie } from "./Die.js";
-import * as Cfg from "../Cfg.js";
+import * as Const from "../Const.js";
 
 /** Represents a single game board. */
 export class tBoard {
@@ -27,7 +27,7 @@ export class tBoard {
 	static suNewRnd(aGenRnd) {
 		const oDice = [];
 		const oPool = new tPoolDie(aGenRnd);
-		for (let o = 0; o < Cfg.CtDie; ++o)
+		for (let o = 0; o < Const.CtDie; ++o)
 			oDice.push(oPool.uDraw())
 		return new tBoard(oDice);
 	}
@@ -42,8 +42,8 @@ export class tBoard {
 	/** Returns the die at the specified tPt2 position, throwing if either
 	 *  coordinate is out of range. */
 	uDie(aPos) {
-		const oj = aPos.X + (aPos.Y * Cfg.WthBoard);
-		if ((oj < 0) || (oj >= Cfg.CtDie))
+		const oj = aPos.X + (aPos.Y * Const.WthBoard);
+		if ((oj < 0) || (oj >= Const.CtDie))
 			throw Error("tBoard.uDie: Invalid position");
 		return this._Dice[oj];
 	}

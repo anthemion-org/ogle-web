@@ -115,6 +115,14 @@ export default class ViewSetup extends React.Component {
 							{Pace.uInstruct(this.state.jPace)}
 						</div>
 					</section>
+
+					<section className="Row">
+						<label htmlFor="DropTheme">Theme</label>
+						<select id="DropTheme" name="nTheme" onChange={this.uHandChange}>
+							<option value="Dk">Dark</option>
+							<option value="Lt">Light</option>
+						</select>
+					</section>
 				</main>
 
 				<div id="BtnsMain" className="Btns">

@@ -21,7 +21,7 @@ import { tScorePlay } from "../Round/ScorePlay.js";
 import { tScoresHigh } from "../Round/ScoresHigh.js";
 import Feed from "../Feed.js";
 import * as Store from "../Store.js";
-import * as Cfg from "../Cfg.js";
+import * as Const from "../Const.js";
 import * as Misc from "../Util/Misc.js";
 
 import { React, useState, useEffect } from "react";
@@ -192,7 +192,7 @@ export default function ViewScore(aProps) {
 
 	function ouLinesCover() {
 		function ouHead(aLen) {
-			if (aLen >= Cfg.LenCoverMax) return Cfg.LenCoverMax + "+ letters";
+			if (aLen >= Const.LenCoverMax) return Const.LenCoverMax + "+ letters";
 			return aLen + " letters";
 		}
 
@@ -209,7 +209,7 @@ export default function ViewScore(aProps) {
 		}
 
 		const oLines = [];
-		for (let oLen = Cfg.LenCoverMax; oLen >= Cfg.LenWordMin; --oLen)
+		for (let oLen = Const.LenCoverMax; oLen >= Const.LenWordMin; --oLen)
 			oLines.push(
 				<tr key={oLen}>
 					<td>{ouHead(oLen)}</td><td>{ouFrac(oLen)}</td><td>{ouPerc(oLen)}</td>
@@ -219,7 +219,7 @@ export default function ViewScore(aProps) {
 	}
 
 	function ouLinesScoreHigh() {
-		const oCtRow = Cfg.CtStoreScoreHigh;
+		const oCtRow = Const.CtStoreScoreHigh;
 		const oTag = aProps.Setup.uTag();
 		const oScores = oScoresHigh.uScores(oTag).slice(0, (oCtRow + 1));
 		if (oScores.length < oCtRow) {

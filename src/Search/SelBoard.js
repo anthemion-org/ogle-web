@@ -11,7 +11,7 @@
 import { tEntWord } from "../Round/EntWord.js";
 import { tArr2 } from "../Util/Arr2.js";
 import { tPt2 } from "../Util/Pt2.js";
-import * as Cfg from "../Cfg.js";
+import * as Const from "../Const.js";
 
 // tSelBoard
 // ---------
@@ -42,7 +42,7 @@ export class tSelBoard {
 
 		let oCksByPosPrev = aSelPrev
 			? aSelPrev.CksByPos.uCopy()
-			: new tArr2(Cfg.SizeBoard, { Def: false });
+			: new tArr2(Const.SizeBoard, { Def: false });
 		/** A tArr2 of booleans that that marks selected board position. */
 		this.CksByPos = oCksByPosPrev;
 		this.CksByPos.uSet(aPos, true);
@@ -104,7 +104,7 @@ function uPosNext(aSel, ajNeigh) {
 	for (let ojDir = 0; ojDir < 8; ++ojDir) {
 		const oOff = uOff(ojDir);
 		const oPos = aSel.Pos.uSum(oOff);
-		if (Cfg.RectBoard.uCkContain(oPos) && !aSel.CksByPos.uGet(oPos)) {
+		if (Const.RectBoard.uCkContain(oPos) && !aSel.CksByPos.uGet(oPos)) {
 			if (ajNeigh < 1) return oPos;
 			--ajNeigh;
 		}

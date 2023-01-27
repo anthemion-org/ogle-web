@@ -9,7 +9,7 @@
 //
 
 import { tScorePlay, uCompareScorePlay } from "./ScorePlay.js";
-import * as Cfg from "../Cfg.js";
+import * as Const from "../Const.js";
 
 // tScoresHigh
 // -----------
@@ -58,7 +58,7 @@ export class tScoresHigh {
 		if (oScores.some(a => a.TimeStart === aCardUser.TimeStart))
 			return false;
 
-		if (oScores.length < Cfg.CtStoreScoreHigh)
+		if (oScores.length < Const.CtStoreScoreHigh)
 			return true;
 
 		const oFracPerc = aCardUser.Score / aCardOgle.Score;
@@ -80,7 +80,7 @@ export class tScoresHigh {
 		const oScores = oClone._ByTag[oTagSetup] ?? [];
 		oScores.push(aScorePlay);
 		oScores.sort(uCompareScorePlay);
-		oClone._ByTag[oTagSetup] = oScores.slice(0, Cfg.CtStoreScoreHigh);
+		oClone._ByTag[oTagSetup] = oScores.slice(0, Const.CtStoreScoreHigh);
 		return oClone;
 	}
 }

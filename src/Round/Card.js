@@ -10,7 +10,7 @@
 
 import { tEntWord, uCompareEntWord } from "./EntWord.js";
 import * as Text from "../Util/Text.js";
-import * as Cfg from "../Cfg.js";
+import * as Const from "../Const.js";
 
 // tCard
 // -----
@@ -71,10 +71,10 @@ export class tCard {
 	 *  entries should not be added. */
 	uAdd(aEnt, aCkAddFollow) {
 		const oTextAdd = aEnt.uTextAll();
-		if (oTextAdd.length < Cfg.LenWordMin) return false;
+		if (oTextAdd.length < Const.LenWordMin) return false;
 
 		let oCkScore = true;
-		let oCtBonus = 1 + oTextAdd.length - Cfg.LenWordMin;
+		let oCtBonus = 1 + oTextAdd.length - Const.LenWordMin;
 		for (const oEntBefore of this.Ents) {
 			// Note that a word-following check is also performed in 'ScoreWord
 			// uScoresCoversFromCards'. I don't see a good way to share the

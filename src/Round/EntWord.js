@@ -11,7 +11,7 @@
 import * as Search from "../Util/Search.js";
 import { tPt2 } from "../Util/Pt2.js";
 import * as Text from "../Util/Text.js";
-import * as Cfg from "../Cfg.js";
+import * as Const from "../Const.js";
 
 // tEntWord
 // --------
@@ -58,14 +58,14 @@ export class tEntWord {
 	/** Returns 'true' if the specified position can be added to the end of this
 	 *  entry. */
 	uCkAddAt(aPos) {
-		return Cfg.RectBoard.uCkContain(aPos)
+		return Const.RectBoard.uCkContain(aPos)
 			&& this.uPosEnd()?.uCkAdjacent(aPos)
 			&& !this.uCkAt(aPos);
 	}
 
 	/** Returns 'true' if the specified position can be selected or unselected. */
 	uCkTogAt(aPos) {
-		return Cfg.RectBoard.uCkContain(aPos)
+		return Const.RectBoard.uCkContain(aPos)
 			&& (this.uCkAddAt(aPos) || this.uCkAt(aPos));
 	}
 

@@ -10,7 +10,7 @@
 
 import { tLookupText, OutsLookup } from "./LookupText.js";
 import { tSelBoard } from "../Search/SelBoard.js";
-import * as Cfg from "../Cfg.js";
+import * as Const from "../Const.js";
 
 /** Returns an array of tSelBoard instances representing all words in aBoard
  *  that are found in aWords, including duplicates and followed words. */
@@ -18,7 +18,7 @@ export function uExec(aWords, aBoard) {
 	/** The word selections found during the search, including duplicates and
 	 *  followed words. */
 	const oSelsWord = [];
-	const oiPosi = Cfg.RectBoard.uPosi();
+	const oiPosi = Const.RectBoard.uPosi();
 	for (const oPos of oiPosi) {
 		const oSel = new tSelBoard(aBoard, oPos);
 		const oLookup = new tLookupText(aWords, oSel.TextAll);
@@ -48,7 +48,7 @@ function uExecPos(aSelBoard, aLookup, aSelsWord) {
 		// descendant:
 		if (oOutLookup === OutsLookup.Miss) continue;
 
-		if (oSelNext.TextAll.length >= Cfg.LenWordMin) {
+		if (oSelNext.TextAll.length >= Const.LenWordMin) {
 			if (oOutLookup === OutsLookup.Match)
 				aSelsWord.push(oSelNext);
 			else {

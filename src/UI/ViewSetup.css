@@ -14,17 +14,27 @@
 	display: none;
 }
 
+#ViewSetup section {
+	margin-bottom: 0.5rem;
+	border-radius: 0.25rem;
+	padding: 0.5rem 1rem 0.5rem 1rem;
+
+	background-color: var(--ColorSlideBack);
+	box-shadow: 0 0 3px hsla(0, 0%, 0%, 0.5);
+}
+
 #ViewSetup section:focus-within {
 	outline: var(--StyBtnOutFoc);
 }
 
-#ViewSetup section {
-	margin-bottom: 0.5rem;
-	border-radius: 0.25rem;
-	padding: 0.5rem 1rem 0.75rem 1rem;
+#ViewSetup section.Row {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
 
-	background-color: var(--ColorSlideBack);
-	box-shadow: 0 0 3px hsla(0, 0%, 0%, 0.5);
+#ViewSetup section.Row select {
+	min-width: 5em;
 }
 
 #ViewSetup label {

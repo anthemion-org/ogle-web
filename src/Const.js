@@ -1,11 +1,11 @@
-// Cfg.js
-// -------
+// Const.js
+// --------
 // Copyright ©2022 Jeremy Kelly
 // www.anthemion.org
 //
 // Import with:
 //
-//   import * as Cfg from "../Cfg.js";
+//   import * as Const from "../Const.js";
 //
 
 import { tPt2 } from "./Util/Pt2.js";

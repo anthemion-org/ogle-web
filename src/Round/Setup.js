@@ -52,7 +52,8 @@ export class tSetup {
 
 	/** Returns a short string that summarizes the values in this instance. */
 	uTag() {
-		return `Y:(${this.Yield.uTag()}) PS:${this.PaceStart} PB:${this.PaceBonus}`;
+		return `Y:(${this.Yield.uTag()}) `
+			+ `PS:${this.PaceStart} PB:${this.PaceBonus}`;
 	}
 
 	/** Returns a short string describing the yield. */
