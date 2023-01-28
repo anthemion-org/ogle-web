@@ -146,7 +146,7 @@ class tFeed {
 
 	/** Plays the specified 'audio' element, vibrating instead if the app is
 	 *  running on a mobile device. */
-	_PlayOrVibe(aAud) {
+	async _PlayOrVibe(aAud) {
 		if (this._CkMob) {
 			// Playing a single pulse cancels the queued pattern, if there is one,
 			// which produces gaps in the TickFast pattern when time is low.
@@ -158,7 +158,21 @@ class tFeed {
 			return;
 		}
 
-		aAud.play();
+		try {
+			await aAud.play();
+		}
+		catch (oErr) {
+			// If the user does not click the page some time before `play` is called,
+			// this exception is thrown:
+			//
+			//   DOMException: play() failed because the user didn't interact with the
+			//   document first
+			//
+			// The exception is harmless, but I am sick of seeing it in the log, so:
+			const oCkFailInteract = (oErr instanceof DOMException)
+				&& oErr.message.includes("user didn't interact");
+			if (!oCkFailInteract) throw oErr;
+		}
 	}
 
 	/** The loop timer work function, which uses the loop play state to determine
