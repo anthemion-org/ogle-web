@@ -26,8 +26,10 @@
 	--ColorPattBackLine: hsl(30, 4%, 30%);
 
 	--ColorViewBack: hsl(30, 20%, 93%);
-	--ColorViewBackAlt: hsl(30, 10%, 86%);
 	--StyViewBord: none;
+
+	--ColorCellBack: hsl(30, 10%, 86%);
+	--ColorCellBackAlt: hsl(30, 40%, 83%);
 
 	--ColorTrayBack: hsl(30, 20%, 93%);
 	--StyTrayBord: none;
@@ -90,8 +92,14 @@
 	--ColorPattBackLine: hsl(0, 4%, 20%);
 
 	--ColorViewBack: hsla(0, 0%, 100%, 0.075);
-	--ColorViewBackAlt: hsl(0, 4%, 26%);
 	--StyViewBord: 1px solid hsl(0, 4%, 40%);
+
+	--ColorCellBack: hsl(0, 4%, 26%);
+	--ColorCellBackAlt: hsl(0, 4%, 34%);
+	/* Or possibly:
+	 *
+	 *   --ColorCellBackAlt: hsl(20, 8%, 33%);
+	 */
 
 	--ColorTrayBack: hsl(0, 4%, 20%);
 	--StyTrayBord: 1px solid hsl(0, 4%, 30%);
@@ -242,7 +250,7 @@ td:last-child {
 
 tbody tr:nth-child(odd) {
 	/* Would like to round these corners, but 'border-radius' is ignored here: */
-	background-color: var(--ColorViewBackAlt);
+	background-color: var(--ColorCellBack);
 }
 
 /* Buttons

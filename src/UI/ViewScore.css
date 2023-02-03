@@ -156,7 +156,7 @@
 	margin: 0.1rem 0.1rem;
 	border-radius: 0.2rem;
 
-	background-color: var(--ColorViewBackAlt);
+	background-color: var(--ColorCellBackAlt);
 }
 
 #ViewScore #BoxWords tr {
@@ -183,8 +183,12 @@
 	white-space: nowrap;
 }
 
-#ViewScore #BoxWords tr.User td:nth-child(2) {
+#ViewScore #BoxWords tr.WordUser td:nth-child(2) {
 	font-style: italic;
+}
+
+#ViewScore #BoxWords tr.MissUser {
+	background-color: var(--ColorCellBack);
 }
 
 #ViewScore #BoxWords th:first-child,

@@ -162,8 +162,12 @@ export default function ViewScore(aProps) {
 	}
 
 	function ouLinesScore() {
-		function ouClass(aScore) {
-			return aScore.CkWordUser ? "User" : "";
+		function ouClasses(aScore) {
+			let oClasses = "";
+			if (aScore.CkWordUser) oClasses += "WordUser";
+			if ((aScore.StatOgle !== StatsWord.Miss)
+				&& (aScore.StatUser === StatsWord.Miss)) oClasses += " MissUser";
+			return oClasses;
 		}
 
 		function ouTextScore(aStat) {
@@ -175,7 +179,7 @@ export default function ViewScore(aProps) {
 		}
 
 		const oLines = oScores.map((aScore, aj) => (
-			<tr key={aScore.Text} data-idx-word={aj} className={ouClass(aScore)}
+			<tr key={aScore.Text} data-idx-word={aj} className={ouClasses(aScore)}
 				onClick={ouHandClickWord}>
 
 				<td>{ouTextScore(aScore.StatUser)}</td>
