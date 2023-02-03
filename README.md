@@ -102,7 +102,7 @@ Longer words are abbreviated within identifiers, file and folder names, _et cete
 
 #### State management
 
-[to do]
+[todo]
 
 
 #### Plain data and persistence
@@ -171,7 +171,7 @@ I translated some Inkscape SVG into JSX with [svg2jsx](https://svg2jsx.com/), th
 
 ## Ogle search algorithm
 
-[to do]
+[todo]
 
 
 ## Design notes

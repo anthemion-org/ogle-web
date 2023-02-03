@@ -48,5 +48,5 @@ export function uInstruct(ajPace) {
 	const oStart = Text.uProseNum(oPace[0]);
 	const oBonus = Text.uProseNum(oPace[1]);
 	const oSuffBonus = ((oPace[1] > 1) ? "s" : "");
-	return `Start with ${oStart} seconds and gain ${oBonus} second${oSuffBonus} for each letter over three in every entered word.`;
+	return `Start with ${oStart} seconds and gain ${oBonus} second${oSuffBonus} for each letter over three in every entered word`;
 }

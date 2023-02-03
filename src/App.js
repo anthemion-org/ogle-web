@@ -9,6 +9,7 @@
 //
 
 import * as Store from "./Store.js";
+import { tCfg } from "./Cfg.js";
 import StsApp from "./StsApp.js";
 import BackPage from "./UI/BackPage.js";
 import View from "./UI/View.js";
@@ -19,19 +20,24 @@ import { React, useState, useReducer, useEffect } from "react";
  *  'index.html'. */
 export default function App() {
 	const oCfgInit = Store.uGetPlain("Cfg");
-	const [oCfg, ouSet_Cfg] = useState(oCfgInit);
+	const [oCfg, ouUpd_Cfg] = useState(oCfgInit);
 
 	const oStAppInit = Store.uGetPlain("StApp");
 	const [oStApp, ouUpd_StApp] = useReducer(uNextStApp, oStAppInit);
 
-	const ouStore_StApp = () => Store.uSet("StApp", oStApp);
-	useEffect(ouStore_StApp, [oStApp]);
+	const ouStore = () => {
+		Store.uSet("Cfg", new tCfg(oCfg.NameTheme));
+		Store.uSet("StApp", oStApp);
+	};
+	useEffect(ouStore, [oCfg, oStApp]);
 
+	// Define default elsewhere: [todo]
+	const oNameTheme = "Theme" + (oCfg?.NameTheme ? oCfg.NameTheme : "Dk");
 	return (
-		<div id="ContainTheme" className="ThemeDk">
+		<div id="ContainTheme" className={oNameTheme}>
 			<BackPage />
 			<View
-				Cfg={oCfg} uSet_Cfg={ouSet_Cfg}
+				Cfg={oCfg} uUpd_Cfg={ouUpd_Cfg}
 				StApp={oStApp} uUpd_StApp={ouUpd_StApp}
 			/>
 		</div>

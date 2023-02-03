@@ -5,21 +5,18 @@
 //
 // Import with:
 //
-//   import * as Theme from "./UI/Theme.js";
+//   import * as Theme from "./Theme.js";
 //
 
+const ThemeDk = { Name: "Dk", Desc: "Dark" };
+const ThemeLt = { Name: "Lt", Desc: "Light" };
+
 /** Stores objects representing UI themes. */
-export const Themes = {
-	Lt: { n: "Lt", Desc: "Light" },
-	Dk: { n: "Dk", Desc: "Dark" }
-};
-Object.freeze(Themes);
+export const All = [
+	ThemeDk,
+	ThemeLt
+];
+Object.freeze(All);
 
 /** The default theme object. */
-export const Def = Themes.Dk;
-
-/** Returns the theme object with name `an`, or the default object, if no match
- *  is found. */
-export function uTheme(an) {
-	return Themes[an] || Def;
-}
+export const Def = ThemeDk;;

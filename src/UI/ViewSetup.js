@@ -16,6 +16,7 @@ import * as Store from "../Store.js";
 import StsApp from "../StsApp.js";
 import * as Yield from "../Round/Yield.js";
 import * as Pace from "../Round/Pace.js";
+import * as Theme from "../Theme.js";
 import { tSetup } from "../Round/Setup.js";
 
 import React from "react";
@@ -23,27 +24,29 @@ import PropTypes from "prop-types";
 
 // ViewSetup
 // ---------
-// The component reads a tSetup instance from the store, which records 'real'
-// data used in other parts of the app. The Yield.Vals and Pace.Vals arrays
+// This component reads a `tSetup` instance from the store, which records 'real'
+// data used in other parts of the app. The `Yield.Vals` and `Pace.Vals` arrays
 // associate 'nominal' form input selections with specific real configurations.
 // The form can be changed to offer different real configurations without
 // affecting any other part of the app.
 
 /** Implements the Setup view, which is displayed when Ogle starts. Aside from
- *  StApp and uUpd_StApp, no props are supported. */
+ *  those used by all `View` instances, no props are supported. */
 export default class ViewSetup extends React.Component {
 	constructor(aProps) {
 		super(aProps);
 
-		const oSetupInit = uSetupInit();
+		const oSetupInit = tSetup.suFromPlain(Store.uGetPlain("Setup"));
 		this.state = {
+			...this.props.Cfg,
 			/** The selected 'Yield.Vals' index. */
 			jYield: Yield.uIdxVal(oSetupInit),
 			/** The selected 'Pace.Vals' index. */
 			jPace: Pace.uIdxVal(oSetupInit)
 		};
 
-		this.uHandChange = this.uHandChange.bind(this);
+		this.uHandChangeCfg = this.uHandChangeCfg.bind(this);
+		this.uHandChangeSetup = this.uHandChangeSetup.bind(this);
 		this.uHandAbout = this.uHandAbout.bind(this);
 		this.uHandPlay = this.uHandPlay.bind(this);
 	}
@@ -56,11 +59,20 @@ export default class ViewSetup extends React.Component {
 		Store.uSet("Setup", this.uSetup());
 	}
 
-	uHandChange(aEvt) {
+	/** Uses properties in the specified `onChange` event to return a state object
+	 *  that describes the user's input. */
+	uStateFromEvtChange(aEvt) {
 		const oEl = aEvt.target;
 		const oVal = (oEl.type === "checkbox") ? oEl.checked : oEl.value;
-		const oState = { [aEvt.target.name]: oVal };
-		this.setState(oState);
+		return { [aEvt.target.name]: oVal };
+	}
+
+	uHandChangeCfg(aEvt) {
+		this.props.uUpd_Cfg(this.uStateFromEvtChange(aEvt));
+	}
+
+	uHandChangeSetup(aEvt) {
+		this.setState(this.uStateFromEvtChange(aEvt));
 	}
 
 	uHandAbout(aEvt) {
@@ -71,16 +83,25 @@ export default class ViewSetup extends React.Component {
 	uHandPlay(aEvt) {
 		aEvt.preventDefault();
 
-		// In case no controls were changed:
+		// This is called when controls are changed, but the user may not have
+		// changed anything:
 		this.uStore();
+
 		this.props.uUpd_StApp(StsApp.PlayInit);
 	}
 
-	/** Returns a tSetup instance representing the current selection. */
+	/** Returns a tSetup instance representing the current round setup selections. */
 	uSetup() {
 		const oYield = Yield.Vals[this.state.jYield][0];
 		const [oPaceStart, oPaceBonus] = Pace.Vals[this.state.jPace];
 		return new tSetup(oYield, oPaceStart, oPaceBonus);
+	}
+
+	/** Returns `option` elements for the UI theme dropdown. */
+	uOptsDropTheme() {
+		return Theme.All.map(o =>
+			<option value={o.Name} key={o.Name}>{o.Desc}</option>
+		);
 	}
 
 	render() {
@@ -98,7 +119,7 @@ export default class ViewSetup extends React.Component {
 							{oSetup.uTextShortYield()}
 						</div>
 						<Slide id="RgYield" name="jYield" value={this.state.jYield}
-							max={Yield.Vals.length - 1} onChange={this.uHandChange} />
+							max={Yield.Vals.length - 1} onChange={this.uHandChangeSetup} />
 						<div className="Instruct">
 							{Yield.uInstruct(this.state.jYield)}
 						</div>
@@ -110,7 +131,7 @@ export default class ViewSetup extends React.Component {
 							{oSetup.uTextShortPace()}
 						</div>
 						<Slide id="RgPace" name="jPace" value={this.state.jPace}
-							max={Pace.Vals.length - 1} onChange={this.uHandChange} />
+							max={Pace.Vals.length - 1} onChange={this.uHandChangeSetup} />
 						<div className="Instruct">
 							{Pace.uInstruct(this.state.jPace)}
 						</div>
@@ -118,9 +139,9 @@ export default class ViewSetup extends React.Component {
 
 					<section className="Row">
 						<label htmlFor="DropTheme">Theme</label>
-						<select id="DropTheme" name="nTheme" onChange={this.uHandChange}>
-							<option value="Dk">Dark</option>
-							<option value="Lt">Light</option>
+						<select id="DropTheme" name="NameTheme"
+							value={this.props.Cfg?.NameTheme} onChange={this.uHandChangeCfg}>
+							{this.uOptsDropTheme()}
 						</select>
 					</section>
 				</main>
@@ -138,7 +159,3 @@ ViewSetup.propTypes = {
 	StApp: PropTypes.string.isRequired,
 	uUpd_StApp: PropTypes.func.isRequired
 };
-
-export function uSetupInit() {
-	return tSetup.suFromPlain(Store.uGetPlain("Setup"));
-}

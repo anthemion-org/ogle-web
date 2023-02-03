@@ -17,8 +17,13 @@
 }
 
 .ThemeLt {
-	--ColorPattBackBase: hsl(30, 4%, 40%);
-	--ColorPattBackLine: hsl(30, 4%, 60%);
+	/* Maybe a lighter background?:
+	 *
+	 *   --ColorPattBackBase: hsl(30, 4%, 40%);
+	 *   --ColorPattBackLine: hsl(30, 4%, 60%);
+	 */
+	--ColorPattBackBase: hsl(30, 4%, 15%);
+	--ColorPattBackLine: hsl(30, 4%, 30%);
 
 	--ColorViewBack: hsl(30, 20%, 93%);
 	--ColorViewBackAlt: hsl(30, 10%, 86%);
@@ -56,6 +61,9 @@
 
 	--ColorDropBack: var(--ColorBtnBack);
 	--ColorDropBackHov: var(--ColorBtnBackHov);
+	--StyDropOut: none;
+	--ColorDropBord: var(--ColorBtnBord);
+	--ColorDropText: var(--ColorText);
 
 	--ColorSlideBack: white;
 	--ColorSlideTrack: #AAA;
@@ -115,8 +123,21 @@
 	--StyInOutFoc: 1px solid hsl(30, 60%, 40%);
 	--ColorInText: hsl(0, 0%, 90%);
 
-	--ColorDropBack: hsl(0, 4%, 20%);
-	--ColorDropBackHov: var(--ColorBtnBackHov);
+	/* This dark dropdown theme looks better:
+	 *
+	 *   --ColorDropBack: hsl(0, 4%, 20%);
+	 *   --ColorDropBackHov: var(--ColorBtnBackHov);
+	 *   --ColorDropBord: var(--ColorBtnBord);
+	 *   --ColorDropText: hsl(0, 0%, 90%);
+	 *
+	 * but this works better with the black dropdown arrow, which is a hassle to
+	 * replace. */
+
+	--ColorDropBack: hsl(0, 4%, 60%);
+	--ColorDropBackHov: hsl(0, 4%, 70%);
+	--StyDropOut: 1px solid hsl(0, 4%, 10%);
+	--ColorDropBord: hsl(0, 4%, 80%);
+	--ColorDropText: black;
 
 	--ColorSlideBack: hsl(0, 4%, 24%);
 	--ColorSlideTrack: hsl(0, 4%, 75%);
@@ -321,15 +342,16 @@ input:focus {
  * --------- */
 
 select {
-	border-radius: 0.25rem;
+	border-radius: 0 0.2rem 0.2rem 0;
 
-	border: 1px solid var(--ColorBtnBord);
-	/* Hide the black outline just inside the border: */
-	outline: none;
+	border: 1px solid var(--ColorDropBord);
+	/* The outline just outside the border: */
+	outline: var(--StyDropOut);
 
 	font-size: 1.1rem;
 	cursor: pointer;
 
+	color: var(--ColorDropText);
 	background-color: var(--ColorDropBack);
 	box-shadow: 0 0 2px hsla(0, 0%, 0%, 0.5);
 }

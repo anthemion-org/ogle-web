@@ -14,6 +14,7 @@ import ViewAbout from "./ViewAbout";
 import ViewPlay from "./ViewPlay";
 import ViewScore from "./ViewScore";
 import StsApp from "../StsApp.js";
+import { tCfg } from "../Cfg.js";
 import { tSetup } from "../Round/Setup.js";
 import { tBoard } from "../Board/Board.js";
 import { tCard } from "../Round/Card.js";
@@ -26,12 +27,20 @@ import PropTypes from "prop-types";
 // ----
 
 View.propTypes = {
+	Cfg: PropTypes.object.isRequired,
+	uUpd_Cfg: PropTypes.func.isRequired,
 	StApp: PropTypes.string.isRequired,
 	uUpd_StApp: PropTypes.func.isRequired
 };
 
 /** Selects and displays the view that corresponds to the current application
  *  state. The following props are supported:
+ *
+ *  - Cfg: A tCfg object containing the current application configuration. This
+ *    prop is required;
+ *
+ *  - uUpd_Cfg: A function that updates properties in the application
+ *    configuration state. This prop is required.
  *
  *  - StApp: A StsApp value that gives the view to be displayed. This prop is
  *    required;

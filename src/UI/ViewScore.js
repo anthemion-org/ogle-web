@@ -40,19 +40,19 @@ ViewScore.propTypes = {
 };
 
 /** Implements the Score view, which displays the result of the last round of
- *  play. Along with StApp and uUpd_StApp, the following props are supported:
+ *  play. Along with the usual `View` props, the following props are supported:
  *
- *  - Setup: The tSetup used to generate the completed round. This prop is
+ *  - `Setup`: The `tSetup` used to generate the completed round. This prop is
  *    required;
  *
- *  - Board: A tBoard instance representing the board that was played. This prop
- *    is required;
+ *  - `Board`: A `tBoard` instance representing the board that was played. This
+ *    prop is required;
  *
- *  - CardOgle: A tCard instance that gives the words scored by Ogle. This prop
- *    is required;
+ *  - `CardOgle`: A `tCard` instance that gives the words scored by Ogle. This
+ *    prop is required;
  *
- *  - CardUser: A tCard instance that gives the words scored by the user. This
- *    prop is required.
+ *  - `CardUser`: A `tCard` instance that gives the words scored by the user.
+ *    This prop is required.
  */
 export default function ViewScore(aProps) {
 	/** A tScoresHigh instance that records all high score data. */

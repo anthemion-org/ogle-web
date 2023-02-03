@@ -38,8 +38,8 @@ export function uIdxVal(aSetup) {
 export function uInstruct(ajYield) {
 	const oYield = Vals[ajYield][0];
 	if (!isFinite(oYield.Start))
-		return `At most ${oYield.End} words.`;
+		return `At most ${oYield.End} words`;
 	if (!isFinite(oYield.End))
-		return `At least ${oYield.Start} words.`;
-	return `Between ${oYield.Start} and ${oYield.End} words.`;
+		return `At least ${oYield.Start} words`;
+	return `Between ${oYield.Start} and ${oYield.End} words`;
 }

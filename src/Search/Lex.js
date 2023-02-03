@@ -31,7 +31,7 @@ import WordsOgle from "./WordsOgle.json";
 // adds a new word, especially when it is already too late to include them in
 // the current round. We do want to find the new words if the user re-enters
 // them in the same round, however. Now I wonder whether immediate merging would
-// be better. If so, this can be greatly simplified. [to do]
+// be better. If so, this can be greatly simplified. [todo]
 
 /** Manages the Ogle lexicon, including built-in Ogle words, and user-entered
  *  words. This class is mutable. */

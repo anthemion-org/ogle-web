@@ -36,8 +36,8 @@ ViewPlay.propTypes = {
 };
 
 /** Implements the Play view, which displays the board, accepts user word
- *  entries, and manages the timer during play. Along with StApp and uUpd_StApp,
- *  the following props are supported:
+ *  entries, and manages the timer during play. Along with the usual `View`
+ *  props, the following props are supported:
  *
  *  - Setup: A tSetup instance that configures the current round. This prop is
  *    required.
