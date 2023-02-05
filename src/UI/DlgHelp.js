@@ -57,8 +57,8 @@ export default function DlgHelp(aProps) {
 					<p>
 						A word is <em>followed</em> if it can be made into another word by
 						appending letters. If you enter one word and <em>follow</em> it with
-						another, the followed word will be discarded. Enter only the longest
-						word to maximize your points and time.
+						another, the followed word will not be scored. Enter only the
+						longest word to maximize your points and time.
 					</p>
 				</section>
 
