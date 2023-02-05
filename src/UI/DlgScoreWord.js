@@ -13,8 +13,9 @@ import { tBoard } from "../Board/Board.js";
 import { tScoreWord, StatsWord } from "../Round/ScoreWord.js";
 import LookBoard from "./LookBoard.js";
 import Btn from "./Btn.js";
+import DlgHelp from "./DlgHelp.js";
 
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 
 // DlgScoreWord
@@ -71,7 +72,35 @@ export default function DlgScoreWord(aProps) {
 		}
 	}
 
-	return (
+	// Help
+	// ----
+	// This resembles the help implementation in the Play view. If we decide to
+	// display the help from other views or dialogs, we might consider moving it
+	// to an HOC, but the timer pause functionality in that view is not something
+	// I want to mess with.
+
+	/** Set to 'true' if the Help dialog should be displayed. */
+	const [oCkHelp, ouSet_CkHelp] = useState(false);
+
+	/** Handles the Help button click in this dialog. */
+	function ouHandHelp(aEvt) {
+		ouSet_CkHelp(true);
+	}
+
+	/** Handles the OK button click in the Help dialog. */
+	function ouHandOKHelp(aEvt) {
+		ouSet_CkHelp(false);
+	}
+
+	function ouDlgHelp() {
+		if (!oCkHelp) return;
+
+		return (
+			<DlgHelp uHandOK={ouHandOKHelp} />
+		);
+	}
+
+	return <>
 		<div className="ScrimDlg">
 			<div id="DlgScoreWord" className="Dlg">
 				<div id="BoxWik">
@@ -107,13 +136,13 @@ export default function DlgScoreWord(aProps) {
 						</article>
 					</div>
 
-					<div className="Btns Ctr">
-						<Btn id="BtnOK" onClick={aProps.uHandOK}>
-							<div>OK</div>
-						</Btn>
+					<div className="Btns">
+						<Btn id="BtnHelp" onClick={ouHandHelp}>Help</Btn>
+						<Btn id="BtnOK" className="Group" onClick={aProps.uHandOK}>OK</Btn>
 					</div>
 				</div>
 			</div>
 		</div>
-	);
+		{ouDlgHelp()}
+	</>;
 }

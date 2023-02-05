@@ -256,12 +256,12 @@ export default function ViewPlay(aProps) {
 	// Help
 	// ----
 
-	/** Handles the Help button click. */
+	/** Handles the Help button click in this dialog. */
 	function ouHandHelp(aEvt) {
 		ouSet_StPlay(StsPlay.Help);
 	}
 
-	/** Handles the Help dialog OK button click. */
+	/** Handles the OK button click in the Help dialog. */
 	function ouHandOKHelp(aEvt) {
 		ouSet_StPlay(StsPlay.Play);
 	}
