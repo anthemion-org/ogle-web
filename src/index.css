@@ -29,7 +29,11 @@
 	--StyViewBord: none;
 
 	--ColorCellBack: hsl(30, 10%, 86%);
+	--ColorCellBackHov: hsl(30, 10%, 80%);
+	--ColorCellBackAct: hsl(30, 10%, 73%);
 	--ColorCellBackAlt: hsl(30, 38%, 83%);
+	--ColorCellBackAltHov: hsl(30, 35%, 78%);
+	--ColorCellBackAltAct: hsl(30, 32%, 73%);
 
 	--ColorTrayBack: hsl(30, 20%, 93%);
 	--StyTrayBord: none;
@@ -95,11 +99,11 @@
 	--StyViewBord: 1px solid hsl(0, 4%, 40%);
 
 	--ColorCellBack: hsl(0, 4%, 26%);
+	--ColorCellBackHov: hsl(0, 4%, 36%);
+	--ColorCellBackAct: hsl(0, 4%, 23%);
 	--ColorCellBackAlt: hsl(0, 4%, 34%);
-	/* Or possibly:
-	 *
-	 *   --ColorCellBackAlt: hsl(20, 8%, 33%);
-	 */
+	--ColorCellBackAltHov: hsl(0, 4%, 44%);
+	--ColorCellBackAltAct: hsl(0, 4%, 23%);
 
 	--ColorTrayBack: hsl(0, 4%, 20%);
 	--StyTrayBord: 1px solid hsl(0, 4%, 30%);

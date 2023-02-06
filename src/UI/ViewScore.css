@@ -157,6 +157,17 @@
 	background-color: var(--ColorCellBackAlt);
 }
 
+/* It might be nice to have the cell 'pop up' in the direction of the viewer
+ * when hovering, but it could be a nuisance to do that without disturbing the
+ * cell layout: */
+#ViewScore #ColWords tr:hover {
+	background-color: var(--ColorCellBackAltHov);
+}
+
+#ViewScore #ColWords tr:active {
+	background-color: var(--ColorCellBackAltAct);
+}
+
 #ViewScore #BoxWords tr {
 	cursor: pointer;
 }
@@ -187,6 +198,14 @@
 
 #ViewScore #BoxWords tr.MissUser {
 	background-color: var(--ColorCellBack);
+}
+
+#ViewScore #BoxWords tr.MissUser:hover {
+	background-color: var(--ColorCellBackHov);
+}
+
+#ViewScore #BoxWords tr.MissUser:active {
+	background-color: var(--ColorCellBackAct);
 }
 
 #ViewScore #BoxWords th:first-child,
