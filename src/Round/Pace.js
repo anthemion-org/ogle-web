@@ -18,7 +18,9 @@ export const Vals = [
 	[30, 5],
 	[24, 4],
 	[18, 3],
+	[15, 2.5],
 	[12, 2],
+	[9, 1.5],
 	[6, 1]
 ];
 Object.freeze(Vals);
@@ -49,5 +51,6 @@ export function uDesc(ajPace) {
 	const oStart = Text.uProseNum(oPace[0]);
 	const oBonus = Text.uProseNum(oPace[1]);
 	const oSuffBonus = ((oPace[1] > 1) ? "s" : "");
-	return `Start with ${oStart} seconds and gain ${oBonus} second${oSuffBonus} for each letter over three in every entered word`;
+	const oText = `Start with ${oStart} seconds and gain ${oBonus} second${oSuffBonus} for each letter over three in every entered word`;
+	return Text.uFracNice(oText);
 }

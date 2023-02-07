@@ -33,9 +33,9 @@ import PropTypes from "prop-types";
 // configuration option.
 //
 // 'Setup' options are specific to game play. They are persisted with the
-// `uStore_Setup` method in this class, which wrutes to the `Setup` key.
+// `uStore_Setup` method in this class, which writes to the `Setup` key.
 //
-// The setup selections are represented with a `tSetup` instance. This component
+// The setup selections are represented with a `tSetup` instance. This view
 // reads the instance from the store, which records data in 'real' terms that
 // are usable in other parts of the app. Many controls (particularly the sliders
 // in this view) reference values in 'nominal' terms, such as indices, which

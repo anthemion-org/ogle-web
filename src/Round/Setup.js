@@ -11,6 +11,7 @@
 import * as Yield from "./Yield.js";
 import * as Pace from "./Pace.js";
 import { tRg } from "../Util/Rg.js";
+import * as Text from "../Util/Text.js";
 
 // tSetup
 // ------
@@ -65,6 +66,6 @@ export class tSetup {
 
 	/** Returns a short string describing the pace. */
 	uTextShortPace() {
-		return this.PaceStart + " + " + this.PaceBonus;
+		return this.PaceStart + " + " + Text.uFracNice(this.PaceBonus);
 	}
 }

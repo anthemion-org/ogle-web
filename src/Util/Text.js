@@ -29,6 +29,15 @@ export function uProseNum(aNum) {
 	return aNum.toString();
 }
 
+/** Returns a string that replaces some decimal fractions with Unicode
+ *  characters (such as '½') representing the same value. */
+export function uFracNice(aVal) {
+	return String(aVal)
+		.replace(".25", "¼")
+		.replace(".5", "½")
+		.replace(".75", "¾");
+}
+
 /** Returns 'true' if either string is found at the beginning of the other, or
  *  if either string is empty. */
 export function uCkEqBegin(aL, aR) {
