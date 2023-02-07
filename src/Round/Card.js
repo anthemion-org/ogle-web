@@ -23,7 +23,7 @@ export class tCard {
 		return new tCard(Date.now(), [], 0, 0);
 	}
 
-	/** Creates an instance from the specified POD and returns it. */
+	/** Creates an instance from the specified plain object and returns it. */
 	static suFromPlain(aPlain) {
 		if (!aPlain) return null;
 

@@ -55,9 +55,9 @@ export default function Btn(aProps) {
 	function ouHandPointDown(aEvt) {
 		ouSet_CkDown(true);
 
-		// For future reference, note that the Android click failures referenced
-		// above do not occur if a USB mouse is connected to the device. I can only
-		// assume that Android considers very brief taps to be accidental:
+		// For future reference, note that the Android click failures referenced in
+		// `ouHandClick` do not occur if a USB mouse is connected to the device. I
+		// can only assume that Android considers very brief taps to be accidental:
 		if (!aProps.CkDownClick) return;
 
 		aEvt.preventDefault();

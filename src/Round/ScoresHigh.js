@@ -21,7 +21,7 @@ export class tScoresHigh {
 		return new tScoresHigh({});
 	}
 
-	/** Creates an instance from the specified POD and returns it. */
+	/** Creates an instance from the specified plain object and returns it. */
 	static suFromPlain(aPlain) {
 		if (!aPlain) return null;
 

@@ -24,11 +24,26 @@ import PropTypes from "prop-types";
 
 // ViewSetup
 // ---------
-// This component reads a `tSetup` instance from the store, which records 'real'
-// data used in other parts of the app. The `Yield.Vals` and `Pace.Vals` arrays
-// associate 'nominal' form input selections with specific real configurations.
-// The form can be changed to offer different real configurations without
-// affecting any other part of the app.
+// This view allows the user to select configuration and setup options.
+//
+// 'Configuration' options are those that affect the entire app. These are
+// forwarded to every view with the `Cfg` prop, and persisted with the
+// `uUpd_Cfg` prop function, which is implemented in `App.js`, and which writes
+// to the `Cfg` key in the local storage. Right now, `NameTheme` is the only
+// configuration option.
+//
+// 'Setup' options are specific to game play. They are persisted with the
+// `uStore_Setup` method in this class, which wrutes to the `Setup` key.
+//
+// The setup selections are represented with a `tSetup` instance. This component
+// reads the instance from the store, which records data in 'real' terms that
+// are usable in other parts of the app. Many controls (particularly the sliders
+// in this view) reference values in 'nominal' terms, such as indices, which
+// identify user selections without being directly usable as values. The
+// `Yield.Vals` and `Pace.Vals` arrays associate nominal selections with real
+// values. That allows the view (and its particular way of selecting or
+// identifying values) to change without affecting the modules that consume real
+// values.
 
 /** Implements the Setup view, which is displayed when Ogle starts. Aside from
  *  those used by all `View` instances, no props are supported. */
@@ -40,9 +55,9 @@ export default class ViewSetup extends React.Component {
 		this.state = {
 			...this.props.Cfg,
 			/** The selected 'Yield.Vals' index. */
-			jYield: Yield.uIdxVal(oSetupInit),
+			jYield: Yield.uIdxValMatchOrDef(oSetupInit),
 			/** The selected 'Pace.Vals' index. */
-			jPace: Pace.uIdxVal(oSetupInit)
+			jPace: Pace.uIdxValMatchOrDef(oSetupInit)
 		};
 
 		this.uHandChangeCfg = this.uHandChangeCfg.bind(this);
@@ -52,50 +67,62 @@ export default class ViewSetup extends React.Component {
 	}
 
 	componentDidUpdate() {
-		this.uStore();
+		// Persist setup changes after the view state is updated. Note that this
+		// will also happen after configuration changes (as produced by the Theme
+		// dropdown), even though that data is persisted differently:
+		this.uStore_Setup();
 	}
 
-	uStore() {
+	/** Updates the store with the setup selected in this view. */
+	uStore_Setup() {
 		Store.uSet("Setup", this.uSetup());
 	}
 
+	/** Returns a `tSetup` instance representing the setup selected in this view. */
+	uSetup() {
+		const oYield = Yield.Vals[this.state.jYield][0];
+		const [oPaceStart, oPaceBonus] = Pace.Vals[this.state.jPace];
+		return new tSetup(oYield, oPaceStart, oPaceBonus);
+	}
+
+	// Event handling
+	// --------------
+
 	/** Uses properties in the specified `onChange` event to return a state object
-	 *  that describes the user's input. */
+	 *  that describes the user's change. */
 	uStateFromEvtChange(aEvt) {
 		const oEl = aEvt.target;
 		const oVal = (oEl.type === "checkbox") ? oEl.checked : oEl.value;
 		return { [aEvt.target.name]: oVal };
 	}
 
+	/** Accepts an event representing a configuration change, and forwards it to
+	 *  the configuration update function. */
 	uHandChangeCfg(aEvt) {
 		this.props.uUpd_Cfg(this.uStateFromEvtChange(aEvt));
 	}
 
+	/** Accepts an event representing a setup change, and uses it to update the
+	 *  view state. */
 	uHandChangeSetup(aEvt) {
 		this.setState(this.uStateFromEvtChange(aEvt));
 	}
 
+	/** Causes the About view to be displayed. */
 	uHandAbout(aEvt) {
-		aEvt.preventDefault();
 		this.props.uUpd_StApp(StsApp.About);
 	}
 
+	/** Causes the Play view to be displayed. */
 	uHandPlay(aEvt) {
-		aEvt.preventDefault();
-
 		// This is called when controls are changed, but the user may not have
-		// changed anything:
-		this.uStore();
-
+		// changed anything, so just for consistency:
+		this.uStore_Setup();
 		this.props.uUpd_StApp(StsApp.PlayInit);
 	}
 
-	/** Returns a tSetup instance representing the current round setup selections. */
-	uSetup() {
-		const oYield = Yield.Vals[this.state.jYield][0];
-		const [oPaceStart, oPaceBonus] = Pace.Vals[this.state.jPace];
-		return new tSetup(oYield, oPaceStart, oPaceBonus);
-	}
+	// View content
+	// ------------
 
 	/** Returns `option` elements for the UI theme dropdown. */
 	uOptsDropTheme() {
@@ -121,7 +148,7 @@ export default class ViewSetup extends React.Component {
 						<Slide id="RgYield" name="jYield" value={this.state.jYield}
 							max={Yield.Vals.length - 1} onChange={this.uHandChangeSetup} />
 						<div className="Instruct">
-							{Yield.uInstruct(this.state.jYield)}
+							{Yield.uDesc(this.state.jYield)}
 						</div>
 					</section>
 
@@ -133,7 +160,7 @@ export default class ViewSetup extends React.Component {
 						<Slide id="RgPace" name="jPace" value={this.state.jPace}
 							max={Pace.Vals.length - 1} onChange={this.uHandChangeSetup} />
 						<div className="Instruct">
-							{Pace.uInstruct(this.state.jPace)}
+							{Pace.uDesc(this.state.jPace)}
 						</div>
 					</section>
 

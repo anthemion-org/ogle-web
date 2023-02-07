@@ -12,7 +12,7 @@ import * as Dir4 from "../Util/Dir4.js";
 
 /** Represents one die within the board. This class is immutable. */
 export class tDie {
-	/** Creates an instance from the specified POD and returns it. */
+	/** Creates an instance from the specified plain object and returns it. */
 	static suFromPlain(aPlain) {
 		if (!aPlain) return null;
 

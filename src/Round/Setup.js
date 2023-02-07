@@ -22,7 +22,7 @@ import { tRg } from "../Util/Rg.js";
 
 /** Stores the setup options for one round. This class is immutable. */
 export class tSetup {
-	/** Creates an instance from the specified POD and returns it. */
+	/** Creates an instance from the specified plain object and returns it. */
 	static suFromPlain(aPlain) {
 		if (!aPlain) return null;
 

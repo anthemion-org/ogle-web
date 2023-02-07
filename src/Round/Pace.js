@@ -23,7 +23,7 @@ export const Vals = [
 ];
 Object.freeze(Vals);
 
-/** The Vals index of the default pace. */
+/** The `Vals` index of the default pace. */
 const jValDef = 2;
 
 /** Returns an array containing the default starting time and bonus time. */
@@ -31,9 +31,9 @@ export function uDef() {
 	return Vals[jValDef];
 }
 
-/** Returns the Paces index that matches aSetup, or the default index, if no
+/** Returns the `Paces` index that matches `aSetup`, or the default index, if no
  *  match is found. */
-export function uIdxVal(aSetup) {
+export function uIdxValMatchOrDef(aSetup) {
 	for (let oj = 0; oj < Vals.length; ++oj) {
 		const [oPaceStart, oPaceBonus] = Vals[oj];
 		if ((oPaceStart === aSetup.PaceStart)
@@ -43,7 +43,8 @@ export function uIdxVal(aSetup) {
 	return jValDef;
 }
 
-export function uInstruct(ajPace) {
+/** Returns a short, user-friendly description of the specified pace. */
+export function uDesc(ajPace) {
 	const oPace = Vals[ajPace];
 	const oStart = Text.uProseNum(oPace[0]);
 	const oBonus = Text.uProseNum(oPace[1]);

@@ -16,7 +16,7 @@
 
 /** Stores general configuration choices for the app. This class is immutable. */
 export class tCfg {
-	/** Creates an instance from the specified POD and returns it. */
+	/** Creates an instance from the specified plain object and returns it. */
 	static suFromPlain(aPlain) {
 		if (!aPlain) return null;
 

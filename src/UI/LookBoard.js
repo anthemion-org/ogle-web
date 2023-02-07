@@ -127,7 +127,7 @@ export default function LookBoard(aProps) {
 	//
 	// There is a tendency to leave the left mouse button down while clicking the
 	// right, and for whatever reason, that prevents the click from firing when
-	// onPointerDown is used by itself. The 'preventDefault' calls that were in
+	// onPointerDown is used by itself. The `preventDefault` calls that were in
 	// the handlers produced the same problem, so I removed those too. Everything
 	// seems to be working now, but this is obviously more complex than expected.
 	// This document might help if there is more trouble:

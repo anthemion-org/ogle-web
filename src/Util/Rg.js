@@ -10,7 +10,7 @@
 
 /** Represents an integer range. This class is mutable. */
 export class tRg {
-	/** Creates an instance from the specified POD and returns it. */
+	/** Creates an instance from the specified plain object and returns it. */
 	static suFromPlain(aPlain) {
 		if (!aPlain) return null;
 

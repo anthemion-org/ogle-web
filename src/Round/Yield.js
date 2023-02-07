@@ -19,7 +19,7 @@ export const Vals = [
 ];
 Object.freeze(Vals);
 
-/** The Vals index of the default yield. */
+/** The `Vals` index of the default yield. */
 const jValDef = 2;
 
 /** Returns the default yield range. */
@@ -27,15 +27,16 @@ export function uDef() {
 	return Vals[jValDef];
 }
 
-/** Returns the Vals index that matches aSetup, or the default index, if no
+/** Returns the `Vals` index that matches `aSetup`, or the default index, if no
  *  match is found. */
-export function uIdxVal(aSetup) {
+export function uIdxValMatchOrDef(aSetup) {
 	for (let oj = 0; oj < Vals.length; ++oj)
 		if (Vals[oj][0].uCkEq(aSetup.Yield)) return oj;
 	return jValDef;
 }
 
-export function uInstruct(ajYield) {
+/** Returns a short, user-friendly description of the specified yield range. */
+export function uDesc(ajYield) {
 	const oYield = Vals[ajYield][0];
 	if (!isFinite(oYield.Start))
 		return `At most ${oYield.End} words`;
