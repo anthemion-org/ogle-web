@@ -28,9 +28,8 @@ DlgHelp.propTypes = {
  *    prop is required.
  */
 export default function DlgHelp(aProps) {
-	// This dialog does not scroll, so if the OK button somehow escapes the
-	// viewport, there will be no way to click it. We will attach the click
-	// handler to the background just in case:
+	// We will allow the user to close this dialog by clicking anywhere, not just
+	// by clicking the OK button:
 	return (
 		<div id="DlgHelp" onClick={aProps.uHandOK}>
 			<article>

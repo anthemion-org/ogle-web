@@ -36,8 +36,8 @@ DlgScoreWord.propTypes = {
  *  - ScoreWord: A tScoreWord instance representing the word entry to be
  *    displayed. This prop is required;
  *
- *  - uHandOK: The handler to be invoked when the OK button is clicked. This
- *    prop is required.
+ *  - uHandOK: The handler to be invoked when the OK button is clicked, or when
+ *    the user clicks outside the dialog. This prop is required.
  */
 export default function DlgScoreWord(aProps) {
 	const oTextEnt = aProps.ScoreWord.Ent.uTextAll();
@@ -82,6 +82,12 @@ export default function DlgScoreWord(aProps) {
 	/** Set to 'true' if the Help dialog should be displayed. */
 	const [oCkHelp, ouSet_CkHelp] = useState(false);
 
+	/** Prevents the specified event from being bubbled or captured after this
+	 *  handler. */
+	function ouStopProp(aEvt) {
+		aEvt.stopPropagation();
+	}
+
 	/** Handles the Help button click in this dialog. */
 	function ouHandHelp(aEvt) {
 		ouSet_CkHelp(true);
@@ -100,9 +106,15 @@ export default function DlgScoreWord(aProps) {
 		);
 	}
 
+	// We will assign `uHandOK` to the 'scrim' container, so the user can close
+	// the dialog by clicking the background. We must stop propagation in the
+	// dialog itself, to prevent dialog clicks from bubbling up to the scrim. We
+	// can move that functionality to a dialog class, if it comes to be needed
+	// elsewhere. Right now, all the other dialogs require input before they are
+	// dismissed:
 	return <>
-		<div className="ScrimDlg">
-			<div id="DlgScoreWord" className="Dlg">
+		<div className="ScrimDlg" onClick={aProps.uHandOK}>
+			<div id="DlgScoreWord" className="Dlg" onClick={ouStopProp}>
 				<div id="BoxWik">
 					<a id="BtnWik" className="BtnLink" href={oURL} target="_blank"
 						rel="noopener noreferrer">
