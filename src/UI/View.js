@@ -34,7 +34,7 @@ View.propTypes = {
 };
 
 /** Selects and displays the view that corresponds to the current application
- *  state. The following props are supported:
+ *  state. The following props are required:
  *
  *  - Cfg: A tCfg object containing the current application configuration. This
  *    prop is required;
@@ -48,7 +48,7 @@ View.propTypes = {
  *  - uUpd_StApp: A dispatcher that triggers application state transitions. This
  *    prop is required.
  *
- *  Both these props will be forwarded to the displayed view. */
+ *  All these props will be forwarded to the displayed view. */
 export default function View(aProps) {
 	switch (aProps.StApp) {
 		case StsApp.Setup: {

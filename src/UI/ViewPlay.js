@@ -186,6 +186,9 @@ export default function ViewPlay(aProps) {
 	// Board generation
 	// ----------------
 
+	/** Creates and runs a `WorkSearch` web worker, which creates a board matching
+	 *  the user's setup choices, then stores the board and the corresponding Ogle
+	 *  scorecard. Does nothing if the board has already been created. */
 	function ouCreate_WorkSearch() {
 		if (oBoard) return;
 
