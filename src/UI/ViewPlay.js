@@ -73,39 +73,43 @@ export default function ViewPlay(aProps) {
 	// Keyboard input
 	// --------------
 
-	function ouListen_Keys() {
+	/** Adds a `keydown` listener that handles key presses. Returns a function
+	 *  that removes that listener. */
+	function ouMan_ListenKeydown() {
 		function ouHand(aEvt) {
-			// Close the displayed dialog, if any, or pause the game:
-			if (aEvt.code === "Escape") {
-				if (oCkVerWord) {
-					ouSet_CkVerWord(false);
-					return;
+			switch (aEvt.code) {
+				// Close the displayed dialog, if there is one, and resume the game:
+				case "Escape": {
+					if (oCkVerWord) {
+						ouSet_CkVerWord(false);
+						return;
+					}
+					ouSet_StPlay(StsPlay.Play);
+					break;
 				}
-
-				ouSet_StPlay(StsPlay.Play);
 			}
 		}
-
 		document.addEventListener("keydown", ouHand);
 
 		return () => {
 			document.removeEventListener("keydown", ouHand);
 		}
 	}
-	useEffect(ouListen_Keys, [oCkVerWord]);
+	useEffect(ouMan_ListenKeydown, [oCkVerWord]);
 
 	// Window focus management
 	// -----------------------
 
-	function ouMonit_Focus() {
+	/** Adds a `visibilitychange` listener that pauses play when the browser
+	 *  window loses focus. Returns a function that removes that listener. */
+	function ouMan_ListenFocus() {
 		function ouHand(aEvt) {
 			if (document.hidden && (oStPlay === StsPlay.Play) && !oCkVerWord)
 				ouSet_StPlay(StsPlay.Pause);
 		}
-
 		// Unlike Chrome, Firefox does not fire this event when the browser window
-		// loses focus after Alt+Tab, or when another window is clicked in the task
-		// bar. I'm not worried about it:
+		// loses focus after Alt+Tab in Windows, or when another window is clicked
+		// in the task bar. I'm not worried about it:
 		//
 		//   https://stackoverflow.com/questions/28993157/visibilitychange-event-is-not-triggered-when-switching-program-window-with-altt
 		//
@@ -115,16 +119,17 @@ export default function ViewPlay(aProps) {
 			document.removeEventListener("visibilitychange", ouHand);
 		}
 	}
-	useEffect(ouMonit_Focus, [oStPlay, oCkVerWord]);
+	useEffect(ouMan_ListenFocus, [oStPlay, oCkVerWord]);
 
 	// Timer management
 	// ----------------
 
+	/** The tick timer period, in milliseconds. */
 	const oPerTimer = 1000;
 
 	/** Starts a timer that advances the elapsed time, if the play state warrants
-	 *  it, then returns a function that stops that timer, if one was started. */
-	function ouStart_Timer() {
+	 *  it. Returns a function that stops that timer, if one was started. */
+	function ouMan_Timer() {
 		/** The timer work function, which advances the elapsed time. */
 		function ouExec() {
 			ouSet_TimeElap(aTime => aTime + oPerTimer);
@@ -138,7 +143,7 @@ export default function ViewPlay(aProps) {
 			if (oIDTimer !== null) clearInterval(oIDTimer);
 		}
 	}
-	useEffect(ouStart_Timer, [oBoard, oStPlay, oCkVerWord]);
+	useEffect(ouMan_Timer, [oBoard, oStPlay, oCkVerWord]);
 
 	/** Stores the elapsed time. */
 	function ouStore_TimeElap() {
@@ -225,6 +230,7 @@ export default function ViewPlay(aProps) {
 	}
 	useEffect(ouCreate_WorkSearch, [aProps, oBoard]);
 
+	/** Stores the board and the associated Ogle scorecard. */
 	function ouStore_Board() {
 		Store.uSet("Board", oBoard);
 		Store.uSet("CardOgle", oCardOgle);
@@ -444,6 +450,7 @@ export default function ViewPlay(aProps) {
 		ouSet_EntUser(null);
 	}
 
+	/** Stores the user scorecard. */
 	function ouStore_CardUser() {
 		Store.uSet("CardUser", oCardUser);
 	}

@@ -55,12 +55,13 @@ ViewScore.propTypes = {
  *    This prop is required.
  */
 export default function ViewScore(aProps) {
-	/** A tScoresHigh instance that records all high score data. */
+	/** A `tScoresHigh` instance that records all high score data. */
 	const [oScoresHigh, ouSet_ScoresHigh] = useState(() => uScoresHighInit());
-	/** Set to the tScoreWord that is being displayed in the Word Score dialog, or
-	 *  `null` if no entry is being displayed. */
+	/** Set to the `tScoreWord` that is being displayed in the Word Score dialog,
+	 *  or `null` if no entry is being displayed. */
 	const [oScoreWord, ouSet_ScoreWord] = useState(null);
 
+	/** Stores the high score data, whether it changed or not. */
 	function ouStore_ScoresHigh() {
 		Store.uSet("ScoresHigh", oScoresHigh);
 	}
@@ -69,8 +70,9 @@ export default function ViewScore(aProps) {
 	// Compare player cards
 	// --------------------
 
-	/** An array of tScoreWord instances representing the words found in this
-	 *  round, plus an object that associates word lengths with tCover instances. */
+	/** An array of `tScoreWord` instances representing the words found in this
+	 *  round, plus an object that associates word lengths with `tCover`
+	 *  instances. */
 	const [oScores, oCoversByLen]
 		= uScoresCoversFromCards(aProps.CardOgle, aProps.CardUser);
 
@@ -101,7 +103,7 @@ export default function ViewScore(aProps) {
 
 	/** Handles word list item clicks. */
 	function ouHandClickWord(aEvt) {
-		// The 'data-idx-word' attribute is assigned to the 'tr', but a 'td' will
+		// The `data-idx-word` attribute is assigned to the `tr`, but a `td` will
 		// generate the click, and the event will bubble up from there:
 		const oEl = aEvt.target.parentElement;
 		if (oEl.dataset.idxWord) {

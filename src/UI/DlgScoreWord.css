@@ -75,6 +75,12 @@
 	flex-direction: column;
 }
 
+#DlgScoreWord #BoxScoreBtns #BtnHelp {
+	/* Can't do this on the OK button, because it uses an 'auto' margin to space
+	 * the two apart, when there is room: */
+	margin-right: 0.5rem;
+}
+
 #DlgScoreWord #BoxScore {
 	display: flex;
 	justify-content: space-between;
