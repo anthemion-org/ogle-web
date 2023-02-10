@@ -39,8 +39,8 @@ ViewPlay.propTypes = {
  *  entries, and manages the timer during play. Along with the usual `View`
  *  props, the following props are supported:
  *
- *  - Setup: A tSetup instance that configures the current round. This prop is
- *    required.
+ *  - `Setup`: A `tSetup` instance that configures the current round. This prop
+ *    is required.
  */
 export default function ViewPlay(aProps) {
 	/** The time remaining, in milliseconds, when the user is considered to be low
@@ -50,24 +50,24 @@ export default function ViewPlay(aProps) {
 	// rounded up, so eleven seconds better matches that output:
 	const oTimeRemainLow = 11000;
 
-	/** A tBoard instance representing the board that is being played, or 'null'
+	/** A `tBoard` instance representing the board that is being played, or `null`
 	 *  if the board has not been generated yet. */
 	const [oBoard, ouSet_Board] = useState(() => uBoardInit());
-	/** A tCard instance representing the Ogle scorecard, or 'null' if the board
+	/** A `tCard` instance representing the Ogle scorecard, or `null` if the board
 	 *  has not been generated yet. */
 	const [oCardOgle, ouSet_CardOgle] = useState(() => uCardOgleInit());
-	/** A tEntWord instance representing the user's current board selection, or
-	 *  'null' if there is no selection. */
+	/** A `tEntWord` instance representing the user's current board selection, or
+	 *  `null` if there is no selection. */
 	const [oEntUser, ouSet_EntUser] = useState(null);
-	/** A tCard instance representing the user scorecard. */
+	/** A `tCard` instance representing the user scorecard. */
 	const [oCardUser, ouSet_CardUser] = useState(() => uCardUserInit());
-	/** A StsPlay value representing the current play state. */
+	/** A `StsPlay` value representing the current play state. */
 	const [oStPlay, ouSet_StPlay] = useState(() => uStPlayInit());
-	/** Set to 'true' if a word is being verified. */
+	/** Set to `true` if a word is being verified. */
 	const [oCkVerWord, ouSet_CkVerWord] = useState(false);
 	/** The elapsed play time, in milliseconds. */
 	const [oTimeElap, ouSet_TimeElap] = useState(() => uTimeElapInit());
-	/** Set to 'true' if the Pause button should blink to show that time is low. */
+	/** Set to `true` if the Pause button should blink to show that time is low. */
 	const [oCkBlinkPause, ouSet_CkBlinkPause] = useState(false);
 
 	// Keyboard input
@@ -122,7 +122,10 @@ export default function ViewPlay(aProps) {
 
 	const oPerTimer = 1000;
 
+	/** Starts a timer that advances the elapsed time, if the play state warrants
+	 *  it, then returns a function that stops that timer, if one was started. */
 	function ouStart_Timer() {
+		/** The timer work function, which advances the elapsed time. */
 		function ouExec() {
 			ouSet_TimeElap(aTime => aTime + oPerTimer);
 		}
@@ -137,19 +140,29 @@ export default function ViewPlay(aProps) {
 	}
 	useEffect(ouStart_Timer, [oBoard, oStPlay, oCkVerWord]);
 
+	/** Stores the elapsed time. */
 	function ouStore_TimeElap() {
 		Store.uSet("TimeElap", oTimeElap);
 	}
 	useEffect(ouStore_TimeElap, [oTimeElap]);
 
-	function ouMonit_TimeRemain() {
-		// This tick timing has caused a lot of frustration, just like it did in the
+	/** Checks the play state and the elapsed time, and:
+	 *
+	 *  - Runs or stops the tick loop;
+	 *
+	 *  - Updates the Pause button blink state;
+	 *
+	 *  - Advances the app state;
+	 *
+	 * as appropriate. */
+	function ouMan_FeedAndStApp() {
+		// The tick timing has caused a lot of frustration, just like it did in the
 		// desktop app. JavaScript timers aren't any more precise than Windows
 		// timers, and that lack is very obvious when they are used to play audio.
 		//
 		// I tried a number of designs that manage the tick timing here, in the
-		// effect, but none of them worked well. This approach delegates timing to
-		// the Feed class, which is much easier than managing that state here.
+		// effect, but none worked well. This approach delegates timing to the
+		// `Feed` class, which is much easier than managing that state here.
 
 		if (!oBoard || (oStPlay !== StsPlay.Play) || oCkVerWord) {
 			ouSet_CkBlinkPause(false);
@@ -180,7 +193,7 @@ export default function ViewPlay(aProps) {
 		// already stopped when play is paused, so there is no need to do that when
 		// quitting play early.
 	}
-	useEffect(ouMonit_TimeRemain, [aProps, aProps.Setup, oBoard, oStPlay,
+	useEffect(ouMan_FeedAndStApp, [aProps, aProps.Setup, oBoard, oStPlay,
 		oCkVerWord, oCardUser.CtBonusTime, oTimeElap]);
 
 	// Board generation
@@ -236,7 +249,7 @@ export default function ViewPlay(aProps) {
 		ouSet_StPlay(StsPlay.ConfirmEnd);
 	}
 
-	/** Returns the Pause dialog, or 'null' if the game is not paused. */
+	/** Returns the Pause dialog, or `null` if the game is not paused. */
 	function ouDlgPause() {
 		if (oStPlay !== StsPlay.Pause) return null;
 
@@ -290,7 +303,7 @@ export default function ViewPlay(aProps) {
 		ouSet_StPlay(StsPlay.Play);
 	}
 
-	/** Returns the End Confirmation dialog, or 'null' if the user has not asked
+	/** Returns the End Confirmation dialog, or `null` if the user has not asked
 	 *  to end the round. */
 	function ouDlgConfirmEnd() {
 		if (oStPlay !== StsPlay.ConfirmEnd) return null;
@@ -314,7 +327,7 @@ export default function ViewPlay(aProps) {
 	// Word Verification dialog
 	// ------------------------
 
-	/** Handles the Word Verification 'Add' button click. */
+	/** Handles the Word Verification Add button click. */
 	function ouHandAddVerWord(aEvt) {
 		const oText = oEntUser.uTextAll();
 		Lex.uAdd_WordUser(oText);
@@ -323,13 +336,13 @@ export default function ViewPlay(aProps) {
 		ouSet_CkVerWord(false);
 	}
 
-	/** Handles the Word Verification 'Cancel' button click. */
+	/** Handles the Word Verification Cancel button click. */
 	function ouHandCancelVerWord(aEvt) {
 		ouSet_EntUser(null);
 		ouSet_CkVerWord(false);
 	}
 
-	/** Returns the Word Verification dialog, or 'null' if no word is being
+	/** Returns the Word Verification dialog, or `null` if no word is being
 	 *  verified. */
 	function ouDlgVerWord() {
 		if (!oCkVerWord || !oEntUser) return null;
@@ -343,7 +356,7 @@ export default function ViewPlay(aProps) {
 	// Word selection and entry
 	// ------------------------
 
-	/** Returns 'true' if the specified board position can be selected or
+	/** Returns `true` if the specified board position can be selected or
 	 *  unselected. */
 	function ouCkEnab(aPos) {
 		return !oEntUser || oEntUser.uCkTogAt(aPos);
@@ -392,12 +405,12 @@ export default function ViewPlay(aProps) {
 			//
 			//   Feed.uUnselDie();
 			//
-			// However, it was necessary to remove the 'preventDefault' calls from the
+			// However, it was necessary to remove the `preventDefault` calls from the
 			// mouse and pointer event handlers, and that caused the unselect sound
 			// and the entry sound to be played together when a word was entered,
 			// unless the left mouse button happened to be down when the right was
 			// pressed. I don't care much about audio feedback in this event, so we
-			// will skip it for now. See the comments in 'LookDie.js' for more on
+			// will skip it for now. See the comments in `LookDie.js` for more on
 			// this.
 			return;
 		}
@@ -417,8 +430,8 @@ export default function ViewPlay(aProps) {
 
 		// The word is recognized:
 		ouSet_CardUser(aCard => {
-			// We could change uAdd to return a new tCard instance, but
-			// suFromSelsBoard would become even slower than it is now:
+			// We could change `uAdd` to return a new `tCard` instance, but
+			// `suFromSelsBoard` would become even slower than it is now:
 			const oCardNew = aCard.uClone();
 			const oCkVal = oCardNew.uAdd(oEntUser);
 
@@ -590,4 +603,3 @@ function uStPlayInit() {
 function uTimeElapInit() {
 	return Store.uGetPlain("TimeElap") || 0;
 }
-

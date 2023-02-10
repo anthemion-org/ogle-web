@@ -50,12 +50,12 @@ export class tEntWord {
 		Object.freeze(this);
 	}
 
-	/** Returns 'true' if the specified position is selected. */
+	/** Returns `true` if the specified position is selected. */
 	uCkAt(aPos) {
 		return this.Posi.some(a => a.uCkEq(aPos));
 	}
 
-	/** Returns 'true' if the specified position can be added to the end of this
+	/** Returns `true` if the specified position can be added to the end of this
 	 *  entry. */
 	uCkAddAt(aPos) {
 		return Const.RectBoard.uCkContain(aPos)
@@ -63,14 +63,14 @@ export class tEntWord {
 			&& !this.uCkAt(aPos);
 	}
 
-	/** Returns 'true' if the specified position can be selected or unselected. */
+	/** Returns `true` if the specified position can be selected or unselected. */
 	uCkTogAt(aPos) {
 		return Const.RectBoard.uCkContain(aPos)
 			&& (this.uCkAddAt(aPos) || this.uCkAt(aPos));
 	}
 
 	/** Returns the position that precedes the specified position in this entry,
-	 *  or 'null' if the position is not part of this entry, or if there is no
+	 *  or `null` if the position is not part of this entry, or if there is no
 	 *  predecessor. */
 	uPosPrev(aPos) {
 		for (let oj = 1; oj < this.Posi.length; ++oj)
@@ -79,7 +79,7 @@ export class tEntWord {
 		return null;
 	}
 
-	/** Returns last the position in this entry, or 'null' if the entry is empty. */
+	/** Returns last the position in this entry, or `null` if the entry is empty. */
 	uPosEnd() {
 		if (!this.Posi.length) return null;
 		return this.Posi[this.Posi.length - 1];
@@ -91,7 +91,7 @@ export class tEntWord {
 	}
 
 	/** Returns a new instance that selects the positions in this entry, but stops
-	 *  just before the specified position. Returns 'null' instead if the position
+	 *  just before the specified position. Returns `null` instead if the position
 	 *  is not part of this entry, or if there is no predecessor. */
 	uClonePrev(aPos) {
 		for (let oj = 1; oj < this.Posi.length; ++oj)

@@ -8,13 +8,13 @@
 //   import { tArr2 } from "../Util/Arr2.js";
 //
 
-/** A rectangular array backed by a linear JavaScript array, for fast copying.
- *  This class is mutable.*/
+/** A rectangular array backed by a linear array, for fast copying. This class
+ *  is mutable.*/
 export class tArr2 {
-	/** Creates an instance with the specified tPt2 size. If apOpts is defined,
-	 *  the new elements will be copied from JavaScript array apOpts.Src, or set
-	 *  to default value apOpts.Def. If it is not defined, the elements will be
-	 *  left undefined. */
+	/** Creates an instance with the specified `tPt2` size. If `aOpts` is defined,
+	 *  the new elements will be copied from linear array `aOpts.Src`, or set to
+	 *  default value `aOpts.Def`. If it is not defined, the elements will be left
+	 *  undefined. */
 	constructor(aSize, aOpts) {
 		/** The dimensions of this instance. */
 		this.Size = aSize;
@@ -25,7 +25,7 @@ export class tArr2 {
 			if (oSrc.length !== oCt)
 				throw Error("tArr2.constructor: Source dimensions do not match");
 
-			/** The linear JavaScript array that backs this instance. */
+			/** The linear array that backs this instance. */
 			this._Els = Array.from(oSrc);
 		}
 		else {
@@ -36,13 +36,13 @@ export class tArr2 {
 		}
 	}
 
-	/** Returns the value at the specified tPt2 position. */
+	/** Returns the value at the specified `tPt2` position. */
 	uGet(aPos) {
 		const oj = uIdxCk(this, aPos, "uGet");
 		return this._Els[oj];
 	}
 
-	/** Sets the value at the specified tPt2 position. */
+	/** Sets the value at the specified `tPt2` position. */
 	uSet(aPos, aVal) {
 		const oj = uIdxCk(this, aPos, "uSet");
 		this._Els[oj] = aVal;

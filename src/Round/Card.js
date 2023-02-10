@@ -62,12 +62,12 @@ export class tCard {
 	}
 
 	/** Adds the specified tEntWord instance to Ents, if it meets the minimum
-	 *  length, and if it is not a duplicate, and returns 'true' if a valid,
+	 *  length, and if it is not a duplicate, and returns `true` if a valid,
 	 *  unfollowed word was entered. If the entry is new, this will be the number
 	 *  of letters in the entry, less the minimum word length, plus one. If the
 	 *  entry is already followed, it will be zero. If the entry follows an
 	 *  existing entry, it will be the number of letters by which the original
-	 *  entry length has been exceeded. Set aCkAddFollow to 'false' if followed
+	 *  entry length has been exceeded. Set aCkAddFollow to `false` if followed
 	 *  entries should not be added. */
 	uAdd(aEnt, aCkAddFollow) {
 		const oTextAdd = aEnt.uTextAll();
@@ -112,7 +112,7 @@ export class tCard {
 	}
 }
 
-/** Returns 'true' if either word follows the other, or if they are identical. */
+/** Returns `true` if either word follows the other, or if they are identical. */
 function uCkFollowEither(aL, aR) {
 	return Text.uCkEqBegin(aL, aR);
 }

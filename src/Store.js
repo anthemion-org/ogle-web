@@ -8,16 +8,18 @@
 //   import * as Store from "./Store.js";
 //
 
-// This module persists user data as JSON in the browser’s local storage.
+// This module persists user data as JSON in the browser's local storage. It
+// also defines default values for some data, and caches data read from and
+// written to local storage.
 //
-// `uSet` stores objects and values in the `localStorage` root, after prefixing
+// `uSet` stores objects and values in the local storage root, after prefixing
 // their names with `_PrefixNameStore`.
 //
 // Ogle uses classes like `tSetup` to store data in memory, but these types are
 // lost when their content is serialized. When class instance is restored, the
 // untyped data returned by `uGetPlain` must be converted with the static
-// `suFromPlain` method provided by the destination class. See ‘Plain data and
-// persistence’ in `README.md` for more on this.
+// `suFromPlain` method provided by the destination class. See 'Plain data and
+// persistence' in `README.md` for more on this.
 
 import StsApp from "./StsApp.js";
 import { tCfg } from "./Cfg.js";
@@ -43,7 +45,7 @@ export function uSet(an, aVal) {
 // Private
 // -------
 
-/** The prefix to be used for all localStorage names. */
+/** The prefix to be used for all local storage names. */
 const _PrefixNameStore = "Ogle";
 
 /** An object representation of all Ogle data in local storage. Properties may

@@ -30,7 +30,7 @@ export class tRect {
 		);
 	}
 
-	/** Returns 'true' if the specified position is contained by this instance. */
+	/** Returns `true` if the specified position is contained by this instance. */
 	uCkContain(aPos) {
 		const oTopRight = this.uTopRight();
 		return (aPos.X >= this.LeftTop.X) && (aPos.X <= oTopRight.X)

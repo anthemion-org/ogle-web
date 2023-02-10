@@ -34,7 +34,7 @@ export class tSelBoard {
 		this.Board = aBoard;
 		/* The board position selected by this instance. */
 		this.Pos = aPos;
-		/** The selection instance that precedes this one, or 'null' if this is the
+		/** The selection instance that precedes this one, or `null` if this is the
 		 *  first. Recall that preceding instances in the selection chain will not
 		 *  have CksByPos or TextAll values that include later instances, such as
 		 *  this one defining this reference. */
@@ -66,7 +66,7 @@ export class tSelBoard {
 	 *
 	 *  - Not previously returned by this instance.
 	 *
-	 *  Returns 'null' if no such position exists.
+	 *  Returns `null` if no such position exists.
 	 *
 	 *  By creating a top-level instance for a given board position, and then
 	 *  recursively invoking uNext on that instance, plus every instance returned
@@ -96,7 +96,7 @@ export class tSelBoard {
 
 /** Returns the first available adjacent position after skipping ajNeigh valid
  *  choices, starting with the position on the right, and proceding
- *  counter-clockwise. Returns 'null' if no such position exists. */
+ *  counter-clockwise. Returns `null` if no such position exists. */
 function uPosNext(aSel, ajNeigh) {
 	// The 'next' index ranges from zero to seven:
 	if (ajNeigh > 7) return null;

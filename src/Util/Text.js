@@ -38,7 +38,7 @@ export function uFracNice(aVal) {
 		.replace(".75", "¾");
 }
 
-/** Returns 'true' if either string is found at the beginning of the other, or
+/** Returns `true` if either string is found at the beginning of the other, or
  *  if either string is empty. */
 export function uCkEqBegin(aL, aR) {
 	// Use 'startsWith' instead?:

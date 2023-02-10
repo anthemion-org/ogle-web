@@ -26,7 +26,7 @@ export function uCkMob() {
 	return oPlats.test(navigator.userAgent);
 }
 
-/** Returns 'true' if the app has been installed, and if it was started as an
+/** Returns `true` if the app has been installed, and if it was started as an
  *  app, rather than running in the browser. */
 export function uCkRunInstall() {
 	return window.matchMedia("(display-mode: standalone)").matches;

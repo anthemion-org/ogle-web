@@ -38,7 +38,7 @@ export class tLookupText {
 	}
 
 	/** Searches _Words for _Text, narrowing the window until a match or a miss is
-	 *  identified. If aCkStopFrag is 'true', the search will also stop when a
+	 *  identified. If aCkStopFrag is `true`, the search will also stop when a
 	 *  fragment is identified. Returns the reason the search stopped. */
 	uExec(aCkStopFrag) {
 		if (this._Words.length < 1) return OutsLookup.Miss;

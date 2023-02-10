@@ -29,9 +29,9 @@ BackDie.propTypes = {
  *  - Pos: The board position that contains this instance. This prop is
  *    required;
  *
- *  - CkEnab: Set to 'true' if the die can be selected or unselected;
+ *  - CkEnab: Set to `true` if the die can be selected or unselected;
  *
- *  - CkDisp: Set to 'true' if the die is being rendered in 'display-only'
+ *  - CkDisp: Set to `true` if the die is being rendered in 'display-only'
  *    mode.
  */
 export default function BackDie(aProps) {

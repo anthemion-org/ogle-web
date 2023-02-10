@@ -14,7 +14,7 @@ export class tRg {
 	static suFromPlain(aPlain) {
 		if (!aPlain) return null;
 
-		// Recall that `JSON.stringify` writes `Infinity` as 'null':
+		// Recall that `JSON.stringify` writes `Infinity` as `null`:
 		const oStart = (aPlain.Start === null) ? -Infinity : aPlain.Start;
 		const oEnd = (aPlain.End === null) ? Infinity : aPlain.End;
 		return new tRg(oStart, oEnd);

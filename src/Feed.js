@@ -27,7 +27,7 @@
 //
 //   DOMException: The element has no supported sources
 //
-// In actual fact, 'null' values were being returned when 'querySelector' was
+// In actual fact, `null` values were being returned when 'querySelector' was
 // used to reference the 'audio' elements. No changes had been made to the WAV
 // files, however, and reverting to earlier commits did not fix the problem. In
 // both cases, production builds continued to play sounds as expected.
@@ -78,7 +78,7 @@ import * as Misc from "./Util/Misc.js";
  *  is mutable. */
 class tFeed {
 	constructor() {
-		/** Set to 'true' if the app is running on a mobile device. */
+		/** Set to `true` if the app is running on a mobile device. */
 		this._CkMob = Misc.uCkMob();
 
 		/** The loop play state, which determines whether the tick loop generates

@@ -17,7 +17,7 @@ export const Vals = {
 };
 Object.freeze(Vals);
 
-/** Returns 'true' if the specified value is a Vals member. */
+/** Returns `true` if the specified value is a Vals member. */
 export function uCk(aDir) {
 	return Vals.hasOwnProperty(aDir);
 }

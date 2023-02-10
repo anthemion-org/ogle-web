@@ -30,7 +30,7 @@ export class tScoreWord {
 		this.StatOgle = aStatOgle;
 		/** A StatsWord value that indicates whether the user scored this word. */
 		this.StatUser = aStatUser;
-		/** Set to 'true' if the word represented by this instance is part of the
+		/** Set to `true` if the word represented by this instance is part of the
 		 *  user-entered lexicon. */
 		this.CkWordUser = aCkWordUser;
 	}

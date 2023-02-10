@@ -79,7 +79,7 @@ export default function DlgScoreWord(aProps) {
 	// to an HOC, but the timer pause functionality in that view is not something
 	// I want to mess with.
 
-	/** Set to 'true' if the Help dialog should be displayed. */
+	/** Set to `true` if the Help dialog should be displayed. */
 	const [oCkHelp, ouSet_CkHelp] = useState(false);
 
 	/** Prevents the specified event from being bubbled or captured after this

@@ -45,7 +45,7 @@ export class tScoresHigh {
 		return oScores ? Array.from(oScores) : [];
 	}
 
-	/** Returns 'true' if the specified game produced a high score that is not
+	/** Returns `true` if the specified game produced a high score that is not
 	 *  recorded in this instance. */
 	uCkHigh(aSetup, aCardUser, aCardOgle) {
 		if (aCardUser.Score < 1) return false;

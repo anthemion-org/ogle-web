@@ -51,7 +51,7 @@ class tLex {
 		this.WordsUserPend = [];
 	}
 
-	/** Returns 'true' if the specified word is user-entered. */
+	/** Returns `true` if the specified word is user-entered. */
 	uCkUser(aWord) {
 		// Ogle does not allow capital letters or accents, so this fast comparison
 		// is good enough:
@@ -60,7 +60,7 @@ class tLex {
 		return oCk;
 	}
 
-	/** Returns 'true' if the specified word is known. */
+	/** Returns `true` if the specified word is known. */
 	uCkKnown(aWord) {
 		// Ogle does not allow capital letters or accents, so this fast comparison
 		// is good enough:

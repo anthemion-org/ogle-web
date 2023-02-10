@@ -14,7 +14,7 @@ export class tPt2 {
 	static suFromPlain(aPlain) {
 		if (!aPlain) return null;
 
-		// Recall that 'JSON.stringify' writes Infinity as 'null'. Is that likely to
+		// Recall that 'JSON.stringify' writes Infinity as `null`. Is that likely to
 		// become a problem here?:
 		return new tPt2(aPlain.X, aPlain.Y);
 	}
@@ -24,12 +24,12 @@ export class tPt2 {
 		this.Y = aY;
 	}
 
-	/** Returns 'true' if the specified instance is equal to this one. */
+	/** Returns `true` if the specified instance is equal to this one. */
 	uCkEq(aPt) {
 		return (aPt.X === this.X) && (aPt.Y === this.Y);
 	}
 
-	/** Returns 'true' if the specified instance is adjacent, horizontally,
+	/** Returns `true` if the specified instance is adjacent, horizontally,
 	 *  vertically, or diagonally, from this one. */
 	uCkAdjacent(aPt) {
 		return (Math.abs(aPt.X - this.X) <= 1) && (Math.abs(aPt.Y - this.Y) <= 1);

@@ -11,16 +11,16 @@
 /** A timer that self-regulates to offer somewhat better precision than
  *  'setInterval. This class is mutable.*/
 export class tTimer {
-	/** Specify the work function with auWork, or set it to 'null' and specify it
+	/** Specify the work function with auWork, or set it to `null` and specify it
 	 *  later with uSet_Work. aPer sets the timer period, in millseconds. Set
-	 *  aCkStart to 'true' to start the timer immediately. */
+	 *  aCkStart to `true` to start the timer immediately. */
 	constructor(auWork, aPer, aCkStart) {
-		/** The work function to be invoked every interval, or 'null' if there is no
+		/** The work function to be invoked every interval, or `null` if there is no
 		 *  work to be done. */
 		this._uWork = auWork;
 		/** The timer period, in milliseconds. */
 		this.Per = aPer;
-		/** The ID returned by 'setTimeout', or 'null' if the timer is stopped. */
+		/** The ID returned by 'setTimeout', or `null` if the timer is stopped. */
 		this._IDTimer = null;
 
 		this._uExec = this._uExec.bind(this);
@@ -28,7 +28,7 @@ export class tTimer {
 		if (aCkStart) this.uStart();
 	}
 
-	/** Replaces the work function. Set to 'null' if the timer should continue to
+	/** Replaces the work function. Set to `null` if the timer should continue to
 	 *  run without doing any work. */
 	uSet_Work(auWork) {
 		this._uWork = auWork;

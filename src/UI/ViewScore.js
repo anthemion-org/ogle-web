@@ -58,7 +58,7 @@ export default function ViewScore(aProps) {
 	/** A tScoresHigh instance that records all high score data. */
 	const [oScoresHigh, ouSet_ScoresHigh] = useState(() => uScoresHighInit());
 	/** Set to the tScoreWord that is being displayed in the Word Score dialog, or
-	 *  'null' if no entry is being displayed. */
+	 *  `null` if no entry is being displayed. */
 	const [oScoreWord, ouSet_ScoreWord] = useState(null);
 
 	function ouStore_ScoresHigh() {

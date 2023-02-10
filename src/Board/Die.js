@@ -29,7 +29,7 @@ export class tDie {
 		this.Text = aText;
 		/** The side of the die with which the text top aligns. */
 		this.Dir4 = aDir4;
-		/** Set to 'true' if the text should be underlined. */
+		/** Set to `true` if the text should be underlined. */
 		this.CkUnder = ["L", "T", "N", "Z", "W"].includes(aText);
 
 		Object.freeze(this);

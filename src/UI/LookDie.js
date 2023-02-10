@@ -39,13 +39,13 @@ LookDie.propTypes = {
  *
  *  - Die: The tDie instance at this board position. This prop is required;
  *
- *  - CkSel: Set to 'true' if this die is selected;
+ *  - CkSel: Set to `true` if this die is selected;
  *
- *  - CkEnab: Set to 'true' if this die can be selected or unselected;
+ *  - CkEnab: Set to `true` if this die can be selected or unselected;
  *
- *  - CkPause: Set to 'true' if the board is being rendered in 'pause' mode;
+ *  - CkPause: Set to `true` if the board is being rendered in 'pause' mode;
  *
- *  - CkDisp: Set to 'true' if the board is being rendered in 'display-only'
+ *  - CkDisp: Set to `true` if the board is being rendered in 'display-only'
  *    mode;
  *
  *  - uCallTog: A function to be invoked if the die is left-clicked.

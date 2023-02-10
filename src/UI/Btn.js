@@ -32,17 +32,17 @@ Btn.propTypes = {
  *
  *  - onClick: The handler to be invoked when the user clicks this button.
  *
- *  - CkDownClick: Set to 'true' if the click handler should be invoked for the
+ *  - CkDownClick: Set to `true` if the click handler should be invoked for the
  *    'pointer down' event. Android sometimes fails to register brief taps as
  *    clicks, so this is helpful for Play view buttons.
  *
- *  - CkDisabFeedClick: Set to 'true' if the click feeback should not be played.
+ *  - CkDisabFeedClick: Set to `true` if the click feeback should not be played.
  *    This is useful when the button triggers an action that produces its own
  *    feedback;
  *
  *  Other props will be forwarded to the 'button' element. */
 export default function Btn(aProps) {
-	/** Set to 'true' if this button has processed an 'onPointerDown' event at any
+	/** Set to `true` if this button has processed an 'onPointerDown' event at any
 	 *  time. */
 	const [oCkDown, ouSet_CkDown] = useState(false);
 

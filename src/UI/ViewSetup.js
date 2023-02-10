@@ -54,9 +54,9 @@ export default class ViewSetup extends React.Component {
 		const oSetupInit = tSetup.suFromPlain(Store.uGetPlain("Setup"));
 		this.state = {
 			...this.props.Cfg,
-			/** The selected 'Yield.Vals' index. */
+			/** The selected `Yield.Vals` index. */
 			jYield: Yield.uIdxValMatchOrDef(oSetupInit),
-			/** The selected 'Pace.Vals' index. */
+			/** The selected `Pace.Vals` index. */
 			jPace: Pace.uIdxValMatchOrDef(oSetupInit)
 		};
 
