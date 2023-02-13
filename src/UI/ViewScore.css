@@ -140,13 +140,14 @@
 #ViewScore #ColWords tbody {
 	display: flex;
 	flex-wrap: wrap;
-	justify-content: space-between;
+	justify-content: center;
 }
 
 #ViewScore #ColWords tr {
 	flex: 1;
 
 	min-width: 8rem;
+	max-width: 33.333%;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
@@ -155,6 +156,7 @@
 	border-radius: 0.2rem;
 
 	background-color: var(--ColorCellBackAlt);
+	cursor: pointer;
 }
 
 /* It might be nice to have the cell 'pop up' in the direction of the viewer
@@ -166,10 +168,6 @@
 
 #ViewScore #ColWords tr:active {
 	background-color: var(--ColorCellBackAltAct);
-}
-
-#ViewScore #BoxWords tr {
-	cursor: pointer;
 }
 
 /* Within the row, only the 'td' elements produce the click events we use to

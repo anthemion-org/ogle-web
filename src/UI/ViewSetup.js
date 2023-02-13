@@ -73,7 +73,7 @@ export default class ViewSetup extends React.Component {
 		this.uStore_Setup();
 	}
 
-	/** Updates the store with the setup selected in this view. */
+	/** Stores the setup selected in this view. */
 	uStore_Setup() {
 		Store.uSet("Setup", this.uSetup());
 	}

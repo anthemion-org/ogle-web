@@ -61,7 +61,7 @@ export default function ViewScore(aProps) {
 	 *  or `null` if no entry is being displayed. */
 	const [oScoreWord, ouSet_ScoreWord] = useState(null);
 
-	/** Stores the high score data, whether it changed or not. */
+	/** Stores the high score data. */
 	function ouStore_ScoresHigh() {
 		Store.uSet("ScoresHigh", oScoresHigh);
 	}

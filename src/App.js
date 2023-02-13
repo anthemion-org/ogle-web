@@ -26,6 +26,7 @@ export default function App() {
 	const [oStApp, ouUpd_StApp] = useReducer(uNextStApp, oStAppInit);
 
 	const ouStore = () => {
+		// Why not set `oCfg` itself?: [todo]
 		Store.uSet("Cfg", new tCfg(oCfg.NameTheme));
 		Store.uSet("StApp", oStApp);
 	};
