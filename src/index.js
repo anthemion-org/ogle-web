@@ -5,7 +5,7 @@
 
 import React from "react";
 import ReactDOM from "react-dom";
-//import ReportPerform from "./ReportPerform";
+import ReportPerform from "./ReportPerform";
 
 import "./index.css";
 import App from "./App";
@@ -19,8 +19,10 @@ ReactDOM.render(
 	document.getElementById("Root")
 );
 
-// Write performance data to the browser console:
-//ReportPerform(console.log);
+// Set to 'true' to write performance data to the browser console, and to enable
+// recording within the Profiler tab in the React DevTools:
+const oCkProfile = false;
+if (oCkProfile) ReportPerform(console.log);
 
 // This function checks for the production build:
 serviceWorkerRegistration.register();

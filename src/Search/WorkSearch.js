@@ -19,6 +19,9 @@ onmessage = function (aMsg) {
 		const oGenRnd = new tGenRnd();
 		const oSetup = tSetup.suFromPlain(aMsg.data.Setup);
 
+		const oTextSetup = oSetup.uTextShortYield() + " / " + oSetup.uTextShortPace();
+		console.log(`Generating '${oTextSetup}' board...`);
+
 		let oBoard;
 		let oCard;
 		let oj = 0;
@@ -26,7 +29,10 @@ onmessage = function (aMsg) {
 			oBoard = tBoard.suNewRnd(oGenRnd);
 			const oSels = SearchBoard.uExec(aMsg.data.WordsSearch, oBoard);
 			oCard = tCard.suFromSelsBoard(oSels);
-			if (oSetup.Yield.uCkContain(oCard.Score)) break;
+			if (oSetup.Yield.uCkContain(oCard.Score)) {
+				console.log("Accepting board number " + (oj + 1));
+				break;
+			}
 
 			if (++oj >= 2000)
 				throw Error("WorkSearch onmessage: Cannot create board");

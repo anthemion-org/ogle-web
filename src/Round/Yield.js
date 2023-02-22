@@ -12,6 +12,7 @@ import { tRg } from "../Util/Rg.js";
 
 /** Yield ranges to be offered to the user. */
 export const Vals = [
+	[new tRg(1, 20)],
 	[new tRg(1, 40)],
 	[new tRg(60, 100)],
 	[new tRg(120, 160)],
@@ -35,12 +36,12 @@ export function uIdxValMatchOrDef(aSetup) {
 	return jValDef;
 }
 
-/** Returns a short, user-friendly description of the specified yield range. */
+/** Returns a description of the specified yield range. */
 export function uDesc(ajYield) {
 	const oYield = Vals[ajYield][0];
 	if (!isFinite(oYield.Start))
 		return `At most ${oYield.End} words`;
 	if (!isFinite(oYield.End))
-		return `At least ${oYield.Start} words`;
+		return `${oYield.Start} or more words`;
 	return `Between ${oYield.Start} and ${oYield.End} words`;
 }

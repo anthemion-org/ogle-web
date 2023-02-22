@@ -45,7 +45,7 @@ export function uIdxValMatchOrDef(aSetup) {
 	return jValDef;
 }
 
-/** Returns a short, user-friendly description of the specified pace. */
+/** Returns a description of the specified pace. */
 export function uDesc(ajPace) {
 	const oPace = Vals[ajPace];
 	const oStart = Text.uProseNum(oPace[0]);
