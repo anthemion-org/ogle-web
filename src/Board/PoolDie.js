@@ -5,35 +5,15 @@
 //
 // Import with:
 //
-//   import { tPoolDie } from "../PoolDie.js";
+//   import { tConfigPoolDie, tPoolDie } from "../PoolDie.js";
 //
 
+import { tConfigPoolText, tPoolText } from "./PoolText.js";
 import { tDie } from "./Die.js";
 import * as Dir4 from "../Util/Dir4.js";
 import * as Const from "../Const.js";
 
-/** Stores configuration data for a single pool of texts. This class is
- *  immutable. */
-class tConfigPoolText {
-	constructor(aCtMinStart, aDropCt, aCtMinDraw) {
-		/** The minimum starting text count. Increase this number to see more rare
-		 *  letter dice. */
-		this.CtMinStart = aCtMinStart;
-		/** The amount by which each text count drops, after it is drawn. Increase
-		 *  this number to see fewer duplicates and more rare letter dice. */
-		this.DropCt = aDropCt;
-		/** The minimum allowable text count, after a given text has been drawn.
-		 *  Increase this number to see more duplicate letter dice. */
-		this.CtMinDraw = aCtMinDraw;
-	}
-
-	/** Returns a short string that describes this configuration. */
-	uDesc() {
-		return `${this.CtMinStart}-${this.DropCt}-${this.CtMinDraw}`;
-	}
-}
-
-/** Stores configuration data for all the pools used to generate a board. This
+/** Stores configuration data for the die pool used to generate a board. This
  *  class is immutable. */
 export class tConfigPoolDie {
 	/** Returns a new instance containing default values. This is the original
@@ -51,7 +31,7 @@ export class tConfigPoolDie {
 		if (aSetup.Yield.End < 20)
 			oConfig = new tConfigPoolDie(1.0, 4.0, 0.1, 8.0, 6.0, 0.1)
 		else if (aSetup.Yield.End < 40)
-			oConfig = new tConfigPoolDie(1.0, 4.0, 0.1, 3, 4.0, 0.1)
+			oConfig = new tConfigPoolDie(1.0, 4.0, 0.1, 3.0, 4.0, 0.1)
 		else oConfig = tConfigPoolDie.suDef();
 		return oConfig;
 	}
@@ -60,7 +40,9 @@ export class tConfigPoolDie {
 		aCtMinStartVow, aDropCtVow, aCtMinDrawVow,
 		aCtMinStartConson, aDropCtConson, aCtMinDrawConson
 	) {
+		/** The vowel text pool. */
 		this.Vow = new tConfigPoolText(aCtMinStartVow, aDropCtVow, aCtMinDrawVow);
+		/** The consonant text pool. */
 		this.Conson = new tConfigPoolText(
 			aCtMinStartConson, aDropCtConson, aCtMinDrawConson
 		);
@@ -73,8 +55,9 @@ export class tConfigPoolDie {
 	}
 }
 
-/** Stores a pool of text values, which can be drawn randomly as `tDie`
- *  instances to produce a board. This class is mutable. */
+/** Stores two pools of text values, which can be drawn randomly as `tDie`
+ *  instances to produce a board. Set `aConfig` to a `tConfigPoolDie` instance
+ *  that determines counts within the pools. This class is mutable. */
 export class tPoolDie {
 	constructor(aGenRnd, aConfig) {
 		if (!aConfig)
@@ -162,66 +145,3 @@ export class tPoolDie {
 	}
 }
 
-/** Derives a new counts object from `aCtsBaseByText`, with each count equal
- *  to `aCtMinStart` or greater. */
-function uCtsAdjFromBase(aCtsBaseByText, aCtMinStart) {
-	const oCtsAdj = { ...aCtsBaseByText };
-	for (const on in oCtsAdj) {
-		if (oCtsAdj[on] < aCtMinStart) oCtsAdj[on] = aCtMinStart;
-	}
-	return oCtsAdj;
-}
-
-/** Stores a pool of text values, which can then be drawn one by one. Each value
- *  has a count, which is decremented when the value is drawn. If a count
- *  reaches zero, the associated value will be drawn no more.
- *
- *  This class is mutable. */
-class tPoolText {
-	/** Returns the total value count in the specified entries object. */
-	static suCt(aCtsByText) {
-		const ouSum = (aTtl, aVal) => (aTtl + aVal);
-		const oCt = Object.values(aCtsByText).reduce(ouSum);
-		if (isNaN(oCt))
-			throw Error("tPoolText.suCt: Invalid count");
-		return oCt;
-	}
-
-	/** Creates a new pool containing text values and counts derived from the
-	 *  `tConfigPoolText` instance `aConfig`. */
-	constructor(aGenRnd, aCtsBaseByText, aConfig) {
-		this._GenRnd = aGenRnd;
-		this._Config = aConfig;
-
-		/** An object that associates text values with counts, which minimum
-		 *  starting counts applied. These counts will be decremented as the values
-		 *  are drawn. */
-		this._CtsByText = uCtsAdjFromBase(aCtsBaseByText, aConfig.CtMinStart);
-		/** The total value count available to be drawn. */
-		this._Ct = tPoolText.suCt(this._CtsByText);
-	}
-
-	/** Selects and returns a random text value, after decrementing its count. */
-	uDraw() {
-		let oPosDraw = this._GenRnd.uFloat() * this._Ct;
-		for (const onText in this._CtsByText) {
-			oPosDraw -= this._CtsByText[onText];
-			if (oPosDraw < 0) {
-				const oCtOld = this._CtsByText[onText];
-				const oCtNew = Math.max(
-					(oCtOld - this._Config.DropCt),
-					this._Config.CtMinDraw
-				);
-
-				this._Ct += (oCtNew - oCtOld);
-				this._CtsByText[onText] = oCtNew;
-				return onText;
-			}
-		}
-		throw Error("tPoolText.uDraw: Pool exhausted");
-	}
-}
-
-export const ForTest = {
-	tPoolText
-};

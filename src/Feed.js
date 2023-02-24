@@ -215,7 +215,7 @@ class tFeed {
 	}
 }
 
-/** Uses selector aSelEl to find the element in the document, sets its volume,
+/** Uses selector `aSelEl` to find the element in the document, sets its volume,
  *  and then returns it, throwing instead if the element cannot be found. */
 function uReady_Aud(aSelEl, aVol) {
 	const oEl = document.querySelector(aSelEl);

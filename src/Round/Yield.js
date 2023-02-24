@@ -12,6 +12,7 @@ import { tRg } from "../Util/Rg.js";
 
 /** Yield ranges to be offered to the user. */
 export const Vals = [
+	// I guess we're storing arrays here in case another is added?:
 	[new tRg(1, 10)],
 	[new tRg(1, 20)],
 	[new tRg(1, 40)],
@@ -22,7 +23,10 @@ export const Vals = [
 Object.freeze(Vals);
 
 /** The `Vals` index of the default yield. */
-const jValDef = 2;
+//
+// Defining the default this way causes trouble when the array is modified:
+// [refactor]
+const jValDef = 5;
 
 /** Returns the default yield range. */
 export function uDef() {
@@ -37,7 +41,7 @@ export function uIdxValMatchOrDef(aSetup) {
 	return jValDef;
 }
 
-/** Returns a description of the specified yield range. */
+/** Returns a description of the yield range at the specified `Vals` index. */
 export function uDesc(ajYield) {
 	const oYield = Vals[ajYield][0];
 	if (!isFinite(oYield.Start))

@@ -25,12 +25,12 @@ export class tBoard {
 
 	/** Returns a new, random board, with dice produced by the specified
 	 *  `tConfigPoolDie` instance. */
-	static suNewRnd(aGenRnd, aConfigPool) {
-		if (!aConfigPool)
-			throw Error("tBoard.suNewRnd: Configuration not provided");
+	static suNewRnd(aGenRnd, aConfigPoolDie) {
+		if (!aConfigPoolDie)
+			throw Error("tBoard.suNewRnd: Pool configuration not provided");
 
 		const oDice = [];
-		const oPool = new tPoolDie(aGenRnd, aConfigPool);
+		const oPool = new tPoolDie(aGenRnd, aConfigPoolDie);
 		for (let o = 0; o < Const.CtDie; ++o)
 			oDice.push(oPool.uDraw())
 		return new tBoard(oDice);

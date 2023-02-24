@@ -23,14 +23,14 @@ onmessage = function (aMsg) {
 		const oTextSetup = oSetup.uTextShortYield() + " / " + oSetup.uTextShortPace();
 		console.log(`Generating '${oTextSetup}' board...`);
 
-		const oConfigPool = tConfigPoolDie.suFromSetup(oSetup);
-		console.log("~ " + oConfigPool.uDesc());
+		const oConfigPools = tConfigPoolDie.suFromSetup(oSetup);
+		console.log("~ " + oConfigPools.uDesc());
 
 		let oBoard;
 		let oCard;
 		let oj = 0;
 		while (true) {
-			oBoard = tBoard.suNewRnd(oGenRnd, oConfigPool);
+			oBoard = tBoard.suNewRnd(oGenRnd, oConfigPools);
 			const oSels = SearchBoard.uExec(aMsg.data.WordsSearch, oBoard);
 			oCard = tCard.suFromSelsBoard(oSels);
 			if (oSetup.Yield.uCkContain(oCard.Score)) {

@@ -17,10 +17,10 @@ import * as Text from "../Util/Text.js";
 // ------
 // In the desktop app, this type stored settings values that referenced specific
 // UI selections (particularly slider positions) and translated those on demand
-// into real data, such as word count ranges or time bonuses. That approach
-// makes it difficult to change settings options later, however, so this class
-// stores settings in real terms, and lets the UI map those onto UI selections
-// at display time. The UI can select a default if this data fails to match the
+// into real data, such as word count ranges or time bonuses. That approach made
+// it difficult to change settings options later, however, so this class stores
+// settings in real terms, and lets the UI map those onto UI selections at
+// display time. The UI can select a default if this data fails to match the
 // selections on offer.
 
 /** Stores the setup options for one round. This class is immutable. */
@@ -38,7 +38,7 @@ export class tSetup {
 
 	/** Returns a new instance containing default values. */
 	static suDef() {
-		const [oPaceStart, oPaceBonus] = Pace.uDef();;
+		const [oPaceStart, oPaceBonus] = Pace.uDef();
 		return new tSetup(Yield.uDef(), oPaceStart, oPaceBonus);
 	}
 
