@@ -8,7 +8,7 @@
 //   import { tBoard } from "../Board.js";
 //
 
-import { tPoolDie } from "./PoolDie.js";
+import { tConfigPoolDie, tPoolDie } from "./PoolDie.js";
 import { tDie } from "./Die.js";
 import * as Const from "../Const.js";
 
@@ -23,10 +23,14 @@ export class tBoard {
 		return new tBoard(oDice);
 	}
 
-	/** Returns a new, random board. */
-	static suNewRnd(aGenRnd) {
+	/** Returns a new, random board, with dice produced by the specified
+	 *  `tConfigPoolDie` instance. */
+	static suNewRnd(aGenRnd, aConfigPool) {
+		if (!aConfigPool)
+			throw Error("tBoard.suNewRnd: Configuration not provided");
+
 		const oDice = [];
-		const oPool = new tPoolDie(aGenRnd);
+		const oPool = new tPoolDie(aGenRnd, aConfigPool);
 		for (let o = 0; o < Const.CtDie; ++o)
 			oDice.push(oPool.uDraw())
 		return new tBoard(oDice);

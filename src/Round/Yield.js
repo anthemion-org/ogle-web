@@ -12,6 +12,7 @@ import { tRg } from "../Util/Rg.js";
 
 /** Yield ranges to be offered to the user. */
 export const Vals = [
+	[new tRg(1, 10)],
 	[new tRg(1, 20)],
 	[new tRg(1, 40)],
 	[new tRg(60, 100)],

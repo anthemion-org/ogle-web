@@ -23,7 +23,7 @@ export class tArr2 {
 		const oCt = aSize.X * aSize.Y;
 		if (oSrc) {
 			if (oSrc.length !== oCt)
-				throw Error("tArr2.constructor: Source dimensions do not match");
+				throw Error("tArr2: Source dimensions do not match");
 
 			/** The linear array that backs this instance. */
 			this._Els = Array.from(oSrc);

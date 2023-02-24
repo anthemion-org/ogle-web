@@ -3,7 +3,7 @@
 // Copyright ©2022 Jeremy Kelly
 // www.anthemion.org
 
-import { tPoolDie, ForTest } from "./PoolDie.js";
+import { tConfigPoolDie, tPoolDie, ForTest } from "./PoolDie.js";
 import { tGenRnd } from "../Util/Rnd.js";
 
 const SeedText = "OGLE";
@@ -13,7 +13,8 @@ const SeedText = "OGLE";
 
 test("tPoolDie: Draw all", () => {
 	const oGenRnd = new tGenRnd(SeedText);
-	const oPoolDie = new tPoolDie(oGenRnd);
+	const oConfigPool = tConfigPoolDie.suDef();
+	const oPoolDie = new tPoolDie(oGenRnd, oConfigPool);
 
 	for (let oj = 0; oj < 25; ++oj)
 		oPoolDie.uDraw();

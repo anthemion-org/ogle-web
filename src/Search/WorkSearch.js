@@ -5,6 +5,7 @@
 
 // Shouldn't this be called `WorkBoardCreate`, or something similar? [refactor]
 
+import { tConfigPoolDie } from "../Board/PoolDie.js";
 import { tSetup } from "../Round/Setup.js";
 import { tBoard } from "../Board/Board.js";
 import * as SearchBoard from "./SearchBoard.js";
@@ -22,15 +23,19 @@ onmessage = function (aMsg) {
 		const oTextSetup = oSetup.uTextShortYield() + " / " + oSetup.uTextShortPace();
 		console.log(`Generating '${oTextSetup}' board...`);
 
+		const oConfigPool = tConfigPoolDie.suFromSetup(oSetup);
+		console.log("~ " + oConfigPool.uDesc());
+
 		let oBoard;
 		let oCard;
 		let oj = 0;
 		while (true) {
-			oBoard = tBoard.suNewRnd(oGenRnd);
+			oBoard = tBoard.suNewRnd(oGenRnd, oConfigPool);
 			const oSels = SearchBoard.uExec(aMsg.data.WordsSearch, oBoard);
 			oCard = tCard.suFromSelsBoard(oSels);
 			if (oSetup.Yield.uCkContain(oCard.Score)) {
 				console.log("Accepting board number " + (oj + 1));
+				console.log(`~ ${oCard.Score} words`);
 				break;
 			}
 

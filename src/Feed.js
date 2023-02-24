@@ -74,8 +74,8 @@
 import { tTimer } from "./Util/Timer.js";
 import * as Misc from "./Util/Misc.js";
 
-/** Provides audio or haptic feedback for various application events. This class
- *  is mutable. */
+/** Provides audio or haptic feedback appropriate for various application
+ *  events. This class is mutable. */
 class tFeed {
 	constructor() {
 		/** Set to `true` if the app is running on a mobile device. */
