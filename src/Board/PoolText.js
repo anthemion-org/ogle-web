@@ -24,7 +24,7 @@ export class tConfigPoolText {
 
 	/** Returns a short string that describes this configuration. */
 	uDesc() {
-		return `${this.CtMinStart}-${this.DropCt}-${this.CtMinDraw}`;
+		return `${this.CtMinStart}/${this.DropCt}/${this.CtMinDraw}`;
 	}
 }
 

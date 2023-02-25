@@ -12,7 +12,8 @@ import { tRg } from "../Util/Rg.js";
 
 /** Yield ranges to be offered to the user. */
 export const Vals = [
-	// I guess we're storing arrays here in case another is added?:
+	// I guess we're storing arrays here in case another value is needed, as in
+	// the pace elements?:
 	[new tRg(1, 10)],
 	[new tRg(1, 20)],
 	[new tRg(1, 40)],

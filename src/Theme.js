@@ -19,4 +19,10 @@ export const All = [
 Object.freeze(All);
 
 /** The default theme object. */
-export const Def = ThemeDk;;
+export const Def = ThemeDk;
+
+/** Returns the CSS class that implements the specified theme, or the class for
+ *  the default theme, if `aNameTheme` is falsy. */
+export function ClassFromName(aNameTheme) {
+	return "Theme" + (aNameTheme || Def.Name);
+}
