@@ -71,7 +71,7 @@ function _uRead_Plains() {
 		if (!onFull.startsWith(_PrefixNameStore)) continue;
 
 		const onBase = onFull.slice(_PrefixNameStore.length);
-		oPlains[onBase] = JSON.parse(localStorage[onFull]);
+		oPlains[onBase] = JSON.parse(localStorage.getItem(onFull));
 	}
 	return oPlains;
 }
@@ -79,6 +79,7 @@ function _uRead_Plains() {
 /** Writes the specified value to the local storage, after prefixing `an` with
  *  `_PrefixNameStore`. Also updates the `VerApp` value. */
 function _uWrite_Val(an, aVal) {
-	localStorage[_PrefixNameStore + "VerApp"] = JSON.stringify(Pack.version);
-	localStorage[_PrefixNameStore + an] = JSON.stringify(aVal);
+	localStorage.setItem(_PrefixNameStore + "VerApp",
+		JSON.stringify(Pack.version));
+	localStorage.setItem(_PrefixNameStore + an, JSON.stringify(aVal));
 }
