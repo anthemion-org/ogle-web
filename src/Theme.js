@@ -1,5 +1,5 @@
 // Theme.js
-// --------
+// ========
 // Copyright ©2023 Jeremy Kelly
 // www.anthemion.org
 //

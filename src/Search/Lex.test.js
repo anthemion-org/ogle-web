@@ -1,13 +1,13 @@
 // Lex.test.js
-// -----------
+// ===========
 // Copyright ©2022 Jeremy Kelly
 // www.anthemion.org
 
 import { ForTest } from "./Lex.js";
-import * as Store from "../Store.js";
+import * as StoreLoc from "../StoreLoc.js";
 
 test("tLex: Add user words and merge", () => {
-	Store.uSet("WordsUser", []);
+	StoreLoc.uSet("WordsUser", []);
 
 	const oLex = new ForTest.tLex();
 	const oCtOrig = oLex.WordsSearch.length;
@@ -21,7 +21,7 @@ test("tLex: Add user words and merge", () => {
 
 test("tLex.uCkKnown: Old and new user words", () => {
 	const oWordUserOld = "oooooooo";
-	Store.uSet("WordsUser", [oWordUserOld]);
+	StoreLoc.uSet("WordsUser", [oWordUserOld]);
 
 	const oLex = new ForTest.tLex();
 

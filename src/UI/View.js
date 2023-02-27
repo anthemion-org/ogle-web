@@ -1,5 +1,5 @@
 // View.js
-// -------
+// =======
 // Copyright ©2022 Jeremy Kelly
 // www.anthemion.org
 //
@@ -18,7 +18,7 @@ import { tCfg } from "../Cfg.js";
 import { tSetup } from "../Round/Setup.js";
 import { tBoard } from "../Board/Board.js";
 import { tCard } from "../Round/Card.js";
-import * as Store from "../Store.js";
+import * as StoreLoc from "../StoreLoc.js";
 
 import { React } from "react";
 import PropTypes from "prop-types";
@@ -59,15 +59,15 @@ export default function View(aProps) {
 			return <ViewAbout {...aProps} />;
 
 		case StsApp.Play: {
-			const oSetup = tSetup.suFromPlain(Store.uGetPlain("Setup"));
+			const oSetup = tSetup.suFromPlain(StoreLoc.uGetPlain("Setup"));
 			return <ViewPlay {...aProps} Setup={oSetup} />;
 		}
 
 		case StsApp.Score: {
-			const oSetup = tSetup.suFromPlain(Store.uGetPlain("Setup"));
-			const oBoard = tBoard.suFromPlain(Store.uGetPlain("Board"));
-			const oCardOgle = tCard.suFromPlain(Store.uGetPlain("CardOgle"));
-			const oCardUser = tCard.suFromPlain(Store.uGetPlain("CardUser"));
+			const oSetup = tSetup.suFromPlain(StoreLoc.uGetPlain("Setup"));
+			const oBoard = tBoard.suFromPlain(StoreLoc.uGetPlain("Board"));
+			const oCardOgle = tCard.suFromPlain(StoreLoc.uGetPlain("CardOgle"));
+			const oCardUser = tCard.suFromPlain(StoreLoc.uGetPlain("CardUser"));
 			return <ViewScore {...aProps} Setup={oSetup} Board={oBoard}
 				CardOgle={oCardOgle} CardUser={oCardUser} />;
 		}

@@ -1,5 +1,5 @@
 // DlgNamePlay.js
-// --------------
+// ==============
 // Copyright ©2022 Jeremy Kelly
 // www.anthemion.org
 //
@@ -10,7 +10,7 @@
 
 import "./DlgNamePlay.css";
 import Btn from "./Btn.js";
-import * as Store from "../Store.js";
+import * as StoreLoc from "../StoreLoc.js";
 import StsApp from "../StsApp.js";
 
 import { React, useState, useEffect } from "react";
@@ -40,7 +40,7 @@ export default function DlgNamePlay(aProps) {
 	const [oName, ouSet_Name] = useState(uNameLast());
 
 	function ouStore_Name() {
-		Store.uSet("NamePlayLast", oName);
+		StoreLoc.uSet("NamePlayLast", oName);
 	}
 	useEffect(ouStore_Name, [oName]);
 
@@ -87,5 +87,5 @@ export default function DlgNamePlay(aProps) {
 }
 
 function uNameLast() {
-	return Store.uGetPlain("NamePlayLast") || "";
+	return StoreLoc.uGetPlain("NamePlayLast") || "";
 }

@@ -1,7 +1,0 @@
-Temp
-====
-Add parameter checks
-
-
-
-	console.log(`Updating local storage '${an}'...`);

@@ -1,5 +1,5 @@
 // ViewPlay.js
-// -----------
+// ===========
 // Copyright ©2022 Jeremy Kelly
 // www.anthemion.org
 //
@@ -20,7 +20,7 @@ import DlgHelp from "./DlgHelp.js";
 import DlgVerWord from "./DlgVerWord.js";
 import Lex from "../Search/Lex.js";
 import Feed from "../Feed.js";
-import * as Store from "../Store.js";
+import * as StoreLoc from "../StoreLoc.js";
 import * as Const from "../Const.js";
 
 import { React, useState, useEffect } from "react";
@@ -147,7 +147,7 @@ export default function ViewPlay(aProps) {
 
 	/** Stores the elapsed time. */
 	function ouStore_TimeElap() {
-		Store.uSet("TimeElap", oTimeElap);
+		StoreLoc.uSet("TimeElap", oTimeElap);
 	}
 	useEffect(ouStore_TimeElap, [oTimeElap]);
 
@@ -232,8 +232,8 @@ export default function ViewPlay(aProps) {
 
 	/** Stores the board and the associated Ogle scorecard. */
 	function ouStore_Board() {
-		Store.uSet("Board", oBoard);
-		Store.uSet("CardOgle", oCardOgle);
+		StoreLoc.uSet("Board", oBoard);
+		StoreLoc.uSet("CardOgle", oCardOgle);
 	}
 	useEffect(ouStore_Board, [oBoard, oCardOgle]);
 
@@ -417,7 +417,7 @@ export default function ViewPlay(aProps) {
 			// unless the left mouse button happened to be down when the right was
 			// pressed. I don't care much about audio feedback in this event, so we
 			// will skip it for now. See the comments in `LookDie.js` for more on
-			// this.
+			// this:
 			return;
 		}
 
@@ -452,7 +452,7 @@ export default function ViewPlay(aProps) {
 
 	/** Stores the user scorecard. */
 	function ouStore_CardUser() {
-		Store.uSet("CardUser", oCardUser);
+		StoreLoc.uSet("CardUser", oCardUser);
 	}
 	useEffect(ouStore_CardUser, [oCardUser]);
 
@@ -592,21 +592,21 @@ function uTimeRemain(aSetup, aCtBonus, aTimeElap) {
 }
 
 function uBoardInit() {
-	return tBoard.suFromPlain(Store.uGetPlain("Board"));
+	return tBoard.suFromPlain(StoreLoc.uGetPlain("Board"));
 }
 
 function uCardOgleInit() {
-	return tCard.suFromPlain(Store.uGetPlain("CardOgle"));
+	return tCard.suFromPlain(StoreLoc.uGetPlain("CardOgle"));
 }
 
 function uCardUserInit() {
-	return tCard.suFromPlain(Store.uGetPlain("CardUser")) || tCard.suNew();
+	return tCard.suFromPlain(StoreLoc.uGetPlain("CardUser")) || tCard.suNew();
 }
 
 function uStPlayInit() {
-	return Store.uGetPlain("Board") ? StsPlay.Pause : StsPlay.Play;
+	return StoreLoc.uGetPlain("Board") ? StsPlay.Pause : StsPlay.Play;
 }
 
 function uTimeElapInit() {
-	return Store.uGetPlain("TimeElap") || 0;
+	return StoreLoc.uGetPlain("TimeElap") || 0;
 }

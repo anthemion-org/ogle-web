@@ -1,5 +1,5 @@
 // ViewSetup.js
-// ------------
+// ============
 // Copyright ©2022 Jeremy Kelly
 // www.anthemion.org
 //
@@ -12,7 +12,7 @@ import "./ViewSetup.css";
 import Logo from "./Logo.js";
 import Slide from "./Slide.js";
 import Btn from "./Btn.js";
-import * as Store from "../Store.js";
+import * as StoreLoc from "../StoreLoc.js";
 import StsApp from "../StsApp.js";
 import * as Yield from "../Round/Yield.js";
 import * as Pace from "../Round/Pace.js";
@@ -51,7 +51,7 @@ export default class ViewSetup extends React.Component {
 	constructor(aProps) {
 		super(aProps);
 
-		const oSetupInit = tSetup.suFromPlain(Store.uGetPlain("Setup"));
+		const oSetupInit = tSetup.suFromPlain(StoreLoc.uGetPlain("Setup"));
 		this.state = {
 			...this.props.Cfg,
 			/** The selected `Yield.Vals` index. */
@@ -75,7 +75,7 @@ export default class ViewSetup extends React.Component {
 
 	/** Stores the setup selected in this view. */
 	uStore_Setup() {
-		Store.uSet("Setup", this.uSetup());
+		StoreLoc.uSet("Setup", this.uSetup());
 	}
 
 	/** Returns a `tSetup` instance representing the setup selected in this view. */

@@ -1,5 +1,5 @@
 // ViewScore.js
-// ------------
+// ============
 // Copyright ©2022 Jeremy Kelly
 // www.anthemion.org
 //
@@ -20,12 +20,20 @@ import { StatsWord, uScoresCoversFromCards } from "../Round/ScoreWord.js";
 import { tScorePlay } from "../Round/ScorePlay.js";
 import { tScoresHigh } from "../Round/ScoresHigh.js";
 import Feed from "../Feed.js";
-import * as Store from "../Store.js";
+import {
+	ScorePlayNew,
+	uSelNamePlayLast,
+	uSelScoresHigh,
+	Set_NamePlayLast,
+	Add_ScoreHigh
+} from "../Store/SliceScore.js";
+import * as StoreLoc from "../StoreLoc.js";
 import * as Const from "../Const.js";
 import * as Misc from "../Util/Misc.js";
 
 import { React, useState, useEffect } from "react";
 import PropTypes from "prop-types";
+import { useSelector, useDispatch } from "react-redux";
 
 // ViewScore
 // ---------
@@ -55,17 +63,20 @@ ViewScore.propTypes = {
  *    This prop is required.
  */
 export default function ViewScore(aProps) {
+	const ouDispatch = useDispatch();
+	const oScoresHigh = useSelector(uSelScoresHigh);
+
 	/** A `tScoresHigh` instance that records all high score data. */
-	const [oScoresHigh, ouSet_ScoresHigh] = useState(() => uScoresHighInit());
+	const [oScoresHighLoc, ouSet_ScoresHighLoc] = useState(() => uScoresHighInit());
 	/** Set to the `tScoreWord` that is being displayed in the Word Score dialog,
 	 *  or `null` if no entry is being displayed. */
 	const [oScoreWord, ouSet_ScoreWord] = useState(null);
 
 	/** Stores the high score data. */
 	function ouStore_ScoresHigh() {
-		Store.uSet("ScoresHigh", oScoresHigh);
+		StoreLoc.uSet("ScoresHigh", oScoresHighLoc);
 	}
-	useEffect(ouStore_ScoresHigh, [oScoresHigh]);
+	useEffect(ouStore_ScoresHigh, [oScoresHighLoc]);
 
 	// Compare player cards
 	// --------------------
@@ -136,12 +147,20 @@ export default function ViewScore(aProps) {
 		aName = aName.trim();
 
 		const oFracPerc = aProps.CardUser.Score / aProps.CardOgle.Score;
-		const oScore = new tScorePlay(aProps.CardUser.TimeStart, aName, oFracPerc);
-		ouSet_ScoresHigh(a => a.uCloneAdd(aProps.Setup, oScore));
+
+		const oScoreLoc = new tScorePlay(aProps.CardUser.TimeStart, aName, oFracPerc);
+		ouSet_ScoresHighLoc(a => a.uCloneAdd(aProps.Setup, oScoreLoc));
+
+		const oScore = ScorePlayNew(aProps.CardUser.TimeStart, aName, oFracPerc);
+		const oAct = Add_ScoreHigh({
+			TagSetup: aProps.Setup.uTag(),
+			ScorePlay: oScore
+		});
+		ouDispatch(oAct);
 	}
 
 	function ouDlgNamePlay() {
-		if (!oScoresHigh.uCkHigh(aProps.Setup, aProps.CardUser, aProps.CardOgle))
+		if (!oScoresHighLoc.uCkHigh(aProps.Setup, aProps.CardUser, aProps.CardOgle))
 			return null;
 
 		return (
@@ -227,7 +246,7 @@ export default function ViewScore(aProps) {
 	function ouLinesScoreHigh() {
 		const oCtRow = Const.CtStoreScoreHigh;
 		const oTag = aProps.Setup.uTag();
-		const oScores = oScoresHigh.uScores(oTag).slice(0, (oCtRow + 1));
+		const oScores = oScoresHighLoc.uScores(oTag).slice(0, (oCtRow + 1));
 		if (oScores.length < oCtRow) {
 			const oBlanks = Misc.uGen_Arr((oCtRow - oScores.length), null);
 			oScores.push(...oBlanks);
@@ -335,5 +354,5 @@ export default function ViewScore(aProps) {
 }
 
 function uScoresHighInit() {
-	return tScoresHigh.suFromPlain(Store.uGetPlain("ScoresHigh"));
+	return tScoresHigh.suFromPlain(StoreLoc.uGetPlain("ScoresHigh"));
 }

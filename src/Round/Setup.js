@@ -1,5 +1,5 @@
 // Setup.js
-// --------
+// ========
 // Copyright ©2022 Jeremy Kelly
 // www.anthemion.org
 //
@@ -55,6 +55,8 @@ export class tSetup {
 
 	/** Returns a short string that summarizes the values in this instance. */
 	uTag() {
+		// This output must not change! High scores are marked with these values in
+		// the local storage, and changing them would cause those scores to be lost:
 		return `Y:(${this.Yield.uTag()}) `
 			+ `PS:${this.PaceStart} PB:${this.PaceBonus}`;
 	}

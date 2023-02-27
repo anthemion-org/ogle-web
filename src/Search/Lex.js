@@ -1,5 +1,5 @@
 // Lex.js
-// ------
+// ======
 // Copyright ©2022 Jeremy Kelly
 // www.anthemion.org
 //
@@ -9,7 +9,7 @@
 //
 
 import * as Search from "../Util/Search.js";
-import * as Store from "../Store.js";
+import * as StoreLoc from "../StoreLoc.js";
 
 // This import adds almost one half-second to the test time. Is it that slow in
 // the browser? [optimize]
@@ -38,7 +38,7 @@ import WordsOgle from "./WordsOgle.json";
 class tLex {
 	constructor() {
 		/** An array of strings representing all user-entered words. */
-		this.WordsUser = Store.uGetPlain("WordsUser");
+		this.WordsUser = StoreLoc.uGetPlain("WordsUser");
 		this.WordsUser.sort(Search.uCompareStrFast);
 
 		/** An array of strings representing all searchable words. This array will
@@ -78,7 +78,7 @@ class tLex {
 	uAdd_WordUser(aWord) {
 		this.WordsUser.push(aWord);
 		this.WordsUser.sort(Search.uCompareStrFast);
-		Store.uSet("WordsUser", this.WordsUser);
+		StoreLoc.uSet("WordsUser", this.WordsUser);
 
 		this.WordsUserPend.push(aWord);
 		this.WordsUserPend.sort(Search.uCompareStrFast);

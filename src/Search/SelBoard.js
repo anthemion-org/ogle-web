@@ -1,5 +1,5 @@
 // SelBoard.js
-// -----------
+// ===========
 // Copyright ©2022 Jeremy Kelly
 // www.anthemion.org
 //

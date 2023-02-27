@@ -1,5 +1,5 @@
 // App.js
-// ------
+// ======
 // Copyright ©2022 Jeremy Kelly
 // www.anthemion.org
 
@@ -8,7 +8,7 @@
 //   import App from "./App.js";
 //
 
-import * as Store from "./Store.js";
+import * as StoreLoc from "./StoreLoc.js";
 import StsApp from "./StsApp.js";
 import BackPage from "./UI/BackPage.js";
 import View from "./UI/View.js";
@@ -19,14 +19,20 @@ import { React, useState, useReducer, useEffect } from "react";
 /** The top-level application component, to be placed in the Root element within
  *  'index.html'. */
 export default function App() {
-	const oCfgInit = Store.uGetPlain("Cfg");
+	const oCfgInit = StoreLoc.uGetPlain("Cfg");
 	const [oCfg, ouUpd_Cfg] = useState(oCfgInit);
 
-	const oStAppInit = Store.uGetPlain("StApp");
+	const oStAppInit = StoreLoc.uGetPlain("StApp");
 	const [oStApp, ouUpd_StApp] = useReducer(uNextStApp, oStAppInit);
 
-	useEffect(() => Store.uSet("Cfg", oCfg), [oCfg,]);
-	useEffect(() => Store.uSet("StApp", oStApp), [oStApp]);
+	useEffect(
+		() => StoreLoc.uSet("Cfg", oCfg),
+		[oCfg,]
+	);
+	useEffect(
+		() => StoreLoc.uSet("StApp", oStApp),
+		[oStApp]
+	);
 
 	return (
 		<div id="ContainTheme" className={Theme.ClassFromName(oCfg?.NameTheme)}>
@@ -46,10 +52,10 @@ function uNextStApp(aSt, aAct) {
 
 	switch (aAct) {
 		case StsApp.PlayInit: {
-			Store.uSet("Board", null);
-			Store.uSet("CardOgle", null);
-			Store.uSet("CardUser", null);
-			Store.uSet("TimeElap", 0);
+			StoreLoc.uSet("Board", null);
+			StoreLoc.uSet("CardOgle", null);
+			StoreLoc.uSet("CardUser", null);
+			StoreLoc.uSet("TimeElap", 0);
 			return StsApp.Play;
 		}
 

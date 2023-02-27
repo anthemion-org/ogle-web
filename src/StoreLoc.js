@@ -1,11 +1,11 @@
-// Store.js
-// --------
+// StoreLoc.js
+// ===========
 // Copyright ©2022 Jeremy Kelly
 // www.anthemion.org
 
 // Import with:
 //
-//   import * as Store from "./Store.js";
+//   import * as StoreLoc from "./StoreLoc.js";
 //
 
 // This module persists user data as JSON in the browser's local storage. It
@@ -27,6 +27,29 @@ import { tSetup } from "./Round/Setup.js";
 // This exposes 'package.json' to the client, which is said to have security
 // implications in some cases. Ours is already open to the public:
 import Pack from "../package.json";
+
+/** Reads the specified value from local storage, after prefixing the name with
+ *  `_PrefixNameStore`. */
+export function uRead(an) {
+	const onFull = _PrefixNameStore + an;
+	const oJSON = localStorage.getItem(onFull);
+	return (oJSON === null) ? undefined : JSON.parse(oJSON);
+}
+
+/** Writes the specified value to the local storage, after prefixing `an` with
+ *  `_PrefixNameStore`. Also updates the `VerApp` value. */
+export function uWrite(an, aVal) {
+	localStorage.setItem(_PrefixNameStore + "VerApp",
+		JSON.stringify(Pack.version));
+	localStorage.setItem(_PrefixNameStore + an, JSON.stringify(aVal));
+}
+
+
+
+
+
+
+
 
 /** Returns a plain representation of the stored value or object with name `an`,
  *  or the default value, if there is a default, or 'undefined'. */

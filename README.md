@@ -24,7 +24,7 @@ The Ogle word lists derive from [SCOWL](https://wordlist.sourceforge.net/), copy
 
 The Ogle source code uses a new identifier naming convention I am developing. This convention was inspired by the [Split notation](https://www.anthemion.org/split_notation.html) I use with C# and C++, but JavaScript differs so much from those languages, it seems impossible to make the notations compatible.
 
-Every identifer begins with zero or more prefixes, in the following order, with at most one prefix selected from each table:
+Every identifier begins with zero or more prefixes, in the following order, with at most one prefix selected from each table:
 
 | Prefix | Meaning                                |
 |:------:|----------------------------------------|
@@ -104,10 +104,18 @@ Longer words are abbreviated within identifiers, file and folder names, _et cete
 
 [todo]
 
+Value stored in component state
+	Starting value read from local storage
+		Default value defined in component, used if not in local storage
+		Various 'Init' functions convert plain data to typed, return default if necessary
+State value updated by component
+	`useEffect` updates local storage when state value changes
+		Default value not saved, needn't persist
+
 
 #### Plain data and persistence
 
-Ogle persists user data as JSON in the browser’s local storage. The `Store` module uses `JSON.parse` to deserialize the stored JSON. This produces two problems:
+Ogle persists user data as JSON in the browser’s local storage. The `StoreLoc` module uses `JSON.parse` to deserialize the stored JSON. This produces two problems:
 
 - `JSON.parse` restores the properties of objects, but not their classes;
 

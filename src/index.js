@@ -1,10 +1,13 @@
 // index.js
-// --------
+// ========
 // Copyright ©2022 Jeremy Kelly
 // www.anthemion.org
 
+import Store from "./Store/Store.js";
+
 import React from "react";
 import ReactDOM from "react-dom";
+import { Provider } from "react-redux";
 import ReportPerform from "./ReportPerform";
 
 import "./index.css";
@@ -14,7 +17,9 @@ import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
 ReactDOM.render(
 	<React.StrictMode>
-		<App />
+		<Provider store={Store}>
+			<App />
+		</Provider>
 	</React.StrictMode>,
 	document.getElementById("Root")
 );
