@@ -8,6 +8,8 @@ import * as Persist from "../Persist.js";
 
 import { configureStore } from "@reduxjs/toolkit";
 
+// All slice-level values must have names that are unique across all slices! See
+// `_uPersist_Store` for more on that:
 const Store = configureStore({
 	reducer: {
 		Score: SliceScore.reducer
@@ -23,47 +25,73 @@ export default Store;
 // Data should not be added to the store unless it is shared by two or more
 // components. Shared data is likely to require persistence, so we will persist
 // everything by default:
-const NamesPersistSkip = [];
+const _NamesPersistSkip = [];
 
-/** All values that have been persisted by `Persist_Store`. */
+/** Returns an object containing all slice-level values in the store, without
+ *  the slice objects themselves. */
+function _uValsStore() {
+	const oVals = {};
+	const oSt = Store.getState();
+	for (const onSlice in oSt) {
+		const oSlice = oSt[onSlice];
+		for (const onVal in oSlice)
+			if (!_NamesPersistSkip.includes(onVal)) oVals[onVal] = oSlice[onVal];
+	}
+	return oVals;
+}
+
+/** All values that have been persisted by `_uPersist_Store`. */
 //
-// This object start out empty, so the first store update causes all values to
-// be persisted, instead of just the one that changed. I'm not worried about it:
-const ValsPersistLast = {};
+// Without `_uValsStore()`, this object would start out empty, and the first
+// store update would cause all values to be persisted, instead of just the one
+// that changed. Not a big deal, but:
+const _ValsPersistLast = _uValsStore();
 
-function Persist_Store() {
-	Log(1, "Persisting store...");
+/** Persists recently-changed store values, excepting those in
+ * `_NamesPersistSkip`. */
+//
+// The early versions of this app did not use Redux, so there were no slice
+// names. I want to use the same local storage keys, so for now at least, I will
+// not add the slice names to them. Therefore, though slice names are normally
+// used to avoid action type collisions, values in this project must have names
+// that are unique across all slices.
+//
+// There is a Redux middleware called 'redux-persist' that apparently does
+// something like this, but it looks like overkill, and the project has 492 open
+// issues. This works fine:
+function _uPersist_Store() {
+	_Log(1, "Persisting store...");
 
 	const oSt = Store.getState();
 	for (const onSlice in oSt) {
 		const oSlice = oSt[onSlice];
 		for (const onVal in oSlice) {
-			if (NamesPersistSkip.includes(onVal)) {
-				Log(2, `Skipping value '${onVal}'...`);
+			if (_NamesPersistSkip.includes(onVal)) {
+				_Log(2, `Skipping value '${onVal}'...`);
 				continue;
 			}
 
 			const oVal = oSlice[onVal];
-			if (oVal === ValsPersistLast[onVal]) {
-				Log(2, `No change to value '${onVal}'...`);
+			if (oVal === _ValsPersistLast[onVal]) {
+				_Log(2, `No change to value '${onVal}'...`);
 				continue;
 			}
 
-			Log(2, `Writing value '${onVal}'...`);
+			_Log(2, `Writing value '${onVal}'...`);
 			Persist.uWrite(onVal, oVal);
-			ValsPersistLast[onVal] = oVal;
+			_ValsPersistLast[onVal] = oVal;
 		}
 	}
 }
-Store.subscribe(Persist_Store);
+Store.subscribe(_uPersist_Store);
 
 // Logging
 // -------
 
 /** Set to zero to disable logging in this module. */
-const LvlLog = 2;
+const _LvlLog = 2;
 
-/** Logs `aText` if `LvlLog` is `aLvlLogMin` or greater. */
-function Log(aLvlLogMin, aText) {
-	if (LvlLog >= aLvlLogMin) console.log(aText);
+/** Logs `aText` if `_LvlLog` is `aLvlLogMin` or greater. */
+function _Log(aLvlLogMin, aText) {
+	if (_LvlLog >= aLvlLogMin) console.log(aText);
 }

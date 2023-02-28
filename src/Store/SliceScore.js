@@ -25,7 +25,7 @@ import { createSlice } from "@reduxjs/toolkit";
 // - `FracPerc`: The player's percent score, as a decimal fraction.
 //
 
-/** Returns a new ScorePlay record. */
+/** Returns a ScorePlay record with the specified values. */
 export function ScorePlayNew(aTime, aName, aFracPerc) {
 	return {
 		TimeStart: aTime,
@@ -34,7 +34,7 @@ export function ScorePlayNew(aTime, aName, aFracPerc) {
 	};
 }
 
-/** Compares tScorePlay instances by FracPerc, in descending order, and then by
+/** Compares ScorePlay records by FracPerc, in descending order, and then by
  *  time, in ascending order. */
 function uCompareScorePlay(aL, aR) {
 	if (aL.FracPerc > aR.FracPerc) return -1;
@@ -87,12 +87,8 @@ function uCloneAddScoresPlay(aScoresPlayOrig, aScorePlayNew) {
 //   }
 //
 
-function ScoresHighInit() {
-	return Persist.uRead("ScoresHigh") ?? { _ByTag: {} };
-}
-
 /** Returns `true` if the specified game produced a high score that is _not_
-	*  recorded in `aScoresHigh`. */
+ *  recorded in `aScoresHigh`. */
 export function uCkHighScore(aScoresHigh, aSetup, aCardUser, aCardOgle) {
 	if (aCardUser.Score < 1) return false;
 
@@ -129,7 +125,7 @@ export const Slice = createSlice({
 		 *  the empty string if the player choose to remain anonymous. */
 		NamePlayLast: Persist.uRead("NamePlayLast") ?? "",
 		/** The ScoresHigh record. */
-		ScoresHigh: ScoresHighInit()
+		ScoresHigh: Persist.uRead("ScoresHigh") ?? { _ByTag: {} }
 	},
 
 	reducers: {
@@ -149,22 +145,14 @@ export const Slice = createSlice({
 });
 export default Slice;
 
-// If action types require a slice name (or action 'domain') to avoid name
-// collisions, then surely action creators and selectors require the same?
-// [refactor]
-
 export const { Set_NamePlayLast, Add_ScoreHigh } = Slice.actions;
 
 // Selectors
 // ---------
 
+/** Selects the name last entered by any player when a high score was recorded,
+ *  or the empty string if the player choose to remain anonymous. */
 export const uSelNamePlayLast = (aSt) => aSt.Score.NamePlayLast;
 
+/** Selects the ScoresHigh record. */
 export const uSelScoresHigh = (aSt) => aSt.Score.ScoresHigh;
-
-/** Returns an array of `tScorePlay` instances containing the scores associated
- *  with the specified `tSetup` tag. */
-export const uSelScoresFromTagSetup = (aSt, aTagSetup) => {
-	const oScores = aSt.Score.ScoresHigh._ByTag[aTagSetup];
-	return oScores ? Array.from(oScores) : [];
-}
