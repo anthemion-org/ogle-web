@@ -8,7 +8,7 @@
 //   import App from "./App.js";
 //
 
-import * as StoreLoc from "./StoreLoc.js";
+import * as Persist from "./Persist.js";
 import StsApp from "./StsApp.js";
 import BackPage from "./UI/BackPage.js";
 import View from "./UI/View.js";
@@ -19,18 +19,18 @@ import { React, useState, useReducer, useEffect } from "react";
 /** The top-level application component, to be placed in the Root element within
  *  'index.html'. */
 export default function App() {
-	const oCfgInit = StoreLoc.uGetPlain("Cfg");
+	const oCfgInit = Persist.uGetPlain("Cfg");
 	const [oCfg, ouUpd_Cfg] = useState(oCfgInit);
 
-	const oStAppInit = StoreLoc.uGetPlain("StApp");
+	const oStAppInit = Persist.uGetPlain("StApp");
 	const [oStApp, ouUpd_StApp] = useReducer(uNextStApp, oStAppInit);
 
 	useEffect(
-		() => StoreLoc.uSet("Cfg", oCfg),
+		() => Persist.uSet("Cfg", oCfg),
 		[oCfg,]
 	);
 	useEffect(
-		() => StoreLoc.uSet("StApp", oStApp),
+		() => Persist.uSet("StApp", oStApp),
 		[oStApp]
 	);
 
@@ -52,10 +52,10 @@ function uNextStApp(aSt, aAct) {
 
 	switch (aAct) {
 		case StsApp.PlayInit: {
-			StoreLoc.uSet("Board", null);
-			StoreLoc.uSet("CardOgle", null);
-			StoreLoc.uSet("CardUser", null);
-			StoreLoc.uSet("TimeElap", 0);
+			Persist.uSet("Board", null);
+			Persist.uSet("CardOgle", null);
+			Persist.uSet("CardUser", null);
+			Persist.uSet("TimeElap", 0);
 			return StsApp.Play;
 		}
 

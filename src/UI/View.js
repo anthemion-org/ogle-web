@@ -18,7 +18,7 @@ import { tCfg } from "../Cfg.js";
 import { tSetup } from "../Round/Setup.js";
 import { tBoard } from "../Board/Board.js";
 import { tCard } from "../Round/Card.js";
-import * as StoreLoc from "../StoreLoc.js";
+import * as Persist from "../Persist.js";
 
 import { React } from "react";
 import PropTypes from "prop-types";
@@ -59,15 +59,15 @@ export default function View(aProps) {
 			return <ViewAbout {...aProps} />;
 
 		case StsApp.Play: {
-			const oSetup = tSetup.suFromPlain(StoreLoc.uGetPlain("Setup"));
+			const oSetup = tSetup.suFromPlain(Persist.uGetPlain("Setup"));
 			return <ViewPlay {...aProps} Setup={oSetup} />;
 		}
 
 		case StsApp.Score: {
-			const oSetup = tSetup.suFromPlain(StoreLoc.uGetPlain("Setup"));
-			const oBoard = tBoard.suFromPlain(StoreLoc.uGetPlain("Board"));
-			const oCardOgle = tCard.suFromPlain(StoreLoc.uGetPlain("CardOgle"));
-			const oCardUser = tCard.suFromPlain(StoreLoc.uGetPlain("CardUser"));
+			const oSetup = tSetup.suFromPlain(Persist.uGetPlain("Setup"));
+			const oBoard = tBoard.suFromPlain(Persist.uGetPlain("Board"));
+			const oCardOgle = tCard.suFromPlain(Persist.uGetPlain("CardOgle"));
+			const oCardUser = tCard.suFromPlain(Persist.uGetPlain("CardUser"));
 			return <ViewScore {...aProps} Setup={oSetup} Board={oBoard}
 				CardOgle={oCardOgle} CardUser={oCardUser} />;
 		}

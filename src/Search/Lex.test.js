@@ -4,10 +4,10 @@
 // www.anthemion.org
 
 import { ForTest } from "./Lex.js";
-import * as StoreLoc from "../StoreLoc.js";
+import * as Persist from "../Persist.js";
 
 test("tLex: Add user words and merge", () => {
-	StoreLoc.uSet("WordsUser", []);
+	Persist.uSet("WordsUser", []);
 
 	const oLex = new ForTest.tLex();
 	const oCtOrig = oLex.WordsSearch.length;
@@ -21,7 +21,7 @@ test("tLex: Add user words and merge", () => {
 
 test("tLex.uCkKnown: Old and new user words", () => {
 	const oWordUserOld = "oooooooo";
-	StoreLoc.uSet("WordsUser", [oWordUserOld]);
+	Persist.uSet("WordsUser", [oWordUserOld]);
 
 	const oLex = new ForTest.tLex();
 

@@ -20,7 +20,7 @@ import DlgHelp from "./DlgHelp.js";
 import DlgVerWord from "./DlgVerWord.js";
 import Lex from "../Search/Lex.js";
 import Feed from "../Feed.js";
-import * as StoreLoc from "../StoreLoc.js";
+import * as Persist from "../Persist.js";
 import * as Const from "../Const.js";
 
 import { React, useState, useEffect } from "react";
@@ -147,7 +147,7 @@ export default function ViewPlay(aProps) {
 
 	/** Stores the elapsed time. */
 	function ouStore_TimeElap() {
-		StoreLoc.uSet("TimeElap", oTimeElap);
+		Persist.uSet("TimeElap", oTimeElap);
 	}
 	useEffect(ouStore_TimeElap, [oTimeElap]);
 
@@ -232,8 +232,8 @@ export default function ViewPlay(aProps) {
 
 	/** Stores the board and the associated Ogle scorecard. */
 	function ouStore_Board() {
-		StoreLoc.uSet("Board", oBoard);
-		StoreLoc.uSet("CardOgle", oCardOgle);
+		Persist.uSet("Board", oBoard);
+		Persist.uSet("CardOgle", oCardOgle);
 	}
 	useEffect(ouStore_Board, [oBoard, oCardOgle]);
 
@@ -452,7 +452,7 @@ export default function ViewPlay(aProps) {
 
 	/** Stores the user scorecard. */
 	function ouStore_CardUser() {
-		StoreLoc.uSet("CardUser", oCardUser);
+		Persist.uSet("CardUser", oCardUser);
 	}
 	useEffect(ouStore_CardUser, [oCardUser]);
 
@@ -592,21 +592,21 @@ function uTimeRemain(aSetup, aCtBonus, aTimeElap) {
 }
 
 function uBoardInit() {
-	return tBoard.suFromPlain(StoreLoc.uGetPlain("Board"));
+	return tBoard.suFromPlain(Persist.uGetPlain("Board"));
 }
 
 function uCardOgleInit() {
-	return tCard.suFromPlain(StoreLoc.uGetPlain("CardOgle"));
+	return tCard.suFromPlain(Persist.uGetPlain("CardOgle"));
 }
 
 function uCardUserInit() {
-	return tCard.suFromPlain(StoreLoc.uGetPlain("CardUser")) || tCard.suNew();
+	return tCard.suFromPlain(Persist.uGetPlain("CardUser")) || tCard.suNew();
 }
 
 function uStPlayInit() {
-	return StoreLoc.uGetPlain("Board") ? StsPlay.Pause : StsPlay.Play;
+	return Persist.uGetPlain("Board") ? StsPlay.Pause : StsPlay.Play;
 }
 
 function uTimeElapInit() {
-	return StoreLoc.uGetPlain("TimeElap") || 0;
+	return Persist.uGetPlain("TimeElap") || 0;
 }

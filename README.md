@@ -115,7 +115,7 @@ State value updated by component
 
 #### Plain data and persistence
 
-Ogle persists user data as JSON in the browser’s local storage. The `StoreLoc` module uses `JSON.parse` to deserialize the stored JSON. This produces two problems:
+Ogle persists user data as JSON in the browser’s local storage. The `Persist` module uses `JSON.parse` to deserialize the stored JSON. This produces two problems:
 
 - `JSON.parse` restores the properties of objects, but not their classes;
 

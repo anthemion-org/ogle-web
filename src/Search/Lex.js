@@ -9,7 +9,7 @@
 //
 
 import * as Search from "../Util/Search.js";
-import * as StoreLoc from "../StoreLoc.js";
+import * as Persist from "../Persist.js";
 
 // This import adds almost one half-second to the test time. Is it that slow in
 // the browser? [optimize]
@@ -38,7 +38,7 @@ import WordsOgle from "./WordsOgle.json";
 class tLex {
 	constructor() {
 		/** An array of strings representing all user-entered words. */
-		this.WordsUser = StoreLoc.uGetPlain("WordsUser");
+		this.WordsUser = Persist.uGetPlain("WordsUser");
 		this.WordsUser.sort(Search.uCompareStrFast);
 
 		/** An array of strings representing all searchable words. This array will
@@ -78,7 +78,7 @@ class tLex {
 	uAdd_WordUser(aWord) {
 		this.WordsUser.push(aWord);
 		this.WordsUser.sort(Search.uCompareStrFast);
-		StoreLoc.uSet("WordsUser", this.WordsUser);
+		Persist.uSet("WordsUser", this.WordsUser);
 
 		this.WordsUserPend.push(aWord);
 		this.WordsUserPend.sort(Search.uCompareStrFast);

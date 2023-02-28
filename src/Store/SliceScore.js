@@ -8,14 +8,14 @@
 //   import SliceScore from "./Store/SliceScore.js";
 //
 
-import * as StoreLoc from "../StoreLoc.js";
+import * as Persist from "../Persist.js";
 import * as Const from "../Const.js";
 
 import { createSlice } from "@reduxjs/toolkit";
 
-// Play Score
-// ----------
-// A 'Play Score' record stores player score data for one round. It is an object
+// ScorePlay
+// ---------
+// A ScorePlay record stores player score data for one round. It is an object
 // containing:
 //
 // - `TimeStart`: The UNIX time when the game started;
@@ -25,7 +25,7 @@ import { createSlice } from "@reduxjs/toolkit";
 // - `FracPerc`: The player's percent score, as a decimal fraction.
 //
 
-/** Returns a new Play Score record. */
+/** Returns a new ScorePlay record. */
 export function ScorePlayNew(aTime, aName, aFracPerc) {
 	return {
 		TimeStart: aTime,
@@ -53,9 +53,9 @@ function uCloneAddScoresPlay(aScoresPlayOrig, aScorePlayNew) {
 	return oScores.slice(0, Const.CtStoreScoreHigh);
 }
 
-// High Scores
-// -----------
-// The High Scores record stores all player high score data. It is an object
+// ScoresHigh
+// ----------
+// The ScoresHigh record stores all player high score data. It is an object
 // containing:
 //
 // - `_ByTag`: An object that associates `tSetup` tag values with arrays of Play
@@ -88,7 +88,34 @@ function uCloneAddScoresPlay(aScoresPlayOrig, aScorePlayNew) {
 //
 
 function ScoresHighInit() {
-	return StoreLoc.uRead("ScoresHigh") ?? { _ByTag: {} };
+	return Persist.uRead("ScoresHigh") ?? { _ByTag: {} };
+}
+
+/** Returns `true` if the specified game produced a high score that is _not_
+	*  recorded in `aScoresHigh`. */
+export function uCkHighScore(aScoresHigh, aSetup, aCardUser, aCardOgle) {
+	if (aCardUser.Score < 1) return false;
+
+	const oTagSetup = aSetup.uTag();
+	const oScores = aScoresHigh._ByTag[oTagSetup];
+	if (!oScores || !oScores.length)
+		return true;
+
+	if (oScores.some(a => a.TimeStart === aCardUser.TimeStart))
+		return false;
+
+	if (oScores.length < Const.CtStoreScoreHigh)
+		return true;
+
+	const oFracPerc = aCardUser.Score / aCardOgle.Score;
+	return oScores.some(a => a.FracPerc < oFracPerc);
+}
+
+/** Returns an array of Score Play records from `aScoresHigh` containing the
+ *  scores associated with the specified `tSetup` tag. */
+export function uScoresPlayTagSetup(aScoresHigh, aTagSetup) {
+	const oScores = aScoresHigh._ByTag[aTagSetup];
+	return oScores ? Array.from(oScores) : [];
 }
 
 // Slice
@@ -100,8 +127,8 @@ export const Slice = createSlice({
 	initialState: {
 		/** The name last entered by any player when a high score was recorded, or
 		 *  the empty string if the player choose to remain anonymous. */
-		NamePlayLast: "",
-		/** The High Scores record. */
+		NamePlayLast: Persist.uRead("NamePlayLast") ?? "",
+		/** The ScoresHigh record. */
 		ScoresHigh: ScoresHighInit()
 	},
 

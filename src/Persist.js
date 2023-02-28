@@ -1,11 +1,11 @@
-// StoreLoc.js
-// ===========
+// Persist.js
+// ==========
 // Copyright ©2022 Jeremy Kelly
 // www.anthemion.org
 
 // Import with:
 //
-//   import * as StoreLoc from "./StoreLoc.js";
+//   import * as Persist from "./Persist.js";
 //
 
 // This module persists user data as JSON in the browser's local storage. It
