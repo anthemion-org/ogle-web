@@ -20,7 +20,7 @@ import { StatsWord, uScoresCoversFromCards } from "../Round/ScoreWord.js";
 import Feed from "../Feed.js";
 import {
 	ScorePlayNew,
-	uCkHighScore,
+	uCkScoreHigh,
 	uScoresPlayTagSetup,
 	uSelScoresHigh,
 	Add_ScoreHigh
@@ -145,7 +145,7 @@ export default function ViewScore(aProps) {
 	}
 
 	function ouDlgNamePlay() {
-		if (!uCkHighScore(oScoresHigh, aProps.Setup, aProps.CardUser, aProps.CardOgle))
+		if (!uCkScoreHigh(aProps.Setup, aProps.CardUser, aProps.CardOgle, oScoresHigh))
 			return null;
 
 		return (

@@ -13,6 +13,49 @@ import * as Const from "../Const.js";
 
 import { createSlice } from "@reduxjs/toolkit";
 
+// Slice
+// -----
+
+export const Slice = createSlice({
+	name: "Score",
+
+	initialState: {
+		/** The name last entered by any player when a high score was recorded, or
+		 *  the empty string if the player choose to remain anonymous. */
+		NamePlayLast: Persist.uRead("NamePlayLast") ?? "",
+		/** The ScoresHigh record. */
+		ScoresHigh: Persist.uRead("ScoresHigh") ?? { _ByTag: {} }
+	},
+
+	reducers: {
+		Set_NamePlayLast: (aSt, aAct) => {
+			aSt.NamePlayLast = aAct.payload;
+		},
+
+		Add_ScoreHigh: (aSt, aAct) => {
+			const oTagSetup = aAct.payload.TagSetup;
+			const oScore = aAct.payload.ScorePlay;
+
+			const oScoresOrig = aSt.ScoresHigh._ByTag[oTagSetup] ?? [];
+			const oScoresNew = uCloneAdd_ScoresPlay(oScoresOrig, oScore);
+			aSt.ScoresHigh._ByTag[oTagSetup] = oScoresNew;
+		}
+	}
+});
+export default Slice;
+
+export const { Set_NamePlayLast, Add_ScoreHigh } = Slice.actions;
+
+// Selectors
+// ---------
+
+/** Selects the name last entered by any player when a high score was recorded,
+ *  or the empty string if the player choose to remain anonymous. */
+export const uSelNamePlayLast = (aSt) => aSt.Score.NamePlayLast;
+
+/** Selects the ScoresHigh record. */
+export const uSelScoresHigh = (aSt) => aSt.Score.ScoresHigh;
+
 // ScorePlay
 // ---------
 // A ScorePlay record stores player score data for one round. It is an object
@@ -36,20 +79,21 @@ export function ScorePlayNew(aTime, aName, aFracPerc) {
 
 /** Compares ScorePlay records by FracPerc, in descending order, and then by
  *  time, in ascending order. */
-function uCompareScorePlay(aL, aR) {
+function uCompare_ScorePlay(aL, aR) {
 	if (aL.FracPerc > aR.FracPerc) return -1;
 	if (aL.FracPerc < aR.FracPerc) return 1;
 
 	if (aL.TimeStart < aR.TimeStart) return -1;
 	if (aL.TimeStart > aR.TimeStart) return 1;
+
 	return 0;
 }
 
-/** Returns a new Score Play array that is sorted with `uCompareScorePlay` and
+/** Returns a new ScorePlay array that is sorted with `uCompareScorePlay` and
  *  trimmed to length `Const.CtStoreScoreHigh`, after adding `aScorePlayNew`. */
-function uCloneAddScoresPlay(aScoresPlayOrig, aScorePlayNew) {
+function uCloneAdd_ScoresPlay(aScoresPlayOrig, aScorePlayNew) {
 	const oScores = [ ...aScoresPlayOrig, aScorePlayNew ];
-	oScores.sort(uCompareScorePlay);
+	oScores.sort(uCompare_ScorePlay);
 	return oScores.slice(0, Const.CtStoreScoreHigh);
 }
 
@@ -87,9 +131,9 @@ function uCloneAddScoresPlay(aScoresPlayOrig, aScorePlayNew) {
 //   }
 //
 
-/** Returns `true` if the specified game produced a high score that is _not_
- *  recorded in `aScoresHigh`. */
-export function uCkHighScore(aScoresHigh, aSetup, aCardUser, aCardOgle) {
+/** Returns `true` if the specified game qualifies as a high score, and if
+ *  `aScoresHigh` does _not_ include it. */
+export function uCkScoreHigh(aSetup, aCardUser, aCardOgle, aScoresHigh) {
 	if (aCardUser.Score < 1) return false;
 
 	const oTagSetup = aSetup.uTag();
@@ -107,52 +151,10 @@ export function uCkHighScore(aScoresHigh, aSetup, aCardUser, aCardOgle) {
 	return oScores.some(a => a.FracPerc < oFracPerc);
 }
 
-/** Returns an array of Score Play records from `aScoresHigh` containing the
- *  scores associated with the specified `tSetup` tag. */
+/** Returns the array of ScorePlay records in `aScoresHigh` containing the
+ *  scores associated with the specified `tSetup` tag, or an empty array, if no
+ *  such scores have been recorded. */
 export function uScoresPlayTagSetup(aScoresHigh, aTagSetup) {
 	const oScores = aScoresHigh._ByTag[aTagSetup];
 	return oScores ? Array.from(oScores) : [];
 }
-
-// Slice
-// -----
-
-export const Slice = createSlice({
-	name: "Score",
-
-	initialState: {
-		/** The name last entered by any player when a high score was recorded, or
-		 *  the empty string if the player choose to remain anonymous. */
-		NamePlayLast: Persist.uRead("NamePlayLast") ?? "",
-		/** The ScoresHigh record. */
-		ScoresHigh: Persist.uRead("ScoresHigh") ?? { _ByTag: {} }
-	},
-
-	reducers: {
-		Set_NamePlayLast: (aSt, aAct) => {
-			aSt.NamePlayLast = aAct.payload;
-		},
-
-		Add_ScoreHigh: (aSt, aAct) => {
-			const oTagSetup = aAct.payload.TagSetup;
-			const oScore = aAct.payload.ScorePlay;
-
-			const oScoresOrig = aSt.ScoresHigh._ByTag[oTagSetup] ?? [];
-			const oScoresNew = uCloneAddScoresPlay(oScoresOrig, oScore);
-			aSt.ScoresHigh._ByTag[oTagSetup] = oScoresNew;
-		}
-	}
-});
-export default Slice;
-
-export const { Set_NamePlayLast, Add_ScoreHigh } = Slice.actions;
-
-// Selectors
-// ---------
-
-/** Selects the name last entered by any player when a high score was recorded,
- *  or the empty string if the player choose to remain anonymous. */
-export const uSelNamePlayLast = (aSt) => aSt.Score.NamePlayLast;
-
-/** Selects the ScoresHigh record. */
-export const uSelScoresHigh = (aSt) => aSt.Score.ScoresHigh;
