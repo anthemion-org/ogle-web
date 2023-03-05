@@ -11,7 +11,7 @@
 /** A rectangular array backed by a linear array, for fast copying. This class
  *  is mutable.*/
 export class tArr2 {
-	/** Creates an instance with the specified `tPt2` size. If `aOpts` is defined,
+	/** Creates an instance with the specified Pt2 size. If `aOpts` is defined,
 	 *  the new elements will be copied from linear array `aOpts.Src`, or set to
 	 *  default value `aOpts.Def`. If it is not defined, the elements will be left
 	 *  undefined. */
@@ -36,13 +36,13 @@ export class tArr2 {
 		}
 	}
 
-	/** Returns the value at the specified `tPt2` position. */
+	/** Returns the value at the specified Pt2 position. */
 	uGet(aPos) {
 		const oj = uIdxCk(this, aPos, "uGet");
 		return this._Els[oj];
 	}
 
-	/** Sets the value at the specified `tPt2` position. */
+	/** Sets the value at the specified Pt2 position. */
 	uSet(aPos, aVal) {
 		const oj = uIdxCk(this, aPos, "uSet");
 		this._Els[oj] = aVal;

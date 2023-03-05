@@ -10,7 +10,7 @@
 
 import { tEntWord } from "../Round/EntWord.js";
 import { tArr2 } from "../Util/Arr2.js";
-import { tPt2 } from "../Util/Pt2.js";
+import * as Pt2 from "../Util/Pt2.js";
 import * as Const from "../Const.js";
 
 // tSelBoard
@@ -103,7 +103,7 @@ function uPosNext(aSel, ajNeigh) {
 
 	for (let ojDir = 0; ojDir < 8; ++ojDir) {
 		const oOff = uOff(ojDir);
-		const oPos = aSel.Pos.uSum(oOff);
+		const oPos = Pt2.uSum(aSel.Pos, oOff);
 		if (Const.RectBoard.uCkContain(oPos) && !aSel.CksByPos.uGet(oPos)) {
 			if (ajNeigh < 1) return oPos;
 			--ajNeigh;
@@ -116,14 +116,14 @@ function uPosNext(aSel, ajNeigh) {
  *  zero to seven. */
 function uOff(ajDir) {
 	switch (ajDir) {
-		case 0: return new tPt2(1, 0);
-		case 1: return new tPt2(1, 1);
-		case 2: return new tPt2(0, 1);
-		case 3: return new tPt2(-1, 1);
-		case 4: return new tPt2(-1, 0);
-		case 5: return new tPt2(-1, -1);
-		case 6: return new tPt2(0, -1);
-		case 7: return new tPt2(1, -1);
+		case 0: return Pt2.uNew(1, 0);
+		case 1: return Pt2.uNew(1, 1);
+		case 2: return Pt2.uNew(0, 1);
+		case 3: return Pt2.uNew(-1, 1);
+		case 4: return Pt2.uNew(-1, 0);
+		case 5: return Pt2.uNew(-1, -1);
+		case 6: return Pt2.uNew(0, -1);
+		case 7: return Pt2.uNew(1, -1);
 	}
 	throw Error("SelBoard uOff: Invalid index");
 }

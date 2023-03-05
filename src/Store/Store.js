@@ -52,13 +52,13 @@ const _ValsPersistLast = _uValsStore();
 //
 // The early versions of this app did not use Redux, so there were no slice
 // names. I want to use the same local storage keys, so for now at least, I will
-// not add the slice names to them. Therefore, though slice names are normally
-// used to avoid action type collisions, values in this project must have names
-// that are unique across all slices.
+// not add those slice names. Therefore, though slice names are normally used to
+// avoid action type collisions, values in this project must have names that are
+// unique _across all slices_.
 //
-// There is a Redux middleware called 'redux-persist' that apparently does
-// something like this, but it looks like overkill, and the project has 492 open
-// issues. This works fine:
+// There is a Redux middleware called 'redux-persist' that does something like
+// this, but it looks like overkill, and that project has 492 open issues. This
+// works fine:
 function _uPersist_Store() {
 	_Log(1, "Persisting store...");
 
@@ -66,17 +66,20 @@ function _uPersist_Store() {
 	for (const onSlice in oSt) {
 		const oSlice = oSt[onSlice];
 		for (const onVal in oSlice) {
+			// Skip specified values:
 			if (_NamesPersistSkip.includes(onVal)) {
 				_Log(2, `Skipping value '${onVal}'...`);
 				continue;
 			}
 
+			// Skip values that haven't changed:
 			const oVal = oSlice[onVal];
 			if (oVal === _ValsPersistLast[onVal]) {
 				_Log(2, `No change to value '${onVal}'...`);
 				continue;
 			}
 
+			// Write everything else:
 			_Log(2, `Writing value '${onVal}'...`);
 			Persist.uWrite(onVal, oVal);
 			_ValsPersistLast[onVal] = oVal;
@@ -89,7 +92,7 @@ Store.subscribe(_uPersist_Store);
 // -------
 
 /** Set to zero to disable logging in this module. */
-const _LvlLog = 2;
+const _LvlLog = 0;
 
 /** Logs `aText` if `_LvlLog` is `aLvlLogMin` or greater. */
 function _Log(aLvlLogMin, aText) {

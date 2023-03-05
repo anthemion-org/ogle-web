@@ -5,26 +5,26 @@
 //
 // Import with:
 //
-//   import { tEntWord, uCompareEntWord } from "./Round/EntWord.js";
+//   import * as EntWord from "./Round/EntWord.js";
 //
 
 import * as Search from "../Util/Search.js";
-import { tPt2 } from "../Util/Pt2.js";
+import * as Pt2 from "../Util/Pt2.js";
 import * as Text from "../Util/Text.js";
 import * as Const from "../Const.js";
 
-// tEntWord
-// --------
+// EntWord
+// -------
+// Each EntWord records Stores the details of a single board selection, for use
+// when selecting text during play, and for displaying entries in the Score
+// view.
 
-/** Stores the details of a single board selection, for use when selecting text
- *  during play, and for displaying entries in the Score view. This class is
- *  immutable. */
 export class tEntWord {
 	/** Creates an instance from a plain object and returns it. */
 	static suFromPlain(aPlain) {
 		if (!aPlain) return null;
 
-		const oPosi = aPlain.Posi.map(a => tPt2.suFromPlain(a));
+		const oPosi = aPlain.Posi.map(a => Pt2.suFromParse(a));
 		return new tEntWord(oPosi, aPlain.Texts);
 	}
 
@@ -50,17 +50,20 @@ export class tEntWord {
 		Object.freeze(this);
 	}
 
-	/** Returns `true` if the specified position is selected. */
+	/** Returns `true` if the specified position is selected by this entry. */
 	uCkAt(aPos) {
-		return this.Posi.some(a => a.uCkEq(aPos));
+		return this.Posi.some(aPosSel => Pt2.uCkEq(aPos, aPosSel));
 	}
 
 	/** Returns `true` if the specified position can be added to the end of this
 	 *  entry. */
 	uCkAddAt(aPos) {
-		return Const.RectBoard.uCkContain(aPos)
-			&& this.uPosEnd()?.uCkAdjacent(aPos)
-			&& !this.uCkAt(aPos);
+		if (!Const.RectBoard.uCkContain(aPos)) return false;
+
+		const oPosEnd = this.uPosEnd();
+		if (!oPosEnd) return false;
+
+		return Pt2.uCkAdjacent(aPos, oPosEnd) && !this.uCkAt(aPos);
 	}
 
 	/** Returns `true` if the specified position can be selected or unselected. */
@@ -74,7 +77,7 @@ export class tEntWord {
 	 *  predecessor. */
 	uPosPrev(aPos) {
 		for (let oj = 1; oj < this.Posi.length; ++oj)
-			if (this.Posi[oj].uCkEq(aPos))
+			if (Pt2.uCkEq(aPos, this.Posi[oj]))
 				return this.Posi[oj - 1];
 		return null;
 	}
@@ -95,7 +98,7 @@ export class tEntWord {
 	 *  is not part of this entry, or if there is no predecessor. */
 	uClonePrev(aPos) {
 		for (let oj = 1; oj < this.Posi.length; ++oj)
-			if (this.Posi[oj].uCkEq(aPos)) {
+			if (Pt2.uCkEq(aPos, this.Posi[oj])) {
 				const oPosi = this.Posi.slice(0, oj);
 				const oTexts = this.Texts.slice(0, oj);
 				return new tEntWord(oPosi, oTexts);

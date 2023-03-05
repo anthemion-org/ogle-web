@@ -8,7 +8,7 @@
 //   import ConnSel from "./UI/ConnSel.js";
 //
 
-import { tPt2 } from "../Util/Pt2.js";
+import * as Pt2 from "../Util/Pt2.js";
 
 import React from "react";
 import PropTypes from "prop-types";
@@ -17,18 +17,18 @@ import PropTypes from "prop-types";
 // -------
 
 ConnSel.propTypes = {
-	Pos: PropTypes.instanceOf(tPt2).isRequired,
-	PosFrom: PropTypes.instanceOf(tPt2)
+	Pos: PropTypes.object.isRequired,
+	PosFrom: PropTypes.object
 };
 
 /** Draws a selection connecting line between one die and another. The following
  *  props are supported:
  *
- *  - Pos: A tPt2 instance representing the board position that contains this
+ *  - Pos: A Pt2 record representing the board position that contains this
  *    instance. If PosFrom is defined, this is the end position of the
  *    connector. This prop is required;
  *
- *  - PosFrom: A tPt2 instance representing the board position where the
+ *  - PosFrom: A Pt2 record representing the board position where the
  *    connecting line originates, if this instance is part of a selection, and
  *    if it is not the first die in the selection. 'undefined' otherwise.
  */
@@ -38,7 +38,7 @@ export default function ConnSel(aProps) {
 
 		/** The position of the 'from' die, relative to this die, in die
 		 *  coordinates.*/
-		const oPosRelFrom = aProps.PosFrom.uDiff(aProps.Pos);
+		const oPosRelFrom = Pt2.uDiff(aProps.PosFrom, aProps.Pos);
 		// These coordinates ignore the grid gap, so they only approximate the
 		// center of the previous die:
 		const oXStart = (50 + (oPosRelFrom.X * 100));

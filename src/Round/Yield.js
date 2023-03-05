@@ -9,6 +9,7 @@
 //
 
 import { tRg } from "../Util/Rg.js";
+import * as Pt2 from "../Util/Pt2.js";
 
 /** Yield ranges to be offered to the user. */
 export const Vals = [

@@ -13,7 +13,7 @@ import { tDie } from "../Board/Die.js";
 import * as MetrDie from "./MetrDie.js";
 import Feed from "../Feed.js";
 import * as Dir4 from "../Util/Dir4.js";
-import { tPt2 } from "../Util/Pt2.js";
+import * as Pt2 from "../Util/Pt2.js";
 
 import React from "react";
 import PropTypes from "prop-types";
@@ -22,7 +22,7 @@ import PropTypes from "prop-types";
 // -------
 
 LookDie.propTypes = {
-	Pos: PropTypes.instanceOf(tPt2).isRequired,
+	Pos: PropTypes.object.isRequired,
 	Die: PropTypes.instanceOf(tDie).isRequired,
 	CkSel: PropTypes.bool,
 	CkEnab: PropTypes.bool,
@@ -34,7 +34,7 @@ LookDie.propTypes = {
 /** Displays the text and other foreground for one die within the board, and
  *  forwards mouse input. The following props are supported:
  *
- *  - Pos: A tPt2 instance representing the board position that contains this
+ *  - Pos: A Pt2 record representing the board position that contains this
  *    instance. This prop is required;
  *
  *  - Die: The tDie instance at this board position. This prop is required;

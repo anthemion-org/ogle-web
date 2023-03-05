@@ -10,12 +10,12 @@
 
 import "./Die.css";
 import BackDie from "./BackDie.js";
-import { tPt2 } from "../Util/Pt2.js";
+import * as Pt2 from "../Util/Pt2.js";
 
 import React from "react";
 
 export default function Logo(aProps) {
-	const oPos = new tPt2(0, 0);
+	const oPos = Pt2.uNew(0, 0);
 
 	return (
 		<svg {...aProps} className="Logo"

@@ -18,13 +18,9 @@ import { tBoard } from "../Board/Board.js";
 import { tCard } from "../Round/Card.js";
 import { StatsWord, uScoresCoversFromCards } from "../Round/ScoreWord.js";
 import Feed from "../Feed.js";
-import {
-	ScorePlayNew,
-	uCkScoreHigh,
-	uScoresPlayTagSetup,
-	uSelScoresHigh,
-	Add_ScoreHigh
-} from "../Store/SliceScore.js";
+import { uSelScoresHigh, Add_ScoreHigh } from "../Store/SliceScore.js";
+import * as ScorePlay from "../Round/ScorePlay.js";
+import * as ScoresHigh from "../Round/ScoresHigh.js";
 import * as Const from "../Const.js";
 import * as Misc from "../Util/Misc.js";
 
@@ -136,7 +132,7 @@ export default function ViewScore(aProps) {
 	function ouHandNamePlay(aName) {
 		aName = aName.trim();
 		const oFracPerc = aProps.CardUser.Score / aProps.CardOgle.Score;
-		const oScore = ScorePlayNew(aProps.CardUser.TimeStart, aName, oFracPerc);
+		const oScore = ScorePlay.uNew(aProps.CardUser.TimeStart, aName, oFracPerc);
 		const oAct = Add_ScoreHigh({
 			TagSetup: aProps.Setup.uTag(),
 			ScorePlay: oScore
@@ -145,7 +141,7 @@ export default function ViewScore(aProps) {
 	}
 
 	function ouDlgNamePlay() {
-		if (!uCkScoreHigh(aProps.Setup, aProps.CardUser, aProps.CardOgle, oScoresHigh))
+		if (!ScoresHigh.uCkScoreHigh(aProps.Setup, aProps.CardUser, aProps.CardOgle, oScoresHigh))
 			return null;
 
 		return (
@@ -231,7 +227,8 @@ export default function ViewScore(aProps) {
 	function ouLinesScoreHigh() {
 		const oCtRow = Const.CtStoreScoreHigh;
 		const oTag = aProps.Setup.uTag();
-		const oScores = uScoresPlayTagSetup(oScoresHigh, oTag).slice(0, (oCtRow + 1));
+		const oScores = ScoresHigh.uScoresPlayTagSetup(oScoresHigh, oTag)
+			.slice(0, (oCtRow + 1));
 		if (oScores.length < oCtRow) {
 			const oBlanks = Misc.uGen_Arr((oCtRow - oScores.length), null);
 			oScores.push(...oBlanks);

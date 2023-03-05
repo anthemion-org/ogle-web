@@ -21,10 +21,10 @@ onmessage = function (aMsg) {
 		const oSetup = tSetup.suFromPlain(aMsg.data.Setup);
 
 		const oTextSetup = oSetup.uTextShortYield() + " / " + oSetup.uTextShortPace();
-		console.log(`Generating '${oTextSetup}' board...`);
+		_Log(2, `Generating '${oTextSetup}' board...`);
 
 		const oConfigPools = tConfigPoolDie.suFromSetup(oSetup);
-		console.log("~ " + oConfigPools.uDesc());
+		_Log(2, "~ " + oConfigPools.uDesc());
 
 		let oBoard;
 		let oCard;
@@ -34,8 +34,8 @@ onmessage = function (aMsg) {
 			const oSels = SearchBoard.uExec(aMsg.data.WordsSearch, oBoard);
 			oCard = tCard.suFromSelsBoard(oSels);
 			if (oSetup.Yield.uCkContain(oCard.Score)) {
-				console.log("Accepting board number " + (oj + 1));
-				console.log(`~ ${oCard.Score} words`);
+				_Log(2, "Accepting board number " + (oj + 1));
+				_Log(2, `~ ${oCard.Score} words`);
 				break;
 			}
 
@@ -50,3 +50,14 @@ onmessage = function (aMsg) {
 		postMessage({ Board: null, CardOgle: null });
 	}
 };
+
+// Logging
+// -------
+
+/** Set to zero to disable logging in this module. */
+const _LvlLog = 0;
+
+/** Logs `aText` if `_LvlLog` is `aLvlLogMin` or greater. */
+function _Log(aLvlLogMin, aText) {
+	if (_LvlLog >= aLvlLogMin) console.log(aText);
+}

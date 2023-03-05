@@ -28,20 +28,46 @@ import { tSetup } from "./Round/Setup.js";
 // implications in some cases. Ours is already open to the public:
 import Pack from "../package.json";
 
-/** Reads the specified value from local storage, after prefixing the name with
+/** Reads the specified value from local storage, after prefixing name `an` with
  *  `_PrefixNameStore`. */
 export function uRead(an) {
 	const onFull = _PrefixNameStore + an;
 	const oJSON = localStorage.getItem(onFull);
-	return (oJSON === null) ? undefined : JSON.parse(oJSON);
+
+	if (oJSON === null) return undefined;
+	// It would be nice to reverse the `_uNumsSpecialToStr` conversion here, but
+	// the string 'Infinity' is a likely value for some fields, and the original
+	// Ogle code did not need or use `_uNumsSpecialToStr`, so there are `null`
+	// values in production that can't be restored without context that is lacking
+	// here. Records that store numbers should implement `suFromParse` functions,
+	// to be invoked when the store is initialized:
+	return JSON.parse(oJSON);
+}
+
+/** Returns a string representation of `aVal` if it is infinite or `NaN`.
+ *  Otherwise, returns the original value. */
+function _uNumsSpecialToStr(aKey, aVal) {
+	if (typeof aVal !== "number") return aVal;
+
+	if (aVal === Infinity) return "Infinity";
+	if (aVal === -Infinity) return "-Infinity";
+	if (isNaN(aVal)) return "NaN";
+	return aVal;
 }
 
 /** Writes the specified value to the local storage, after prefixing `an` with
  *  `_PrefixNameStore`. Also updates the `VerApp` value. */
 export function uWrite(an, aVal) {
-	localStorage.setItem(_PrefixNameStore + "VerApp",
-		JSON.stringify(Pack.version));
-	localStorage.setItem(_PrefixNameStore + an, JSON.stringify(aVal));
+	localStorage.setItem(
+		_PrefixNameStore + "VerApp",
+		JSON.stringify(Pack.version)
+	);
+	localStorage.setItem(
+		_PrefixNameStore + an,
+		// Because it cannot be deserialized correctly, writing `null` for infinite
+		// or `NaN` values can never be the right thing to do:
+		JSON.stringify(aVal, _uNumsSpecialToStr)
+	);
 }
 
 
@@ -49,7 +75,7 @@ export function uWrite(an, aVal) {
 
 
 
-
+// [todo]
 
 /** Returns a plain representation of the stored value or object with name `an`,
  *  or the default value, if there is a default, or 'undefined'. */

@@ -9,7 +9,7 @@
 //
 
 import "./Die.css";
-import { tPt2 } from "../Util/Pt2.js";
+import * as Pt2 from "../Util/Pt2.js";
 
 import React from "react";
 import PropTypes from "prop-types";
@@ -18,7 +18,7 @@ import PropTypes from "prop-types";
 // -------
 
 BackDie.propTypes = {
-	Pos: PropTypes.instanceOf(tPt2).isRequired,
+	Pos: PropTypes.object.isRequired,
 	CkEnab: PropTypes.bool,
 	CkDisp: PropTypes.bool
 };

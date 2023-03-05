@@ -43,7 +43,7 @@ export class tBoard {
 		Object.freeze(this);
 	}
 
-	/** Returns the die at the specified tPt2 position, throwing if either
+	/** Returns the die at the specified Pt2 position, throwing if either
 	 *  coordinate is out of range. */
 	uDie(aPos) {
 		const oj = aPos.X + (aPos.Y * Const.WthBoard);
