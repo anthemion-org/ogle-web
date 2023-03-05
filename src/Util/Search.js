@@ -47,7 +47,7 @@ export function uCompareStrSmart(aL, aR) {
  *  negative number, zero, or a positive number to signal the first argument's
  *  position relative to the second. */
 export function uBin(aEls, aVal, auCompare) {
-	if (aEls.length < 1) return [false, 0];
+	if (aEls.length < 1) return [ false, 0 ];
 
 	if (!auCompare) auCompare = uCompareNum;
 

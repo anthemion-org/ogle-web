@@ -11,6 +11,7 @@ import { tBoard } from "../Board/Board.js";
 import * as SearchBoard from "./SearchBoard.js";
 import { tCard } from "../Round/Card.js";
 import { tGenRnd } from "../Util/Rnd.js";
+import * as Rg from "../Util/Rg.js";
 
 /* Implements a web worker that creates a board meeting the criteria specified
  * in `aMsg`. Responds with a message containing the board and the corresponding
@@ -33,7 +34,7 @@ onmessage = function (aMsg) {
 			oBoard = tBoard.suNewRnd(oGenRnd, oConfigPools);
 			const oSels = SearchBoard.uExec(aMsg.data.WordsSearch, oBoard);
 			oCard = tCard.suFromSelsBoard(oSels);
-			if (oSetup.Yield.uCkContain(oCard.Score)) {
+			if (Rg.uCkContain(oSetup.Yield, oCard.Score)) {
 				_Log(2, "Accepting board number " + (oj + 1));
 				_Log(2, `~ ${oCard.Score} words`);
 				break;

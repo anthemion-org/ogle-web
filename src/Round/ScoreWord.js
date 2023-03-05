@@ -83,7 +83,7 @@ export function uScoresCoversFromCards(aCardOgle, aCardUser) {
 	// Combine word lists
 	// ------------------
 
-	const oScores = [...oScoresUser];
+	const oScores = [ ...oScoresUser ];
 	// So that 'Search.uBin' can be used:
 	oScores.sort(uCompareByText);
 
@@ -136,7 +136,7 @@ export function uScoresCoversFromCards(aCardOgle, aCardUser) {
 		if (oScore.StatUser === StatsWord.Score) ++oData.CtUser;
 	}
 
-	return [oScores, oCoversByLen];
+	return [ oScores, oCoversByLen ];
 }
 
 /** Compares tScoreWord instances alphabetically by Text, and then by ascending

@@ -117,7 +117,7 @@ export default function LookDie(aProps) {
 	}
 
 	function ouUnder() {
-		const oCk = ["L", "T", "M", "W", "N", "Z"].includes(aProps.Die.Text);
+		const oCk = [ "L", "T", "M", "W", "N", "Z" ].includes(aProps.Die.Text);
 		if (!oCk || aProps.CkPause) return null;
 
 		return (

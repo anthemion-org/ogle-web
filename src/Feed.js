@@ -244,7 +244,7 @@ function uVibe_One() {
 /** Causes the device to produce a one-second vibration pattern. */
 function uVibe_Patt() {
 	const oLenOff = 500 - LenVibe;
-	navigator.vibrate([LenVibe, oLenOff, LenVibe, oLenOff]);
+	navigator.vibrate([ LenVibe, oLenOff, LenVibe, oLenOff ]);
 }
 
 /** Stores properties representing the loop play state. */

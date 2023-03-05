@@ -7,6 +7,6 @@ import * as Pace from "./Pace.js";
 
 test("Pace: uDef", () => {
 	const oAct = Pace.uDef();
-	const oExpect = [30, 5];
+	const oExpect = [ 30, 5 ];
 	expect(oAct).toEqual(oExpect);
 });

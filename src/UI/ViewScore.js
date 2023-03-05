@@ -62,7 +62,7 @@ export default function ViewScore(aProps) {
 
 	/** Set to the `tScoreWord` that is being displayed in the Word Score dialog,
 	 *  or `null` if no entry is being displayed. */
-	const [oScoreWord, ouSet_ScoreWord] = useState(null);
+	const [ oScoreWord, ouSet_ScoreWord ] = useState(null);
 
 	// Compare player cards
 	// --------------------

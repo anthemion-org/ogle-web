@@ -31,8 +31,8 @@ export class tEntWord {
 	/** Returns a new instance that ends with the specified position and text.
 	 *  Define aEntPrev to create an instance that extends that one. */
 	static suFromPosText(aPos, aText, aEntPrev) {
-		const oPosi = aEntPrev ? [...aEntPrev.Posi, aPos] : [aPos];
-		const oTexts = aEntPrev ? [...aEntPrev.Texts, aText] : [aText];
+		const oPosi = aEntPrev ? [ ...aEntPrev.Posi, aPos ] : [ aPos ];
+		const oTexts = aEntPrev ? [ ...aEntPrev.Texts, aText ] : [ aText ];
 		return new tEntWord(oPosi, oTexts);
 	}
 

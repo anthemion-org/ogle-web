@@ -8,6 +8,8 @@
 //   import * as Pt2 from "./Util/Pt2.js";
 //
 
+import * as UtilJSON from "./UtilJSON.js";
+
 import * as _ from "lodash";
 
 // Pt2
@@ -15,45 +17,36 @@ import * as _ from "lodash";
 // Each Pt2 record represents a two-dimensional point.
 
 /** Creates a Pt2 record from an object produced by `JSON.parse`, and returns
- *  it, or returns `null` if `aParse` is falsy. This converts strings like
- *  'Infinity' and 'NaN' to `Number` values, as JSON cannot represent these
- *  without help. */
+ *  it, or returns `null` if `aParse` is falsy. */
 export function suFromParse(aParse) {
 	if (!aParse) return null;
 
-	const oPt2 = { ...aParse };
-	for (const on in oPt2) {
-		switch (oPt2[on]) {
-			case "-Infinity":
-				oPt2[on] = -Infinity;
-				break;
-
-			case "Infinity":
-				oPt2[on] = Infinity;
-				break;
-
-			case "NaN":
-			case null:
-				oPt2[on] = NaN;
-				break;
-		}
-	}
-	return oPt2;
+	return uNew(
+		UtilJSON.uNumFromNumFix(aParse.X),
+		UtilJSON.uNumFromNumFix(aParse.Y)
+	);
 }
 
+/** Creates a Pt2 record with the specified coordinates. */
 export function uNew(aX, aY) {
 	return { X: aX, Y: aY };
 }
 
+/** Returns `true` if either coordinate is `NaN`. */
+export function uCkNaN(aPt) {
+	return isNaN(aPt.X) || isNaN(aPt.Y);
+}
+
 /** Returns `true` if the specified records are equal. */
 export function uCkEq(aPtL, aPtR) {
-	// `_.eq` returns `true` if both are `NaN`:
 	return _.eq(aPtL.X, aPtR.X) && _.eq(aPtL.Y, aPtR.Y);
 }
 
 /** Returns `true` if the horizontal and vertical distances between the points
  *  are less than or equal to one, without the points being equal. */
 export function uCkAdjacent(aPtL, aPtR) {
+	if (uCkNaN(aPtL) || uCkNaN(aPtR)) return false;
+
 	return (Math.abs(aPtR.X - aPtL.X) <= 1)
 		&& (Math.abs(aPtR.Y - aPtL.Y) <= 1)
 		&& !uCkEq(aPtL, aPtR);

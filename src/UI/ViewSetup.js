@@ -81,7 +81,7 @@ export default class ViewSetup extends React.Component {
 	/** Returns a `tSetup` instance representing the setup selected in this view. */
 	uSetup() {
 		const oYield = Yield.Vals[this.state.jYield][0];
-		const [oPaceStart, oPaceBonus] = Pace.Vals[this.state.jPace];
+		const [ oPaceStart, oPaceBonus ] = Pace.Vals[this.state.jPace];
 		return new tSetup(oYield, oPaceStart, oPaceBonus);
 	}
 

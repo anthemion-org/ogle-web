@@ -38,6 +38,6 @@ test("Card uAdd", () => {
 
 function uEntFromText(aText) {
 	const oPosi = Array(aText.length);
-	const oTexts = [...aText];
+	const oTexts = [ ...aText ];
 	return new tEntWord(oPosi, oTexts);
 }

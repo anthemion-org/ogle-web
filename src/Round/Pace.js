@@ -13,15 +13,15 @@ import * as Text from "../Util/Text.js";
 /** Pace values to be offered to the user. Each element stores the starting time
  *  and the bonus time. */
 export const Vals = [
-	[6, 1],
-	[9, 1.5],
-	[12, 2],
-	[15, 2.5],
-	[18, 3],
-	[24, 4],
-	[30, 5],
-	[36, 6],
-	[48, 8]
+	[ 6, 1 ],
+	[ 9, 1.5 ],
+	[ 12, 2 ],
+	[ 15, 2.5 ],
+	[ 18, 3 ],
+	[ 24, 4 ],
+	[ 30, 5 ],
+	[ 36, 6 ],
+	[ 48, 8 ]
 ];
 Object.freeze(Vals);
 
@@ -40,7 +40,7 @@ export function uDef() {
  *  match is found. */
 export function uIdxValMatchOrDef(aSetup) {
 	for (let oj = 0; oj < Vals.length; ++oj) {
-		const [oPaceStart, oPaceBonus] = Vals[oj];
+		const [ oPaceStart, oPaceBonus ] = Vals[oj];
 		if ((oPaceStart === aSetup.PaceStart)
 			&& (oPaceBonus === aSetup.PaceBonus))
 			return oj;

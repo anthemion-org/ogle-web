@@ -21,7 +21,7 @@ test("tLex: Add user words and merge", () => {
 
 test("tLex.uCkKnown: Old and new user words", () => {
 	const oWordUserOld = "oooooooo";
-	Persist.uSet("WordsUser", [oWordUserOld]);
+	Persist.uSet("WordsUser", [ oWordUserOld ]);
 
 	const oLex = new ForTest.tLex();
 

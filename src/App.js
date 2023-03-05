@@ -20,10 +20,10 @@ import { React, useState, useReducer, useEffect } from "react";
  *  'index.html'. */
 export default function App() {
 	const oCfgInit = Persist.uGetPlain("Cfg");
-	const [oCfg, ouUpd_Cfg] = useState(oCfgInit);
+	const [ oCfg, ouUpd_Cfg ] = useState(oCfgInit);
 
 	const oStAppInit = Persist.uGetPlain("StApp");
-	const [oStApp, ouUpd_StApp] = useReducer(uNextStApp, oStAppInit);
+	const [ oStApp, ouUpd_StApp ] = useReducer(uNextStApp, oStAppInit);
 
 	useEffect(
 		() => Persist.uSet("Cfg", oCfg),

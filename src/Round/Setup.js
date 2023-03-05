@@ -10,7 +10,7 @@
 
 import * as Yield from "./Yield.js";
 import * as Pace from "./Pace.js";
-import { tRg } from "../Util/Rg.js";
+import * as Rg from "../Util/Rg.js";
 import * as Text from "../Util/Text.js";
 
 // tSetup
@@ -30,7 +30,7 @@ export class tSetup {
 		if (!aPlain) return null;
 
 		return new tSetup(
-			tRg.suFromPlain(aPlain.Yield),
+			Rg.uFromParse(aPlain.Yield),
 			aPlain.PaceStart,
 			aPlain.PaceBonus
 		);
@@ -43,7 +43,7 @@ export class tSetup {
 	}
 
 	constructor(aYield, aPaceStart, aPaceBonus) {
-		/** A tRg instance giving the number of words allowed in the board. */
+		/** A Rg record giving the number of words allowed in the board. */
 		this.Yield = aYield;
 		/** The number of seconds to be awarded at the start of the round. */
 		this.PaceStart = aPaceStart;
@@ -57,7 +57,7 @@ export class tSetup {
 	uTag() {
 		// This output must not change! High scores are marked with these values in
 		// the local storage, and changing them would cause those scores to be lost:
-		return `Y:(${this.Yield.uTag()}) `
+		return `Y:(${Rg.uTag(this.Yield)}) `
 			+ `PS:${this.PaceStart} PB:${this.PaceBonus}`;
 	}
 

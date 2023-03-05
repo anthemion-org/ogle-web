@@ -24,6 +24,7 @@
 import StsApp from "./StsApp.js";
 import { tCfg } from "./Cfg.js";
 import { tSetup } from "./Round/Setup.js";
+import * as UtilJSON from "./Util/UtilJSON.js";
 // This exposes 'package.json' to the client, which is said to have security
 // implications in some cases. Ours is already open to the public:
 import Pack from "../package.json";
@@ -44,17 +45,6 @@ export function uRead(an) {
 	return JSON.parse(oJSON);
 }
 
-/** Returns a string representation of `aVal` if it is infinite or `NaN`.
- *  Otherwise, returns the original value. */
-function _uNumsSpecialToStr(aKey, aVal) {
-	if (typeof aVal !== "number") return aVal;
-
-	if (aVal === Infinity) return "Infinity";
-	if (aVal === -Infinity) return "-Infinity";
-	if (isNaN(aVal)) return "NaN";
-	return aVal;
-}
-
 /** Writes the specified value to the local storage, after prefixing `an` with
  *  `_PrefixNameStore`. Also updates the `VerApp` value. */
 export function uWrite(an, aVal) {
@@ -64,14 +54,11 @@ export function uWrite(an, aVal) {
 	);
 	localStorage.setItem(
 		_PrefixNameStore + an,
-		// Because it cannot be deserialized correctly, writing `null` for infinite
-		// or `NaN` values can never be the right thing to do:
-		JSON.stringify(aVal, _uNumsSpecialToStr)
+		// Whatver else happens, writing `null` for infinite or `NaN` values must be
+		// wrong, because it cannot be deserialized correctly:
+		JSON.stringify(aVal, UtilJSON.uNumFix)
 	);
 }
-
-
-
 
 
 

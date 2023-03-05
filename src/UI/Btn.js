@@ -44,7 +44,7 @@ Btn.propTypes = {
 export default function Btn(aProps) {
 	/** Set to `true` if this button has processed an 'onPointerDown' event at any
 	 *  time. */
-	const [oCkDown, ouSet_CkDown] = useState(false);
+	const [ oCkDown, ouSet_CkDown ] = useState(false);
 
 	function ouHandPointOver(aEvt) {
 		Feed.uPointOver();

@@ -8,19 +8,19 @@
 //   import * as Yield from "./Round/Yield.js";
 //
 
-import { tRg } from "../Util/Rg.js";
+import * as Rg from "../Util/Rg.js";
 import * as Pt2 from "../Util/Pt2.js";
 
 /** Yield ranges to be offered to the user. */
 export const Vals = [
 	// I guess we're storing arrays here in case another value is needed, as in
 	// the pace elements?:
-	[new tRg(1, 10)],
-	[new tRg(1, 20)],
-	[new tRg(1, 40)],
-	[new tRg(60, 100)],
-	[new tRg(120, 160)],
-	[new tRg(180, Infinity)]
+	[ Rg.uNew(1, 10) ],
+	[ Rg.uNew(1, 20) ],
+	[ Rg.uNew(1, 40) ],
+	[ Rg.uNew(60, 100)],
+ 	[ Rg.uNew(120, 160) ],
+	[ Rg.uNew(180, Infinity) ]
 ];
 Object.freeze(Vals);
 
@@ -39,7 +39,7 @@ export function uDef() {
  *  match is found. */
 export function uIdxValMatchOrDef(aSetup) {
 	for (let oj = 0; oj < Vals.length; ++oj)
-		if (Vals[oj][0].uCkEq(aSetup.Yield)) return oj;
+		if (Rg.uCkEq(Vals[oj][0], aSetup.Yield)) return oj;
 	return jValDef;
 }
 

@@ -80,7 +80,7 @@ export default function DlgScoreWord(aProps) {
 	// I want to mess with.
 
 	/** Set to `true` if the Help dialog should be displayed. */
-	const [oCkHelp, ouSet_CkHelp] = useState(false);
+	const [ oCkHelp, ouSet_CkHelp ] = useState(false);
 
 	/** Prevents the specified event from being bubbled or captured after this
 	 *  handler. */

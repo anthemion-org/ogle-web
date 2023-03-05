@@ -107,7 +107,7 @@ export class tCard {
 
 	/** Returns a deep copy of this instance. */
 	uClone() {
-		return new tCard(this.TimeStart, [...this.Ents], this.Score,
+		return new tCard(this.TimeStart, [ ...this.Ents ], this.Score,
 			this.CtBonusTime);
 	}
 }
