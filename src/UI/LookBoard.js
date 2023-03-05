@@ -14,6 +14,7 @@ import ConnSel from "./ConnSel.js";
 import LookDie from "./LookDie.js";
 import { tBoard } from "../Board/Board.js";
 import { tEntWord } from "../Round/EntWord.js";
+import * as Rect from "../Util/Rect.js";
 import * as Const from "../Const.js";
 
 import React from "react";
@@ -71,7 +72,7 @@ export default function LookBoard(aProps) {
 
 	function ouBacksDie() {
 		const oEls = [];
-		const oiPosi = Const.RectBoard.uPosi();
+		const oiPosi = Rect.uPosi(Const.RectBoard);
 		for (const oPos of oiPosi) {
 			const oKey = oPos.X + "/" + oPos.Y;
 			const oCkDisp = !aProps.uCallTog;
@@ -85,7 +86,7 @@ export default function LookBoard(aProps) {
 
 	function ouConnsSel() {
 		const oEls = [];
-		const oiPosi = Const.RectBoard.uPosi();
+		const oiPosi = Rect.uPosi(Const.RectBoard);
 		for (const oPos of oiPosi) {
 			const oKey = oPos.X + "/" + oPos.Y;
 			const oPosFrom = aProps.Ent && aProps.Ent.uPosPrev(oPos);
@@ -98,7 +99,7 @@ export default function LookBoard(aProps) {
 
 	function ouLooksDie() {
 		const oEls = [];
-		const oiPosi = Const.RectBoard.uPosi();
+		const oiPosi = Rect.uPosi(Const.RectBoard);
 		for (const oPos of oiPosi) {
 			const oKey = oPos.X + "/" + oPos.Y;
 			const oDie = aProps.Board.uDie(oPos);

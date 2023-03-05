@@ -5,65 +5,71 @@
 //
 // Import with:
 //
-//   import { tArr2 } from "../Util/Arr2.js";
+//   import * as Arr2 from "../Util/Arr2.js";
 //
 
-/** A rectangular array backed by a linear array, for fast copying. This class
- *  is mutable.*/
-export class tArr2 {
-	/** Creates an instance with the specified Pt2 size. If `aOpts` is defined,
-	 *  the new elements will be copied from linear array `aOpts.Src`, or set to
-	 *  default value `aOpts.Def`. If it is not defined, the elements will be left
-	 *  undefined. */
-	constructor(aSize, aOpts) {
-		/** The dimensions of this instance. */
-		this.Size = aSize;
+// Arr2
+// ----
+// Each Arr2 record represents a rectangular array. Records are backed by linear
+// arrays, for fast copying.
 
-		const oSrc = aOpts?.Src;
-		const oCt = aSize.X * aSize.Y;
-		if (oSrc) {
-			if (oSrc.length !== oCt)
-				throw Error("tArr2: Source dimensions do not match");
+/** Creates an instance with the specified Pt2 size. If `aOpts` is defined, the
+ *  new elements will be copied from linear array `aOpts.Src`, or set to default
+ *  value `aOpts.Def`. If it is not defined, the elements will be left
+ *  undefined. */
+export function uNew(aSize, aOpts) {
+	const oArr2 = {
+		/** The dimensions of the rectangle. */
+		Size: aSize,
+		/** The linear array that backs the record. */
+		_Els: undefined
+	};
 
-			/** The linear array that backs this instance. */
-			this._Els = Array.from(oSrc);
-		}
-		else {
-			this._Els = Array(oCt);
+	const oSrc = aOpts?.Src;
+	const oCt = aSize.X * aSize.Y;
+	if (oSrc) {
+		if (oSrc.length !== oCt)
+			throw Error("Arr2: Source dimensions do not match");
+		oArr2._Els = Array.from(oSrc);
+	}
+	else {
+		oArr2._Els = Array(oCt);
 
-			const oDef = aOpts?.Def;
-			if (oDef !== undefined) this._Els.fill(oDef);
-		}
+		const oDef = aOpts?.Def;
+		if (oDef !== undefined) oArr2._Els.fill(oDef);
 	}
 
-	/** Returns the value at the specified Pt2 position. */
-	uGet(aPos) {
-		const oj = uIdxCk(this, aPos, "uGet");
-		return this._Els[oj];
-	}
-
-	/** Sets the value at the specified Pt2 position. */
-	uSet(aPos, aVal) {
-		const oj = uIdxCk(this, aPos, "uSet");
-		this._Els[oj] = aVal;
-	}
-
-	/** Returns a shallow copy of this instance. */
-	uCopy() {
-		return new tArr2(this.Size, { Src: this._Els });
-	}
-
-	/** Returns a deep copy of this instance. */
-	uClone() {
-		const oArr = new tArr2(this.Size, { Src: this._Els });
-		oArr._Els = oArr._Els.map(a => a.uClone());
-		return oArr;
-	}
+	return oArr2;
 }
 
-function uIdxCk(aArr, aPos, aName) {
+/** Returns the value in an Arr2 record at the specified Pt2 position. */
+export function uGet(aArr2, aPos) {
+	const oj = _uIdxCk(aArr2, aPos, "uGet");
+	return aArr2._Els[oj];
+}
+
+/** Sets the value in an Arr2 record at the specified Pt2 position. */
+export function uSet(aArr2, aPos, aVal) {
+	const oj = _uIdxCk(aArr2, aPos, "uSet");
+	aArr2._Els[oj] = aVal;
+}
+
+/** Returns a shallow copy of an Arr2 record. */
+export function uCopy(aArr2) {
+	return uNew(aArr2.Size, { Src: aArr2._Els });
+}
+
+/** Returns a deep copy of an Arr2 record. The array elements must implement
+ *  `uClone`. */
+export function uClone(aArr2) {
+	const oArr2 = uNew(aArr2.Size, { Src: aArr2._Els });
+	oArr2._Els = oArr2._Els.map(a => a.uClone());
+	return oArr2;
+}
+
+function _uIdxCk(aArr, aPos, aName) {
 	const oj = (aPos.Y * aArr.Size.X) + aPos.X;
 	if ((oj < 0) || (oj >= aArr._Els.length))
-		throw Error("tArr2." + aName + ": Invalid position");
+		throw Error("Arr2 " + aName + ": Invalid position");
 	return oj;
 }

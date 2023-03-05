@@ -13,7 +13,7 @@ export function uGen_Arr(aLen, aVal) {
 	return Array(aLen).fill(aVal);
 }
 
-/** Returns true if the app is running on a mobile device. */
+/** Returns `true` if the app is running on a phone or tablet. */
 export function uCkMob() {
 	// MDN suggests just checking for 'Mobi':
 	//

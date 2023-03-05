@@ -9,7 +9,8 @@
 //
 
 import { tEntWord } from "../Round/EntWord.js";
-import { tArr2 } from "../Util/Arr2.js";
+import * as Arr2 from "../Util/Arr2.js";
+import * as Rect from "../Util/Rect.js";
 import * as Pt2 from "../Util/Pt2.js";
 import * as Const from "../Const.js";
 
@@ -41,11 +42,11 @@ export class tSelBoard {
 		this.SelPrev = aSelPrev ?? null;
 
 		let oCksByPosPrev = aSelPrev
-			? aSelPrev.CksByPos.uCopy()
-			: new tArr2(Const.SizeBoard, { Def: false });
-		/** A tArr2 of booleans that that marks selected board position. */
+			? Arr2.uCopy(aSelPrev.CksByPos)
+			: Arr2.uNew(Const.SizeBoard, { Def: false });
+		/** An Arr2 record of booleans that marks selected board position. */
 		this.CksByPos = oCksByPosPrev;
-		this.CksByPos.uSet(aPos, true);
+		Arr2.uSet(this.CksByPos, aPos, true);
 
 		const oDie = aBoard.uDie(aPos);
 		const oText = oDie.Text.toLowerCase();
@@ -104,7 +105,9 @@ function uPosNext(aSel, ajNeigh) {
 	for (let ojDir = 0; ojDir < 8; ++ojDir) {
 		const oOff = uOff(ojDir);
 		const oPos = Pt2.uSum(aSel.Pos, oOff);
-		if (Const.RectBoard.uCkContain(oPos) && !aSel.CksByPos.uGet(oPos)) {
+		if (Rect.uCkContain(Const.RectBoard, oPos)
+			&& !Arr2.uGet(aSel.CksByPos, oPos)) {
+
 			if (ajNeigh < 1) return oPos;
 			--ajNeigh;
 		}

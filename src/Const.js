@@ -9,7 +9,7 @@
 //
 
 import * as Pt2 from "./Util/Pt2.js";
-import { tRect } from "./Util/Rect.js";
+import * as Rect from "./Util/Rect.js";
 
 /** The board width, in dice. */
 export const WthBoard = 5;
@@ -18,7 +18,7 @@ export const HgtBoard = 5;
 /** The board size, in dice. */
 export const SizeBoard = Pt2.uNew(WthBoard, HgtBoard);
 /** The board rectangle, in dice. */
-export const RectBoard = new tRect(Pt2.uNew(0, 0), SizeBoard);
+export const RectBoard = Rect.uNew(Pt2.uNew(0, 0), SizeBoard);
 
 /** The number of dice in the board. */
 export const CtDie = WthBoard * HgtBoard;

@@ -9,6 +9,7 @@
 //
 
 import * as Search from "../Util/Search.js";
+import * as Rect from "../Util/Rect.js";
 import * as Pt2 from "../Util/Pt2.js";
 import * as Text from "../Util/Text.js";
 import * as Const from "../Const.js";
@@ -58,7 +59,7 @@ export class tEntWord {
 	/** Returns `true` if the specified position can be added to the end of this
 	 *  entry. */
 	uCkAddAt(aPos) {
-		if (!Const.RectBoard.uCkContain(aPos)) return false;
+		if (!Rect.uCkContain(Const.RectBoard, aPos)) return false;
 
 		const oPosEnd = this.uPosEnd();
 		if (!oPosEnd) return false;
@@ -68,7 +69,7 @@ export class tEntWord {
 
 	/** Returns `true` if the specified position can be selected or unselected. */
 	uCkTogAt(aPos) {
-		return Const.RectBoard.uCkContain(aPos)
+		return Rect.uCkContain(Const.RectBoard, aPos)
 			&& (this.uCkAddAt(aPos) || this.uCkAt(aPos));
 	}
 

@@ -3,7 +3,7 @@
 // Copyright ©2022 Jeremy Kelly
 // www.anthemion.org
 
-import { tRect } from "./Rect.js";
+import * as Rect from "./Rect.js";
 import * as Pt2 from "./Pt2.js";
 
 test.each([
@@ -17,18 +17,18 @@ test.each([
 	[ Pt2.uNew(3, 4), false ],
 	[ Pt2.uNew(4, 3), false ],
 	[ Pt2.uNew(4, 4), false ]
-])("tRect.uCkContain", (aPos, aCk) => {
+])("Rect uCkContain", (aPos, aCk) => {
 	const oLeftTop = Pt2.uNew(1, 1);
 	const oSize = Pt2.uNew(3, 3);
-	const oRect = new tRect(oLeftTop, oSize);
-	expect(oRect.uCkContain(aPos)).toBe(aCk);
+	const oRect = Rect.uNew(oLeftTop, oSize);
+	expect(Rect.uCkContain(oRect, aPos)).toBe(aCk);
 });
 
-test("tRect.uPosi", () => {
+test("Rect uPosi", () => {
 	const oLeftTop = Pt2.uNew(1, 1);
 	const oSize = Pt2.uNew(3, 4);
-	const oRect = new tRect(oLeftTop, oSize);
-	const oPosi = [ ...oRect.uPosi() ];
+	const oRect = Rect.uNew(oLeftTop, oSize);
+	const oPosi = [ ...Rect.uPosi(oRect) ];
 
 	const oPosiExp = [];
 	for (let oY = 1; oY < 5; ++oY)
