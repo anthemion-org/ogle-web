@@ -11,7 +11,7 @@
 import "./ViewPlay.css";
 import Btn from "./Btn.js";
 import StsApp from "../StsApp.js";
-import { tSetup } from "../Round/Setup.js";
+import * as Setup from "../Round/Setup.js";
 import { tBoard } from "../Board/Board.js";
 import * as EntWord from "../Round/EntWord.js";
 import { tCard } from "../Round/Card.js";
@@ -32,15 +32,15 @@ import PropTypes from "prop-types";
 ViewPlay.propTypes = {
 	StApp: PropTypes.string.isRequired,
 	uUpd_StApp: PropTypes.func.isRequired,
-	Setup: PropTypes.instanceOf(tSetup).isRequired
+	Setup: PropTypes.object.isRequired
 };
 
 /** Implements the Play view, which displays the board, accepts user word
  *  entries, and manages the timer during play. Along with the usual `View`
  *  props, the following props are supported:
  *
- *  - `Setup`: A `tSetup` instance that configures the current round. This prop
- *    is required.
+ *  - `Setup`: A Setup record that configures the current round. This prop is
+ *    required.
  */
 export default function ViewPlay(aProps) {
 	/** The time remaining, in milliseconds, when the user is considered to be low
@@ -543,12 +543,12 @@ export default function ViewPlay(aProps) {
 
 				<section id="BoxSetup">
 					<div>
-						<div>{aProps.Setup.uTextShortPace()}</div>
+						<div>{Setup.uTextShortPace(aProps.Setup)}</div>
 						<h3>Pace</h3>
 					</div>
 					<hr />
 					<div>
-						<div>{aProps.Setup.uTextShortYield()}</div>
+						<div>{Setup.uTextShortYield(aProps.Setup)}</div>
 						<h3>Yield</h3>
 					</div>
 				</section>

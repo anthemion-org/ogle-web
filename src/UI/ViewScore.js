@@ -13,7 +13,7 @@ import DlgScoreWord from "./DlgScoreWord.js";
 import DlgNamePlay from "./DlgNamePlay.js";
 import Btn from "./Btn.js";
 import StsApp from "../StsApp.js";
-import { tSetup } from "../Round/Setup.js";
+import * as Setup from "../Round/Setup.js";
 import { tBoard } from "../Board/Board.js";
 import { tCard } from "../Round/Card.js";
 import { StatsWord, uScoresCoversFromCards } from "../Round/ScoreWord.js";
@@ -34,7 +34,7 @@ import { useSelector, useDispatch } from "react-redux";
 ViewScore.propTypes = {
 	StApp: PropTypes.string.isRequired,
 	uUpd_StApp: PropTypes.func.isRequired,
-	Setup: PropTypes.instanceOf(tSetup).isRequired,
+	Setup: PropTypes.object.isRequired,
 	Board: PropTypes.instanceOf(tBoard).isRequired,
 	CardOgle: PropTypes.instanceOf(tCard).isRequired,
 	CardUser: PropTypes.instanceOf(tCard).isRequired
@@ -43,8 +43,8 @@ ViewScore.propTypes = {
 /** Implements the Score view, which displays the result of the last round of
  *  play. Along with the usual `View` props, the following props are supported:
  *
- *  - `Setup`: The `tSetup` used to generate the completed round. This prop is
- *    required;
+ *  - `Setup`: The Setup record used to generate the completed round. This prop
+ *    is required;
  *
  *  - `Board`: A `tBoard` instance representing the board that was played. This
  *    prop is required;
@@ -134,7 +134,7 @@ export default function ViewScore(aProps) {
 		const oFracPerc = aProps.CardUser.Score / aProps.CardOgle.Score;
 		const oScore = ScorePlay.uNew(aProps.CardUser.TimeStart, aName, oFracPerc);
 		const oAct = Add_ScoreHigh({
-			TagSetup: aProps.Setup.uTag(),
+			TagSetup: Setup.uTag(aProps.Setup),
 			ScorePlay: oScore
 		});
 		ouDispatch(oAct);
@@ -226,7 +226,7 @@ export default function ViewScore(aProps) {
 
 	function ouLinesScoreHigh() {
 		const oCtRow = Const.CtStoreScoreHigh;
-		const oTag = aProps.Setup.uTag();
+		const oTag = Setup.uTag(aProps.Setup);
 		const oScores = ScoresHigh.uScoresPlayTagSetup(oScoresHigh, oTag)
 			.slice(0, (oCtRow + 1));
 		if (oScores.length < oCtRow) {
@@ -284,12 +284,12 @@ export default function ViewScore(aProps) {
 				<section id="BoxSetup">
 					<div>
 						<h3>Yield</h3>
-						<div>{aProps.Setup.uTextShortYield()}</div>
+						<div>{Setup.uTextShortYield(aProps.Setup)}</div>
 					</div>
 					<hr />
 					<div>
 						<h3>Pace</h3>
-						<div>{aProps.Setup.uTextShortPace()}</div>
+						<div>{Setup.uTextShortPace(aProps.Setup)}</div>
 					</div>
 				</section>
 

@@ -5,7 +5,7 @@
 //
 // Import with:
 //
-//   import { tSetup } from "./Round/Setup.js";
+//   import * as Setup from "./Round/Setup.js";
 //
 
 import * as Yield from "./Yield.js";
@@ -13,63 +13,65 @@ import * as Pace from "./Pace.js";
 import * as Rg from "../Util/Rg.js";
 import * as Text from "../Util/Text.js";
 
-// tSetup
-// ------
+// Setup
+// -----
+// Each Setup record stores the game setup options for one round.
+//
 // In the desktop app, this type stored settings values that referenced specific
 // UI selections (particularly slider positions) and translated those on demand
 // into real data, such as word count ranges or time bonuses. That approach made
-// it difficult to change settings options later, however, so this class stores
-// settings in real terms, and lets the UI map those onto UI selections at
-// display time. The UI can select a default if this data fails to match the
-// selections on offer.
+// it difficult to change settings options later, so this record stores settings
+// in real terms, and lets the UI map those onto UI selections at display time.
+// The UI can select a default if this data fails to match the selections on
+// offer.
 
-/** Stores the setup options for one round. This class is immutable. */
-export class tSetup {
-	/** Creates an instance from the specified plain object and returns it. */
-	static suFromPlain(aPlain) {
-		if (!aPlain) return null;
+/** Creates a Setup record from an object produced by `JSON.parse`, and returns
+ *  it, or returns `null` if `aParse` is falsy. */
+export function uFromParse(aParse) {
+	if (!aParse) return null;
 
-		return new tSetup(
-			Rg.uFromParse(aPlain.Yield),
-			aPlain.PaceStart,
-			aPlain.PaceBonus
-		);
-	}
+	return uNew(
+		Rg.uFromParse(aParse.Yield),
+		aParse.PaceStart,
+		aParse.PaceBonus
+	);
+}
 
-	/** Returns a new instance containing default values. */
-	static suDef() {
-		const [oPaceStart, oPaceBonus] = Pace.uDef();
-		return new tSetup(Yield.uDef(), oPaceStart, oPaceBonus);
-	}
+/** Returns a new instance containing default values. */
+export function uDef() {
+	const [ oPaceStart, oPaceBonus ] = Pace.uDef();
+	return uNew(Yield.uDef(), oPaceStart, oPaceBonus);
+}
 
-	constructor(aYield, aPaceStart, aPaceBonus) {
+export function uNew(aYield, aPaceStart, aPaceBonus) {
+	const oSetup = {
 		/** A Rg record giving the number of words allowed in the board. */
-		this.Yield = aYield;
+		Yield: aYield,
 		/** The number of seconds to be awarded at the start of the round. */
-		this.PaceStart = aPaceStart;
+		PaceStart: aPaceStart,
 		/** The number of seconds to be awarded for each letter over three. */
-		this.PaceBonus = aPaceBonus;
+		PaceBonus: aPaceBonus
+	};
+	Object.freeze(oSetup);
+	return oSetup;
+}
 
-		Object.freeze(this);
-	}
+/** Returns a short string that summarizes the values in `aSetup`. */
+export function uTag(aSetup) {
+	// This output must not change! High scores are marked with these values in
+	// the local storage, and changing them would cause those scores to be lost:
+	return `Y:(${Rg.uTag(aSetup.Yield)}) `
+		+ `PS:${aSetup.PaceStart} PB:${aSetup.PaceBonus}`;
+}
 
-	/** Returns a short string that summarizes the values in this instance. */
-	uTag() {
-		// This output must not change! High scores are marked with these values in
-		// the local storage, and changing them would cause those scores to be lost:
-		return `Y:(${Rg.uTag(this.Yield)}) `
-			+ `PS:${this.PaceStart} PB:${this.PaceBonus}`;
-	}
+/** Returns a short string describing the yield within `aSetup`. */
+export function uTextShortYield(aSetup) {
+	if (!isFinite(aSetup.Yield.End))
+		return aSetup.Yield.Start + "+";
+	return aSetup.Yield.Start + "-" + aSetup.Yield.End;
+}
 
-	/** Returns a short string describing the yield. */
-	uTextShortYield() {
-		if (!isFinite(this.Yield.End))
-			return this.Yield.Start + "+";
-		return this.Yield.Start + "-" + this.Yield.End;
-	}
-
-	/** Returns a short string describing the pace. */
-	uTextShortPace() {
-		return this.PaceStart + " + " + Text.uFracNice(this.PaceBonus);
-	}
+/** Returns a short string describing the pace within `aSetup`. */
+export function uTextShortPace(aSetup) {
+	return aSetup.PaceStart + " + " + Text.uFracNice(aSetup.PaceBonus);
 }

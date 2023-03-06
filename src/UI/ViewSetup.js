@@ -17,7 +17,7 @@ import StsApp from "../StsApp.js";
 import * as Yield from "../Round/Yield.js";
 import * as Pace from "../Round/Pace.js";
 import * as Theme from "../Theme.js";
-import { tSetup } from "../Round/Setup.js";
+import * as Setup from "../Round/Setup.js";
 
 import React from "react";
 import PropTypes from "prop-types";
@@ -35,15 +35,14 @@ import PropTypes from "prop-types";
 // 'Setup' options are specific to game play. They are persisted with the
 // `uStore_Setup` method in this class, which writes to the `Setup` key.
 //
-// The setup selections are represented with a `tSetup` instance. This view
-// reads the instance from the store, which records data in 'real' terms that
-// are usable in other parts of the app. Many controls (particularly the sliders
-// in this view) reference values in 'nominal' terms, such as indices, which
-// identify user selections without being directly usable as values. The
-// `Yield.Vals` and `Pace.Vals` arrays associate nominal selections with real
-// values. That allows the view (and its particular way of selecting or
-// identifying values) to change without affecting the modules that consume real
-// values.
+// The setup selections are represented with a Setup record. This view reads the
+// instance from the store, which records data in 'real' terms that are usable
+// in other parts of the app. Many controls (particularly the sliders in this
+// view) reference values in 'nominal' terms, such as indices, which identify
+// user selections without being directly usable as values. The `Yield.Vals` and
+// `Pace.Vals` arrays associate nominal selections with real values. That allows
+// the view (and its particular way of selecting or identifying values) to
+// change without affecting the modules that consume real values.
 
 /** Implements the Setup view, which is displayed when Ogle starts. Aside from
  *  those used by all `View` instances, no props are supported. */
@@ -51,7 +50,7 @@ export default class ViewSetup extends React.Component {
 	constructor(aProps) {
 		super(aProps);
 
-		const oSetupInit = tSetup.suFromPlain(Persist.uGetPlain("Setup"));
+		const oSetupInit = Setup.uFromParse(Persist.uGetPlain("Setup"));
 		this.state = {
 			...this.props.Cfg,
 			/** The selected `Yield.Vals` index. */
@@ -78,11 +77,11 @@ export default class ViewSetup extends React.Component {
 		Persist.uSet("Setup", this.uSetup());
 	}
 
-	/** Returns a `tSetup` instance representing the setup selected in this view. */
+	/** Returns a Setup record representing the setup selected in this view. */
 	uSetup() {
 		const oYield = Yield.Vals[this.state.jYield][0];
 		const [ oPaceStart, oPaceBonus ] = Pace.Vals[this.state.jPace];
-		return new tSetup(oYield, oPaceStart, oPaceBonus);
+		return Setup.uNew(oYield, oPaceStart, oPaceBonus);
 	}
 
 	// Event handling
@@ -143,7 +142,7 @@ export default class ViewSetup extends React.Component {
 					<section>
 						<label htmlFor="RgYield">Yield</label>
 						<div className="Name">
-							{oSetup.uTextShortYield()}
+							{Setup.uTextShortYield(oSetup)}
 						</div>
 						<Slide id="RgYield" name="jYield" value={this.state.jYield}
 							max={Yield.Vals.length - 1} onChange={this.uHandChangeSetup} />
@@ -155,7 +154,7 @@ export default class ViewSetup extends React.Component {
 					<section>
 						<label htmlFor="RgPace">Pace</label>
 						<div className="Name">
-							{oSetup.uTextShortPace()}
+							{Setup.uTextShortPace(oSetup)}
 						</div>
 						<Slide id="RgPace" name="jPace" value={this.state.jPace}
 							max={Pace.Vals.length - 1} onChange={this.uHandChangeSetup} />

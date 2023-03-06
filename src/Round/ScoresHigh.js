@@ -8,7 +8,7 @@
 //   import * as ScoresHigh from "./Round/ScoresHigh.js";
 //
 
-import { tScorePlay, uCompareScorePlayPlain } from "./ScorePlay.js";
+import * as Setup from "./Setup.js";
 import * as Const from "../Const.js";
 
 import * as _ from "lodash";
@@ -18,7 +18,7 @@ import * as _ from "lodash";
 // The ScoresHigh record stores all player high score data. It is an object
 // containing:
 //
-// - `_ByTag`: An object that associates `tSetup` tag values with arrays of
+// - `_ByTag`: An object that associates Setup record tag values with arrays of
 //   ScorePlay records. These arrays are sorted with `_uCompare` and trimmed to
 //   length `Const.CtStoreScoreHigh`.
 //
@@ -52,7 +52,7 @@ import * as _ from "lodash";
 export function uCkScoreHigh(aSetup, aCardUser, aCardOgle, aScoresHigh) {
 	if (aCardUser.Score < 1) return false;
 
-	const oTagSetup = aSetup.uTag();
+	const oTagSetup = Setup.uTag(aSetup);
 	const oScores = aScoresHigh._ByTag[oTagSetup];
 	if (!oScores || !oScores.length)
 		return true;
@@ -68,8 +68,8 @@ export function uCkScoreHigh(aSetup, aCardUser, aCardOgle, aScoresHigh) {
 }
 
 /** Returns the array of ScorePlay records in `aScoresHigh` containing the
- *  scores associated with the specified `tSetup` tag, or an empty array, if no
- *  such scores have been recorded. */
+ *  scores associated with the specified Setup record tag, or an empty array, if
+ *  no such scores have been recorded. */
 export function uScoresPlayTagSetup(aScoresHigh, aTagSetup) {
 	const oScores = aScoresHigh._ByTag[aTagSetup];
 	return oScores ? Array.from(oScores) : [];

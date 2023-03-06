@@ -6,7 +6,7 @@
 // Shouldn't this be called `WorkBoardCreate`, or something similar? [refactor]
 
 import { tConfigPoolDie } from "../Board/PoolDie.js";
-import { tSetup } from "../Round/Setup.js";
+import * as Setup from "../Round/Setup.js";
 import { tBoard } from "../Board/Board.js";
 import * as SearchBoard from "./SearchBoard.js";
 import { tCard } from "../Round/Card.js";
@@ -19,9 +19,10 @@ import * as Rg from "../Util/Rg.js";
 onmessage = function (aMsg) {
 	try {
 		const oGenRnd = new tGenRnd();
-		const oSetup = tSetup.suFromPlain(aMsg.data.Setup);
+		const oSetup = Setup.uFromParse(aMsg.data.Setup);
 
-		const oTextSetup = oSetup.uTextShortYield() + " / " + oSetup.uTextShortPace();
+		const oTextSetup = Setup.uTextShortYield(oSetup) + " / "
+			+ Setup.uTextShortPace(oSetup);
 		_Log(2, `Generating '${oTextSetup}' board...`);
 
 		const oConfigPools = tConfigPoolDie.suFromSetup(oSetup);

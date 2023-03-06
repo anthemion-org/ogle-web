@@ -15,15 +15,15 @@
 // `uSet` stores objects and values in the local storage root, after prefixing
 // their names with `_PrefixNameStore`.
 //
-// Ogle uses classes like `tSetup` to store data in memory, but these types are
-// lost when their content is serialized. When class instance is restored, the
+// Ogle uses types like Setup to store data in memory, but these types are lost
+// when their content is serialized. When a class instance is restored, the
 // untyped data returned by `uGetPlain` must be converted with the static
 // `suFromPlain` method provided by the destination class. See 'Plain data and
-// persistence' in `README.md` for more on this.
+// persistence' in `README.md` for more on this. [todo]
 
 import StsApp from "./StsApp.js";
 import { tCfg } from "./Cfg.js";
-import { tSetup } from "./Round/Setup.js";
+import * as Setup from "./Round/Setup.js";
 import * as UtilJSON from "./Util/UtilJSON.js";
 // This exposes 'package.json' to the client, which is said to have security
 // implications in some cases. Ours is already open to the public:
@@ -93,7 +93,7 @@ const _PlainsByName = _uRead_Plains();
 const _DefsByName = {
 	Cfg: tCfg.suDef(),
 	StApp: StsApp.Setup,
-	Setup: tSetup.suDef(),
+	Setup: Setup.uDef(),
 	ScoresHigh: {},
 	WordsUser: []
 };

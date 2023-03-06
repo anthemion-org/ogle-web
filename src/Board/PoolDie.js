@@ -22,7 +22,7 @@ export class tConfigPoolDie {
 		return new tConfigPoolDie(1.0, 4.0, 0.1, 1.0, 4.0, 0.1);
 	}
 
-	/** Returns a new instance appropriate for the given `tSetup` instance. */
+	/** Returns a new instance appropriate for the specified Setup record. */
 	static suFromSetup(aSetup) {
 		if (!aSetup)
 			throw Error("tConfigPoolDie.suFromSetup: Setup not provided");
