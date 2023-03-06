@@ -8,7 +8,7 @@
 //   import { tCard } from "./Round/Card.js";
 //
 
-import { tEntWord, uCompareEntWord } from "./EntWord.js";
+import * as EntWord from "./EntWord.js";
 import * as Text from "../Util/Text.js";
 import * as Const from "../Const.js";
 
@@ -27,7 +27,7 @@ export class tCard {
 	static suFromPlain(aPlain) {
 		if (!aPlain) return null;
 
-		const oEnts = aPlain.Ents.map(a => tEntWord.suFromPlain(a));
+		const oEnts = aPlain.Ents.map(a => EntWord.uFromParse(a));
 		return new tCard(aPlain.TimeStart, oEnts, aPlain.Score, aPlain.CtBonusTime);
 	}
 
@@ -38,7 +38,7 @@ export class tCard {
 		// This comparison function sorts longer words before shorter words when one
 		// follows the other; otherwise 'tCard.uAdd' would store followed words
 		// before it could know that they are followed:
-		oEntsAll.sort(uCompareEntWord);
+		oEntsAll.sort(EntWord.uCompare);
 
 		const oCard = tCard.suNew();
 		// Slow, but easy:
@@ -51,7 +51,7 @@ export class tCard {
 		/** The UNIX time when this round started. This should be unique across all
 		 *  rounds on a given browser. */
 		this.TimeStart = aTimeStart;
-		/** An array of tEntWord instances representing the word entries recorded by
+		/** An array of EntWord records representing the word entries recorded by
 		 *  this player. */
 		this.Ents = Array.from(aEnts);
 		/** The score recorded by this player. */
@@ -61,7 +61,7 @@ export class tCard {
 		this.CtBonusTime = aCtBonusTime;
 	}
 
-	/** Adds the specified tEntWord instance to Ents, if it meets the minimum
+	/** Adds the specified EntWord record to Ents, if it meets the minimum
 	 *  length, and if it is not a duplicate, and returns `true` if a valid,
 	 *  unfollowed word was entered. If the entry is new, this will be the number
 	 *  of letters in the entry, less the minimum word length, plus one. If the
@@ -70,7 +70,7 @@ export class tCard {
 	 *  entry length has been exceeded. Set aCkAddFollow to `false` if followed
 	 *  entries should not be added. */
 	uAdd(aEnt, aCkAddFollow) {
-		const oTextAdd = aEnt.uTextAll();
+		const oTextAdd = EntWord.uTextAll(aEnt);
 		if (oTextAdd.length < Const.LenWordMin) return false;
 
 		let oCkScore = true;
@@ -80,7 +80,7 @@ export class tCard {
 			// uScoresCoversFromCards'. I don't see a good way to share the
 			// functionality, however.
 
-			const oTextBefore = oEntBefore.uTextAll();
+			const oTextBefore = EntWord.uTextAll(oEntBefore);
 			if (uCkFollowEither(oTextAdd, oTextBefore)) {
 				oCkScore = false;
 

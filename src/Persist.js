@@ -40,7 +40,7 @@ export function uRead(an) {
 	// the string 'Infinity' is a likely value for some fields, and the original
 	// Ogle code did not need or use `_uNumsSpecialToStr`, so there are `null`
 	// values in production that can't be restored without context that is lacking
-	// here. Records that store numbers should implement `suFromParse` functions,
+	// here. Records that store numbers should implement `uFromParse` functions,
 	// to be invoked when the store is initialized:
 	return JSON.parse(oJSON);
 }

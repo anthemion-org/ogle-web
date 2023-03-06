@@ -8,7 +8,7 @@
 //   import { tSelBoard } from "./Search/SelBoard.js";
 //
 
-import { tEntWord } from "../Round/EntWord.js";
+import * as EntWord from "../Round/EntWord.js";
 import * as Arr2 from "../Util/Arr2.js";
 import * as Rect from "../Util/Rect.js";
 import * as Pt2 from "../Util/Pt2.js";
@@ -25,8 +25,8 @@ import * as Const from "../Const.js";
  *
  *  This class is mutable. Because most instances reference other instances,
  *  this class produces verbose output when serialized with 'JSON.stringify'.
- *  Simpler output is produced by tEntWord, which stores similar data, but is
- *  not as fast. */
+ *  Simpler output is produced by EntWord records, which store similar data, but
+ *  are not as fast. */
 export class tSelBoard {
 	/** Set aSelPrev to the instance that should precede this instance in the
 	 *  selection, or leave it undefined to start a new selection. */
@@ -78,7 +78,7 @@ export class tSelBoard {
 		return oPosNext ? new tSelBoard(this.Board, oPosNext, this) : null;
 	}
 
-	/** Returns a tEntWord instance representing this selection. */
+	/** Returns an EntWord record representing this selection. */
 	uEntWord() {
 		let oSel = this;
 		const oPosi = [];
@@ -91,7 +91,7 @@ export class tSelBoard {
 
 			oSel = oSel.SelPrev;
 		}
-		return new tEntWord(oPosi, oTexts);
+		return EntWord.uNew(oPosi, oTexts);
 	}
 }
 

@@ -13,7 +13,7 @@ import Btn from "./Btn.js";
 import StsApp from "../StsApp.js";
 import { tSetup } from "../Round/Setup.js";
 import { tBoard } from "../Board/Board.js";
-import { tEntWord } from "../Round/EntWord.js";
+import * as EntWord from "../Round/EntWord.js";
 import { tCard } from "../Round/Card.js";
 import LookBoard from "./LookBoard.js";
 import DlgHelp from "./DlgHelp.js";
@@ -56,7 +56,7 @@ export default function ViewPlay(aProps) {
 	/** A `tCard` instance representing the Ogle scorecard, or `null` if the board
 	 *  has not been generated yet. */
 	const [oCardOgle, ouSet_CardOgle] = useState(() => uCardOgleInit());
-	/** A `tEntWord` instance representing the user's current board selection, or
+	/** An EntWord record representing the user's current board selection, or
 	 *  `null` if there is no selection. */
 	const [oEntUser, ouSet_EntUser] = useState(null);
 	/** A `tCard` instance representing the user scorecard. */
@@ -335,7 +335,7 @@ export default function ViewPlay(aProps) {
 
 	/** Handles the Word Verification Add button click. */
 	function ouHandAddVerWord(aEvt) {
-		const oText = oEntUser.uTextAll();
+		const oText = EntWord.uTextAll(oEntUser);
 		Lex.uAdd_WordUser(oText);
 		ouRecord_Ent();
 
@@ -365,7 +365,7 @@ export default function ViewPlay(aProps) {
 	/** Returns `true` if the specified board position can be selected or
 	 *  unselected. */
 	function ouCkEnab(aPos) {
-		return !oEntUser || oEntUser.uCkTogAt(aPos);
+		return !oEntUser || EntWord.uCkTogAt(oEntUser, aPos);
 	}
 
 	/** Toggles the die selection at the specified board position. */
@@ -375,15 +375,15 @@ export default function ViewPlay(aProps) {
 		// Start new entry:
 		if (!oEntUser) {
 			const oText = oBoard.uDie(aPos).Text;
-			const oEntNew = tEntWord.suFromPosText(aPos, oText);
+			const oEntNew = EntWord.uFromPosText(aPos, oText);
 			ouSet_EntUser(oEntNew);
 			Feed.uSelDie();
 			return;
 		}
 
 		// Truncate existing entry:
-		if (oEntUser.uCkAt(aPos)) {
-			const oEntPrev = oEntUser.uClonePrev(aPos);
+		if (EntWord.uCkAt(oEntUser, aPos)) {
+			const oEntPrev = EntWord.uClonePrev(oEntUser, aPos);
 			ouSet_EntUser(oEntPrev);
 			Feed.uUnselDie();
 			return;
@@ -391,7 +391,7 @@ export default function ViewPlay(aProps) {
 
 		// Extend existing entry:
 		const oText = oBoard.uDie(aPos).Text;
-		const oEntAdd = tEntWord.suFromPosText(aPos, oText, oEntUser);
+		const oEntAdd = EntWord.uFromPosText(aPos, oText, oEntUser);
 		ouSet_EntUser(oEntAdd);
 		Feed.uSelDie();
 	}
@@ -422,7 +422,7 @@ export default function ViewPlay(aProps) {
 		}
 
 		// The selection is too short:
-		const oText = oEntUser.uTextAll();
+		const oText = EntWord.uTextAll(oEntUser);
 		if (oText.length < Const.LenWordMin) {
 			return;
 		}
@@ -463,7 +463,7 @@ export default function ViewPlay(aProps) {
 	function ouContBoxEnt() {
 		if (oEntUser) return (
 			<div id="TextEnt">
-				{oEntUser.uTextAll()}
+				{EntWord.uTextAll(oEntUser)}
 			</div>
 		);
 
@@ -500,8 +500,10 @@ export default function ViewPlay(aProps) {
 	}
 
 	function ouCkDisabBtnScore() {
-		const oText = oEntUser?.uTextAll();
-		return !oText || (oText.length < Const.LenWordMin);
+		if (!oEntUser) return true;
+
+		const oText = EntWord.uTextAll(oEntUser);
+		return (oText.length < Const.LenWordMin);
 	}
 
 	return (

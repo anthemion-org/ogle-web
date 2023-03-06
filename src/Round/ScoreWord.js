@@ -10,6 +10,7 @@
 //
 
 import Lex from "../Search/Lex.js";
+import * as EntWord from "./EntWord.js";
 import * as Search from "../Util/Search.js";
 import * as Text from "../Util/Text.js";
 import * as Const from "../Const.js";
@@ -25,7 +26,7 @@ export class tScoreWord {
 		 *  selected by a given player. */
 		this.Ent = aEnt;
 		/** The word text. */
-		this.Text = aEnt.uTextAll();
+		this.Text = EntWord.uTextAll(aEnt);
 		/** A StatsWord value that indicates whether Ogle scored this word. */
 		this.StatOgle = aStatOgle;
 		/** A StatsWord value that indicates whether the user scored this word. */
@@ -70,7 +71,7 @@ export class tCover {
  */
 export function uScoresCoversFromCards(aCardOgle, aCardUser) {
 	function ouCkWordUser(aEnt) {
-		return Lex.uCkUser(aEnt.uTextAll());
+		return Lex.uCkUser(EntWord.uTextAll(aEnt));
 	}
 
 	const oScoresUser = aCardUser.Ents.map(aEnt =>

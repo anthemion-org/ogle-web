@@ -4,7 +4,7 @@
 // www.anthemion.org
 
 import { tCard } from "./Card.js";
-import { tEntWord } from "./EntWord.js";
+import * as EntWord from "./EntWord.js";
 
 test("Card uAdd", () => {
 	const oCard = tCard.suNew();
@@ -39,5 +39,5 @@ test("Card uAdd", () => {
 function uEntFromText(aText) {
 	const oPosi = Array(aText.length);
 	const oTexts = [ ...aText ];
-	return new tEntWord(oPosi, oTexts);
+	return EntWord.uNew(oPosi, oTexts);
 }

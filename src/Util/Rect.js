@@ -34,8 +34,7 @@ export function uTopRight(aRect) {
 	);
 }
 
-/** Returns `true` if the specified Pt2 position is contained by the Rect
- *  record. */
+/** Returns `true` if the specified Pt2 position is contained by `aRect`. */
 export function uCkContain(aRect, aPos) {
 	const oTopRight = uTopRight(aRect);
 	return (aPos.X >= aRect.LeftTop.X) && (aPos.X <= oTopRight.X)

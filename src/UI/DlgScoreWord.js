@@ -10,6 +10,7 @@
 
 import "./DlgScoreWord.css";
 import { tBoard } from "../Board/Board.js";
+import * as EntWord from "../Round/EntWord.js";
 import { tScoreWord, StatsWord } from "../Round/ScoreWord.js";
 import LookBoard from "./LookBoard.js";
 import Btn from "./Btn.js";
@@ -40,7 +41,7 @@ DlgScoreWord.propTypes = {
  *    the user clicks outside the dialog. This prop is required.
  */
 export default function DlgScoreWord(aProps) {
-	const oTextEnt = aProps.ScoreWord.Ent.uTextAll();
+	const oTextEnt = EntWord.uTextAll(aProps.ScoreWord.Ent);
 	const oURL = "https://en.wiktionary.org/wiki/" + oTextEnt;
 
 	const oTextInstructWik = aProps.ScoreWord.CkWordUser

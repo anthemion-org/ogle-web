@@ -13,7 +13,7 @@ import BackDie from "./BackDie.js";
 import ConnSel from "./ConnSel.js";
 import LookDie from "./LookDie.js";
 import { tBoard } from "../Board/Board.js";
-import { tEntWord } from "../Round/EntWord.js";
+import * as EntWord from "../Round/EntWord.js";
 import * as Rect from "../Util/Rect.js";
 import * as Const from "../Const.js";
 
@@ -25,7 +25,8 @@ import PropTypes from "prop-types";
 
 LookBoard.propTypes = {
 	Board: PropTypes.instanceOf(tBoard).isRequired,
-	Ent: PropTypes.instanceOf(tEntWord),
+	// EntWord record:
+	Ent: PropTypes.object,
 	CkPause: PropTypes.bool,
 	uCallTog: PropTypes.func,
 	uCallClear: PropTypes.func,
@@ -38,8 +39,8 @@ LookBoard.propTypes = {
  *  - Board: A tBoard instance representing the board to be displayed. This prop
  *    is required;
  *
- *  - Ent: A tEntWord instance representing the board selection, or a falsy
- *    value if there is no selection;
+ *  - Ent: An EntWord record representing the board selection, or a falsy value
+ *    if there is no selection;
  *
  *  - uCallTog: A function to be invoked if a die is left-clicked;
  *
@@ -51,7 +52,7 @@ export default function LookBoard(aProps) {
 	/** Returns `true` if the specified board position can be selected or
 	 *  unselected. */
 	function ouCkEnab(aPos) {
-		return !aProps.Ent || aProps.Ent.uCkTogAt(aPos);
+		return !aProps.Ent || EntWord.uCkTogAt(aProps.Ent, aPos);
 	}
 
 	function ouHandPointDown(aEvt) {
@@ -89,7 +90,7 @@ export default function LookBoard(aProps) {
 		const oiPosi = Rect.uPosi(Const.RectBoard);
 		for (const oPos of oiPosi) {
 			const oKey = oPos.X + "/" + oPos.Y;
-			const oPosFrom = aProps.Ent && aProps.Ent.uPosPrev(oPos);
+			const oPosFrom = aProps.Ent && EntWord.uPosPrev(aProps.Ent, oPos);
 			oEls.push(
 				<ConnSel key={oKey} Pos={oPos} PosFrom={oPosFrom} />
 			);
@@ -104,8 +105,8 @@ export default function LookBoard(aProps) {
 			const oKey = oPos.X + "/" + oPos.Y;
 			const oDie = aProps.Board.uDie(oPos);
 			const oCkDisp = !aProps.uCallTog;
-			const oCkSel = aProps.Ent && aProps.Ent.uCkAt(oPos);
-			const oCkSelFirst = aProps.Ent && !aProps.Ent.uPosPrev(oPos);
+			const oCkSel = aProps.Ent && EntWord.uCkAt(aProps.Ent, oPos);
+			const oCkSelFirst = aProps.Ent && !EntWord.uPosPrev(aProps.Ent, oPos);
 			const oCkEnab = ouCkEnab(oPos);
 			oEls.push(
 				<LookDie key={oKey} Pos={oPos} Die={oDie} CkDisp={oCkDisp}

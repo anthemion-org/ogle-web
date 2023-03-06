@@ -18,7 +18,7 @@ import * as _ from "lodash";
 
 /** Creates a Pt2 record from an object produced by `JSON.parse`, and returns
  *  it, or returns `null` if `aParse` is falsy. */
-export function suFromParse(aParse) {
+export function uFromParse(aParse) {
 	if (!aParse) return null;
 
 	return uNew(

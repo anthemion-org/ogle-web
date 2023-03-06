@@ -16,105 +16,108 @@ import * as Const from "../Const.js";
 
 // EntWord
 // -------
-// Each EntWord records Stores the details of a single board selection, for use
+// Each EntWord record stores the details of a single board selection, for use
 // when selecting text during play, and for displaying entries in the Score
 // view.
 
-export class tEntWord {
-	/** Creates an instance from a plain object and returns it. */
-	static suFromPlain(aPlain) {
-		if (!aPlain) return null;
+/** Creates an EntWord record from an object produced by `JSON.parse`, and
+ *  returns it, or returns `null` if `aParse` is falsy. */
+export function uFromParse(aPlain) {
+	if (!aPlain) return null;
 
-		const oPosi = aPlain.Posi.map(a => Pt2.suFromParse(a));
-		return new tEntWord(oPosi, aPlain.Texts);
-	}
-
-	/** Returns a new instance that ends with the specified position and text.
-	 *  Define aEntPrev to create an instance that extends that one. */
-	static suFromPosText(aPos, aText, aEntPrev) {
-		const oPosi = aEntPrev ? [ ...aEntPrev.Posi, aPos ] : [ aPos ];
-		const oTexts = aEntPrev ? [ ...aEntPrev.Texts, aText ] : [ aText ];
-		return new tEntWord(oPosi, oTexts);
-	}
-
-	/** Creates an entry from the specified position and text arrays. */
-	constructor(aPosi, aTexts) {
-		if (aPosi.length !== aTexts.length)
-			throw Error("tEntWord: Position/text mismatch");
-
-		/* An array of board positions, in selection order. */
-		this.Posi = aPosi;
-		/* An array of board text values, in selection order, with their original
-		 * case. */
-		this.Texts = aTexts;
-
-		Object.freeze(this);
-	}
-
-	/** Returns `true` if the specified position is selected by this entry. */
-	uCkAt(aPos) {
-		return this.Posi.some(aPosSel => Pt2.uCkEq(aPos, aPosSel));
-	}
-
-	/** Returns `true` if the specified position can be added to the end of this
-	 *  entry. */
-	uCkAddAt(aPos) {
-		if (!Rect.uCkContain(Const.RectBoard, aPos)) return false;
-
-		const oPosEnd = this.uPosEnd();
-		if (!oPosEnd) return false;
-
-		return Pt2.uCkAdjacent(aPos, oPosEnd) && !this.uCkAt(aPos);
-	}
-
-	/** Returns `true` if the specified position can be selected or unselected. */
-	uCkTogAt(aPos) {
-		return Rect.uCkContain(Const.RectBoard, aPos)
-			&& (this.uCkAddAt(aPos) || this.uCkAt(aPos));
-	}
-
-	/** Returns the position that precedes the specified position in this entry,
-	 *  or `null` if the position is not part of this entry, or if there is no
-	 *  predecessor. */
-	uPosPrev(aPos) {
-		for (let oj = 1; oj < this.Posi.length; ++oj)
-			if (Pt2.uCkEq(aPos, this.Posi[oj]))
-				return this.Posi[oj - 1];
-		return null;
-	}
-
-	/** Returns last the position in this entry, or `null` if the entry is empty. */
-	uPosEnd() {
-		if (!this.Posi.length) return null;
-		return this.Posi[this.Posi.length - 1];
-	}
-
-	/** Returns the text selected by this entry, in lowercase. */
-	uTextAll() {
-		return this.Texts.join("").toLowerCase();
-	}
-
-	/** Returns a new instance that selects the positions in this entry, but stops
-	 *  just before the specified position. Returns `null` instead if the position
-	 *  is not part of this entry, or if there is no predecessor. */
-	uClonePrev(aPos) {
-		for (let oj = 1; oj < this.Posi.length; ++oj)
-			if (Pt2.uCkEq(aPos, this.Posi[oj])) {
-				const oPosi = this.Posi.slice(0, oj);
-				const oTexts = this.Texts.slice(0, oj);
-				return new tEntWord(oPosi, oTexts);
-			}
-		return null;
-	}
+	const oPosi = aPlain.Posi.map(a => Pt2.uFromParse(a));
+	return uNew(oPosi, aPlain.Texts);
 }
 
-/** Compares tEntWord instances by their uTextAll values, sorting longer words
- *  before shorter words when one follow the other. This makes it easier to
- *  exclude followed words when processing raw search output with tCard.uAdd.
- *  The specific board positions used to define each entry are ignored. */
-export function uCompareEntWord(aL, aR) {
-	const oTextL = aL.uTextAll();
-	const oTextR = aR.uTextAll();
+/** Returns an EntWord record that ends with the specified position and text.
+ *  Define `aEntPrev` to create a record that extends that one. */
+export function uFromPosText(aPos, aText, aEntPrev) {
+	const oPosi = aEntPrev ? [ ...aEntPrev.Posi, aPos ] : [ aPos ];
+	const oTexts = aEntPrev ? [ ...aEntPrev.Texts, aText ] : [ aText ];
+	return uNew(oPosi, oTexts);
+}
+
+/** Creates an entry from the specified position and text arrays. */
+export function uNew(aPosi, aTexts) {
+	if (aPosi.length !== aTexts.length)
+		throw Error("EntWord uNew: Position/text mismatch");
+
+	const oEnt = {
+		/* An array of Pt2 board positions, in selection order. */
+		Posi: aPosi,
+		/* An array of board text values, in selection order, with their original
+		 * case. */
+		Texts: aTexts
+	};
+	// Keep this?: [todo]
+	Object.freeze(oEnt);
+	return oEnt;
+}
+
+/** Returns `true` if the specified position is selected by `aEntWord`. */
+export function uCkAt(aEntWord, aPos) {
+	return aEntWord.Posi.some(aPosSel => Pt2.uCkEq(aPos, aPosSel));
+}
+
+/** Returns `true` if the specified position can be added to the end of
+ *  `aEntWord`. */
+export function uCkAddAt(aEntWord, aPos) {
+	if (!Rect.uCkContain(Const.RectBoard, aPos)) return false;
+
+	const oPosEnd = uPosEnd(aEntWord);
+	if (!oPosEnd) return false;
+
+	return Pt2.uCkAdjacent(aPos, oPosEnd) && !uCkAt(aEntWord, aPos);
+}
+
+/** Returns `true` if `Pos` can be selected or unselected within `aEntWord`. */
+export function uCkTogAt(aEntWord, aPos) {
+	return Rect.uCkContain(Const.RectBoard, aPos)
+		&& (uCkAddAt(aEntWord, aPos) || uCkAt(aEntWord, aPos));
+}
+
+/** Returns the position that precedes the specified position in `aEntWord`,
+ *  or `null` if the position is not part of that record, or if there is no
+ *  predecessor. */
+export function uPosPrev(aEntWord, aPos) {
+	for (let oj = 1; oj < aEntWord.Posi.length; ++oj)
+		if (Pt2.uCkEq(aPos, aEntWord.Posi[oj]))
+			return aEntWord.Posi[oj - 1];
+	return null;
+}
+
+/** Returns the last position in `aEntWord`, or `null` if it is empty. */
+export function uPosEnd(aEntWord) {
+	if (!aEntWord.Posi.length) return null;
+	return aEntWord.Posi[aEntWord.Posi.length - 1];
+}
+
+/** Returns the text selected by `aEntWord`, in lowercase. */
+export function uTextAll(aEntWord) {
+	return aEntWord.Texts.join("").toLowerCase();
+}
+
+/** Returns an EntWord record that selects the positions in `aEntWord`, but
+ *  stops just before `aPos`. Returns `null` instead if the position is not part
+ *  of `aEntWord`, or if there is no predecessor. */
+export function uClonePrev(aEntWord, aPos) {
+	for (let oj = 1; oj < aEntWord.Posi.length; ++oj)
+		if (Pt2.uCkEq(aPos, aEntWord.Posi[oj])) {
+			const oPosi = aEntWord.Posi.slice(0, oj);
+			const oTexts = aEntWord.Texts.slice(0, oj);
+			return uNew(oPosi, oTexts);
+		}
+	return null;
+}
+
+/** Compares two EntWord records by their `uTextAll` values, sorting longer
+ *  words before shorter words when one follow the other. This makes it easier
+ *  to exclude followed words when processing raw search output with
+ *  `tCard.uAdd`. The specific board positions used to define each entry are
+ *  ignored. */
+export function uCompare(aEntWordL, aEntWordR) {
+	const oTextL = uTextAll(aEntWordL);
+	const oTextR = uTextAll(aEntWordR);
 
 	if (Text.uCkEqBegin(oTextL, oTextR)) {
 		if (oTextL.length > oTextR.length) return -1;

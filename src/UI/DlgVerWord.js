@@ -10,7 +10,7 @@
 
 import "./DlgVerWord.css";
 import Btn from "./Btn.js";
-import { tEntWord } from "../Round/EntWord.js";
+import * as EntWord from "../Round/EntWord.js";
 
 import React from "react";
 import PropTypes from "prop-types";
@@ -19,7 +19,7 @@ import PropTypes from "prop-types";
 // ----------
 
 DlgVerWord.propTypes = {
-	Ent: PropTypes.instanceOf(tEntWord).isRequired,
+	Ent: PropTypes.object.isRequired,
 	uHandAdd: PropTypes.func.isRequired,
 	uHandCancel: PropTypes.func.isRequired
 };
@@ -27,8 +27,7 @@ DlgVerWord.propTypes = {
 /** The Word Verification dialog, to be displayed when enters a word that is not
  *  recognized by Ogle. The following props are supported:
  *
- *  - Ent: A tEntWord instance representing the user entry. This prop is
- *    required;
+ *  - Ent: An EntWord record representing the user entry. This prop is required;
  *
  *  - uHandAdd: The handler to be invoked if the user accepts the word. This
  *    prop is required;
@@ -37,7 +36,7 @@ DlgVerWord.propTypes = {
  *    prop is required.
  */
 export default function DlgVerWord(aProps) {
-	const oTextEnt = aProps.Ent.uTextAll();
+	const oTextEnt = EntWord.uTextAll(aProps.Ent);
 	const oURL = "https://en.wiktionary.org/wiki/" + oTextEnt;
 
 	return (
