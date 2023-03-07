@@ -19,6 +19,7 @@ import { tCard } from "../Round/Card.js";
 import { StatsWord, uScoresCoversFromCards } from "../Round/ScoreWord.js";
 import Feed from "../Feed.js";
 import { uSelScoresHigh, Add_ScoreHigh } from "../Store/SliceScore.js";
+import { uSelSetup } from "../Store/SliceSetup.js";
 import * as ScorePlay from "../Round/ScorePlay.js";
 import * as ScoresHigh from "../Round/ScoresHigh.js";
 import * as Const from "../Const.js";
@@ -34,7 +35,6 @@ import { useSelector, useDispatch } from "react-redux";
 ViewScore.propTypes = {
 	StApp: PropTypes.string.isRequired,
 	uUpd_StApp: PropTypes.func.isRequired,
-	Setup: PropTypes.object.isRequired,
 	Board: PropTypes.instanceOf(tBoard).isRequired,
 	CardOgle: PropTypes.instanceOf(tCard).isRequired,
 	CardUser: PropTypes.instanceOf(tCard).isRequired
@@ -42,9 +42,6 @@ ViewScore.propTypes = {
 
 /** Implements the Score view, which displays the result of the last round of
  *  play. Along with the usual `View` props, the following props are supported:
- *
- *  - `Setup`: The Setup record used to generate the completed round. This prop
- *    is required;
  *
  *  - `Board`: A `tBoard` instance representing the board that was played. This
  *    prop is required;
@@ -59,6 +56,8 @@ export default function ViewScore(aProps) {
 	const ouDispatch = useDispatch();
 	/** A ScoresHigh record that contains all high score data. */
 	const oScoresHigh = useSelector(uSelScoresHigh);
+	/** The Setup record used to generate the completed round. */
+	const oSetup = useSelector(uSelSetup);
 
 	/** Set to the `tScoreWord` that is being displayed in the Word Score dialog,
 	 *  or `null` if no entry is being displayed. */
@@ -134,14 +133,15 @@ export default function ViewScore(aProps) {
 		const oFracPerc = aProps.CardUser.Score / aProps.CardOgle.Score;
 		const oScore = ScorePlay.uNew(aProps.CardUser.TimeStart, aName, oFracPerc);
 		const oAct = Add_ScoreHigh({
-			TagSetup: Setup.uTag(aProps.Setup),
+			TagSetup: Setup.uTag(oSetup),
 			ScorePlay: oScore
 		});
 		ouDispatch(oAct);
 	}
 
 	function ouDlgNamePlay() {
-		if (!ScoresHigh.uCkScoreHigh(aProps.Setup, aProps.CardUser, aProps.CardOgle, oScoresHigh))
+		if (!ScoresHigh.uCkScoreHigh(oSetup, aProps.CardUser, aProps.CardOgle,
+			oScoresHigh))
 			return null;
 
 		return (
@@ -226,7 +226,7 @@ export default function ViewScore(aProps) {
 
 	function ouLinesScoreHigh() {
 		const oCtRow = Const.CtStoreScoreHigh;
-		const oTag = Setup.uTag(aProps.Setup);
+		const oTag = Setup.uTag(oSetup);
 		const oScores = ScoresHigh.uScoresPlayTagSetup(oScoresHigh, oTag)
 			.slice(0, (oCtRow + 1));
 		if (oScores.length < oCtRow) {
@@ -284,12 +284,12 @@ export default function ViewScore(aProps) {
 				<section id="BoxSetup">
 					<div>
 						<h3>Yield</h3>
-						<div>{Setup.uTextShortYield(aProps.Setup)}</div>
+						<div>{Setup.uTextShortYield(oSetup)}</div>
 					</div>
 					<hr />
 					<div>
 						<h3>Pace</h3>
-						<div>{Setup.uTextShortPace(aProps.Setup)}</div>
+						<div>{Setup.uTextShortPace(oSetup)}</div>
 					</div>
 				</section>
 

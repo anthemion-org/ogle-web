@@ -58,16 +58,14 @@ export default function View(aProps) {
 			return <ViewAbout {...aProps} />;
 
 		case StsApp.Play: {
-			const oSetup = Setup.uFromParse(Persist.uGetPlain("Setup"));
-			return <ViewPlay {...aProps} Setup={oSetup} />;
+			return <ViewPlay {...aProps} />;
 		}
 
 		case StsApp.Score: {
-			const oSetup = Setup.uFromParse(Persist.uGetPlain("Setup"));
 			const oBoard = tBoard.suFromPlain(Persist.uGetPlain("Board"));
 			const oCardOgle = tCard.suFromPlain(Persist.uGetPlain("CardOgle"));
 			const oCardUser = tCard.suFromPlain(Persist.uGetPlain("CardUser"));
-			return <ViewScore {...aProps} Setup={oSetup} Board={oBoard}
+			return <ViewScore {...aProps} Board={oBoard}
 				CardOgle={oCardOgle} CardUser={oCardUser} />;
 		}
 	}

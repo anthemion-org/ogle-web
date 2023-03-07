@@ -20,28 +20,25 @@ import DlgHelp from "./DlgHelp.js";
 import DlgVerWord from "./DlgVerWord.js";
 import Lex from "../Search/Lex.js";
 import Feed from "../Feed.js";
+import { uSelSetup } from "../Store/SliceSetup.js";
 import * as Persist from "../Persist.js";
 import * as Const from "../Const.js";
 
 import { React, useState, useEffect } from "react";
 import PropTypes from "prop-types";
+import { useSelector, useDispatch } from "react-redux";
 
 // ViewPlay
 // --------
 
 ViewPlay.propTypes = {
 	StApp: PropTypes.string.isRequired,
-	uUpd_StApp: PropTypes.func.isRequired,
-	Setup: PropTypes.object.isRequired
+	uUpd_StApp: PropTypes.func.isRequired
 };
 
 /** Implements the Play view, which displays the board, accepts user word
- *  entries, and manages the timer during play. Along with the usual `View`
- *  props, the following props are supported:
- *
- *  - `Setup`: A Setup record that configures the current round. This prop is
- *    required.
- */
+ *  entries, and manages the timer during play. Aside from the usual `View`
+ *  props, no props are supported. */
 export default function ViewPlay(aProps) {
 	/** The time remaining, in milliseconds, when the user is considered to be low
 	 *  on time. */
@@ -49,6 +46,10 @@ export default function ViewPlay(aProps) {
 	// I want the fast ticking to start at ten seconds, but the displayed time is
 	// rounded up, so eleven seconds better matches that output:
 	const oTimeRemainLow = 11000;
+
+	const ouDispatch = useDispatch();
+	/** A Setup record that configures the current round. */
+	const oSetup = useSelector(uSelSetup);
 
 	/** A `tBoard` instance representing the board that is being played, or `null`
 	 *  if the board has not been generated yet. */
@@ -175,8 +176,7 @@ export default function ViewPlay(aProps) {
 			return;
 		}
 
-		const oTimeRemain = uTimeRemain(aProps.Setup, oCardUser.CtBonusTime,
-			oTimeElap);
+		const oTimeRemain = uTimeRemain(oSetup, oCardUser.CtBonusTime, oTimeElap);
 		if (oTimeRemain < 1) {
 			Feed.uStop_Tick();
 			aProps.uUpd_StApp(StsApp.Score);
@@ -198,8 +198,8 @@ export default function ViewPlay(aProps) {
 		// already stopped when play is paused, so there is no need to do that when
 		// quitting play early.
 	}
-	useEffect(ouMan_FeedAndStApp, [aProps, aProps.Setup, oBoard, oStPlay,
-		oCkVerWord, oCardUser.CtBonusTime, oTimeElap]);
+	useEffect(ouMan_FeedAndStApp, [aProps, oSetup, oBoard, oStPlay, oCkVerWord,
+		oCardUser.CtBonusTime, oTimeElap]);
 
 	// Board generation
 	// ----------------
@@ -215,7 +215,7 @@ export default function ViewPlay(aProps) {
 
 		Work.postMessage({
 			WordsSearch: Lex.WordsSearch,
-			Setup: aProps.Setup
+			Setup: oSetup
 		});
 
 		Work.onmessage = function (aMsg) {
@@ -228,7 +228,7 @@ export default function ViewPlay(aProps) {
 			ouSet_CardOgle(tCard.suFromPlain(aMsg.data.CardOgle));
 		};
 	}
-	useEffect(ouCreate_WorkSearch, [aProps, oBoard]);
+	useEffect(ouCreate_WorkSearch, [aProps, oSetup, oBoard]);
 
 	/** Stores the board and the associated Ogle scorecard. */
 	function ouStore_Board() {
@@ -495,7 +495,7 @@ export default function ViewPlay(aProps) {
 	}
 
 	function ouTextTimeRemain() {
-		const oTime = uTimeRemain(aProps.Setup, oCardUser.CtBonusTime, oTimeElap);
+		const oTime = uTimeRemain(oSetup, oCardUser.CtBonusTime, oTimeElap);
 		return Math.ceil(oTime / 1000);
 	}
 
@@ -543,12 +543,12 @@ export default function ViewPlay(aProps) {
 
 				<section id="BoxSetup">
 					<div>
-						<div>{Setup.uTextShortPace(aProps.Setup)}</div>
+						<div>{Setup.uTextShortPace(oSetup)}</div>
 						<h3>Pace</h3>
 					</div>
 					<hr />
 					<div>
-						<div>{Setup.uTextShortYield(aProps.Setup)}</div>
+						<div>{Setup.uTextShortYield(oSetup)}</div>
 						<h3>Yield</h3>
 					</div>
 				</section>
