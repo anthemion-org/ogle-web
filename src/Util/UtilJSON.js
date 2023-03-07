@@ -29,17 +29,14 @@ export function uNumFix(aKey, aVal) {
 	return aVal;
 }
 
-export function uNumFromNumFix(aVal) {
+/** Converts a value processed with `uNumFix` to its original `Number` value, or
+ *  `aDef`, if the value is `null`. */
+export function uNumFromNumFix(aVal, aDef = NaN) {
 	switch (aVal) {
-		case "-Infinity":
-			return -Infinity;
-
-		case "Infinity":
-			return Infinity;
-
-		case "NaN":
-		case null:
-			return NaN;
+		case "-Infinity": return -Infinity;
+		case "Infinity": return Infinity;
+		case "NaN": return NaN;
+		case null: return aDef;
 	}
 	return aVal;
 }

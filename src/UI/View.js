@@ -9,12 +9,11 @@
 //
 
 import "./View.css";
-import ViewSetup from "./ViewSetup";
+import ViewSetupConn from "./ViewSetup";
 import ViewAbout from "./ViewAbout";
 import ViewPlay from "./ViewPlay";
 import ViewScore from "./ViewScore";
 import StsApp from "../StsApp.js";
-import { tCfg } from "../Cfg.js";
 import * as Setup from "../Round/Setup.js";
 import { tBoard } from "../Board/Board.js";
 import { tCard } from "../Round/Card.js";
@@ -52,7 +51,7 @@ View.propTypes = {
 export default function View(aProps) {
 	switch (aProps.StApp) {
 		case StsApp.Setup: {
-			return <ViewSetup {...aProps} />;
+			return <ViewSetupConn {...aProps} />;
 		}
 
 		case StsApp.About:

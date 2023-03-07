@@ -12,7 +12,7 @@ import "./ViewSetup.css";
 import Logo from "./Logo.js";
 import Slide from "./Slide.js";
 import Btn from "./Btn.js";
-import * as Persist from "../Persist.js";
+import { Set_Setup } from "../Store/SliceSetup.js";
 import StsApp from "../StsApp.js";
 import * as Yield from "../Round/Yield.js";
 import * as Pace from "../Round/Pace.js";
@@ -21,6 +21,7 @@ import * as Setup from "../Round/Setup.js";
 
 import React from "react";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
 
 // ViewSetup
 // ---------
@@ -32,31 +33,34 @@ import PropTypes from "prop-types";
 // to the `Cfg` key in the local storage. Right now, `NameTheme` is the only
 // configuration option.
 //
-// 'Setup' options are specific to game play. They are persisted with the
-// `uStore_Setup` method in this class, which writes to the `Setup` key.
+// 'Setup' options are specific to game play. They are updated with the
+// `uSet_Setup` dispatch prop, which writes to the `Setup` slice.
 //
 // The setup selections are represented with a Setup record. This view reads the
 // instance from the store, which records data in 'real' terms that are usable
 // in other parts of the app. Many controls (particularly the sliders in this
 // view) reference values in 'nominal' terms, such as indices, which identify
-// user selections without being directly usable as values. The `Yield.Vals` and
-// `Pace.Vals` arrays associate nominal selections with real values. That allows
-// the view (and its particular way of selecting or identifying values) to
-// change without affecting the modules that consume real values.
+// user selections without being directly usable when playing the game. The
+// `Yield.Vals` and `Pace.Vals` arrays associate nominal selections with real
+// values. That allows the view (and its particular way of selecting or
+// identifying values) to change without affecting the modules that consume real
+// values.
 
-/** Implements the Setup view, which is displayed when Ogle starts. Aside from
- *  those used by all `View` instances, no props are supported. */
-export default class ViewSetup extends React.Component {
+/** Implements the Setup view, which is displayed when Ogle starts. The
+ *  following props are required:
+ *
+ *  - Setup: A Setup record containing the player's current yield and pace
+ *    selections. This prop is required;
+ *
+ *  - uSet_Setup: A function that dispatches a new Setup record to the store.
+ *    This prop is required.
+ */
+class ViewSetup extends React.Component {
 	constructor(aProps) {
 		super(aProps);
 
-		const oSetupInit = Setup.uFromParse(Persist.uGetPlain("Setup"));
 		this.state = {
-			...this.props.Cfg,
-			/** The selected `Yield.Vals` index. */
-			jYield: Yield.uIdxValMatchOrDef(oSetupInit),
-			/** The selected `Pace.Vals` index. */
-			jPace: Pace.uIdxValMatchOrDef(oSetupInit)
+			...this.props.Cfg
 		};
 
 		this.uHandChangeCfg = this.uHandChangeCfg.bind(this);
@@ -65,31 +69,30 @@ export default class ViewSetup extends React.Component {
 		this.uHandPlay = this.uHandPlay.bind(this);
 	}
 
-	componentDidUpdate() {
-		// Persist setup changes after the view state is updated. Note that this
-		// will also happen after configuration changes (as produced by the Theme
-		// dropdown), even though that data is persisted differently:
-		this.uStore_Setup();
+	/** Converts a Setup record into an object containing `jYield` and `jPace`
+	 *  selection indices. These reference elements in `Yield.Vals` and
+	 *  `Pace.Vals`.*/
+	uSelsFromSetup(aSetup) {
+		return {
+			jYield: Yield.uIdxValMatchOrDef(aSetup),
+			jPace: Pace.uIdxValMatchOrDef(aSetup)
+		};
 	}
 
-	/** Stores the setup selected in this view. */
-	uStore_Setup() {
-		Persist.uSet("Setup", this.uSetup());
-	}
-
-	/** Returns a Setup record representing the setup selected in this view. */
-	uSetup() {
-		const oYield = Yield.Vals[this.state.jYield][0];
-		const [ oPaceStart, oPaceBonus ] = Pace.Vals[this.state.jPace];
+	/** Converts an object containing `jYield` and `jPace` selection indices into
+	 *  a Setup record. */
+	uSetupFromSels(aSelsSetup) {
+		const oYield = Yield.Vals[aSelsSetup.jYield][0];
+		const [oPaceStart, oPaceBonus] = Pace.Vals[aSelsSetup.jPace];
 		return Setup.uNew(oYield, oPaceStart, oPaceBonus);
 	}
 
 	// Event handling
 	// --------------
 
-	/** Uses properties in the specified `onChange` event to return a state object
-	 *  that describes the user's change. */
-	uStateFromEvtChange(aEvt) {
+	/** Uses properties in the specified `onChange` event to return an object
+	 *  containing the name of the UI element that changed, with the new value. */
+	uDataEvtChg(aEvt) {
 		const oEl = aEvt.target;
 		const oVal = (oEl.type === "checkbox") ? oEl.checked : oEl.value;
 		return { [aEvt.target.name]: oVal };
@@ -98,13 +101,16 @@ export default class ViewSetup extends React.Component {
 	/** Accepts an event representing a configuration change, and forwards it to
 	 *  the configuration update function. */
 	uHandChangeCfg(aEvt) {
-		this.props.uUpd_Cfg(this.uStateFromEvtChange(aEvt));
+		this.props.uUpd_Cfg(this.uDataEvtChg(aEvt));
 	}
 
 	/** Accepts an event representing a setup change, and uses it to update the
-	 *  view state. */
+	 *  store. */
 	uHandChangeSetup(aEvt) {
-		this.setState(this.uStateFromEvtChange(aEvt));
+		const oSelsOrig = this.uSelsFromSetup(this.props.Setup);
+		const oSelsChg = this.uDataEvtChg(aEvt);
+		const oSetup = this.uSetupFromSels({ ...oSelsOrig, ...oSelsChg });
+		this.props.uSet_Setup(oSetup);
 	}
 
 	/** Causes the About view to be displayed. */
@@ -114,9 +120,6 @@ export default class ViewSetup extends React.Component {
 
 	/** Causes the Play view to be displayed. */
 	uHandPlay(aEvt) {
-		// This is called when controls are changed, but the user may not have
-		// changed anything, so just for consistency:
-		this.uStore_Setup();
 		this.props.uUpd_StApp(StsApp.PlayInit);
 	}
 
@@ -131,7 +134,7 @@ export default class ViewSetup extends React.Component {
 	}
 
 	render() {
-		const oSetup = this.uSetup();
+		const oSelsSetup = this.uSelsFromSetup(this.props.Setup);
 
 		return (
 			<div id="ViewSetup" className="View">
@@ -142,24 +145,24 @@ export default class ViewSetup extends React.Component {
 					<section>
 						<label htmlFor="RgYield">Yield</label>
 						<div className="Name">
-							{Setup.uTextShortYield(oSetup)}
+							{Setup.uTextShortYield(this.props.Setup)}
 						</div>
-						<Slide id="RgYield" name="jYield" value={this.state.jYield}
+						<Slide id="RgYield" name="jYield" value={oSelsSetup.jYield}
 							max={Yield.Vals.length - 1} onChange={this.uHandChangeSetup} />
 						<div className="Instruct">
-							{Yield.uDesc(this.state.jYield)}
+							{Yield.uDesc(oSelsSetup.jYield)}
 						</div>
 					</section>
 
 					<section>
 						<label htmlFor="RgPace">Pace</label>
 						<div className="Name">
-							{Setup.uTextShortPace(oSetup)}
+							{Setup.uTextShortPace(this.props.Setup)}
 						</div>
-						<Slide id="RgPace" name="jPace" value={this.state.jPace}
+						<Slide id="RgPace" name="jPace" value={oSelsSetup.jPace}
 							max={Pace.Vals.length - 1} onChange={this.uHandChangeSetup} />
 						<div className="Instruct">
-							{Pace.uDesc(this.state.jPace)}
+							{Pace.uDesc(oSelsSetup.jPace)}
 						</div>
 					</section>
 
@@ -183,5 +186,24 @@ export default class ViewSetup extends React.Component {
 
 ViewSetup.propTypes = {
 	StApp: PropTypes.string.isRequired,
-	uUpd_StApp: PropTypes.func.isRequired
+	uUpd_StApp: PropTypes.func.isRequired,
+	Setup: PropTypes.object.isRequired,
+	uSet_Setup: PropTypes.func.isRequired
 };
+
+// ViewSetupConn
+// -------------
+
+function uPropsSt(aSt) {
+	return { Setup: aSt.Setup.Setup };
+}
+
+function uPropsDispatch(auDispatch) {
+	return {
+		uSet_Setup: (aSetup) => auDispatch(Set_Setup(aSetup))
+	};
+}
+
+/** Wraps and forwards store props to `ViewSetup`. */
+const ViewSetupConn = connect(uPropsSt, uPropsDispatch)(ViewSetup);
+export default ViewSetupConn;

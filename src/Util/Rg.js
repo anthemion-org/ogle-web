@@ -16,15 +16,14 @@ import * as _ from "lodash";
 // --
 // Each Rg record represents an integer range.
 
-/** Creates a Rg record from an object produced by `JSON.parse`, and returns it,
- *  or returns `null` if `aParse` is falsy. */
+/** Creates a Rg record from an object produced by `JSON.parse`, or returns
+ *  `null` if `aParse` is falsy. */
 export function uFromParse(aParse) {
 	if (!aParse) return null;
 
-	return uNew(
-		UtilJSON.uNumFromNumFix(aParse.Start),
-		UtilJSON.uNumFromNumFix(aParse.End)
-	);
+	const oStart = UtilJSON.uNumFromNumFix(aParse.Start, -Infinity);
+	const oEnd = UtilJSON.uNumFromNumFix(aParse.End, Infinity);
+	return uNew(oStart, oEnd);
 }
 
 /** Creates an Rg record that spans the specified integer range, inclusive of
