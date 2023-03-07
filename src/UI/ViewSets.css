@@ -1,20 +1,20 @@
-/* ViewSetup.css
- * -------------
+/* ViewSets.css
+ * ============
  * Copyright ©2022 Jeremy Kelly
  * www.anthemion.org */
 
-#ViewSetup {
+#ViewSets {
 	width: 30rem;
 
 	display: flex;
 	flex-direction: column;
 }
 
-#ViewSetup #Logo {
+#ViewSets #Logo {
 	display: none;
 }
 
-#ViewSetup section {
+#ViewSets section {
 	margin-bottom: 0.5rem;
 	border-radius: 0.25rem;
 	padding: 0.5rem 1rem 0.5rem 1rem;
@@ -23,27 +23,27 @@
 	box-shadow: 0 0 3px hsla(0, 0%, 0%, 0.5);
 }
 
-#ViewSetup section:focus-within {
+#ViewSets section:focus-within {
 	outline: var(--StyBtnOutFoc);
 }
 
-#ViewSetup section.Row {
+#ViewSets section.Row {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 }
 
-#ViewSetup section.Row select {
+#ViewSets section.Row select {
 	min-width: 5em;
 }
 
-#ViewSetup label {
+#ViewSets label {
 	font-family: var(--FontFamilySerif);
 	font-weight: bold;
 	font-size: 1.25rem;
 }
 
-#ViewSetup .Name {
+#ViewSets .Name {
 	float: right;
 
 	font-family: var(--FontFamilySerif);
@@ -51,13 +51,13 @@
 	font-size: 1.25rem;
 }
 
-#ViewSetup .Instruct {
+#ViewSets .Instruct {
 	font-size: 1.1rem;
 
 	text-align: center;
 }
 
-#ViewSetup .Btns {
+#ViewSets .Btns {
 	margin-top: 0.75rem
 }
 
@@ -67,7 +67,7 @@
 @media screen and (orientation: portrait) and (max-width: 500px),
 	screen and (orientation: landscape) and (max-height: 500px) {
 
-	#ViewSetup {
+	#ViewSets {
 		--HeightTrayBtn: 4.5rem;
 
 		width: 100vw;
@@ -77,18 +77,18 @@
 		border-radius: 0;
 	}
 
-	#ViewSetup section {
+	#ViewSets section {
 		padding: 1rem 1rem 1.25rem 1rem;
 	}
 
-	#ViewSetup h1 {
+	#ViewSets h1 {
 		margin-bottom: 0.75rem;
 	}
 
 	/* Button tray
 	 * ----------- */
 
-	#ViewSetup #BtnsMain {
+	#ViewSets #BtnsMain {
 		position: fixed;
 		left: 0;
 		bottom: 0;
@@ -104,7 +104,7 @@
 }
 
 @media screen and (orientation: portrait) and (max-width: 500px) {
-	#ViewSetup #Logo {
+	#ViewSets #Logo {
 		display: initial;
 		align-self: center;
 
@@ -120,18 +120,18 @@
 }
 
 @media screen and (orientation: portrait) and (max-height: 600px) {
-	#ViewSetup #Logo {
+	#ViewSets #Logo {
 		display: none;
 	}
 }
 
 @media screen and (orientation: landscape) and (max-height: 500px) {
-	#ViewSetup main {
+	#ViewSets main {
 		display: flex;
 		gap: 0.5rem;
 	}
 
-	#ViewSetup section {
+	#ViewSets section {
 		flex: 1;
 
 		/* So that the view can be scrolled up if button the tray covers the

@@ -11,8 +11,8 @@
 /** This object lists the top-level application states. These are used as
  *  reducer actions when requesting state transitions. */
 const StsApp = {
-	/** Displays the Setup view. */
-	Setup: "Setup",
+	/** Displays the Settings view. */
+	Sets: "Sets",
 	/** Displays the About view. */
 	About: "About",
 	/** Resets the play state, then display the Play view. */

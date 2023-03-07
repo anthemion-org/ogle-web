@@ -1,11 +1,11 @@
-// SliceSetup.js
-// =============
+// SliceSets.js
+// ============
 // Copyright ©2023 Jeremy Kelly
 // www.anthemion.org
 //
 // Import with:
 //
-//   import SliceSetup from "./Store/SliceSetup.js";
+//   import SliceSets from "./Store/SliceSets.js";
 //
 
 import * as Setup from "../Round/Setup.js";
@@ -17,7 +17,7 @@ import { createSlice } from "@reduxjs/toolkit";
 // -----
 
 export const Slice = createSlice({
-	name: "Setup",
+	name: "Sets",
 
 	initialState: {
 		/** The Setup record containing the player's yield and pace selections. */
@@ -37,4 +37,4 @@ export const { Set_Setup } = Slice.actions;
 // Selectors
 // ---------
 
-export const uSelSetup = (aSt) => aSt.Setup.Setup;
+export const uSelSetup = (aSt) => aSt.Sets.Setup;

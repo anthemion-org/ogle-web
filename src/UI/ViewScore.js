@@ -19,7 +19,7 @@ import { tCard } from "../Round/Card.js";
 import { StatsWord, uScoresCoversFromCards } from "../Round/ScoreWord.js";
 import Feed from "../Feed.js";
 import { uSelScoresHigh, Add_ScoreHigh } from "../Store/SliceScore.js";
-import { uSelSetup } from "../Store/SliceSetup.js";
+import { uSelSetup } from "../Store/SliceSets.js";
 import * as ScorePlay from "../Round/ScorePlay.js";
 import * as ScoresHigh from "../Round/ScoresHigh.js";
 import * as Const from "../Const.js";
@@ -155,7 +155,7 @@ export default function ViewScore(aProps) {
 
 	/** Handles the Setup button click. */
 	function ouHandSetup(aEvt) {
-		aProps.uUpd_StApp(StsApp.Setup);
+		aProps.uUpd_StApp(StsApp.Sets);
 	}
 
 	/** Handles the Play Again button click. */

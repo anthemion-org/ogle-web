@@ -31,7 +31,7 @@ ViewAbout.propTypes = {
  *  props are supported. */
 export default function ViewAbout(aProps) {
 	function ouHandOK(aEvt) {
-		aProps.uUpd_StApp(StsApp.Setup);
+		aProps.uUpd_StApp(StsApp.Sets);
 	}
 
 	return (

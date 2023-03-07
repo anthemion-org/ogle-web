@@ -1,18 +1,18 @@
-// ViewSetup.js
-// ============
+// ViewSets.js
+// ===========
 // Copyright ©2022 Jeremy Kelly
 // www.anthemion.org
 //
 // Import with:
 //
-//   import ViewSetup from "./UI/ViewSetup.js";
+//   import ViewSets from "./UI/ViewSets.js";
 //
 
-import "./ViewSetup.css";
+import "./ViewSets.css";
 import Logo from "./Logo.js";
 import Slide from "./Slide.js";
 import Btn from "./Btn.js";
-import { Set_Setup } from "../Store/SliceSetup.js";
+import { Set_Setup } from "../Store/SliceSets.js";
 import StsApp from "../StsApp.js";
 import * as Yield from "../Round/Yield.js";
 import * as Pace from "../Round/Pace.js";
@@ -23,9 +23,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
-// ViewSetup
-// ---------
-// This view allows the user to select configuration and setup options.
+// ViewSets
+// --------
+// This view allows the user to select app configuration and game setup options.
 //
 // 'Configuration' options are those that affect the entire app. These are
 // forwarded to every view with the `Cfg` prop, and persisted with the
@@ -46,16 +46,16 @@ import { connect } from "react-redux";
 // identifying values) to change without affecting the modules that consume real
 // values.
 
-/** Implements the Setup view, which is displayed when Ogle starts. The
+/** Implements the Settings view, which is displayed when Ogle starts. The
  *  following props are required:
  *
- *  - Setup: A Setup record containing the player's current yield and pace
+ *  - Setup: A Setup record containing the player's game configuration
  *    selections. This prop is required;
  *
  *  - uSet_Setup: A function that dispatches a new Setup record to the store.
  *    This prop is required.
  */
-class ViewSetup extends React.Component {
+class ViewSets extends React.Component {
 	constructor(aProps) {
 		super(aProps);
 
@@ -137,9 +137,9 @@ class ViewSetup extends React.Component {
 		const oSelsSetup = this.uSelsFromSetup(this.props.Setup);
 
 		return (
-			<div id="ViewSetup" className="View">
+			<div id="ViewSets" className="View">
 				<Logo id="Logo" />
-				<h1>Ogle setup</h1>
+				<h1>Ogle settings</h1>
 
 				<main>
 					<section>
@@ -184,18 +184,18 @@ class ViewSetup extends React.Component {
 	}
 }
 
-ViewSetup.propTypes = {
+ViewSets.propTypes = {
 	StApp: PropTypes.string.isRequired,
 	uUpd_StApp: PropTypes.func.isRequired,
 	Setup: PropTypes.object.isRequired,
 	uSet_Setup: PropTypes.func.isRequired
 };
 
-// ViewSetupConn
-// -------------
+// ViewSetsConn
+// ------------
 
 function uPropsSt(aSt) {
-	return { Setup: aSt.Setup.Setup };
+	return { Setup: aSt.Sets.Setup };
 }
 
 function uPropsDispatch(auDispatch) {
@@ -204,6 +204,6 @@ function uPropsDispatch(auDispatch) {
 	};
 }
 
-/** Wraps and forwards store props to `ViewSetup`. */
-const ViewSetupConn = connect(uPropsSt, uPropsDispatch)(ViewSetup);
-export default ViewSetupConn;
+/** Wraps and forwards store props to `ViewSets`. */
+const ViewSetsConn = connect(uPropsSt, uPropsDispatch)(ViewSets);
+export default ViewSetsConn;

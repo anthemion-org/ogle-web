@@ -199,7 +199,7 @@ The class does expose private data that could have been hidden in a closure, but
 
 ### React hooks
 
-Aside from `ViewSetup`, all components are implemented with hooks. That works well for simple components, but after using them a bit, I think class components would have been better. `useEffect` is particularly awkward and difficult to manage. The React team’s zealotry on this topic suggests that they care more about their ideology than about real-world development problems. JavaScript developers don’t care, because they earn _more_ with each layer of bullshit, not less. It’s only the employers and the users who suffer when a development fad appears.
+Aside from `ViewSets`, all components are implemented with hooks. That works well for simple components, but after using them a bit, I think class components would have been better. `useEffect` is particularly awkward and difficult to manage. The React team’s zealotry on this topic suggests that they care more about their ideology than about real-world development problems. JavaScript developers don’t care, because they earn _more_ with each layer of bullshit, not less. It’s only the employers and the users who suffer when a development fad appears.
 
 `useCallback` makes components harder to read, so I am skipping that until I encounter actual performance problems.
 

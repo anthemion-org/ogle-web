@@ -92,7 +92,7 @@ const _PlainsByName = _uRead_Plains();
  *  written. */
 const _DefsByName = {
 	Cfg: tCfg.suDef(),
-	StApp: StsApp.Setup,
+	StApp: StsApp.Sets,
 	Setup: Setup.uDef(),
 	ScoresHigh: {},
 	WordsUser: []

@@ -20,7 +20,7 @@ import DlgHelp from "./DlgHelp.js";
 import DlgVerWord from "./DlgVerWord.js";
 import Lex from "../Search/Lex.js";
 import Feed from "../Feed.js";
-import { uSelSetup } from "../Store/SliceSetup.js";
+import { uSelSetup } from "../Store/SliceSets.js";
 import * as Persist from "../Persist.js";
 import * as Const from "../Const.js";
 
@@ -220,7 +220,7 @@ export default function ViewPlay(aProps) {
 
 		Work.onmessage = function (aMsg) {
 			if (!aMsg.data.Board) {
-				aProps.uUpd_StApp(StsApp.Setup);
+				aProps.uUpd_StApp(StsApp.Sets);
 				return;
 			}
 

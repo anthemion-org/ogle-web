@@ -9,12 +9,11 @@
 //
 
 import "./View.css";
-import ViewSetupConn from "./ViewSetup";
+import ViewSetsConn from "./ViewSets";
 import ViewAbout from "./ViewAbout";
 import ViewPlay from "./ViewPlay";
 import ViewScore from "./ViewScore";
 import StsApp from "../StsApp.js";
-import * as Setup from "../Round/Setup.js";
 import { tBoard } from "../Board/Board.js";
 import { tCard } from "../Round/Card.js";
 import * as Persist from "../Persist.js";
@@ -50,10 +49,6 @@ View.propTypes = {
  *  All these props will be forwarded to the displayed view. */
 export default function View(aProps) {
 	switch (aProps.StApp) {
-		case StsApp.Setup: {
-			return <ViewSetupConn {...aProps} />;
-		}
-
 		case StsApp.About:
 			return <ViewAbout {...aProps} />;
 
@@ -68,6 +63,10 @@ export default function View(aProps) {
 			return <ViewScore {...aProps} Board={oBoard}
 				CardOgle={oCardOgle} CardUser={oCardUser} />;
 		}
+
+		case StsApp.Sets:
+		default: {
+			return <ViewSetsConn {...aProps} />;
+		}
 	}
-	throw Error("View: Invalid view");
 }

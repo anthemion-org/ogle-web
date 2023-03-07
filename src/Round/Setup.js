@@ -15,7 +15,7 @@ import * as Text from "../Util/Text.js";
 
 // Setup
 // -----
-// Each Setup record stores the game setup options for one round.
+// Each Setup record stores play options for one round of the game.
 //
 // In the desktop app, this type stored settings values that referenced specific
 // UI selections (particularly slider positions) and translated those on demand
