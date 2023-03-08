@@ -16,16 +16,6 @@ import * as _ from "lodash";
 // --
 // Each Rg record represents an integer range.
 
-/** Creates a Rg record from an object produced by `JSON.parse`, or returns
- *  `null` if `aParse` is falsy. */
-export function uFromParse(aParse) {
-	if (!aParse) return null;
-
-	const oStart = UtilJSON.uNumFromNumFix(aParse.Start, -Infinity);
-	const oEnd = UtilJSON.uNumFromNumFix(aParse.End, Infinity);
-	return uNew(oStart, oEnd);
-}
-
 /** Creates an Rg record that spans the specified integer range, inclusive of
  *  both `aStart` and `aEnd`. Use `-Infinity` or `-Infinity` to define a range
  *  with no lower or upper bound. If `aStart` is greater than `aEnd`, the
@@ -39,6 +29,16 @@ export function uNew(aStart, aEnd) {
 		 *  limit. */
 		End: aEnd
 	};
+}
+
+/** Creates a Rg record from an object produced by `JSON.parse`, or returns
+ *  `null` if `aParse` is falsy. */
+export function uFromParse(aParse) {
+	if (!aParse) return null;
+
+	const oStart = UtilJSON.uNumFromNumFix(aParse.Start, -Infinity);
+	const oEnd = UtilJSON.uNumFromNumFix(aParse.End, Infinity);
+	return uNew(oStart, oEnd);
 }
 
 /** Returns a short string that summarizes the values in a Rg record. */

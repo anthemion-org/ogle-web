@@ -12,7 +12,7 @@ import "./ViewSets.css";
 import Logo from "./Logo.js";
 import Slide from "./Slide.js";
 import Btn from "./Btn.js";
-import { Set_Setup } from "../Store/SliceSets.js";
+import { Set_Cfg, Set_Setup } from "../Store/SliceSets.js";
 import StsApp from "../StsApp.js";
 import * as Yield from "../Round/Yield.js";
 import * as Pace from "../Round/Pace.js";
@@ -27,14 +27,9 @@ import { connect } from "react-redux";
 // --------
 // This view allows the user to select app configuration and game setup options.
 //
-// 'Configuration' options are those that affect the entire app. These are
-// forwarded to every view with the `Cfg` prop, and persisted with the
-// `uUpd_Cfg` prop function, which is implemented in `App.js`, and which writes
-// to the `Cfg` key in the local storage. Right now, `NameTheme` is the only
-// configuration option.
-//
-// 'Setup' options are specific to game play. They are updated with the
-// `uSet_Setup` dispatch prop, which writes to the `Setup` slice.
+// 'Configuration' options are those that affect the entire app. 'Setup' options
+// are specific to game play. These are updated with the `uSet_Cfg` and
+// `uSet_Setup` dispatch props, which write to the `Setup` slice.
 //
 // The setup selections are represented with a Setup record. This view reads the
 // instance from the store, which records data in 'real' terms that are usable
@@ -48,6 +43,12 @@ import { connect } from "react-redux";
 
 /** Implements the Settings view, which is displayed when Ogle starts. The
  *  following props are required:
+ *
+ *  - Cfg: A Cfg record containing the player's app configuration selections.
+ *    This prop is required;
+ *
+ *  - uSet_Cfg: A function that dispatches a new Cfg record to the store. This
+ *    prop is required.
  *
  *  - Setup: A Setup record containing the player's game configuration
  *    selections. This prop is required;
@@ -101,15 +102,17 @@ class ViewSets extends React.Component {
 	/** Accepts an event representing a configuration change, and forwards it to
 	 *  the configuration update function. */
 	uHandChangeCfg(aEvt) {
-		this.props.uUpd_Cfg(this.uDataEvtChg(aEvt));
+		const oChgCfg = this.uDataEvtChg(aEvt);
+		const oCfg = { ...this.props.Cfg, ...oChgCfg };
+		this.props.uSet_Cfg(oCfg);
 	}
 
 	/** Accepts an event representing a setup change, and uses it to update the
 	 *  store. */
 	uHandChangeSetup(aEvt) {
 		const oSelsOrig = this.uSelsFromSetup(this.props.Setup);
-		const oSelsChg = this.uDataEvtChg(aEvt);
-		const oSetup = this.uSetupFromSels({ ...oSelsOrig, ...oSelsChg });
+		const oChgSels = this.uDataEvtChg(aEvt);
+		const oSetup = this.uSetupFromSels({ ...oSelsOrig, ...oChgSels });
 		this.props.uSet_Setup(oSetup);
 	}
 
@@ -187,6 +190,8 @@ class ViewSets extends React.Component {
 ViewSets.propTypes = {
 	StApp: PropTypes.string.isRequired,
 	uUpd_StApp: PropTypes.func.isRequired,
+	Cfg: PropTypes.object.isRequired,
+	uSet_Cfg: PropTypes.func.isRequired,
 	Setup: PropTypes.object.isRequired,
 	uSet_Setup: PropTypes.func.isRequired
 };
@@ -195,11 +200,15 @@ ViewSets.propTypes = {
 // ------------
 
 function uPropsSt(aSt) {
-	return { Setup: aSt.Sets.Setup };
+	return {
+		Cfg: aSt.Sets.Cfg,
+		Setup: aSt.Sets.Setup
+	};
 }
 
 function uPropsDispatch(auDispatch) {
 	return {
+		uSet_Cfg: (aCfg) => auDispatch(Set_Cfg(aCfg)),
 		uSet_Setup: (aSetup) => auDispatch(Set_Setup(aSetup))
 	};
 }

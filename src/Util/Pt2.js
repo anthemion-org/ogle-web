@@ -16,6 +16,11 @@ import * as _ from "lodash";
 // ---
 // Each Pt2 record represents a two-dimensional point.
 
+/** Creates a Pt2 record with the specified coordinates. */
+export function uNew(aX, aY) {
+	return { X: aX, Y: aY };
+}
+
 /** Creates a Pt2 record from an object produced by `JSON.parse`, and returns
  *  it, or returns `null` if `aParse` is falsy. */
 export function uFromParse(aParse) {
@@ -25,11 +30,6 @@ export function uFromParse(aParse) {
 		UtilJSON.uNumFromNumFix(aParse.X),
 		UtilJSON.uNumFromNumFix(aParse.Y)
 	);
-}
-
-/** Creates a Pt2 record with the specified coordinates. */
-export function uNew(aX, aY) {
-	return { X: aX, Y: aY };
 }
 
 /** Returns `true` if either coordinate is `NaN`. */

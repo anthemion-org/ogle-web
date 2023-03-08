@@ -5,40 +5,28 @@
 //
 // Import with:
 //
-//   import { tCfg } from "./Cfg.js";
+//   import * as Cfg from "./Cfg.js";
 //
 
-// tCfg
-// ----
-// Why should this class exist? We can't really use it; the configuration
-// instance is actually managed by `useState`, so we can't control its type.
-// [todo]
+// Cfg
+// ---
+// The Cfg record stores the player's app-level configuration selections.
 
-/** Stores general configuration choices for the app. This class is immutable. */
-export class tCfg {
-	/** Creates an instance from the specified plain object and returns it. */
-	static suFromPlain(aPlain) {
-		if (!aPlain) return null;
-
-		return new tCfg(
-			aPlain.NameTheme
-		);
-	}
-
-	/** Returns a new instance containing default values. */
-	static suDef() {
-		return new tCfg("Dk");
-	}
-
-	constructor(aNameTheme) {
+export function uNew(aNameTheme) {
+	const oCfg = {
 		/** The name of the selected UI theme. */
-		this.NameTheme = aNameTheme;
+		NameTheme: aNameTheme
+	};
+	Object.freeze(oCfg);
+	return oCfg;
+}
 
-		Object.freeze(this);
-	}
+/** Returns a new instance containing default values. */
+export function uDef() {
+	return uNew("Dk");
+}
 
-	/** Returns a short string that summarizes the values in this instance. */
-	uTag() {
-		return `NT:(${this.NameTheme})`;
-	}
+/** Returns a short string that summarizes the values in a Cfg record. */
+export function uTag(aCfg) {
+	return `NT:(${aCfg.NameTheme})`;
 }

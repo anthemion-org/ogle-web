@@ -25,24 +25,6 @@ import * as Text from "../Util/Text.js";
 // The UI can select a default if this data fails to match the selections on
 // offer.
 
-/** Creates a Setup record from an object produced by `JSON.parse`, and returns
- *  it, or returns `null` if `aParse` is falsy. */
-export function uFromParse(aParse) {
-	if (!aParse) return null;
-
-	return uNew(
-		Rg.uFromParse(aParse.Yield),
-		aParse.PaceStart,
-		aParse.PaceBonus
-	);
-}
-
-/** Returns a new instance containing default values. */
-export function uDef() {
-	const [ oPaceStart, oPaceBonus ] = Pace.uDef();
-	return uNew(Yield.uDef(), oPaceStart, oPaceBonus);
-}
-
 export function uNew(aYield, aPaceStart, aPaceBonus) {
 	const oSetup = {
 		/** A Rg record giving the number of words allowed in the board. */
@@ -54,6 +36,24 @@ export function uNew(aYield, aPaceStart, aPaceBonus) {
 	};
 	Object.freeze(oSetup);
 	return oSetup;
+}
+
+/** Returns a new instance containing default values. */
+export function uDef() {
+	const [ oPaceStart, oPaceBonus ] = Pace.uDef();
+	return uNew(Yield.uDef(), oPaceStart, oPaceBonus);
+}
+
+/** Creates a Setup record from an object produced by `JSON.parse`, and returns
+ *  it, or returns `null` if `aParse` is falsy. */
+export function uFromParse(aParse) {
+	if (!aParse) return null;
+
+	return uNew(
+		Rg.uFromParse(aParse.Yield),
+		aParse.PaceStart,
+		aParse.PaceBonus
+	);
 }
 
 /** Returns a short string that summarizes the values in `aSetup`. */

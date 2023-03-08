@@ -25,20 +25,12 @@ import PropTypes from "prop-types";
 // ----
 
 View.propTypes = {
-	Cfg: PropTypes.object.isRequired,
-	uUpd_Cfg: PropTypes.func.isRequired,
 	StApp: PropTypes.string.isRequired,
 	uUpd_StApp: PropTypes.func.isRequired
 };
 
 /** Selects and displays the view that corresponds to the current application
  *  state. The following props are required:
- *
- *  - Cfg: A tCfg object containing the current application configuration. This
- *    prop is required;
- *
- *  - uUpd_Cfg: A function that updates properties in the application
- *    configuration state. This prop is required.
  *
  *  - StApp: A StsApp value that gives the view to be displayed. This prop is
  *    required;

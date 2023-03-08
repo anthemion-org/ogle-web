@@ -22,7 +22,6 @@
 // persistence' in `README.md` for more on this. [todo]
 
 import StsApp from "./StsApp.js";
-import { tCfg } from "./Cfg.js";
 import * as Setup from "./Round/Setup.js";
 import * as UtilJSON from "./Util/UtilJSON.js";
 // This exposes 'package.json' to the client, which is said to have security
@@ -91,7 +90,6 @@ const _PlainsByName = _uRead_Plains();
 /** Default values to be returned when keys are read before they have been
  *  written. */
 const _DefsByName = {
-	Cfg: tCfg.suDef(),
 	StApp: StsApp.Sets,
 	Setup: Setup.uDef(),
 	ScoresHigh: {},

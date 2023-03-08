@@ -20,23 +20,6 @@ import * as Const from "../Const.js";
 // when selecting text during play, and for displaying entries in the Score
 // view.
 
-/** Creates an EntWord record from an object produced by `JSON.parse`, and
- *  returns it, or returns `null` if `aParse` is falsy. */
-export function uFromParse(aPlain) {
-	if (!aPlain) return null;
-
-	const oPosi = aPlain.Posi.map(a => Pt2.uFromParse(a));
-	return uNew(oPosi, aPlain.Texts);
-}
-
-/** Returns an EntWord record that ends with the specified position and text.
- *  Define `aEntPrev` to create a record that extends that one. */
-export function uFromPosText(aPos, aText, aEntPrev) {
-	const oPosi = aEntPrev ? [ ...aEntPrev.Posi, aPos ] : [ aPos ];
-	const oTexts = aEntPrev ? [ ...aEntPrev.Texts, aText ] : [ aText ];
-	return uNew(oPosi, oTexts);
-}
-
 /** Creates an entry from the specified position and text arrays. */
 export function uNew(aPosi, aTexts) {
 	if (aPosi.length !== aTexts.length)
@@ -52,6 +35,23 @@ export function uNew(aPosi, aTexts) {
 	// Keep this?: [todo]
 	Object.freeze(oEnt);
 	return oEnt;
+}
+
+/** Creates an EntWord record from an object produced by `JSON.parse`, and
+ *  returns it, or returns `null` if `aParse` is falsy. */
+export function uFromParse(aPlain) {
+	if (!aPlain) return null;
+
+	const oPosi = aPlain.Posi.map(a => Pt2.uFromParse(a));
+	return uNew(oPosi, aPlain.Texts);
+}
+
+/** Returns an EntWord record that ends with the specified position and text.
+ *  Define `aEntPrev` to create a record that extends that one. */
+export function uFromPosText(aPos, aText, aEntPrev) {
+	const oPosi = aEntPrev ? [ ...aEntPrev.Posi, aPos ] : [ aPos ];
+	const oTexts = aEntPrev ? [ ...aEntPrev.Texts, aText ] : [ aText ];
+	return uNew(oPosi, oTexts);
 }
 
 /** Returns `true` if the specified position is selected by `aEntWord`. */
