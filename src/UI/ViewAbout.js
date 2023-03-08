@@ -12,26 +12,24 @@ import "./ViewAbout.css";
 import Logo from "./Logo.js";
 import Btn from "./Btn.js";
 import StsApp from "../StsApp.js";
+import { Set_StApp } from "../Store/SliceApp.js";
 // This exposes 'package.json' to the client, which is said to have security
 // implications in some cases, but ours is already open to the public:
 import Pack from "../../package.json";
 
 import React from "react";
-import PropTypes from "prop-types";
+import { useDispatch } from "react-redux";
 
 // ViewAbout
 // ---------
 
-ViewAbout.propTypes = {
-	StApp: PropTypes.string.isRequired,
-	uUpd_StApp: PropTypes.func.isRequired
-};
-
 /** Implements the About view. Aside from those used by all `View` instances, no
  *  props are supported. */
 export default function ViewAbout(aProps) {
+	const ouDispatch = useDispatch();
+
 	function ouHandOK(aEvt) {
-		aProps.uUpd_StApp(StsApp.Sets);
+		ouDispatch(Set_StApp(StsApp.Sets));
 	}
 
 	return (

@@ -16,6 +16,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 // Slice
 // -----
+// Maybe this data should be moved to `SliceApp`? [refactor]
 
 export const Slice = createSlice({
 	name: "Sets",

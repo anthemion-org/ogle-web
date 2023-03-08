@@ -12,6 +12,7 @@ import "./ViewSets.css";
 import Logo from "./Logo.js";
 import Slide from "./Slide.js";
 import Btn from "./Btn.js";
+import { Set_StApp } from "../Store/SliceApp.js";
 import { Set_Cfg, Set_Setup } from "../Store/SliceSets.js";
 import StsApp from "../StsApp.js";
 import * as Yield from "../Round/Yield.js";
@@ -21,7 +22,7 @@ import * as Setup from "../Round/Setup.js";
 
 import React from "react";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 
 // ViewSets
 // --------
@@ -118,12 +119,12 @@ class ViewSets extends React.Component {
 
 	/** Causes the About view to be displayed. */
 	uHandAbout(aEvt) {
-		this.props.uUpd_StApp(StsApp.About);
+		this.props.uSet_StApp(StsApp.About);
 	}
 
 	/** Causes the Play view to be displayed. */
 	uHandPlay(aEvt) {
-		this.props.uUpd_StApp(StsApp.PlayInit);
+		this.props.uSet_StApp(StsApp.PlayInit);
 	}
 
 	// View content
@@ -188,8 +189,6 @@ class ViewSets extends React.Component {
 }
 
 ViewSets.propTypes = {
-	StApp: PropTypes.string.isRequired,
-	uUpd_StApp: PropTypes.func.isRequired,
 	Cfg: PropTypes.object.isRequired,
 	uSet_Cfg: PropTypes.func.isRequired,
 	Setup: PropTypes.object.isRequired,
@@ -209,7 +208,8 @@ function uPropsSt(aSt) {
 function uPropsDispatch(auDispatch) {
 	return {
 		uSet_Cfg: (aCfg) => auDispatch(Set_Cfg(aCfg)),
-		uSet_Setup: (aSetup) => auDispatch(Set_Setup(aSetup))
+		uSet_Setup: (aSetup) => auDispatch(Set_Setup(aSetup)),
+		uSet_StApp: (aStApp) => auDispatch(Set_StApp(aStApp))
 	};
 }
 

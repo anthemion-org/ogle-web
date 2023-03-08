@@ -20,6 +20,7 @@ import DlgHelp from "./DlgHelp.js";
 import DlgVerWord from "./DlgVerWord.js";
 import Lex from "../Search/Lex.js";
 import Feed from "../Feed.js";
+import { Set_StApp } from "../Store/SliceApp.js";
 import { uSelSetup } from "../Store/SliceSets.js";
 import * as Persist from "../Persist.js";
 import * as Const from "../Const.js";
@@ -30,11 +31,6 @@ import { useSelector, useDispatch } from "react-redux";
 
 // ViewPlay
 // --------
-
-ViewPlay.propTypes = {
-	StApp: PropTypes.string.isRequired,
-	uUpd_StApp: PropTypes.func.isRequired
-};
 
 /** Implements the Play view, which displays the board, accepts user word
  *  entries, and manages the timer during play. Aside from the usual `View`
@@ -179,7 +175,7 @@ export default function ViewPlay(aProps) {
 		const oTimeRemain = uTimeRemain(oSetup, oCardUser.CtBonusTime, oTimeElap);
 		if (oTimeRemain < 1) {
 			Feed.uStop_Tick();
-			aProps.uUpd_StApp(StsApp.Score);
+			ouDispatch(Set_StApp(StsApp.Score));
 			return;
 		}
 
@@ -220,7 +216,7 @@ export default function ViewPlay(aProps) {
 
 		Work.onmessage = function (aMsg) {
 			if (!aMsg.data.Board) {
-				aProps.uUpd_StApp(StsApp.Sets);
+				ouDispatch(Set_StApp(StsApp.Sets));
 				return;
 			}
 
@@ -301,7 +297,7 @@ export default function ViewPlay(aProps) {
 
 	/** Handles the End Confirmation dialog Yes button click. */
 	function ouHandYesConfirmEnd(aEvt) {
-		aProps.uUpd_StApp(StsApp.Score);
+		ouDispatch(Set_StApp(StsApp.Score));
 	}
 
 	/** Handles the End Confirmation dialog No button click. */

@@ -47,14 +47,16 @@ export function uRead(an) {
 /** Writes the specified value to the local storage, after prefixing `an` with
  *  `_PrefixNameStore`. Also updates the `VerApp` value. */
 export function uWrite(an, aVal) {
+	// Write the version number. Note that this value is not drawn from the store:
 	localStorage.setItem(
 		_PrefixNameStore + "VerApp",
 		JSON.stringify(Pack.version)
 	);
+	// Write the value:
 	localStorage.setItem(
 		_PrefixNameStore + an,
-		// Whatver else happens, writing `null` for infinite or `NaN` values must be
-		// wrong, because it cannot be deserialized correctly:
+		// Whatver else happens, writing `null` for infinite or `NaN` values cannot
+		// be correct, as it cannot be deserialized accurately:
 		JSON.stringify(aVal, UtilJSON.uNumFix)
 	);
 }

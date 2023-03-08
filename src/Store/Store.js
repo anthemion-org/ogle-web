@@ -3,6 +3,7 @@
 // Copyright ©2023 Jeremy Kelly
 // www.anthemion.org
 
+import SliceApp from "./SliceApp";
 import SliceSets from "./SliceSets";
 import SliceScore from "./SliceScore";
 import * as Persist from "../Persist.js";
@@ -13,6 +14,7 @@ import { configureStore } from "@reduxjs/toolkit";
 // `_uPersist_Store` for more on that:
 const Store = configureStore({
 	reducer: {
+		App: SliceApp.reducer,
 		Sets: SliceSets.reducer,
 		Score: SliceScore.reducer
 	}

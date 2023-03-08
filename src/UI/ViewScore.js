@@ -18,8 +18,9 @@ import { tBoard } from "../Board/Board.js";
 import { tCard } from "../Round/Card.js";
 import { StatsWord, uScoresCoversFromCards } from "../Round/ScoreWord.js";
 import Feed from "../Feed.js";
-import { uSelScoresHigh, Add_ScoreHigh } from "../Store/SliceScore.js";
+import { Set_StApp } from "../Store/SliceApp.js";
 import { uSelSetup } from "../Store/SliceSets.js";
+import { uSelScoresHigh, Add_ScoreHigh } from "../Store/SliceScore.js";
 import * as ScorePlay from "../Round/ScorePlay.js";
 import * as ScoresHigh from "../Round/ScoresHigh.js";
 import * as Const from "../Const.js";
@@ -33,8 +34,6 @@ import { useSelector, useDispatch } from "react-redux";
 // ---------
 
 ViewScore.propTypes = {
-	StApp: PropTypes.string.isRequired,
-	uUpd_StApp: PropTypes.func.isRequired,
 	Board: PropTypes.instanceOf(tBoard).isRequired,
 	CardOgle: PropTypes.instanceOf(tCard).isRequired,
 	CardUser: PropTypes.instanceOf(tCard).isRequired
@@ -155,12 +154,12 @@ export default function ViewScore(aProps) {
 
 	/** Handles the Setup button click. */
 	function ouHandSetup(aEvt) {
-		aProps.uUpd_StApp(StsApp.Sets);
+		ouDispatch(Set_StApp(StsApp.Sets));
 	}
 
 	/** Handles the Play Again button click. */
 	function ouHandPlay(aEvt) {
-		aProps.uUpd_StApp(StsApp.PlayInit);
+		ouDispatch(Set_StApp(StsApp.PlayInit));
 	}
 
 	function ouLinesScore() {
