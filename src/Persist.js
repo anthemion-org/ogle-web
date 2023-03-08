@@ -20,6 +20,10 @@
 // untyped data returned by `uGetPlain` must be converted with the static
 // `suFromPlain` method provided by the destination class. See 'Plain data and
 // persistence' in `README.md` for more on this. [todo]
+//
+// While most store data is persisted, not all persistant data is part of the
+// store. Data (like 'WordsUser') that are not used to render pages can be
+// persisted directly.
 
 import StsApp from "./StsApp.js";
 import * as Setup from "./Round/Setup.js";

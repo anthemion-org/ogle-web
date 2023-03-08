@@ -38,7 +38,11 @@ import WordsOgle from "./WordsOgle.json";
 class tLex {
 	constructor() {
 		/** An array of strings representing all user-entered words. */
-		this.WordsUser = Persist.uGetPlain("WordsUser");
+		//
+		// There is no need for this to be moved to the store; it is not used to
+		// render pages, and this class is instantiated only once, when the app
+		// loads:
+		this.WordsUser = Persist.uRead("WordsUser");
 		this.WordsUser.sort(Search.uCompareStrFast);
 
 		/** An array of strings representing all searchable words. This array will

@@ -20,8 +20,7 @@ import DlgHelp from "./DlgHelp.js";
 import DlgVerWord from "./DlgVerWord.js";
 import Lex from "../Search/Lex.js";
 import Feed from "../Feed.js";
-import { Set_StApp } from "../Store/SliceApp.js";
-import { uSelSetup } from "../Store/SliceSets.js";
+import { uSelSetup, Set_StApp } from "../Store/SliceApp.js";
 import * as Persist from "../Persist.js";
 import * as Const from "../Const.js";
 

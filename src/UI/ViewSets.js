@@ -12,8 +12,7 @@ import "./ViewSets.css";
 import Logo from "./Logo.js";
 import Slide from "./Slide.js";
 import Btn from "./Btn.js";
-import { Set_StApp } from "../Store/SliceApp.js";
-import { Set_Cfg, Set_Setup } from "../Store/SliceSets.js";
+import { Set_Cfg, Set_Setup, Set_StApp } from "../Store/SliceApp.js";
 import StsApp from "../StsApp.js";
 import * as Yield from "../Round/Yield.js";
 import * as Pace from "../Round/Pace.js";
@@ -200,8 +199,8 @@ ViewSets.propTypes = {
 
 function uPropsSt(aSt) {
 	return {
-		Cfg: aSt.Sets.Cfg,
-		Setup: aSt.Sets.Setup
+		Cfg: aSt.App.Cfg,
+		Setup: aSt.App.Setup
 	};
 }
 

@@ -11,7 +11,7 @@
 import BackPage from "./UI/BackPage.js";
 import View from "./UI/View.js";
 import * as Theme from "./Theme.js";
-import { uSelCfg } from "./Store/SliceSets.js";
+import { uSelCfg } from "./Store/SliceApp.js";
 
 import { React } from "react";
 import { useSelector } from "react-redux";
