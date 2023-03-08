@@ -5,6 +5,7 @@
 
 import SliceApp from "./SliceApp";
 import SliceSets from "./SliceSets";
+import SlicePlay from "./SlicePlay";
 import SliceScore from "./SliceScore";
 import * as Persist from "../Persist.js";
 
@@ -16,6 +17,7 @@ const Store = configureStore({
 	reducer: {
 		App: SliceApp.reducer,
 		Sets: SliceSets.reducer,
+		Play: SlicePlay.reducer,
 		Score: SliceScore.reducer
 	}
 });

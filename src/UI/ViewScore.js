@@ -159,7 +159,7 @@ export default function ViewScore(aProps) {
 
 	/** Handles the Play Again button click. */
 	function ouHandPlay(aEvt) {
-		ouDispatch(Set_StApp(StsApp.PlayInit));
+		ouDispatch(Set_StApp(StsApp.Play));
 	}
 
 	function ouLinesScore() {

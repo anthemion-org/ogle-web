@@ -15,8 +15,6 @@ const StsApp = {
 	Sets: "Sets",
 	/** Displays the About view. */
 	About: "About",
-	/** Resets the play state, then display the Play view. */
-	PlayInit: "PlayInit",
 	/** Displays the Play view. */
 	Play: "Play",
 	/** Displays the Score view. */

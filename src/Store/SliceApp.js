@@ -29,21 +29,7 @@ export const Slice = createSlice({
 	},
 
 	reducers: {
-		Set_StApp: (aSt, aAct) => {
-			aSt.StApp = aAct.payload;
-
-			switch (aAct.payload) {
-				case StsApp.PlayInit: {
-					// Move to Play slice `extraReducers`: [todo]
-					Persist.uSet("Board", null);
-					Persist.uSet("CardOgle", null);
-					Persist.uSet("CardUser", null);
-					Persist.uSet("TimeElap", 0);
-					aSt.StApp = StsApp.Play;
-					break;
-				}
-			}
-		}
+		Set_StApp: (aSt, aAct) => { aSt.StApp = aAct.payload; }
 	}
 });
 export default Slice;

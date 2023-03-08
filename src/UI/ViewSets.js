@@ -124,7 +124,7 @@ class ViewSets extends React.Component {
 
 	/** Causes the Play view to be displayed. */
 	uHandPlay(aEvt) {
-		this.props.uSet_StApp(StsApp.PlayInit);
+		this.props.uSet_StApp(StsApp.Play);
 	}
 
 	// View content
