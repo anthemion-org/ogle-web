@@ -3,34 +3,34 @@
 // Copyright ©2022 Jeremy Kelly
 // www.anthemion.org
 
-import { tCard } from "./Card.js";
+import * as Card from "./Card.js";
 import * as EntWord from "./EntWord.js";
 
 test("Card uAdd", () => {
-	const oCard = tCard.suNew();
+	const oCard = Card.uNewEmpty();
 
 	let oEnt = uEntFromText("TON");
-	oCard.uAdd(oEnt);
+	Card.uAdd(oCard, oEnt);
 	expect(oCard.Score).toEqual(0);
 	expect(oCard.CtBonusTime).toEqual(0);
 
 	oEnt = uEntFromText("TONE");
-	oCard.uAdd(oEnt);
+	Card.uAdd(oCard, oEnt);
 	expect(oCard.Score).toEqual(1);
 	expect(oCard.CtBonusTime).toEqual(1);
 
 	oEnt = uEntFromText("TONERS");
-	oCard.uAdd(oEnt);
+	Card.uAdd(oCard, oEnt);
 	expect(oCard.Score).toEqual(1);
 	expect(oCard.CtBonusTime).toEqual(3);
 
 	oEnt = uEntFromText("TONER");
-	oCard.uAdd(oEnt);
+	Card.uAdd(oCard, oEnt);
 	expect(oCard.Score).toEqual(1);
 	expect(oCard.CtBonusTime).toEqual(3);
 
 	oEnt = uEntFromText("TONERS");
-	oCard.uAdd(oEnt);
+	Card.uAdd(oCard, oEnt);
 	expect(oCard.Score).toEqual(1);
 	expect(oCard.CtBonusTime).toEqual(3);
 });

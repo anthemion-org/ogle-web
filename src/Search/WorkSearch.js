@@ -9,7 +9,7 @@ import { tConfigPoolDie } from "../Board/PoolDie.js";
 import * as Setup from "../Round/Setup.js";
 import * as Board from "../Board/Board.js";
 import * as SearchBoard from "./SearchBoard.js";
-import { tCard } from "../Round/Card.js";
+import * as Card from "../Round/Card.js";
 import { tGenRnd } from "../Util/Rnd.js";
 import * as Rg from "../Util/Rg.js";
 
@@ -34,7 +34,7 @@ onmessage = function (aMsg) {
 		while (true) {
 			oBoard = Board.uNewRnd(oGenRnd, oConfigPools);
 			const oSels = SearchBoard.uExec(aMsg.data.WordsSearch, oBoard);
-			oCard = tCard.suFromSelsBoard(oSels);
+			oCard = Card.uFromSelsBoard(oSels);
 			if (Rg.uCkContain(oSetup.Yield, oCard.Score)) {
 				_Log(2, "Accepting board number " + (oj + 1));
 				_Log(2, `~ ${oCard.Score} words`);

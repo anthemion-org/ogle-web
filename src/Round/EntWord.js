@@ -113,7 +113,7 @@ export function uClonePrev(aEntWord, aPos) {
 /** Compares two EntWord records by their `uTextAll` values, sorting longer
  *  words before shorter words when one follow the other. This makes it easier
  *  to exclude followed words when processing raw search output with
- *  `tCard.uAdd`. The specific board positions used to define each entry are
+ *  `Card.uAdd`. The specific board positions used to define each entry are
  *  ignored. */
 export function uCompare(aEntWordL, aEntWordR) {
 	const oTextL = uTextAll(aEntWordL);

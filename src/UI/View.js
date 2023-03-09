@@ -15,7 +15,7 @@ import ViewPlay from "./ViewPlay";
 import ViewScore from "./ViewScore";
 import StsApp from "../StsApp.js";
 import * as Board from "../Board/Board.js";
-import { tCard } from "../Round/Card.js";
+import * as Card from "../Round/Card.js";
 import { uSelStApp } from "../Store/SliceApp.js";
 import * as Persist from "../Persist.js";
 
@@ -39,8 +39,8 @@ export default function View(aProps) {
 
 		case StsApp.Score: {
 			const oBoard = Board.uFromParse(Persist.uGetPlain("Board"));
-			const oCardOgle = tCard.suFromPlain(Persist.uGetPlain("CardOgle"));
-			const oCardUser = tCard.suFromPlain(Persist.uGetPlain("CardUser"));
+			const oCardOgle = Card.uFromParse(Persist.uRead("CardOgle"));
+			const oCardUser = Card.uFromParse(Persist.uRead("CardUser"));
 			return <ViewScore {...aProps} Board={oBoard}
 				CardOgle={oCardOgle} CardUser={oCardUser} />;
 		}

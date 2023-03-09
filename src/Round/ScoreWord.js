@@ -99,7 +99,7 @@ export function uScoresCoversFromCards(aCardOgle, aCardUser) {
 
 	// Mark followed words
 	// -------------------
-	// Note that a word-following check is also performed in 'tCard.Add'. I don't
+	// Note that a word-following check is also performed in 'Card.uAdd'. I don't
 	// see a good way to share the functionality, however.
 
 	let oTextPrevUser = null;

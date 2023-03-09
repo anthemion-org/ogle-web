@@ -14,7 +14,7 @@ import StsApp from "../StsApp.js";
 import * as Setup from "../Round/Setup.js";
 import * as Board from "../Board/Board.js";
 import * as EntWord from "../Round/EntWord.js";
-import { tCard } from "../Round/Card.js";
+import * as Card from "../Round/Card.js";
 import LookBoard from "./LookBoard.js";
 import DlgHelp from "./DlgHelp.js";
 import DlgVerWord from "./DlgVerWord.js";
@@ -48,13 +48,13 @@ export default function ViewPlay(aProps) {
 	/** A Board record representing the board that is being played, or `null` if
 	 *  the board has not been generated yet. */
 	const [oBoard, ouSet_Board] = useState(() => uBoardInit());
-	/** A `tCard` instance representing the Ogle scorecard, or `null` if the board
+	/** A Card record representing the Ogle scorecard, or `null` if the board
 	 *  has not been generated yet. */
 	const [oCardOgle, ouSet_CardOgle] = useState(() => uCardOgleInit());
 	/** An EntWord record representing the user's current board selection, or
 	 *  `null` if there is no selection. */
 	const [oEntUser, ouSet_EntUser] = useState(null);
-	/** A `tCard` instance representing the user scorecard. */
+	/** A Card record representing the user scorecard. */
 	const [oCardUser, ouSet_CardUser] = useState(() => uCardUserInit());
 	/** A `StsPlay` value representing the current play state. */
 	const [oStPlay, ouSet_StPlay] = useState(() => uStPlayInit());
@@ -219,7 +219,7 @@ export default function ViewPlay(aProps) {
 			}
 
 			ouSet_Board(Board.uFromParse(aMsg.data.Board));
-			ouSet_CardOgle(tCard.suFromPlain(aMsg.data.CardOgle));
+			ouSet_CardOgle(Card.uFromParse(aMsg.data.CardOgle));
 		};
 	}
 	useEffect(ouCreate_WorkSearch, [aProps, ouDispatch, oSetup, oBoard]);
@@ -430,10 +430,10 @@ export default function ViewPlay(aProps) {
 
 		// The word is recognized:
 		ouSet_CardUser(aCard => {
-			// We could change `uAdd` to return a new `tCard` instance, but
-			// `suFromSelsBoard` would become even slower than it is now:
-			const oCardNew = aCard.uClone();
-			const oCkVal = oCardNew.uAdd(oEntUser);
+			// We could change `uAdd` to return a new Card record, but
+			// `uFromSelsBoard` would become even slower than it is now:
+			const oCardNew = Card.uClone(aCard);
+			const oCkVal = Card.uAdd(oCardNew, oEntUser);
 
 			if (oCkVal) Feed.uEntVal();
 			else Feed.uEntInval();
@@ -592,11 +592,11 @@ function uBoardInit() {
 }
 
 function uCardOgleInit() {
-	return tCard.suFromPlain(Persist.uGetPlain("CardOgle"));
+	return Card.uFromParse(Persist.uRead("CardOgle"));
 }
 
 function uCardUserInit() {
-	return tCard.suFromPlain(Persist.uGetPlain("CardUser")) || tCard.suNew();
+	return Card.uFromParse(Persist.uRead("CardUser")) || Card.uNewEmpty();
 }
 
 function uStPlayInit() {

@@ -15,7 +15,7 @@ import Btn from "./Btn.js";
 import StsApp from "../StsApp.js";
 import * as Setup from "../Round/Setup.js";
 import * as Board from "../Board/Board.js";
-import { tCard } from "../Round/Card.js";
+import * as Card from "../Round/Card.js";
 import { StatsWord, uScoresCoversFromCards } from "../Round/ScoreWord.js";
 import Feed from "../Feed.js";
 import { uSelSetup, Set_StApp } from "../Store/SliceApp.js";
@@ -34,21 +34,21 @@ import { useSelector, useDispatch } from "react-redux";
 
 ViewScore.propTypes = {
 	Board: PropTypes.object.isRequired,
-	CardOgle: PropTypes.instanceOf(tCard).isRequired,
-	CardUser: PropTypes.instanceOf(tCard).isRequired
+	CardOgle: PropTypes.object.isRequired,
+	CardUser: PropTypes.object.isRequired
 };
 
 /** Implements the Score view, which displays the result of the last round of
  *  play. Along with the usual `View` props, the following props are supported:
  *
- *  - `Board`: A Board record representing the board that was played. This
- *    prop is required;
+ *  - `Board`: A Board record representing the board that was played. This prop
+ *    is required;
  *
- *  - `CardOgle`: A `tCard` instance that gives the words scored by Ogle. This
- *    prop is required;
+ *  - `CardOgle`: A Card record that gives the words scored by Ogle. This prop
+ *    is required;
  *
- *  - `CardUser`: A `tCard` instance that gives the words scored by the user.
- *    This prop is required.
+ *  - `CardUser`: A Card record that gives the words scored by the user. This
+ *    prop is required.
  */
 export default function ViewScore(aProps) {
 	const ouDispatch = useDispatch();
