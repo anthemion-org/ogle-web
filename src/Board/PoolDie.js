@@ -9,7 +9,7 @@
 //
 
 import { tConfigPoolText, tPoolText } from "./PoolText.js";
-import { tDie } from "./Die.js";
+import * as Die from "./Die.js";
 import * as Dir4 from "../Util/Dir4.js";
 import * as Const from "../Const.js";
 
@@ -55,9 +55,9 @@ export class tConfigPoolDie {
 	}
 }
 
-/** Stores two pools of text values, which can be drawn randomly as `tDie`
- *  instances to produce a board. Set `aConfig` to a `tConfigPoolDie` instance
- *  that determines counts within the pools. This class is mutable. */
+/** Stores two pools of text values, which can be drawn randomly as Die records
+ *  to produce a board. Set `aConfig` to a `tConfigPoolDie` instance that
+ *  determines counts within the pools. This class is mutable. */
 export class tPoolDie {
 	constructor(aGenRnd, aConfig) {
 		if (!aConfig)
@@ -121,8 +121,8 @@ export class tPoolDie {
 		this._TextsConson = new tPoolText(aGenRnd, oCtsConson, aConfig.Conson);
 	}
 
-	/** Selects and returns a random `tDie` instance, after decrementing the vowel
-	 *  or consonant count, as appropriate. */
+	/** Selects and returns a random Die record, after decrementing the vowel or
+	 *  consonant count, as appropriate. */
 	uDraw() {
 		const oCtText = this._CtVow + this._CtConson;
 		if (oCtText < 1)
@@ -141,7 +141,7 @@ export class tPoolDie {
 		}
 
 		const oDir = Dir4.uRnd(this._GenRnd);
-		return new tDie(oText, oDir);
+		return Die.uNew(oText, oDir);
 	}
 }
 

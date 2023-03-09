@@ -89,10 +89,12 @@ function uUpdFull_CacheRead() {
   ...
 ```
 
-Other times, functions are named only with nouns. When this is done, the noun is what the function _returns_. Class factory methods often have roots that begin with `From`; the noun is implicit, since these static functions can be invoked only after specifying the class:
+Other times, functions are named only with nouns. When this is done, the noun is what the function _returns_.
+
+Factory functions often have roots that begin with `From`; the noun is implicit, since these static functions can be invoked only after specifying the class:
 
 ```
-const oBoard = tBoard.suFromPlain(oPlainBoard);
+const oBoard = Board.uFromParse(oParseBoard);
 ```
 
 Longer words are abbreviated within identifiers, file and folder names, _et cetera_. A word that is abbreviated once is abbreviated the _same way_ throughout the project.

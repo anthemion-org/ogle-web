@@ -12,7 +12,7 @@ import "./ViewPlay.css";
 import Btn from "./Btn.js";
 import StsApp from "../StsApp.js";
 import * as Setup from "../Round/Setup.js";
-import { tBoard } from "../Board/Board.js";
+import * as Board from "../Board/Board.js";
 import * as EntWord from "../Round/EntWord.js";
 import { tCard } from "../Round/Card.js";
 import LookBoard from "./LookBoard.js";
@@ -25,7 +25,6 @@ import * as Persist from "../Persist.js";
 import * as Const from "../Const.js";
 
 import { React, useState, useEffect } from "react";
-import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 
 // ViewPlay
@@ -46,8 +45,8 @@ export default function ViewPlay(aProps) {
 	/** A Setup record that configures the current round. */
 	const oSetup = useSelector(uSelSetup);
 
-	/** A `tBoard` instance representing the board that is being played, or `null`
-	 *  if the board has not been generated yet. */
+	/** A Board record representing the board that is being played, or `null` if
+	 *  the board has not been generated yet. */
 	const [oBoard, ouSet_Board] = useState(() => uBoardInit());
 	/** A `tCard` instance representing the Ogle scorecard, or `null` if the board
 	 *  has not been generated yet. */
@@ -193,8 +192,8 @@ export default function ViewPlay(aProps) {
 		// already stopped when play is paused, so there is no need to do that when
 		// quitting play early.
 	}
-	useEffect(ouMan_FeedAndStApp, [aProps, oSetup, oBoard, oStPlay, oCkVerWord,
-		oCardUser.CtBonusTime, oTimeElap]);
+	useEffect(ouMan_FeedAndStApp, [aProps, ouDispatch, oSetup, oBoard, oStPlay,
+		oCkVerWord, oCardUser.CtBonusTime, oTimeElap]);
 
 	// Board generation
 	// ----------------
@@ -219,11 +218,11 @@ export default function ViewPlay(aProps) {
 				return;
 			}
 
-			ouSet_Board(tBoard.suFromPlain(aMsg.data.Board));
+			ouSet_Board(Board.uFromParse(aMsg.data.Board));
 			ouSet_CardOgle(tCard.suFromPlain(aMsg.data.CardOgle));
 		};
 	}
-	useEffect(ouCreate_WorkSearch, [aProps, oSetup, oBoard]);
+	useEffect(ouCreate_WorkSearch, [aProps, ouDispatch, oSetup, oBoard]);
 
 	/** Stores the board and the associated Ogle scorecard. */
 	function ouStore_Board() {
@@ -369,7 +368,7 @@ export default function ViewPlay(aProps) {
 
 		// Start new entry:
 		if (!oEntUser) {
-			const oText = oBoard.uDie(aPos).Text;
+			const oText = Board.uDie(oBoard, aPos).Text;
 			const oEntNew = EntWord.uFromPosText(aPos, oText);
 			ouSet_EntUser(oEntNew);
 			Feed.uSelDie();
@@ -385,7 +384,7 @@ export default function ViewPlay(aProps) {
 		}
 
 		// Extend existing entry:
-		const oText = oBoard.uDie(aPos).Text;
+		const oText = Board.uDie(oBoard, aPos).Text;
 		const oEntAdd = EntWord.uFromPosText(aPos, oText, oEntUser);
 		ouSet_EntUser(oEntAdd);
 		Feed.uSelDie();
@@ -589,7 +588,7 @@ function uTimeRemain(aSetup, aCtBonus, aTimeElap) {
 }
 
 function uBoardInit() {
-	return tBoard.suFromPlain(Persist.uGetPlain("Board"));
+	return Board.uFromParse(Persist.uGetPlain("Board"));
 }
 
 function uCardOgleInit() {

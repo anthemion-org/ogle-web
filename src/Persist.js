@@ -32,13 +32,18 @@ import * as UtilJSON from "./Util/UtilJSON.js";
 // implications in some cases. Ours is already open to the public:
 import Pack from "../package.json";
 
-/** Reads the specified value from local storage, after prefixing name `an` with
- *  `_PrefixNameStore`. */
-export function uRead(an) {
-	const onFull = _PrefixNameStore + an;
-	const oJSON = localStorage.getItem(onFull);
 
-	if (oJSON === null) return undefined;
+/** Returns the specified value from local storage, or `aDef`, if the key is not
+ *  found. `anBase` is prefixed automatically with `_PrefixNameStore` before
+ *  reading. */
+export function uRead(anBase, aDef = undefined) {
+	const onFull = _PrefixNameStore + anBase;
+	const oJSON = localStorage.getItem(onFull);
+	// Because we are storing everything as a string, this lets us discern between
+	// values that were explicitly set to `null`, and those that are missing
+	// entirely. The `localStorage` API, incredibly, does not provide a direct way
+	// to make that distinction:
+	if (oJSON === null) return aDef;
 	// It would be nice to reverse the `_uNumsSpecialToStr` conversion here, but
 	// the string 'Infinity' is a likely value for some fields, and the original
 	// Ogle code did not need or use `_uNumsSpecialToStr`, so there are `null`
@@ -48,9 +53,10 @@ export function uRead(an) {
 	return JSON.parse(oJSON);
 }
 
-/** Writes the specified value to the local storage, after prefixing `an` with
- *  `_PrefixNameStore`. Also updates the `VerApp` value. */
-export function uWrite(an, aVal) {
+/** Writes the specified value to the local storage, and also updates the
+ *  `VerApp` value. `anBase` is prefixed automatically with
+ *  `_PrefixNameStore` before writing. */
+export function uWrite(anBase, aVal) {
 	// Write the version number. Note that this value is not drawn from the store:
 	localStorage.setItem(
 		_PrefixNameStore + "VerApp",
@@ -58,7 +64,7 @@ export function uWrite(an, aVal) {
 	);
 	// Write the value:
 	localStorage.setItem(
-		_PrefixNameStore + an,
+		_PrefixNameStore + anBase,
 		// Whatver else happens, writing `null` for infinite or `NaN` values cannot
 		// be correct, as it cannot be deserialized accurately:
 		JSON.stringify(aVal, UtilJSON.uNumFix)

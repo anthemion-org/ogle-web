@@ -9,7 +9,7 @@
 //
 
 import "./Die.css";
-import { tDie } from "../Board/Die.js";
+import * as Die from "../Board/Die.js";
 import * as MetrDie from "./MetrDie.js";
 import Feed from "../Feed.js";
 import * as Dir4 from "../Util/Dir4.js";
@@ -23,7 +23,7 @@ import PropTypes from "prop-types";
 
 LookDie.propTypes = {
 	Pos: PropTypes.object.isRequired,
-	Die: PropTypes.instanceOf(tDie).isRequired,
+	Die: PropTypes.object.isRequired,
 	CkSel: PropTypes.bool,
 	CkEnab: PropTypes.bool,
 	CkPause: PropTypes.bool,
@@ -37,7 +37,7 @@ LookDie.propTypes = {
  *  - Pos: A Pt2 record representing the board position that contains this
  *    instance. This prop is required;
  *
- *  - Die: The tDie instance at this board position. This prop is required;
+ *  - Die: The Die record at this board position. This prop is required;
  *
  *  - CkSel: Set to `true` if this die is selected;
  *

@@ -12,7 +12,7 @@ import "./LookBoard.css";
 import BackDie from "./BackDie.js";
 import ConnSel from "./ConnSel.js";
 import LookDie from "./LookDie.js";
-import { tBoard } from "../Board/Board.js";
+import * as Board from "../Board/Board.js";
 import * as EntWord from "../Round/EntWord.js";
 import * as Rect from "../Util/Rect.js";
 import * as Const from "../Const.js";
@@ -24,7 +24,7 @@ import PropTypes from "prop-types";
 // ---------
 
 LookBoard.propTypes = {
-	Board: PropTypes.instanceOf(tBoard).isRequired,
+	Board: PropTypes.object.isRequired,
 	// EntWord record:
 	Ent: PropTypes.object,
 	CkPause: PropTypes.bool,
@@ -36,7 +36,7 @@ LookBoard.propTypes = {
 /** Displays the board, and accepts user play input. The following props are
  *  supported:
  *
- *  - Board: A tBoard instance representing the board to be displayed. This prop
+ *  - Board: A Board record representing the board to be displayed. This prop
  *    is required;
  *
  *  - Ent: An EntWord record representing the board selection, or a falsy value
@@ -103,7 +103,7 @@ export default function LookBoard(aProps) {
 		const oiPosi = Rect.uPosi(Const.RectBoard);
 		for (const oPos of oiPosi) {
 			const oKey = oPos.X + "/" + oPos.Y;
-			const oDie = aProps.Board.uDie(oPos);
+			const oDie = Board.uDie(aProps.Board, oPos);
 			const oCkDisp = !aProps.uCallTog;
 			const oCkSel = aProps.Ent && EntWord.uCkAt(aProps.Ent, oPos);
 			const oCkSelFirst = aProps.Ent && !EntWord.uPosPrev(aProps.Ent, oPos);

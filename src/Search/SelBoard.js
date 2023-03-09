@@ -8,6 +8,7 @@
 //   import { tSelBoard } from "./Search/SelBoard.js";
 //
 
+import * as Board from "../Board/Board.js";
 import * as EntWord from "../Round/EntWord.js";
 import * as Arr2 from "../Util/Arr2.js";
 import * as Rect from "../Util/Rect.js";
@@ -48,7 +49,7 @@ export class tSelBoard {
 		this.CksByPos = oCksByPosPrev;
 		Arr2.uSet(this.CksByPos, aPos, true);
 
-		const oDie = aBoard.uDie(aPos);
+		const oDie = Board.uDie(aBoard, aPos);
 		const oText = oDie.Text.toLowerCase();
 		/** The text selected by this instance and its predecessors, in lowercase.
 		 *  Recall that the 'Qu' die counts as two letters, not one. */
@@ -86,7 +87,7 @@ export class tSelBoard {
 		while (oSel) {
 			oPosi.unshift(oSel.Pos);
 
-			const oDie = this.Board.uDie(oSel.Pos);
+			const oDie = Board.uDie(this.Board, oSel.Pos);
 			oTexts.unshift(oDie.Text);
 
 			oSel = oSel.SelPrev;

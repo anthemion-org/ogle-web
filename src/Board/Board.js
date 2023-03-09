@@ -5,50 +5,54 @@
 //
 // Import with:
 //
-//   import { tBoard } from "../Board.js";
+//   import * as Board from "../Board/Board.js";
 //
 
-import { tConfigPoolDie, tPoolDie } from "./PoolDie.js";
-import { tDie } from "./Die.js";
+import { tPoolDie } from "./PoolDie.js";
+import * as Die from "./Die.js";
 import * as Const from "../Const.js";
 
-/** Represents a single game board. */
-export class tBoard {
-	/** Creates an instance from a plain object and returns it. This class is
-	 *  immutable. */
-	static suFromPlain(aPlain) {
-		if (!aPlain) return null;
+// Board
+// -----
+// Each Board record represents a single game board.
 
-		const oDice = aPlain._Dice.map(a => tDie.suFromPlain(a));
-		return new tBoard(oDice);
-	}
+/** Creates a Board record from the specified Die record array. */
+export function uNew(aDice) {
+	const oBoard = {
+		/** An array of Die records, arranged row-after-row. */
+		_Dice: aDice
+	};
+	Object.freeze(oBoard);
+	return oBoard;
+}
 
-	/** Returns a new, random board, with dice produced by the specified
-	 *  `tConfigPoolDie` instance. */
-	static suNewRnd(aGenRnd, aConfigPoolDie) {
-		if (!aConfigPoolDie)
-			throw Error("tBoard.suNewRnd: Pool configuration not provided");
+/** Creates a Board record from an object produced by `JSON.parse`, and returns
+ *  it, or returns `null` if `aParse` is falsy. */
+export function uFromParse(aParse) {
+	if (!aParse) return null;
 
-		const oDice = [];
-		const oPool = new tPoolDie(aGenRnd, aConfigPoolDie);
-		for (let o = 0; o < Const.CtDie; ++o)
-			oDice.push(oPool.uDraw())
-		return new tBoard(oDice);
-	}
+	const oDice = aParse._Dice.map(a => Die.uFromParse(a));
+	return uNew(oDice);
+}
 
-	constructor(aDice) {
-		/** An array of column arrays, which themselves contain tDie instances. */
-		this._Dice = aDice;
+/** Returns a new, random board, with dice produced by the specified
+ *  `tConfigPoolDie` instance. */
+export function uNewRnd(aGenRnd, aConfigPoolDie) {
+	if (!aConfigPoolDie)
+		throw Error("Board.uNewRnd: Pool configuration not provided");
 
-		Object.freeze(this);
-	}
+	const oDice = [];
+	const oPool = new tPoolDie(aGenRnd, aConfigPoolDie);
+	for (let o = 0; o < Const.CtDie; ++o)
+		oDice.push(oPool.uDraw())
+	return uNew(oDice);
+}
 
-	/** Returns the die at the specified Pt2 position, throwing if either
-	 *  coordinate is out of range. */
-	uDie(aPos) {
-		const oj = aPos.X + (aPos.Y * Const.WthBoard);
-		if ((oj < 0) || (oj >= Const.CtDie))
-			throw Error("tBoard.uDie: Invalid position");
-		return this._Dice[oj];
-	}
+/** Returns the die at the specified Pt2 position within a Die, throwing if
+ *  either coordinate is out of range. */
+export function uDie(aBoard, aPos) {
+	const oj = aPos.X + (aPos.Y * Const.WthBoard);
+	if ((oj < 0) || (oj >= Const.CtDie))
+		throw Error("Board uDie: Invalid position");
+	return aBoard._Dice[oj];
 }

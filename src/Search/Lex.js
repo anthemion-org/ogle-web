@@ -39,10 +39,14 @@ class tLex {
 	constructor() {
 		/** An array of strings representing all user-entered words. */
 		//
-		// There is no need for this to be moved to the store; it is not used to
-		// render pages, and this class is instantiated only once, when the app
-		// loads:
-		this.WordsUser = Persist.uRead("WordsUser");
+		// There is no need for this data to be moved to the store; it is not used
+		// to render pages, and `tLex` is instantiated only once, when the app
+		// loads.
+		//
+		// Jest mocks the `localStorage` object, so the `Persist` system will run,
+		// but it will not return anything. We could inject this particular
+		// dependency, but there is no need right now:
+		this.WordsUser = Persist.uRead("WordsUser", []);
 		this.WordsUser.sort(Search.uCompareStrFast);
 
 		/** An array of strings representing all searchable words. This array will

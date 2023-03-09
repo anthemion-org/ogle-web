@@ -9,7 +9,7 @@
 //
 
 import "./DlgScoreWord.css";
-import { tBoard } from "../Board/Board.js";
+import * as Board from "../Board/Board.js";
 import * as EntWord from "../Round/EntWord.js";
 import { tScoreWord, StatsWord } from "../Round/ScoreWord.js";
 import LookBoard from "./LookBoard.js";
@@ -23,7 +23,7 @@ import PropTypes from "prop-types";
 // ------------
 
 DlgScoreWord.propTypes = {
-	Board: PropTypes.instanceOf(tBoard).isRequired,
+	Board: PropTypes.object.isRequired,
 	ScoreWord: PropTypes.instanceOf(tScoreWord).isRequired,
 	uHandOK: PropTypes.func.isRequired
 };
@@ -31,7 +31,7 @@ DlgScoreWord.propTypes = {
 /** The Word Score dialog, to be displayed when a word entry is clicked in the
  *  Score view. The following props are supported:
  *
- *  - Board: A tBoard instance representing the board to be displayed. This prop
+ *  - Board: A Board record representing the board to be displayed. This prop
  *    is required;
  *
  *  - ScoreWord: A tScoreWord instance representing the word entry to be

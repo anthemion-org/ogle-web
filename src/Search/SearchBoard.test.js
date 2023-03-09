@@ -5,7 +5,7 @@
 
 import { tConfigPoolDie } from "../Board/PoolDie.js";
 import * as SearchBoard from "./SearchBoard.js";
-import { tBoard } from "../Board/Board.js";
+import * as Board from "../Board/Board.js";
 import Lex from "./Lex.js";
 import { tGenRnd } from "../Util/Rnd.js";
 import * as Search from "../Util/Search.js";
@@ -14,7 +14,7 @@ import * as Search from "../Util/Search.js";
 const SeedTextDef = "OGLE";
 /** The raw word output expected from the first board produced by SeedTextDef.
  *  These will change if the seed, the random number generator, the die pool, or
- *  the lexicon changes. */
+ *  the base lexicon changes. */
 const WordsExpDef = [
 	"neat", "neon", "neonatal", "neonatal", "neat", "eating", "entangle", "alto",
 	"atonal", "atone", "atone", "atone", "anti", "anting", "anal", "analog",
@@ -48,7 +48,7 @@ WordsExpDef.sort(Search.uCompareStrFast);
 // test("SearchBoard uExec: Output", () => {
 // 	const oGenRnd = new tGenRnd(SeedTextDef);
 // 	const oConfigPoolDie = tConfigPoolDie.suDef();
-// 	const oBoard = tBoard.suNewRnd(oGenRnd, oConfigPoolDie);
+// 	const oBoard = Board.uNewRnd(oGenRnd, oConfigPoolDie);
 // 	const oSelsWord = SearchBoard.uExec(Lex.WordsSearch, oBoard);
 // 	const oWords = oSelsWord.map(a => a.TextAll).sort(Search.uCompareStrFast);
 // 	expect(oWords).toEqual(WordsExpDef);
@@ -61,7 +61,7 @@ test("SearchBoard uExec: Speed", () => {
 	const oTimeStart = Date.now();
 	for (let o = 0; o < oCt; ++o) {
 		const oConfigPoolDie = tConfigPoolDie.suDef();
-		const oBoard = tBoard.suNewRnd(oGenRnd, oConfigPoolDie);
+		const oBoard = Board.uNewRnd(oGenRnd, oConfigPoolDie);
 		const oSelsWord = SearchBoard.uExec(Lex.WordsSearch, oBoard);
 		expect(oSelsWord.length).toBeGreaterThan(10);
 	}

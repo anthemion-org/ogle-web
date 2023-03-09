@@ -5,33 +5,37 @@
 //
 // Import with:
 //
-//   import { tDie } from "../Die.js";
+//   import * as Die from "../Die.js";
 //
 
 import * as Dir4 from "../Util/Dir4.js";
 
-/** Represents one die within the board. This class is immutable. */
-export class tDie {
-	/** Creates an instance from the specified plain object and returns it. */
-	static suFromPlain(aPlain) {
-		if (!aPlain) return null;
+// Die
+// ---
+// Each Die record represents one die within a board.
 
-		return new tDie(aPlain.Text, Dir4.Vals[aPlain.Dir4]);
-	}
+/** Creates a Die record with the specified text and orientation. Throws if
+ *  aDir4 is not a member of Dir4.Vals. */
+export function uNew(aText, aDir4) {
+	if (!Dir4.uCk(aDir4))
+		throw Error(`Die uNew: Invalid direction '${this.Dir4}'`);
 
-	/** Creates an instance with the specified text and orientation. Throws if
-	 *  aDir4 is not a member of Dir4.Vals. */
-	constructor(aText, aDir4) {
-		if (!Dir4.uCk(aDir4))
-			throw Error(`tDie: Invalid direction '${this.Dir4}'`);
-
+	const oDie = {
 		/** The die text. */
-		this.Text = aText;
+		Text: aText,
 		/** The side of the die with which the text top aligns. */
-		this.Dir4 = aDir4;
+		Dir4: aDir4,
 		/** Set to `true` if the text should be underlined. */
-		this.CkUnder = [ "L", "T", "N", "Z", "W" ].includes(aText);
+		CkUnder: [ "L", "T", "N", "Z", "W" ].includes(aText)
+	};
+	Object.freeze(oDie);
+	return oDie;
+}
 
-		Object.freeze(this);
-	}
+/** Creates a Die record from an object produced by `JSON.parse`, and returns
+ *  it, or returns `null` if `aParse` is falsy. */
+export function uFromParse(aParse) {
+	if (!aParse) return null;
+
+	return uNew(aParse.Text, Dir4.Vals[aParse.Dir4]);
 }

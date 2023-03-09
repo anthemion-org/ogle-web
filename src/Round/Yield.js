@@ -16,7 +16,6 @@ export const Vals = [
 	// I guess we're storing arrays here in case another value is needed, as in
 	// the pace elements?:
 	[ Rg.uNew(1, 10) ],
-	[ Rg.uNew(1, 20) ],
 	[ Rg.uNew(1, 40) ],
 	[ Rg.uNew(60, 100)],
  	[ Rg.uNew(120, 160) ],
@@ -28,7 +27,7 @@ Object.freeze(Vals);
 //
 // Defining the default this way causes trouble when the array is modified:
 // [refactor]
-const jValDef = 5;
+const jValDef = 4;
 
 /** Returns the default yield range. */
 export function uDef() {
@@ -47,8 +46,8 @@ export function uIdxValMatchOrDef(aSetup) {
 export function uDesc(ajYield) {
 	const oYield = Vals[ajYield][0];
 	if (!isFinite(oYield.Start))
-		return `At most ${oYield.End} words`;
+		return `At most ${oYield.End} words in the board`;
 	if (!isFinite(oYield.End))
-		return `${oYield.Start} or more words`;
-	return `Between ${oYield.Start} and ${oYield.End} words`;
+		return `${oYield.Start} or more words in the board`;
+	return `${oYield.Start} to ${oYield.End} words in the board`;
 }

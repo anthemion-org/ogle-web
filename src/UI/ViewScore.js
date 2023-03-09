@@ -14,7 +14,7 @@ import DlgNamePlay from "./DlgNamePlay.js";
 import Btn from "./Btn.js";
 import StsApp from "../StsApp.js";
 import * as Setup from "../Round/Setup.js";
-import { tBoard } from "../Board/Board.js";
+import * as Board from "../Board/Board.js";
 import { tCard } from "../Round/Card.js";
 import { StatsWord, uScoresCoversFromCards } from "../Round/ScoreWord.js";
 import Feed from "../Feed.js";
@@ -33,7 +33,7 @@ import { useSelector, useDispatch } from "react-redux";
 // ---------
 
 ViewScore.propTypes = {
-	Board: PropTypes.instanceOf(tBoard).isRequired,
+	Board: PropTypes.object.isRequired,
 	CardOgle: PropTypes.instanceOf(tCard).isRequired,
 	CardUser: PropTypes.instanceOf(tCard).isRequired
 };
@@ -41,7 +41,7 @@ ViewScore.propTypes = {
 /** Implements the Score view, which displays the result of the last round of
  *  play. Along with the usual `View` props, the following props are supported:
  *
- *  - `Board`: A `tBoard` instance representing the board that was played. This
+ *  - `Board`: A Board record representing the board that was played. This
  *    prop is required;
  *
  *  - `CardOgle`: A `tCard` instance that gives the words scored by Ogle. This

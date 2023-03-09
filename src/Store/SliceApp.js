@@ -24,14 +24,14 @@ export const Slice = createSlice({
 	initialState: {
 		/** The Cfg record containing the player's app-level configuration
 		 *  selections. */
-		Cfg: Persist.uGetPlain("Cfg") ?? Cfg.uDef(),
+		Cfg: Persist.uRead("Cfg") ?? Cfg.uDef(),
 		/** The Setup record containing the player's game configuration selections. */
-		Setup: Setup.uFromParse(Persist.uGetPlain("Setup")) ?? Setup.uDef(),
+		Setup: Setup.uFromParse(Persist.uRead("Setup")) ?? Setup.uDef(),
 		/** A `StsApp` value that determines which view is visible. */
 		//
-		// 'App' seems redundant now, but removing it would change the local storage
-		// key:
-		StApp: Persist.uGetPlain("StApp") ?? StsApp.Sets
+		// 'App' seems redundant in this name, but remember that the local storage
+		// keys must be unique across all slices:
+		StApp: Persist.uRead("StApp") ?? StsApp.Sets
 	},
 
 	reducers: {

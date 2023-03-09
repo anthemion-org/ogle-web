@@ -7,7 +7,7 @@
 
 import { tConfigPoolDie } from "../Board/PoolDie.js";
 import * as Setup from "../Round/Setup.js";
-import { tBoard } from "../Board/Board.js";
+import * as Board from "../Board/Board.js";
 import * as SearchBoard from "./SearchBoard.js";
 import { tCard } from "../Round/Card.js";
 import { tGenRnd } from "../Util/Rnd.js";
@@ -32,7 +32,7 @@ onmessage = function (aMsg) {
 		let oCard;
 		let oj = 0;
 		while (true) {
-			oBoard = tBoard.suNewRnd(oGenRnd, oConfigPools);
+			oBoard = Board.uNewRnd(oGenRnd, oConfigPools);
 			const oSels = SearchBoard.uExec(aMsg.data.WordsSearch, oBoard);
 			oCard = tCard.suFromSelsBoard(oSels);
 			if (Rg.uCkContain(oSetup.Yield, oCard.Score)) {
