@@ -297,8 +297,8 @@ export default function ViewPlay(aProps) {
 
 	/** Handles the End Confirmation dialog Yes button click. */
 	function ouHandYesConfirmEnd(aEvt) {
-		const oAct = oBoard ? Set_StApp(StsApp.Score) : Set_StApp(StsApp.Sets);
-		ouDispatch(oAct);
+		const oStApp = oBoard ? StsApp.Score : StsApp.Sets;
+		ouDispatch(Set_StApp(oStApp));
 	}
 
 	/** Handles the End Confirmation dialog No button click. */
@@ -441,12 +441,6 @@ export default function ViewPlay(aProps) {
 
 		ouSet_EntUser(null);
 	}
-
-	/** Stores the user scorecard. */
-	function ouStore_CardUser() {
-		Persist.uSet("CardUser", oCardUser);
-	}
-	useEffect(ouStore_CardUser, [oCardUser]);
 
 	// View content
 	// ------------

@@ -14,10 +14,7 @@ import ViewAbout from "./ViewAbout";
 import ViewPlay from "./ViewPlay";
 import ViewScore from "./ViewScore";
 import StsApp from "../StsApp.js";
-import * as Board from "../Board/Board.js";
-import * as Card from "../Round/Card.js";
 import { uSelStApp } from "../Store/SliceApp.js";
-import * as Persist from "../Persist.js";
 
 import { React } from "react";
 import { useSelector } from "react-redux";

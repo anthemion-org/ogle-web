@@ -86,7 +86,7 @@ class tLex {
 	uAdd_WordUser(aWord) {
 		this.WordsUser.push(aWord);
 		this.WordsUser.sort(Search.uCompareStrFast);
-		Persist.uSet("WordsUser", this.WordsUser);
+		Persist.uWrite("WordsUser", this.WordsUser);
 
 		this.WordsUserPend.push(aWord);
 		this.WordsUserPend.sort(Search.uCompareStrFast);

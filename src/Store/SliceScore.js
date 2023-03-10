@@ -32,7 +32,7 @@ export const Slice = createSlice({
 		Set_NamePlayLast: (aSt, aAct) => {
 			aSt.NamePlayLast = aAct.payload;
 		},
-
+		/** Adds a ScorePlay record to the high score data. */
 		Add_ScoreHigh: (aSt, aAct) => {
 			const oTagSetup = aAct.payload.TagSetup;
 			const oScore = aAct.payload.ScorePlay;
@@ -50,9 +50,5 @@ export const { Set_NamePlayLast, Add_ScoreHigh } = Slice.actions;
 // Selectors
 // ---------
 
-/** Selects the name last entered by any player when a high score was recorded,
- *  or the empty string if the player choose to remain anonymous. */
 export const uSelNamePlayLast = (aSt) => aSt.Score.NamePlayLast;
-
-/** Selects the ScoresHigh record. */
 export const uSelScoresHigh = (aSt) => aSt.Score.ScoresHigh;

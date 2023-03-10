@@ -35,7 +35,7 @@ export function uFromParse(aParse) {
 	return uNew(oDice);
 }
 
-/** Returns a new, random board, with dice produced by the specified
+/** Returns a new, random Board record, with dice produced by the specified
  *  `tConfigPoolDie` instance. */
 export function uNewRnd(aGenRnd, aConfigPoolDie) {
 	if (!aConfigPoolDie)
@@ -48,8 +48,8 @@ export function uNewRnd(aGenRnd, aConfigPoolDie) {
 	return uNew(oDice);
 }
 
-/** Returns the die at the specified Pt2 position within a Die, throwing if
- *  either coordinate is out of range. */
+/** Returns the die at the specified Pt2 position within a Board record,
+ *  throwing if either coordinate is out of range. */
 export function uDie(aBoard, aPos) {
 	const oj = aPos.X + (aPos.Y * Const.WthBoard);
 	if ((oj < 0) || (oj >= Const.CtDie))

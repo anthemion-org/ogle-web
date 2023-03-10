@@ -35,13 +35,12 @@ export const Slice = createSlice({
 	},
 
 	reducers: {
+		/** Stores a new board and the associated Ogle scorecard. */
 		Set_BoardAndCardOgle: (aSt, aAct) => {
 			aSt.Board = aAct.payload.Board;
 			aSt.CardOgle = aAct.payload.CardOgle;
 		},
-		Set_CardUser: (aSt, aAct) => {
-			aSt.CardUser = aAct.payload;
-		},
+		/** Adds an EntWord record to the user's scorecard. */
 		Add_EntWordUser: (aSt, aAct) => {
 			// We could change `uAdd` to return a new Card record, but
 			// `uFromSelsBoard` would become even slower than it is now:
@@ -49,6 +48,7 @@ export const Slice = createSlice({
 			Card.uAdd(oCardNew, aAct.payload, false, false);
 			aSt.CardUser = oCardNew;
 		},
+		/** Adds a number of milliseconds to the elapsed play time. */
 		Add_TimeElap: (aSt, aAct) => {
 			aSt.TimeElap += aAct.payload;
 		}
@@ -69,7 +69,6 @@ export default Slice;
 
 export const {
 	Set_BoardAndCardOgle,
-	Set_CardUser,
 	Add_EntWordUser,
 	Add_TimeElap,
 } = Slice.actions;

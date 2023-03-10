@@ -26,7 +26,7 @@ export default Store;
 
 /** The names of any values that should _not_ be persisted. */
 //
-// Data should not be added to the store unless it is shared by two or more
+// Data should not be added to the store unless it is used by two or more
 // components. Shared data is likely to require persistence, so we will persist
 // everything by default:
 const _NamesPersistSkip = [];
@@ -52,13 +52,13 @@ function _uValsStore() {
 const _ValsPersistLast = _uValsStore();
 
 /** Persists recently-changed store values, excepting those in
- * `_NamesPersistSkip`. */
+ *  `_NamesPersistSkip`. */
 //
-// The early versions of this app did not use Redux, so there were no slice
-// names. I want to use the same local storage keys, so for now at least, I will
-// not add those slice names. Therefore, though slice names are normally used to
-// avoid action type collisions, values in this project must have names that are
-// unique _across all slices_.
+// Early versions of this app did not use Redux, so there were no slice names. I
+// want to use the same local storage keys, so for now at least, I will not add
+// slice names to those keys. Therefore, though slice names are normally used to
+// avoid action type collisions, keys in this project must be unique _across all
+// slices_.
 //
 // There is a Redux middleware called 'redux-persist' that does something like
 // this, but it looks like overkill, and that project has 492 open issues. This

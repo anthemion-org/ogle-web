@@ -7,7 +7,7 @@ import { ForTest } from "./Lex.js";
 import * as Persist from "../Persist.js";
 
 test("tLex: Add user words and merge", () => {
-	Persist.uSet("WordsUser", []);
+	Persist.uWrite("WordsUser", []);
 
 	const oLex = new ForTest.tLex();
 	const oCtOrig = oLex.WordsSearch.length;
@@ -21,7 +21,7 @@ test("tLex: Add user words and merge", () => {
 
 test("tLex.uCkKnown: Old and new user words", () => {
 	const oWordUserOld = "oooooooo";
-	Persist.uSet("WordsUser", [ oWordUserOld ]);
+	Persist.uWrite("WordsUser", [ oWordUserOld ]);
 
 	const oLex = new ForTest.tLex();
 

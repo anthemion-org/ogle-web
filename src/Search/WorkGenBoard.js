@@ -35,7 +35,7 @@ onmessage = async function (aMsg) {
 		let oCard;
 		let oj = 0;
 		while (true) {
-			if (_CkSlow) await Util.wWait(500);
+			if (_CkSlow) await Util.wWait(100);
 
 			oBoard = Board.uNewRnd(oGenRnd, oConfigPools);
 			const oSels = SearchBoard.uExec(aMsg.data.WordsSearch, oBoard);
