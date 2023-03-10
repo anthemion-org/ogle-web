@@ -10,27 +10,27 @@ test("Card uAdd", () => {
 	const oCard = Card.uNewEmpty();
 
 	let oEnt = uEntFromText("TON");
-	Card.uAdd(oCard, oEnt);
+	Card.uAdd(oCard, oEnt, false, false);
 	expect(oCard.Score).toEqual(0);
 	expect(oCard.CtBonusTime).toEqual(0);
 
 	oEnt = uEntFromText("TONE");
-	Card.uAdd(oCard, oEnt);
+	Card.uAdd(oCard, oEnt, false, false);
 	expect(oCard.Score).toEqual(1);
 	expect(oCard.CtBonusTime).toEqual(1);
 
 	oEnt = uEntFromText("TONERS");
-	Card.uAdd(oCard, oEnt);
+	Card.uAdd(oCard, oEnt, false, false);
 	expect(oCard.Score).toEqual(1);
 	expect(oCard.CtBonusTime).toEqual(3);
 
 	oEnt = uEntFromText("TONER");
-	Card.uAdd(oCard, oEnt);
+	Card.uAdd(oCard, oEnt, false, false);
 	expect(oCard.Score).toEqual(1);
 	expect(oCard.CtBonusTime).toEqual(3);
 
 	oEnt = uEntFromText("TONERS");
-	Card.uAdd(oCard, oEnt);
+	Card.uAdd(oCard, oEnt, false, false);
 	expect(oCard.Score).toEqual(1);
 	expect(oCard.CtBonusTime).toEqual(3);
 });

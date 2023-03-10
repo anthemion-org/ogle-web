@@ -37,7 +37,6 @@ DlgNamePlay.propTypes = {
  */
 export default function DlgNamePlay(aProps) {
 	const ouDispatch = useDispatch();
-	/** The Name input value. */
 	const oName = useSelector(uSelNamePlayLast);
 
 	function ouPerc() {

@@ -31,7 +31,7 @@ const jValDef = 4;
 
 /** Returns the default yield range. */
 export function uDef() {
-	return Vals[jValDef];
+	return Vals[jValDef][0];
 }
 
 /** Returns the `Vals` index that matches `aSetup`, or the default index, if no

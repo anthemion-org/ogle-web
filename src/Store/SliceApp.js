@@ -22,10 +22,10 @@ export const Slice = createSlice({
 	name: "App",
 
 	initialState: {
-		/** The Cfg record containing the player's app-level configuration
-		 *  selections. */
+		/** A Cfg record containing the player's app-level configuration selections. */
 		Cfg: Persist.uRead("Cfg") ?? Cfg.uDef(),
-		/** The Setup record containing the player's game configuration selections. */
+		/** A Setup record containing the player's game configuration selections for
+		 *  the pending, current, or completed round. */
 		Setup: Setup.uFromParse(Persist.uRead("Setup")) ?? Setup.uDef(),
 		/** A `StsApp` value that determines which view is visible. */
 		//

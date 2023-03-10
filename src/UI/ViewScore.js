@@ -19,6 +19,7 @@ import * as Card from "../Round/Card.js";
 import { StatsWord, uScoresCoversFromCards } from "../Round/ScoreWord.js";
 import Feed from "../Feed.js";
 import { uSelSetup, Set_StApp } from "../Store/SliceApp.js";
+import { uSelBoard, uSelCardOgle, uSelCardUser } from "../Store/SlicePlay.js";
 import { uSelScoresHigh, Add_ScoreHigh } from "../Store/SliceScore.js";
 import * as ScorePlay from "../Round/ScorePlay.js";
 import * as ScoresHigh from "../Round/ScoresHigh.js";
@@ -32,30 +33,15 @@ import { useSelector, useDispatch } from "react-redux";
 // ViewScore
 // ---------
 
-ViewScore.propTypes = {
-	Board: PropTypes.object.isRequired,
-	CardOgle: PropTypes.object.isRequired,
-	CardUser: PropTypes.object.isRequired
-};
-
 /** Implements the Score view, which displays the result of the last round of
- *  play. Along with the usual `View` props, the following props are supported:
- *
- *  - `Board`: A Board record representing the board that was played. This prop
- *    is required;
- *
- *  - `CardOgle`: A Card record that gives the words scored by Ogle. This prop
- *    is required;
- *
- *  - `CardUser`: A Card record that gives the words scored by the user. This
- *    prop is required.
- */
+ *  play. No props are supported. */
 export default function ViewScore(aProps) {
 	const ouDispatch = useDispatch();
-	/** A ScoresHigh record that contains all high score data. */
 	const oScoresHigh = useSelector(uSelScoresHigh);
-	/** The Setup record used to generate the completed round. */
 	const oSetup = useSelector(uSelSetup);
+	const oBoard = useSelector(uSelBoard);
+	const oCardOgle = useSelector(uSelCardOgle);
+	const oCardUser = useSelector(uSelCardUser);
 
 	/** Set to the `tScoreWord` that is being displayed in the Word Score dialog,
 	 *  or `null` if no entry is being displayed. */
@@ -67,8 +53,7 @@ export default function ViewScore(aProps) {
 	/** An array of `tScoreWord` instances representing the words found in this
 	 *  round, plus an object that associates word lengths with `tCover`
 	 *  instances. */
-	const [oScores, oCoversByLen]
-		= uScoresCoversFromCards(aProps.CardOgle, aProps.CardUser);
+	const [oScores, oCoversByLen] = uScoresCoversFromCards(oCardOgle, oCardUser);
 
 	// Keyboard input
 	// --------------
@@ -117,7 +102,7 @@ export default function ViewScore(aProps) {
 		if (!oScoreWord) return null;
 
 		return (
-			<DlgScoreWord Board={aProps.Board} ScoreWord={oScoreWord}
+			<DlgScoreWord Board={oBoard} ScoreWord={oScoreWord}
 				uHandOK={ouHandOKScoreWord} />
 		);
 	}
@@ -128,8 +113,8 @@ export default function ViewScore(aProps) {
 	/** Handles the Player Name dialog OK click. */
 	function ouHandNamePlay(aName) {
 		aName = aName.trim();
-		const oFracPerc = aProps.CardUser.Score / aProps.CardOgle.Score;
-		const oScore = ScorePlay.uNew(aProps.CardUser.TimeStart, aName, oFracPerc);
+		const oFracPerc = oCardUser.Score / oCardOgle.Score;
+		const oScore = ScorePlay.uNew(oCardUser.TimeStart, aName, oFracPerc);
 		const oAct = Add_ScoreHigh({
 			TagSetup: Setup.uTag(oSetup),
 			ScorePlay: oScore
@@ -138,13 +123,12 @@ export default function ViewScore(aProps) {
 	}
 
 	function ouDlgNamePlay() {
-		if (!ScoresHigh.uCkScoreHigh(oSetup, aProps.CardUser, aProps.CardOgle,
-			oScoresHigh))
+		if (!ScoresHigh.uCkScoreHigh(oSetup, oCardUser, oCardOgle, oScoresHigh))
 			return null;
 
 		return (
-			<DlgNamePlay ScoreUser={aProps.CardUser.Score}
-				ScoreOgle={aProps.CardOgle.Score} uHandName={ouHandNamePlay} />
+			<DlgNamePlay ScoreUser={oCardUser.Score} ScoreOgle={oCardOgle.Score}
+				uHandName={ouHandNamePlay} />
 		);
 	}
 
@@ -191,7 +175,7 @@ export default function ViewScore(aProps) {
 	}
 
 	function ouPerc() {
-		return Math.round(aProps.CardUser.Score / aProps.CardOgle.Score * 100);
+		return Math.round(oCardUser.Score / oCardOgle.Score * 100);
 	}
 
 	function ouLinesCover() {
@@ -237,7 +221,7 @@ export default function ViewScore(aProps) {
 		}
 
 		function ouClass(aScore) {
-			return (aScore && (aScore.TimeStart === aProps.CardUser.TimeStart))
+			return (aScore && (aScore.TimeStart === oCardUser.TimeStart))
 				? "High"
 				: "";
 		}
@@ -307,9 +291,9 @@ export default function ViewScore(aProps) {
 
 				<section id="ColWords">
 					<header>
-						<div><em>{aProps.CardUser.Score}</em> Player</div>
+						<div><em>{oCardUser.Score}</em> Player</div>
 						<div><strong>{ouPerc()}%</strong></div>
-						<div>Ogle <em>{aProps.CardOgle.Score}</em></div>
+						<div>Ogle <em>{oCardOgle.Score}</em></div>
 					</header>
 
 					<div id="BoxWords">

@@ -8,6 +8,7 @@
 //   import SliceScore from "./Store/SliceScore.js";
 //
 
+import * as ScoresHigh from "../Round/ScoresHigh.js";
 import * as ScorePlay from "../Round/ScorePlay.js";
 import * as Persist from "../Persist.js";
 
@@ -23,8 +24,8 @@ export const Slice = createSlice({
 		/** The name last entered by any player when a high score was recorded, or
 		 *  the empty string if the player choose to remain anonymous. */
 		NamePlayLast: Persist.uRead("NamePlayLast") ?? "",
-		/** The ScoresHigh record. */
-		ScoresHigh: Persist.uRead("ScoresHigh") ?? { _ByTag: {} }
+		/** A ScoresHigh record that contains all high score data. */
+		ScoresHigh: Persist.uRead("ScoresHigh") ?? ScoresHigh.uNewEmpty()
 	},
 
 	reducers: {

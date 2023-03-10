@@ -15,37 +15,41 @@ import * as _ from "lodash";
 
 // ScoresHigh
 // ----------
-// The ScoresHigh record stores all player high score data. It is an object
-// containing:
-//
-// - `_ByTag`: An object that associates Setup record tag values with arrays of
-//   ScorePlay records. These arrays are sorted with `_uCompare` and trimmed to
-//   length `Const.CtStoreScoreHigh`.
-//
-// For example:
-//
-//   {
-//     _ByTag: {
-//       "Y:(S:1 E:40) PS:18 PB:3": [
-//         {
-//           TimeStart: 1676691367520,
-//           Name: "Jeremy",
-//           FracPerc: 0.7619047619047619
-//         },
-//         ...
-//       ],
-//       "Y:(S:1 E:10) PS:18 PB:3": [
-//         {
-//           TimeStart: 1677124793901,
-//           Name: "Jeremy",
-//           FracPerc: 0.7777777777777778
-//         },
-//         ...
-//       ],
-//       ...
-//     }
-//   }
-//
+// The ScoresHigh record stores all player high score data.
+
+export function uNewEmpty() {
+	return {
+		/** An object that associates Setup record tag values with arrays of
+		  * ScorePlay records. These arrays are sorted and trimmed to length
+		  * `Const.CtStoreScoreHigh`. */
+		_ByTag: {}
+	};
+
+	// An example record:
+	//
+	//   {
+	//     _ByTag: {
+	//       "Y:(S:1 E:40) PS:18 PB:3": [
+	//         {
+	//           TimeStart: 1676691367520,
+	//           Name: "Jeremy",
+	//           FracPerc: 0.7619047619047619
+	//         },
+	//         ...
+	//       ],
+	//       "Y:(S:1 E:10) PS:18 PB:3": [
+	//         {
+	//           TimeStart: 1677124793901,
+	//           Name: "Jeremy",
+	//           FracPerc: 0.7777777777777778
+	//         },
+	//         ...
+	//       ],
+	//       ...
+	//     }
+	//   }
+	//
+}
 
 /** Returns `true` if the specified game qualifies as a high score, and if
  *  `aScoresHigh` does _not_ include it. */

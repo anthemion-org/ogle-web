@@ -61,7 +61,7 @@ export function uFromSelsBoard(aSels) {
 	const oCard = uNewEmpty();
 	// Slow, but easy:
 	for (const oEnt of oEntsAll)
-		uAdd(oCard, oEnt, true)
+		uAdd(oCard, oEnt, true, false)
 	return oCard;
 }
 
@@ -70,15 +70,12 @@ function _uCkFollowEither(aWordL, aWordR) {
 	return Text.uCkEqBegin(aWordL, aWordR);
 }
 
-/** Adds the specified EntWord record to Ents, if it meets the minimum length,
- *  and if it is not a duplicate, and returns `true` if a valid, unfollowed word
- *  was entered. If the entry is new, this will be the number of letters in the
- *  entry, less the minimum word length, plus one. If the entry is already
- *  followed, it will be zero. If the entry follows an existing entry, it will
- *  be the number of letters by which the original entry length has been
- *  exceeded. Set `aCkAddFollow` to `false` if followed entries should not be
- *  added. */
-export function uAdd(aCard, aEnt, aCkAddFollow) {
+/** Adds an EntWord record to the specified Card record, if it meets the length
+ *  minimum, and if it is not already followed or a duplicate, then returns
+ *  `true` if the entry was added. Set `aCkAddFollow` to `true` if the entry
+ *  should be added even if it was followed. Set `aCkSkipAdd` to `true` to
+ *  return the result without actually changing the card. */
+export function uAdd(aCard, aEnt, aCkAddFollow, aCkSkipAdd) {
 	const oTextAdd = EntWord.uTextAll(aEnt);
 	if (oTextAdd.length < Const.LenWordMin) return false;
 
@@ -98,7 +95,7 @@ export function uAdd(aCard, aEnt, aCkAddFollow) {
 
 			// The new word is already followed:
 			if (oTextAdd.length < oTextBefore.length) {
-				if (aCkAddFollow) aCard.Ents.push(aEnt);
+				if (aCkAddFollow && !aCkSkipAdd) aCard.Ents.push(aEnt);
 				return false;
 			}
 
@@ -108,9 +105,11 @@ export function uAdd(aCard, aEnt, aCkAddFollow) {
 		}
 	}
 
-	aCard.Ents.push(aEnt);
-	if (oCkScore) ++aCard.Score;
-	aCard.CtBonusTime += oCtBonus;
+	if (!aCkSkipAdd) {
+		aCard.Ents.push(aEnt);
+		if (oCkScore) ++aCard.Score;
+		aCard.CtBonusTime += oCtBonus;
+	}
 	return (oCtBonus > 0);
 }
 

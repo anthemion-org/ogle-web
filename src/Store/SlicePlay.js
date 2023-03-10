@@ -10,6 +10,8 @@
 
 import StsApp from "../StsApp.js";
 import { Set_StApp } from "./SliceApp.js";
+import * as Board from "../Board/Board.js";
+import * as Card from "../Round/Card.js";
 import * as Persist from "../Persist.js";
 
 import { createSlice } from "@reduxjs/toolkit";
@@ -21,30 +23,62 @@ export const Slice = createSlice({
 	name: "Play",
 
 	initialState: {
-		EntWord: {}
+		/** A Board record representing the board that is being played, or `null` if
+		 *  the board has yet to be generated for the current round. */
+		Board: Board.uFromParse(Persist.uRead("Board")) ?? null,
+		/** Ogle's Card record for the current round. */
+		CardOgle: Card.uFromParse(Persist.uRead("CardOgle")) ?? Card.uNewEmpty(),
+		/** The user's Card record for the current round. */
+		CardUser: Card.uFromParse(Persist.uRead("CardUser")) ?? Card.uNewEmpty(),
+		/** The elapsed play time, in milliseconds. */
+		TimeElap: Persist.uRead("TimeElap") ?? 0
 	},
 
 	reducers: {
-		Set_EntWord: (aSt, aAct) => {
+		Set_BoardAndCardOgle: (aSt, aAct) => {
+			aSt.Board = aAct.payload.Board;
+			aSt.CardOgle = aAct.payload.CardOgle;
 		},
+		Set_CardUser: (aSt, aAct) => {
+			aSt.CardUser = aAct.payload;
+		},
+		Add_EntWordUser: (aSt, aAct) => {
+			// We could change `uAdd` to return a new Card record, but
+			// `uFromSelsBoard` would become even slower than it is now:
+			const oCardNew = Card.uClone(aSt.CardUser);
+			Card.uAdd(oCardNew, aAct.payload, false, false);
+			aSt.CardUser = oCardNew;
+		},
+		Add_TimeElap: (aSt, aAct) => {
+			aSt.TimeElap += aAct.payload;
+		}
 	},
 
 	extraReducers(aBuild) {
 		aBuild.addCase(Set_StApp.type, (aSt, aAct) => {
 			if (aAct.payload === StsApp.Play) {
-				Persist.uSet("Board", null);
-				Persist.uSet("CardOgle", null);
-				Persist.uSet("CardUser", null);
-				Persist.uSet("TimeElap", 0);
+				aSt.Board = null;
+				aSt.CardOgle = Card.uNewEmpty();
+				aSt.CardUser = Card.uNewEmpty();
+				aSt.TimeElap = 0;
 			}
 		});
 	}
 });
 export default Slice;
 
-export const { Set_EntWord } = Slice.actions;
+export const {
+	Set_BoardAndCardOgle,
+	Set_CardUser,
+	Add_EntWordUser,
+	Add_TimeElap,
+} = Slice.actions;
 
 // Selectors
 // ---------
 
-export const uSelEntWord = (aSt) => aSt.Play.EntWord;
+export const uSelCkBoard = (aSt) => !!aSt.Play.Board;
+export const uSelBoard = (aSt) => aSt.Play.Board;
+export const uSelCardOgle = (aSt) => aSt.Play.CardOgle;
+export const uSelCardUser = (aSt) => aSt.Play.CardUser;
+export const uSelTimeElap = (aSt) => aSt.Play.TimeElap;

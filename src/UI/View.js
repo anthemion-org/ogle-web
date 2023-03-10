@@ -33,21 +33,14 @@ export default function View(aProps) {
 		case StsApp.About:
 			return <ViewAbout {...aProps} />;
 
-		case StsApp.Play: {
+		case StsApp.Play:
 			return <ViewPlay {...aProps} />;
-		}
 
-		case StsApp.Score: {
-			const oBoard = Board.uFromParse(Persist.uGetPlain("Board"));
-			const oCardOgle = Card.uFromParse(Persist.uRead("CardOgle"));
-			const oCardUser = Card.uFromParse(Persist.uRead("CardUser"));
-			return <ViewScore {...aProps} Board={oBoard}
-				CardOgle={oCardOgle} CardUser={oCardUser} />;
-		}
+		case StsApp.Score:
+			return <ViewScore {...aProps} />;
 
 		case StsApp.Sets:
-		default: {
+		default:
 			return <ViewSetsConn {...aProps} />;
-		}
 	}
 }

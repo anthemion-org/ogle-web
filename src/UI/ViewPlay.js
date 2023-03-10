@@ -21,6 +21,15 @@ import DlgVerWord from "./DlgVerWord.js";
 import Lex from "../Search/Lex.js";
 import Feed from "../Feed.js";
 import { uSelSetup, Set_StApp } from "../Store/SliceApp.js";
+import {
+	uSelCkBoard,
+	uSelBoard,
+	Set_BoardAndCardOgle,
+	uSelCardUser,
+	Add_EntWordUser,
+	uSelTimeElap,
+	Add_TimeElap
+} from "../Store/SlicePlay.js";
 import * as Persist from "../Persist.js";
 import * as Const from "../Const.js";
 
@@ -42,26 +51,19 @@ export default function ViewPlay(aProps) {
 	const oTimeRemainLow = 11000;
 
 	const ouDispatch = useDispatch();
-	/** A Setup record that configures the current round. */
 	const oSetup = useSelector(uSelSetup);
+	const oCkBoard = useSelector(uSelCkBoard);
+	const oBoard = useSelector(uSelBoard);
+	const oCardUser = useSelector(uSelCardUser);
+	const oTimeElap = useSelector(uSelTimeElap);
 
-	/** A Board record representing the board that is being played, or `null` if
-	 *  the board has not been generated yet. */
-	const [oBoard, ouSet_Board] = useState(() => uBoardInit());
-	/** A Card record representing the Ogle scorecard, or `null` if the board
-	 *  has not been generated yet. */
-	const [oCardOgle, ouSet_CardOgle] = useState(() => uCardOgleInit());
 	/** An EntWord record representing the user's current board selection, or
 	 *  `null` if there is no selection. */
 	const [oEntUser, ouSet_EntUser] = useState(null);
-	/** A Card record representing the user scorecard. */
-	const [oCardUser, ouSet_CardUser] = useState(() => uCardUserInit());
 	/** A `StsPlay` value representing the current play state. */
-	const [oStPlay, ouSet_StPlay] = useState(() => uStPlayInit());
+	const [oStPlay, ouSet_StPlay] = useState(() => uStPlayInit(oCkBoard));
 	/** Set to `true` if a word is being verified. */
 	const [oCkVerWord, ouSet_CkVerWord] = useState(false);
-	/** The elapsed play time, in milliseconds. */
-	const [oTimeElap, ouSet_TimeElap] = useState(() => uTimeElapInit());
 	/** Set to `true` if the Pause button should blink to show that time is low. */
 	const [oCkBlinkPause, ouSet_CkBlinkPause] = useState(false);
 
@@ -127,7 +129,7 @@ export default function ViewPlay(aProps) {
 	function ouMan_Timer() {
 		/** The timer work function, which advances the elapsed time. */
 		function ouExec() {
-			ouSet_TimeElap(aTime => aTime + oPerTimer);
+			ouDispatch(Add_TimeElap(oPerTimer));
 		}
 
 		let oIDTimer = null;
@@ -218,18 +220,14 @@ export default function ViewPlay(aProps) {
 				return;
 			}
 
-			ouSet_Board(Board.uFromParse(aMsg.data.Board));
-			ouSet_CardOgle(Card.uFromParse(aMsg.data.CardOgle));
+			const oBoardAndCard = {
+				Board: Board.uFromParse(aMsg.data.Board),
+				CardOgle: Card.uFromParse(aMsg.data.CardOgle)
+			};
+			ouDispatch(Set_BoardAndCardOgle(oBoardAndCard));
 		};
 	}
 	useEffect(ouCreate_WorkSearch, [aProps, ouDispatch, oSetup, oBoard]);
-
-	/** Stores the board and the associated Ogle scorecard. */
-	function ouStore_Board() {
-		Persist.uSet("Board", oBoard);
-		Persist.uSet("CardOgle", oCardOgle);
-	}
-	useEffect(ouStore_Board, [oBoard, oCardOgle]);
 
 	// Pause dialog
 	// ------------
@@ -429,17 +427,12 @@ export default function ViewPlay(aProps) {
 		}
 
 		// The word is recognized:
-		ouSet_CardUser(aCard => {
-			// We could change `uAdd` to return a new Card record, but
-			// `uFromSelsBoard` would become even slower than it is now:
-			const oCardNew = Card.uClone(aCard);
-			const oCkVal = Card.uAdd(oCardNew, oEntUser);
+		ouDispatch(Add_EntWordUser(oEntUser));
 
-			if (oCkVal) Feed.uEntVal();
-			else Feed.uEntInval();
-
-			return oCardNew;
-		});
+		// Note that we are _not_ adding the entry, just checking its validity:
+		const oCkVal = Card.uAdd(oCardUser, oEntUser, false, true);
+		if (oCkVal) Feed.uEntVal();
+		else Feed.uEntInval();
 
 		ouSet_EntUser(null);
 	}
@@ -571,9 +564,9 @@ export default function ViewPlay(aProps) {
 }
 
 /** Stores properties representing the play state. */
+//
+// Manage the word verification state here?: [design]
 export const StsPlay = {
-	// Manage the word verification state here? [design]
-
 	Play: "Play",
 	Pause: "Pause",
 	Help: "Help",
@@ -587,22 +580,6 @@ function uTimeRemain(aSetup, aCtBonus, aTimeElap) {
 	return oTimeAllow - aTimeElap;
 }
 
-function uBoardInit() {
-	return Board.uFromParse(Persist.uGetPlain("Board"));
-}
-
-function uCardOgleInit() {
-	return Card.uFromParse(Persist.uRead("CardOgle"));
-}
-
-function uCardUserInit() {
-	return Card.uFromParse(Persist.uRead("CardUser")) || Card.uNewEmpty();
-}
-
-function uStPlayInit() {
-	return Persist.uGetPlain("Board") ? StsPlay.Pause : StsPlay.Play;
-}
-
-function uTimeElapInit() {
-	return Persist.uGetPlain("TimeElap") || 0;
+function uStPlayInit(aCkBoard) {
+	return aCkBoard ? StsPlay.Pause : StsPlay.Play;
 }
