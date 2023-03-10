@@ -1,9 +1,7 @@
-// WorkSearch.js
-// =============
+// WorkGenBoard.js
+// ===============
 // Copyright ©2022 Jeremy Kelly
 // www.anthemion.org
-
-// Shouldn't this be called `WorkBoardCreate`, or something similar? [refactor]
 
 import { tConfigPoolDie } from "../Board/PoolDie.js";
 import * as Setup from "../Round/Setup.js";

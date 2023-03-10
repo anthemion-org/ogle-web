@@ -57,6 +57,12 @@ export default function ViewPlay(aProps) {
 	const oCardUser = useSelector(uSelCardUser);
 	const oTimeElap = useSelector(uSelTimeElap);
 
+	// We're not storing the rest of this data because nothing important is lost
+	// if the user refreshes the browser during play. The game is meant to be
+	// paused after a refresh, so the value for `oStPlay` is known. `oEntUser` is
+	// lost, but that isn't a problem unless the Word Verification dialog was
+	// open, and even then I'm not bothered.
+
 	/** An EntWord record representing the user's current board selection, or
 	 *  `null` if there is no selection. */
 	const [oEntUser, ouSet_EntUser] = useState(null);
@@ -140,13 +146,7 @@ export default function ViewPlay(aProps) {
 			if (oIDTimer !== null) clearInterval(oIDTimer);
 		}
 	}
-	useEffect(ouMan_Timer, [oBoard, oStPlay, oCkVerWord]);
-
-	/** Stores the elapsed time. */
-	function ouStore_TimeElap() {
-		Persist.uSet("TimeElap", oTimeElap);
-	}
-	useEffect(ouStore_TimeElap, [oTimeElap]);
+	useEffect(ouMan_Timer, [ouDispatch, oBoard, oStPlay, oCkVerWord]);
 
 	/** Checks the play state and the elapsed time, and:
 	 *
@@ -200,20 +200,20 @@ export default function ViewPlay(aProps) {
 	// Board generation
 	// ----------------
 
-	/** Creates and runs a `WorkSearch` web worker, which creates a board matching
-	 *  the user's setup choices, then stores the board and the corresponding Ogle
-	 *  scorecard. Does nothing if the board has already been created. */
-	function ouCreate_WorkSearch() {
+	/** Creates and runs a `WorkGenBoard` web worker, which creates a board
+	 *  matching the user's setup choices, then stores the board and the
+	 *  corresponding Ogle scorecard. Does nothing if the board has already been
+	 *  created. */
+	function ouCreate_WorkGenBoard() {
 		if (oBoard) return;
 
-		const Work = new Worker(new URL("../Search/WorkSearch.js",
-			import.meta.url));
-
+		const Work = new Worker(
+			new URL("../Search/WorkGenBoard.js", import.meta.url)
+		);
 		Work.postMessage({
 			WordsSearch: Lex.WordsSearch,
 			Setup: oSetup
 		});
-
 		Work.onmessage = function (aMsg) {
 			if (!aMsg.data.Board) {
 				ouDispatch(Set_StApp(StsApp.Sets));
@@ -227,7 +227,7 @@ export default function ViewPlay(aProps) {
 			ouDispatch(Set_BoardAndCardOgle(oBoardAndCard));
 		};
 	}
-	useEffect(ouCreate_WorkSearch, [aProps, ouDispatch, oSetup, oBoard]);
+	useEffect(ouCreate_WorkGenBoard, [aProps, ouDispatch, oSetup, oBoard]);
 
 	// Pause dialog
 	// ------------
@@ -398,18 +398,17 @@ export default function ViewPlay(aProps) {
 	function ouRecord_Ent() {
 		// There is no selection:
 		if (!oEntUser) {
-			// I was playing the 'unselect' feedback here and also when the selection
+			// I was playing the 'unselect' feedback here, and also when the selection
 			// was too short to be entered:
 			//
 			//   Feed.uUnselDie();
 			//
 			// However, it was necessary to remove the `preventDefault` calls from the
-			// mouse and pointer event handlers, and that caused the unselect sound
-			// and the entry sound to be played together when a word was entered,
-			// unless the left mouse button happened to be down when the right was
-			// pressed. I don't care much about audio feedback in this event, so we
-			// will skip it for now. See the comments in `LookDie.js` for more on
-			// this:
+			// mouse and pointer event handlers, and that caused the unselect and
+			// entry sounds to be played together when a word was entered, unless the
+			// left mouse button happened to be down when the right was pressed. I
+			// don't care much about audio feedback in this event, so we will skip it
+			// for now. See the comments in `LookDie.js` for more on this:
 			return;
 		}
 
@@ -429,7 +428,8 @@ export default function ViewPlay(aProps) {
 		// The word is recognized:
 		ouDispatch(Add_EntWordUser(oEntUser));
 
-		// Note that we are _not_ adding the entry, just checking its validity:
+		// Note that we are _not_ adding the entry, just checking what will happen
+		// when it _is_ added:
 		const oCkVal = Card.uAdd(oCardUser, oEntUser, false, true);
 		if (oCkVal) Feed.uEntVal();
 		else Feed.uEntInval();
