@@ -40,7 +40,7 @@ onmessage = function (aMsg) {
 			}
 
 			if (++oj >= 2000)
-				throw Error("WorkSearch onmessage: Cannot create board");
+				throw Error("WorkGenBoard onmessage: Cannot create board");
 		}
 
 		postMessage({ Board: oBoard, CardOgle: oCard });

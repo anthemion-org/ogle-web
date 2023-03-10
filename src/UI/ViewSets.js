@@ -83,7 +83,7 @@ class ViewSets extends React.Component {
 	/** Converts an object containing `jYield` and `jPace` selection indices into
 	 *  a Setup record. */
 	uSetupFromSels(aSelsSetup) {
-		const oYield = Yield.Vals[aSelsSetup.jYield][0];
+		const oYield = Yield.Vals[aSelsSetup.jYield];
 		const [oPaceStart, oPaceBonus] = Pace.Vals[aSelsSetup.jPace];
 		return Setup.uNew(oYield, oPaceStart, oPaceBonus);
 	}

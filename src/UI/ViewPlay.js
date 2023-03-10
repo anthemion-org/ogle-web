@@ -194,7 +194,7 @@ export default function ViewPlay(aProps) {
 		// already stopped when play is paused, so there is no need to do that when
 		// quitting play early.
 	}
-	useEffect(ouMan_FeedAndStApp, [aProps, ouDispatch, oSetup, oBoard, oStPlay,
+	useEffect(ouMan_FeedAndStApp, [ouDispatch, oSetup, oBoard, oStPlay,
 		oCkVerWord, oCardUser.CtBonusTime, oTimeElap]);
 
 	// Board generation
@@ -205,6 +205,10 @@ export default function ViewPlay(aProps) {
 	 *  corresponding Ogle scorecard. Does nothing if the board has already been
 	 *  created. */
 	function ouCreate_WorkGenBoard() {
+		// We could turn this into an RTK thunk, but this is the only place it would
+		// be called, and we can already determine the status of the asynchronous
+		// operation by checking `oBoard`.
+
 		if (oBoard) return;
 
 		const Work = new Worker(
@@ -227,7 +231,7 @@ export default function ViewPlay(aProps) {
 			ouDispatch(Set_BoardAndCardOgle(oBoardAndCard));
 		};
 	}
-	useEffect(ouCreate_WorkGenBoard, [aProps, ouDispatch, oSetup, oBoard]);
+	useEffect(ouCreate_WorkGenBoard, [ouDispatch, oSetup, oBoard]);
 
 	// Pause dialog
 	// ------------
