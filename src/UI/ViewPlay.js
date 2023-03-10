@@ -297,7 +297,8 @@ export default function ViewPlay(aProps) {
 
 	/** Handles the End Confirmation dialog Yes button click. */
 	function ouHandYesConfirmEnd(aEvt) {
-		ouDispatch(Set_StApp(StsApp.Score));
+		const oAct = oBoard ? Set_StApp(StsApp.Score) : Set_StApp(StsApp.Sets);
+		ouDispatch(oAct);
 	}
 
 	/** Handles the End Confirmation dialog No button click. */

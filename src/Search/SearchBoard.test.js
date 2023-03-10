@@ -16,43 +16,47 @@ const SeedTextDef = "OGLE";
  *  These will change if the seed, the random number generator, the die pool, or
  *  the base lexicon changes. */
 const WordsExpDef = [
-	"neat", "neon", "neonatal", "neonatal", "neat", "eating", "entangle", "alto",
-	"atonal", "atone", "atone", "atone", "anti", "anting", "anal", "analog",
-	"analogy", "analogs", "aeon", "lanai", "lane", "lane", "lane", "entangle",
-	"eels", "eating", "nans", "nags", "natal", "naming", "namings", "nogs",
-	"note", "noel", "noels", "noting", "neat", "neat", "natal", "tiny", "tins",
-	"ting", "tings", "tingle", "tans", "tansy", "tang", "tangy", "tangs",
-	"tangle", "tango", "tags", "talk", "talks", "tale", "talon", "taming", "togs",
-	"toga", "tole", "tote", "totem", "tonal", "tone", "tone", "tone", "tonal",
-	"mingy", "mingle", "main", "mains", "many", "mans", "mangy", "mangle",
-	"mango", "mags", "magi", "malt", "male", "manta", "mane", "mane", "mane",
-	"mana", "matins", "mating", "matings", "peon", "pels", "pelt", "peen", "peen",
-	"pent", "penal", "penal", "pent", "penal", "penal", "peon", "peel", "peels",
-	"peen", "peen", "peen", "peal", "peat", "elks", "elating", "ogle", "angle",
-	"aglet", "alto", "aloe", "aloe", "alone", "alone", "alone", "anti", "anting",
-	"anal", "atone", "atone", "atone", "atonal", "amigo", "ingot", "ingot",
-	"inane", "inane", "inane", "imago", "melt", "melon", "mental", "mental",
-	"tels", "temp", "tepee", "teen", "teen", "tent", "tenting", "togs", "toga",
-	"tole", "tonal", "tone", "tone", "tone", "tonal", "toting", "total", "totals",
-	"total", "lepton", "lent", "lento", "loan", "loans", "loan", "loam", "logy",
-	"logs", "lone", "lone", "lone", "lain", "lags", "lane", "lane", "lane",
-	"laming", "gnat", "glee", "glen", "gloat", "glans", "glam", "goal", "goals",
-	"goat", "gone", "gone", "gone", "gain", "gains", "gait", "gals", "gale",
-	"galena", "gaol", "gaols", "gamin", "gamins", "gins", "giant", "nags",
-	"natal", "slept", "sleep", "slog", "slogan", "slogan", "slot", "sloe", "sloe",
-	"slot", "slain", "slang", "slangy", "slag", "slant", "slanting", "slat",
-	"slating", "slam", "snag", "snit"
+	"adrift", "aegis", "afire", "afire", "afire", "ages", "airs", "area", "area",
+	"area", "area", "areas", "areas", "areas", "areas", "areas", "areas", "ares",
+	"ares", "aria", "arias", "arias", "arson", "arson", "aspersion", "bead",
+	"beads", "bear", "bear", "bear", "beard", "beard", "beard", "beards",
+	"beards", "beards", "bearer", "bearer", "bearer", "bearer", "bearish",
+	"bearish", "bearish", "bears", "bears", "bears", "bearskin", "bearskin",
+	"bearskin", "beep", "beeps", "beer", "beer", "beer", "beer", "beer", "beers",
+	"beers", "beers", "bees", "begin", "begs", "dare", "dare", "dare", "darer",
+	"darer", "dares", "dash", "draft", "drafty", "drag", "drags", "drain",
+	"dregs", "drift", "eager", "eagerer", "ears", "ears", "ears", "ears", "ease",
+	"eras", "eras", "eras", "eras", "eras", "eras", "eras", "eras", "eras",
+	"erase", "erase", "fain", "faint", "fair", "fairer", "fairer", "fairs",
+	"farad", "farads", "fare", "fare", "fare", "fares", "figs", "fire", "fire",
+	"fire", "firer", "firer", "fires", "firs", "fish", "font", "gain", "garish",
+	"gars", "gash", "gasp", "gear", "gears", "geas", "geas", "gift", "gird",
+	"girds", "ikon", "info", "ires", "nifty", "noir", "nosh", "oiks", "pear",
+	"pears", "peas", "peas", "peer", "peer", "peers", "pegs", "perish", "person",
+	"personify", "rads", "raft", "rage", "rages", "rags", "rain", "rainy", "rash",
+	"rash", "rasp", "read", "read", "read", "read", "reads", "reads", "reads",
+	"reads", "rear", "rear", "rear", "rears", "rears", "rears", "reason",
+	"reason", "reason", "reason", "reason", "reason", "reason", "regain",
+	"region", "regs", "reps", "reread", "reread", "reread", "reread", "rereads",
+	"rereads", "rereads", "rereads", "rift", "rigs", "risk", "rube", "rube",
+	"rubes", "rubs", "rues", "sage", "sage", "sager", "sager", "sages", "sags",
+	"saint", "saint", "saree", "saree", "saree", "saree", "saree", "saree",
+	"saree", "saree", "saree", "saree", "saree", "saree", "sarees", "sarees",
+	"sari", "sari", "sari", "saris", "sash", "sear", "sears", "seas", "season",
+	"seer", "seer", "seers", "sere", "sere", "serer", "serer", "serif", "sift",
+	"sire", "sire", "sire", "siree", "siree", "siree", "siree", "sires", "skin",
+	"skint", "sofa", "sofas", "soft", "softy", "spear", "spears", "urea", "urea",
+	"urea"
 ];
-WordsExpDef.sort(Search.uCompareStrFast);
 
-// test("SearchBoard uExec: Output", () => {
-// 	const oGenRnd = new tGenRnd(SeedTextDef);
-// 	const oConfigPoolDie = tConfigPoolDie.suDef();
-// 	const oBoard = Board.uNewRnd(oGenRnd, oConfigPoolDie);
-// 	const oSelsWord = SearchBoard.uExec(Lex.WordsSearch, oBoard);
-// 	const oWords = oSelsWord.map(a => a.TextAll).sort(Search.uCompareStrFast);
-// 	expect(oWords).toEqual(WordsExpDef);
-// });
+test("SearchBoard uExec: Output", () => {
+	const oGenRnd = new tGenRnd(SeedTextDef);
+	const oConfigPoolDie = tConfigPoolDie.suDef();
+	const oBoard = Board.uNewRnd(oGenRnd, oConfigPoolDie);
+	const oSelsWord = SearchBoard.uExec(Lex.WordsSearch, oBoard);
+	const oWords = oSelsWord.map(a => a.TextAll).sort(Search.uCompareStrFast);
+	expect(oWords).toEqual(WordsExpDef);
+});
 
 test("SearchBoard uExec: Speed", () => {
 	const oGenRnd = new tGenRnd(SeedTextDef);
@@ -67,9 +71,10 @@ test("SearchBoard uExec: Speed", () => {
 	}
 	const oTimeEnd = Date.now();
 	const oTimePer = (oTimeEnd - oTimeStart) / oCt;
+
 	// console.log(`Search time: ${oTimePer}ms`);
 
-	// This will vary on different machines. On mine, the search takes less than
+	// This will vary on different machines. On mine, `oTimePer` is less than
 	// 10ms:
 	expect(oTimePer).toBeLessThan(20);
 });

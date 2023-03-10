@@ -10,11 +10,16 @@ import * as SearchBoard from "./SearchBoard.js";
 import * as Card from "../Round/Card.js";
 import { tGenRnd } from "../Util/Rnd.js";
 import * as Rg from "../Util/Rg.js";
+import * as Util from "../Util/Util.js";
+
+/** Set to `true` to make the web worker very slow, for use when testing the
+ *  Play view before the board is displayed. */
+const _CkSlow = false;
 
 /* Implements a web worker that creates a board meeting the criteria specified
  * in `aMsg`. Responds with a message containing the board and the corresponding
  * Ogle scorecard, or `null` values if no matching board could be created. */
-onmessage = function (aMsg) {
+onmessage = async function (aMsg) {
 	try {
 		const oGenRnd = new tGenRnd();
 		const oSetup = Setup.uFromParse(aMsg.data.Setup);
@@ -30,6 +35,8 @@ onmessage = function (aMsg) {
 		let oCard;
 		let oj = 0;
 		while (true) {
+			if (_CkSlow) await Util.wWait(500);
+
 			oBoard = Board.uNewRnd(oGenRnd, oConfigPools);
 			const oSels = SearchBoard.uExec(aMsg.data.WordsSearch, oBoard);
 			oCard = Card.uFromSelsBoard(oSels);
