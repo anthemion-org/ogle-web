@@ -12,6 +12,7 @@ import * as Search from "../Util/Search.js";
 import * as Rect from "../Util/Rect.js";
 import * as Pt2 from "../Util/Pt2.js";
 import * as Text from "../Util/Text.js";
+import * as Util from "../Util/Util.js";
 import * as Const from "../Const.js";
 
 // EntWord
@@ -22,6 +23,7 @@ import * as Const from "../Const.js";
 
 /** Creates an entry from the specified position and text arrays. */
 export function uNew(aPosi, aTexts) {
+	Util.uCkThrow_Params({ aPosi, aTexts }, Array, "EntWord uNew");
 	if (aPosi.length !== aTexts.length)
 		throw Error("EntWord uNew: Position/text mismatch");
 
@@ -41,6 +43,7 @@ export function uNew(aPosi, aTexts) {
  *  returns it, or returns `null` if `aParse` is falsy. */
 export function uFromParse(aPlain) {
 	if (!aPlain) return null;
+	Util.uCkThrow_Params({ aPlain }, Object, "EntWord uFromParse");
 
 	const oPosi = aPlain.Posi.map(a => Pt2.uFromParse(a));
 	return uNew(oPosi, aPlain.Texts);
@@ -49,6 +52,11 @@ export function uFromParse(aPlain) {
 /** Returns an EntWord record that ends with the specified position and text.
  *  Define `aEntPrev` to create a record that extends that one. */
 export function uFromPosText(aPos, aText, aEntPrev) {
+	Util.uCkThrow_Params({ aPos }, Object, "EntWord uFromPosText");
+	Util.uCkThrow_Params({ aText }, String, "EntWord uFromPosText");
+	if (aEntPrev)
+		Util.uCkThrow_Params({ aEntPrev }, Object, "EntWord uFromPosText");
+
 	const oPosi = aEntPrev ? [ ...aEntPrev.Posi, aPos ] : [ aPos ];
 	const oTexts = aEntPrev ? [ ...aEntPrev.Texts, aText ] : [ aText ];
 	return uNew(oPosi, oTexts);
@@ -56,12 +64,16 @@ export function uFromPosText(aPos, aText, aEntPrev) {
 
 /** Returns `true` if the specified position is selected by `aEntWord`. */
 export function uCkAt(aEntWord, aPos) {
+	Util.uCkThrow_Params({ aEntWord, aPos }, Object, "EntWord uCkAt");
+
 	return aEntWord.Posi.some(aPosSel => Pt2.uCkEq(aPos, aPosSel));
 }
 
 /** Returns `true` if the specified position can be added to the end of
  *  `aEntWord`. */
 export function uCkAddAt(aEntWord, aPos) {
+	Util.uCkThrow_Params({ aEntWord, aPos }, Object, "EntWord uCkAddAt");
+
 	if (!Rect.uCkContain(Const.RectBoard, aPos)) return false;
 
 	const oPosEnd = uPosEnd(aEntWord);
@@ -72,6 +84,8 @@ export function uCkAddAt(aEntWord, aPos) {
 
 /** Returns `true` if `Pos` can be selected or unselected within `aEntWord`. */
 export function uCkTogAt(aEntWord, aPos) {
+	Util.uCkThrow_Params({ aEntWord, aPos }, Object, "EntWord uCkTogAt");
+
 	return Rect.uCkContain(Const.RectBoard, aPos)
 		&& (uCkAddAt(aEntWord, aPos) || uCkAt(aEntWord, aPos));
 }
@@ -80,6 +94,8 @@ export function uCkTogAt(aEntWord, aPos) {
  *  or `null` if the position is not part of that record, or if there is no
  *  predecessor. */
 export function uPosPrev(aEntWord, aPos) {
+	Util.uCkThrow_Params({ aEntWord, aPos }, Object, "EntWord uPosPrev");
+
 	for (let oj = 1; oj < aEntWord.Posi.length; ++oj)
 		if (Pt2.uCkEq(aPos, aEntWord.Posi[oj]))
 			return aEntWord.Posi[oj - 1];
@@ -88,12 +104,16 @@ export function uPosPrev(aEntWord, aPos) {
 
 /** Returns the last position in `aEntWord`, or `null` if it is empty. */
 export function uPosEnd(aEntWord) {
+	Util.uCkThrow_Params({ aEntWord }, Object, "EntWord uPosEnd");
+
 	if (!aEntWord.Posi.length) return null;
 	return aEntWord.Posi[aEntWord.Posi.length - 1];
 }
 
 /** Returns the text selected by `aEntWord`, in lowercase. */
 export function uTextAll(aEntWord) {
+	Util.uCkThrow_Params({ aEntWord }, Object, "EntWord uTextAll");
+
 	return aEntWord.Texts.join("").toLowerCase();
 }
 
@@ -101,6 +121,8 @@ export function uTextAll(aEntWord) {
  *  stops just before `aPos`. Returns `null` instead if the position is not part
  *  of `aEntWord`, or if there is no predecessor. */
 export function uClonePrev(aEntWord, aPos) {
+	Util.uCkThrow_Params({ aEntWord, aPos }, Object, "EntWord uClonePrev");
+
 	for (let oj = 1; oj < aEntWord.Posi.length; ++oj)
 		if (Pt2.uCkEq(aPos, aEntWord.Posi[oj])) {
 			const oPosi = aEntWord.Posi.slice(0, oj);
@@ -116,6 +138,8 @@ export function uClonePrev(aEntWord, aPos) {
  *  `Card.uAdd`. The specific board positions used to define each entry are
  *  ignored. */
 export function uCompare(aEntWordL, aEntWordR) {
+	Util.uCkThrow_Params({ aEntWordL, aEntWordR }, Object, "EntWord uCompare");
+
 	const oTextL = uTextAll(aEntWordL);
 	const oTextR = uTextAll(aEntWordR);
 

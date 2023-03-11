@@ -13,6 +13,7 @@ import Lex from "../Search/Lex.js";
 import * as EntWord from "./EntWord.js";
 import * as Search from "../Util/Search.js";
 import * as Text from "../Util/Text.js";
+import * as Util from "../Util/Util.js";
 import * as Const from "../Const.js";
 
 // tScoreWord
@@ -22,6 +23,12 @@ import * as Const from "../Const.js";
  *  mutable. */
 export class tScoreWord {
 	constructor(aEnt, aStatOgle, aStatUser, aCkWordUser) {
+		Util.uCkThrow_Params({ aEnt }, Object, "tScoreWord constructor");
+		Util.uCkThrow_Params({ aStatOgle, aStatUser }, String, "tScoreWord constructor");
+		uCkThrow_StatWord(aStatOgle, "tScoreWord constructor");
+		uCkThrow_StatWord(aStatUser, "tScoreWord constructor");
+		Util.uCkThrow_Params({ aCkWordUser }, Boolean, "tScoreWord constructor");
+
 		/** An entry that generates this word. This may or may not be the entry
 		 *  selected by a given player. */
 		this.Ent = aEnt;
@@ -48,6 +55,17 @@ export const StatsWord = {
 };
 Object.freeze(StatsWord);
 
+/** Returns `true` if the specified value is a `StatsWord` member. */
+export function uCk_StatWord(aStatWord) {
+	return StatsWord.hasOwnProperty(aStatWord);
+}
+
+/** Throws if the specified value is not a `StatsWord` member. */
+export function uCkThrow_StatWord(aStatWord, aNameCaller) {
+	if (!uCk_StatWord(aStatWord))
+		throw Error(`${aNameCaller}: Invalid StatWord '${aStatWord}'`);
+}
+
 /** Stores word score coverage data for one word length. This class is mutable. */
 export class tCover {
 	constructor() {
@@ -60,16 +78,20 @@ export class tCover {
 	}
 }
 
-/** Uses the specified cards to compile scoring data. Returns an array
+/** Uses the specified Card records to compile scoring data. Returns an array
  *  containing:
  *
- *  - An array of tScoreWord instances representing all the words found in the
+ *  - An array of `tScoreWord` instances representing all the words found in the
  *    cards;
  *
  *  - An object that associates word lengths with tCover instances, these giving
  *    the number of words of each length that were scored by each player.
  */
 export function uScoresCoversFromCards(aCardOgle, aCardUser) {
+	Util.uCkThrow_Params(
+		{ aCardOgle, aCardUser }, Object, "ScoreWord uScoresCoversFromCards"
+	);
+
 	function ouCkWordUser(aEnt) {
 		return Lex.uCkUser(EntWord.uTextAll(aEnt));
 	}
@@ -140,17 +162,21 @@ export function uScoresCoversFromCards(aCardOgle, aCardUser) {
 	return [ oScores, oCoversByLen ];
 }
 
-/** Compares tScoreWord instances alphabetically by Text, and then by ascending
- *  length. Score statuses are ignored, as are the specific board positions used
- *  to define each entry. */
+/** Compares `tScoreWord` instances alphabetically by `Text`, and then by
+ *  ascending length. Score statuses are ignored, as are the specific board
+ *  positions used to define each entry. */
 function uCompareByText(aL, aR) {
+	Util.uCkThrow_Params({ aL, aR }, tScoreWord, "ScoreWord uCompareByText");
+
 	return Search.uCompareStrFast(aL.Text, aR.Text);
 }
 
-/** Compares tScoreWord instances by descending length, and then alphabetically
- *  by Text. Score statuses are ignored, as are the specific board positions
- *  used to define each entry. */
+/** Compares `tScoreWord` instances by descending length, and then
+ *  alphabetically by `Text`. Score statuses are ignored, as are the specific
+ *  board positions used to define each entry. */
 function uCompareByLen(aL, aR) {
+	Util.uCkThrow_Params({ aL, aR }, tScoreWord, "ScoreWord uCompareByLen");
+
 	if (aL.Text.length > aR.Text.length) return -1;
 	if (aL.Text.length < aR.Text.length) return 1;
 	return Search.uCompareStrFast(aL.Text, aR.Text);

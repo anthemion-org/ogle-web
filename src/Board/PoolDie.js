@@ -5,12 +5,13 @@
 //
 // Import with:
 //
-//   import { tConfigPoolDie, tPoolDie } from "../PoolDie.js";
+//   import { tConfigPoolDie, tPoolDie } from "../Board/PoolDie.js";
 //
 
 import { tConfigPoolText, tPoolText } from "./PoolText.js";
 import * as Die from "./Die.js";
 import * as Dir4 from "../Util/Dir4.js";
+import * as Util from "../Util/Util.js";
 import * as Const from "../Const.js";
 
 /** Stores configuration data for the die pool used to generate a board. This
@@ -24,8 +25,7 @@ export class tConfigPoolDie {
 
 	/** Returns a new instance appropriate for the specified Setup record. */
 	static suFromSetup(aSetup) {
-		if (!aSetup)
-			throw Error("tConfigPoolDie.suFromSetup: Setup not provided");
+		Util.uCkThrow_Params({ aSetup }, Object, "tConfigPoolDie.suFromSetup");
 
 		let oConfig;
 		if (aSetup.Yield.End < 20)
@@ -36,10 +36,14 @@ export class tConfigPoolDie {
 		return oConfig;
 	}
 
-	constructor(
-		aCtMinStartVow, aDropCtVow, aCtMinDrawVow,
-		aCtMinStartConson, aDropCtConson, aCtMinDrawConson
-	) {
+	constructor(aCtMinStartVow, aDropCtVow, aCtMinDrawVow, aCtMinStartConson,
+		aDropCtConson, aCtMinDrawConson) {
+
+		Util.uCkThrow_Params({
+			aCtMinStartVow, aDropCtVow, aCtMinDrawVow, aCtMinStartConson,
+			aDropCtConson, aCtMinDrawConson
+		}, Number, "tConfigPoolDie constructor");
+
 		/** The vowel text pool. */
 		this.Vow = new tConfigPoolText(aCtMinStartVow, aDropCtVow, aCtMinDrawVow);
 		/** The consonant text pool. */
@@ -60,8 +64,8 @@ export class tConfigPoolDie {
  *  determines counts within the pools. This class is mutable. */
 export class tPoolDie {
 	constructor(aGenRnd, aConfig) {
-		if (!aConfig)
-			throw Error("tPoolDie: Configuration not provided");
+		Util.uCkThrow_Params({ aGenRnd }, Object, "tPoolDie constructor");
+		Util.uCkThrow_Params({ aConfig }, tConfigPoolDie, "tPoolDie constructor");
 
 		this._GenRnd = aGenRnd;
 

@@ -8,8 +8,10 @@
 //   import * as Board from "../Board/Board.js";
 //
 
-import { tPoolDie } from "./PoolDie.js";
+import { tConfigPoolDie, tPoolDie } from "./PoolDie.js";
 import * as Die from "./Die.js";
+import { tGenRnd } from "../Util/Rnd.js";
+import * as Util from "../Util/Util.js";
 import * as Const from "../Const.js";
 
 // Board
@@ -18,6 +20,8 @@ import * as Const from "../Const.js";
 
 /** Creates a Board record from the specified Die record array. */
 export function uNew(aDice) {
+	Util.uCkThrow_Params({ aDice }, Array, "Board uNew");
+
 	const oBoard = {
 		/** An array of Die records, arranged row-after-row. */
 		_Dice: aDice
@@ -30,6 +34,7 @@ export function uNew(aDice) {
  *  it, or returns `null` if `aParse` is falsy. */
 export function uFromParse(aParse) {
 	if (!aParse) return null;
+	Util.uCkThrow_Params({ aParse }, Object, "Board uFromParse");
 
 	const oDice = aParse._Dice.map(a => Die.uFromParse(a));
 	return uNew(oDice);
@@ -38,8 +43,8 @@ export function uFromParse(aParse) {
 /** Returns a new, random Board record, with dice produced by the specified
  *  `tConfigPoolDie` instance. */
 export function uNewRnd(aGenRnd, aConfigPoolDie) {
-	if (!aConfigPoolDie)
-		throw Error("Board.uNewRnd: Pool configuration not provided");
+	Util.uCkThrow_Params({ aGenRnd }, tGenRnd, "Board uNewRnd");
+	Util.uCkThrow_Params({ aConfigPoolDie }, tConfigPoolDie, "Board uNewRnd");
 
 	const oDice = [];
 	const oPool = new tPoolDie(aGenRnd, aConfigPoolDie);
@@ -51,6 +56,8 @@ export function uNewRnd(aGenRnd, aConfigPoolDie) {
 /** Returns the die at the specified Pt2 position within a Board record,
  *  throwing if either coordinate is out of range. */
 export function uDie(aBoard, aPos) {
+	Util.uCkThrow_Params({ aBoard, aPos }, Object, "Board uDie");
+
 	const oj = aPos.X + (aPos.Y * Const.WthBoard);
 	if ((oj < 0) || (oj >= Const.CtDie))
 		throw Error("Board uDie: Invalid position");

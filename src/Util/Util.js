@@ -5,33 +5,42 @@
 //
 // Import with:
 //
-//   import * as Util from "./Util/Util.js";
+//   import * as Util from "../Util/Util.js";
 //
 
-/** Waits for `aMS` milliseconds before returning. */
-export async function wWait(aMS) {
-	return new Promise((auResolve, auReject) => {
-		setTimeout(auResolve, aMS);
-	});
+/** Returns `true` if the app is running in production. */
+export function uCkProduction() {
+	return (process.env.NODE_ENV === 'production');
 }
 
 /** Accepts an object `aParams` containing one or more function parameters, plus
  *  constructor `aTypeExpect` that should be common to those parameters. Throws
  *  if any parameter is `undefined` or `null`, or if any parameter fails to
  *  match `aTypeExpect`. If `aNameCaller` is defined, the exception message will
- *  be prefixed with that text. */
+ *  be prefixed with that text. Does nothing if the app is running in
+ *  production. */
 //
 // Examples:
 //
 //   function uUseNums(aNum0, aNum1) {
-//     Util.CkThrow_Params({ aNum0, aNum1 }, Number, "uUseNums");
+//     Util.uCkThrow_Params({ aNum0, aNum1 }, Number, "uUseNums");
 //     ...
 //
 //   function uUseSuper(aSuper) {
-//     Util.CkThrow_Params({ aSuper }, tSuper, "uUseSuper");
+//     Util.uCkThrow_Params({ aSuper }, tSuper, "uUseSuper");
 //     ...
 //
-export function CkThrow_Params(aParams, aTypeExpect, aNameCaller) {
+export function uCkThrow_Params(aParams, aTypeExpect, aNameCaller) {
+	// This function has not been tested with minified code. The `aTypeExpect`
+	// check should work as usual, but error messages will reference the minified
+	// names of any custom classes.
+
+	// Right now I'm thinking of this function as more of a development and
+	// testing tool. The app already runs well in production, so any exceptions it
+	// throws are likely to be a nuisance for real users, rather than a help.
+	// Maybe we will remove this later, however:
+	if (uCkProduction()) return;
+
 	const oEnts = Object.entries(aParams);
 	for (const [ on, oVal ] of oEnts) {
 		if ((oVal === undefined) || (oVal === null))
@@ -77,4 +86,11 @@ export function CkThrow_Params(aParams, aTypeExpect, aNameCaller) {
 			+ `should be ${aTypeExpect.name}`;
 		throw Error(oMsg);
 	};
+}
+
+/** Waits for `aMS` milliseconds before returning. */
+export async function wWait(aMS) {
+	return new Promise((auResolve, auReject) => {
+		setTimeout(auResolve, aMS);
+	});
 }

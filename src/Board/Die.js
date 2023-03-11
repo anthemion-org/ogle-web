@@ -9,6 +9,7 @@
 //
 
 import * as Dir4 from "../Util/Dir4.js";
+import * as Util from "../Util/Util.js";
 
 // Die
 // ---
@@ -17,8 +18,8 @@ import * as Dir4 from "../Util/Dir4.js";
 /** Creates a Die record with the specified text and orientation. Throws if
  *  `aDir4` is not a member of `Dir4.Vals`. */
 export function uNew(aText, aDir4) {
-	if (!Dir4.uCk(aDir4))
-		throw Error(`Die uNew: Invalid direction '${this.Dir4}'`);
+	Util.uCkThrow_Params({ aText }, String, "Die uNew");
+	Dir4.uCkThrow(aDir4, "Die uNew");
 
 	const oDie = {
 		/** The die text. */
@@ -36,6 +37,7 @@ export function uNew(aText, aDir4) {
  *  it, or returns `null` if `aParse` is falsy. */
 export function uFromParse(aParse) {
 	if (!aParse) return null;
+	Util.uCkThrow_Params({ aParse }, Object, "Die uFromParse");
 
 	return uNew(aParse.Text, Dir4.Vals[aParse.Dir4]);
 }

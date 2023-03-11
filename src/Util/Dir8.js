@@ -22,9 +22,15 @@ export const Vals = {
 };
 Object.freeze(Vals);
 
-/** Returns `true` if the specified value is a Vals member. */
-export function uCk(aDir) {
-	return Vals.hasOwnProperty(aDir);
+/** Returns `true` if the specified value is a `Vals` member. */
+export function uCk(aDir8) {
+	return Vals.hasOwnProperty(aDir8);
+}
+
+/** Throws if the specified value is not a `Vals` member. */
+export function uCkThrow(aDir8, aNameCaller) {
+	if (!uCk(aDir8))
+		throw Error(`${aNameCaller}: Invalid Dir8 '${aDir8}'`);
 }
 
 /** Returns a random Vals member. */

@@ -8,9 +8,16 @@
 //   import { tConfigPoolText, tPoolText } from "../PoolText.js";
 //
 
+import * as Util from "../Util/Util.js";
+
 /** Stores configuration data for `tPoolText`. This class is immutable. */
 export class tConfigPoolText {
 	constructor(aCtMinStart, aDropCt, aCtMinDraw) {
+		Util.uCkThrow_Params(
+			{ aCtMinStart, aDropCt, aCtMinDraw },
+			Number, "tConfigPoolText constructor"
+		);
+
 		/** The minimum starting text count. Increase this number to see more rare
 		 *  letter dice. */
 		this.CtMinStart = aCtMinStart;
@@ -37,6 +44,9 @@ export class tPoolText {
 	/** Derives a new counts object from `aCtsBaseByText`, with each count equal
 	 *  to `aCtMinStart` or greater. */
 	static _suCtsAdjFromBase(aCtsBaseByText, aCtMinStart) {
+		Util.uCkThrow_Params({ aCtsBaseByText }, Object, "tPoolText._suCtsAdjFromBase");
+		Util.uCkThrow_Params({ aCtMinStart }, Number, "tPoolText._suCtsAdjFromBase");
+
 		const oCtsAdj = { ...aCtsBaseByText };
 		for (const on in oCtsAdj) {
 			if (oCtsAdj[on] < aCtMinStart) oCtsAdj[on] = aCtMinStart;
@@ -46,6 +56,8 @@ export class tPoolText {
 
 	/** Returns the total value count in the specified entries object. */
 	static _suCt(aCtsByText) {
+		Util.uCkThrow_Params({ aCtsByText }, Object, "tPoolText._suCt");
+
 		const ouSum = (aTtl, aVal) => (aTtl + aVal);
 		const oCt = Object.values(aCtsByText).reduce(ouSum);
 		if (isNaN(oCt))
@@ -56,12 +68,8 @@ export class tPoolText {
 	/** Creates a new pool containing text values and counts derived from
 	 *  `tConfigPoolText` instance `aConfig`. */
 	constructor(aGenRnd, aCtsBaseByText, aConfig) {
-		if (!aGenRnd)
-			throw Error("tPoolText: Number generator not provided");
-		if (!aCtsBaseByText)
-			throw Error("tPoolText: Base counts not provided");
-		if (!aConfig)
-			throw Error("tPoolText: Configuration not provided");
+		Util.uCkThrow_Params({ aGenRnd, aCtsBaseByText }, Object, "tPoolText constructor");
+		Util.uCkThrow_Params({ aConfig }, tConfigPoolText, "tPoolText constructor");
 
 		this._GenRnd = aGenRnd;
 		this._Config = aConfig;

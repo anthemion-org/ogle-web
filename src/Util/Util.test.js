@@ -16,9 +16,9 @@ class tSub extends tSuper {
 	}
 }
 
-test("Util CkThrow_Params: Expect Number", () => {
+test("Util uCkThrow_Params: Expect Number", () => {
 	function uUseNum(aNum) {
-		Util.CkThrow_Params({ aNum }, Number, "uUseNum");
+		Util.uCkThrow_Params({ aNum }, Number, "uUseNum");
 	}
 
 	uUseNum(0);
@@ -45,9 +45,9 @@ test("Util CkThrow_Params: Expect Number", () => {
 	);
 });
 
-test("Util CkThrow_Params: Expect two numbers", () => {
+test("Util uCkThrow_Params: Expect two numbers", () => {
 	function uUseNums(aNum0, aNum1) {
-		Util.CkThrow_Params({ aNum0, aNum1 }, Number, "uUseNums");
+		Util.uCkThrow_Params({ aNum0, aNum1 }, Number, "uUseNums");
 	}
 
 	uUseNums(0, 1);
@@ -63,9 +63,9 @@ test("Util CkThrow_Params: Expect two numbers", () => {
 	);
 });
 
-test("Util CkThrow_Params: Expect Number, no caller name", () => {
+test("Util uCkThrow_Params: Expect Number, no caller name", () => {
 	function uUseNum(aNum) {
-		Util.CkThrow_Params({ aNum }, Number);
+		Util.uCkThrow_Params({ aNum }, Number);
 	}
 
 	uUseNum(0);
@@ -78,9 +78,9 @@ test("Util CkThrow_Params: Expect Number, no caller name", () => {
 	);
 });
 
-test("Util CkThrow_Params: Expect String", () => {
+test("Util uCkThrow_Params: Expect String", () => {
 	function uUseStr(aStr) {
-		Util.CkThrow_Params({ aStr }, String, "uUseStr");
+		Util.uCkThrow_Params({ aStr }, String, "uUseStr");
 	}
 
 	uUseStr("");
@@ -106,9 +106,9 @@ test("Util CkThrow_Params: Expect String", () => {
 	);
 });
 
-test("Util CkThrow_Params: Expect Array", () => {
+test("Util uCkThrow_Params: Expect Array", () => {
 	function uUseArr(aArr) {
-		Util.CkThrow_Params({ aArr }, Array, "uUseArr");
+		Util.uCkThrow_Params({ aArr }, Array, "uUseArr");
 	}
 
 	uUseArr([]);
@@ -134,9 +134,9 @@ test("Util CkThrow_Params: Expect Array", () => {
 	);
 });
 
-test("Util CkThrow_Params: Expect object", () => {
+test("Util uCkThrow_Params: Expect object", () => {
 	function uUseObj(aObj) {
-		Util.CkThrow_Params({ aObj }, Object, "uUseObj");
+		Util.uCkThrow_Params({ aObj }, Object, "uUseObj");
 	}
 
 	uUseObj({});
@@ -158,12 +158,12 @@ test("Util CkThrow_Params: Expect object", () => {
 	);
 });
 
-test("Util CkThrow_Params: Expect class instance", () => {
+test("Util uCkThrow_Params: Expect class instance", () => {
 	function uUseSuper(aInst) {
-		Util.CkThrow_Params({ aInst }, tSuper, "uUseSuper");
+		Util.uCkThrow_Params({ aInst }, tSuper, "uUseSuper");
 	}
 	function uUseSub(aInst) {
-		Util.CkThrow_Params({ aInst }, tSub, "uUseSub");
+		Util.uCkThrow_Params({ aInst }, tSub, "uUseSub");
 	}
 
 	uUseSuper(new tSuper(1));
