@@ -35,20 +35,25 @@ onmessage = async function (aMsg) {
 
 		let oBoard;
 		let oCard;
-		let oj = 0;
+		let oCtLow = 0;
+		let oCtHigh = 0;
 		while (true) {
 			if (_CkSlow) await Misc.wWait(100);
 
 			oBoard = Board.uNewRnd(oGenRnd, oConfigPools);
 			const oSels = SearchBoard.uExec(aMsg.data.WordsSearch, oBoard);
 			oCard = Card.uFromSelsBoard(oSels);
-			if (Rg.uCkContain(oSetup.Yield, oCard.Score)) {
-				_Log(2, "Accepting board number " + (oj + 1));
-				_Log(2, `~ ${oCard.Score} words`);
+
+			if (oCard.Score < oSetup.Yield.Start) ++oCtLow;
+			else if (oCard.Score > oSetup.Yield.End) ++oCtHigh;
+			else {
+				_Log(2, "Accepting board number " + (oCtLow + oCtHigh + 1));
+				_Log(2, `~ Score ${oCard.Score}`);
+				_Log(2, `~ ${oCtLow} lower, ${oCtHigh} higher`);
 				break;
 			}
 
-			if (++oj >= 2000)
+			if ((oCtLow + oCtHigh) >= 2000)
 				throw Error("WorkGenBoard onmessage: Cannot create board");
 		}
 
@@ -64,7 +69,7 @@ onmessage = async function (aMsg) {
 // -------
 
 /** Set to zero to disable logging in this module. */
-const _LvlLog = 0;
+const _LvlLog = 2;
 
 /** Logs `aText` if `_LvlLog` is `aLvlLogMin` or greater. */
 function _Log(aLvlLogMin, aText) {

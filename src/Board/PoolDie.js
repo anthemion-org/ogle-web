@@ -18,9 +18,22 @@ import * as Const from "../Const.js";
  *  class is immutable. */
 export class tConfigPoolDie {
 	/** Returns a new instance containing default values. This is the original
-	 *  configuration, which often generates more than 200 words. */
+	 *  configuration, which usually produces a score of 60-100, but often exceeds
+	 *  200. */
 	static suDef() {
 		return new tConfigPoolDie(1.0, 4.0, 0.1, 1.0, 4.0, 0.1);
+	}
+
+	/** Returns a new instance containing values appropriate for boards with a
+	 *  score of 40 or less. */
+	static suUnder40() {
+		// The greatest vowel and consonant base frequencies are '11.0' and '8.7',
+		// so setting the starts and the drops to these values produces flat
+		// distributions.
+		//
+		// Board generation was faster when the consonant drop was less than the
+		// start, but more than one 'Qu' is too many:
+		return new tConfigPoolDie(11.0, 11.0, 0.1, 8.7, 8.7, 0.1);
 	}
 
 	/** Returns a new instance appropriate for the specified Setup record. */
@@ -28,14 +41,12 @@ export class tConfigPoolDie {
 		Misc.uCkThrow_Params({ aSetup }, Object, "tConfigPoolDie.suFromSetup");
 
 		let oConfig;
-		if (aSetup.Yield.End < 20)
-			oConfig = new tConfigPoolDie(1.0, 4.0, 0.1, 8.0, 6.0, 0.1)
-		else if (aSetup.Yield.End < 40)
-			oConfig = new tConfigPoolDie(1.0, 4.0, 0.1, 3.0, 4.0, 0.1)
+		if (aSetup.Yield.End < 40) oConfig = tConfigPoolDie.suUnder40()
 		else oConfig = tConfigPoolDie.suDef();
 		return oConfig;
 	}
 
+	// Might be better to use named parameters here: [refactor]
 	constructor(
 		aCtMinStartVow, aDropCtVow, aCtMinDrawVow,
 		aCtMinStartConson, aDropCtConson, aCtMinDrawConson
@@ -108,7 +119,7 @@ export class tPoolDie {
 		//
 		// Using the dictionary distribution makes it easier to produce boards with
 		// 200+ words, but I prefer to include more of the uncommon letters, so I am
-		// setting the start minimum to '1.0'.
+		// setting the start minimum higher.
 
 		const oCtsVow = {
 			E: 11.0, I: 8.2, A: 7.8, O: 6.1,

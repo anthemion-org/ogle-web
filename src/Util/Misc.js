@@ -18,9 +18,9 @@
  *  be prefixed with that text. Does nothing if the app is running in
  *  production.
  *
- *  Note: This function is not fast! It's fine for UI code, but it should not be
- *  called more than dozens or perhaps hundreds of times if the user is waiting.
- *  In particular, it should _not_ be used in low-level word search functions. */
+ *  Note: This function is not fast! It's fine for general use (including the
+ *  UI) but it should not be used in the critical path of any high-performance
+ *  code, particularly the low-level word search functions. */
 //
 // Examples:
 //
