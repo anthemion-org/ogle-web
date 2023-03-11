@@ -21,7 +21,7 @@ import * as Setup from "../Round/Setup.js";
 
 import React from "react";
 import PropTypes from "prop-types";
-import { connect, useDispatch } from "react-redux";
+import { connect } from "react-redux";
 
 // ViewSets
 // --------

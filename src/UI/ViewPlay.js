@@ -30,7 +30,6 @@ import {
 	uSelTimeElap,
 	Add_TimeElap
 } from "../Store/SlicePlay.js";
-import * as Persist from "../Persist.js";
 import * as Const from "../Const.js";
 
 import { React, useState, useEffect } from "react";
@@ -42,7 +41,7 @@ import { useSelector, useDispatch } from "react-redux";
 /** Implements the Play view, which displays the board, accepts user word
  *  entries, and manages the timer during play. Aside from the usual `View`
  *  props, no props are supported. */
-export default function ViewPlay(aProps) {
+export default function ViewPlay() {
 	/** The time remaining, in milliseconds, when the user is considered to be low
 	 *  on time. */
 	//

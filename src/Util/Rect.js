@@ -14,7 +14,7 @@ import * as Pt2 from "./Pt2.js";
 // ----
 // Each Rect record represents a rectangle with integer coordinates.
 
-/** Creates an instance with the specified Pt2 position and size. */
+/** Creates an instance with the specified Pt2 position and size records. */
 export function uNew(aLeftTop, aSize) {
 	return {
 		/** The left-top corner of the rectangle. */

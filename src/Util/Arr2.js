@@ -8,6 +8,8 @@
 //   import * as Arr2 from "../Util/Arr2.js";
 //
 
+import * as Misc from "../Util/Misc.js";
+
 // Arr2
 // ----
 // Each Arr2 record represents a rectangular array. Records are backed by linear
@@ -67,9 +69,9 @@ export function uClone(aArr2) {
 	return oArr2;
 }
 
-function _uIdxCk(aArr, aPos, aName) {
+function _uIdxCk(aArr, aPos, aNameCaller) {
 	const oj = (aPos.Y * aArr.Size.X) + aPos.X;
 	if ((oj < 0) || (oj >= aArr._Els.length))
-		throw Error("Arr2 " + aName + ": Invalid position");
+		throw Error("Arr2 " + aNameCaller + ": Invalid position");
 	return oj;
 }

@@ -8,6 +8,8 @@
 //   import { tSelBoard } from "./Search/SelBoard.js";
 //
 
+// For performance reasons, we should not `uCkThrow_Params` in this module!
+
 import * as Board from "../Board/Board.js";
 import * as EntWord from "../Round/EntWord.js";
 import * as Arr2 from "../Util/Arr2.js";
@@ -27,9 +29,9 @@ import * as Const from "../Const.js";
  *  This class is mutable. Because most instances reference other instances,
  *  this class produces verbose output when serialized with 'JSON.stringify'.
  *  Simpler output is produced by EntWord records, which store similar data, but
- *  are not as fast. */
+ *  is not as fast. */
 export class tSelBoard {
-	/** Set aSelPrev to the instance that should precede this instance in the
+	/** Set `aSelPrev` to the instance that should precede this instance in the
 	 *  selection, or leave it undefined to start a new selection. */
 	constructor(aBoard, aPos, aSelPrev) {
 		/* The board that contains the selection. */
@@ -75,7 +77,7 @@ export class tSelBoard {
 	 *  by uNext, all die sequences beginning with the first position can be
 	 *  enumerated.*/
 	uCloneNext() {
-		const oPosNext = uPosNext(this, this._jNeighNext++);
+		const oPosNext = _uPosNext(this, this._jNeighNext++);
 		return oPosNext ? new tSelBoard(this.Board, oPosNext, this) : null;
 	}
 
@@ -96,15 +98,15 @@ export class tSelBoard {
 	}
 }
 
-/** Returns the first available adjacent position after skipping ajNeigh valid
+/** Returns the first available adjacent position after skipping `ajNeigh` valid
  *  choices, starting with the position on the right, and proceding
  *  counter-clockwise. Returns `null` if no such position exists. */
-function uPosNext(aSel, ajNeigh) {
+function _uPosNext(aSel, ajNeigh) {
 	// The 'next' index ranges from zero to seven:
 	if (ajNeigh > 7) return null;
 
 	for (let ojDir = 0; ojDir < 8; ++ojDir) {
-		const oOff = uOff(ojDir);
+		const oOff = _uOff(ojDir);
 		const oPos = Pt2.uSum(aSel.Pos, oOff);
 		if (Rect.uCkContain(Const.RectBoard, oPos)
 			&& !Arr2.uGet(aSel.CksByPos, oPos)) {
@@ -118,7 +120,7 @@ function uPosNext(aSel, ajNeigh) {
 
 /** Returns the one-position offset for direction index ajDir, which ranges from
  *  zero to seven. */
-function uOff(ajDir) {
+function _uOff(ajDir) {
 	switch (ajDir) {
 		case 0: return Pt2.uNew(1, 0);
 		case 1: return Pt2.uNew(1, 1);
@@ -129,5 +131,5 @@ function uOff(ajDir) {
 		case 6: return Pt2.uNew(0, -1);
 		case 7: return Pt2.uNew(1, -1);
 	}
-	throw Error("SelBoard uOff: Invalid index");
+	throw Error("SelBoard _uOff: Invalid index");
 }

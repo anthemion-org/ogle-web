@@ -14,8 +14,6 @@ import DlgNamePlay from "./DlgNamePlay.js";
 import Btn from "./Btn.js";
 import StsApp from "../StsApp.js";
 import * as Setup from "../Round/Setup.js";
-import * as Board from "../Board/Board.js";
-import * as Card from "../Round/Card.js";
 import { StatsWord, uScoresCoversFromCards } from "../Round/ScoreWord.js";
 import Feed from "../Feed.js";
 import { uSelSetup, Set_StApp } from "../Store/SliceApp.js";
@@ -27,7 +25,6 @@ import * as Const from "../Const.js";
 import * as Misc from "../Util/Misc.js";
 
 import { React, useState, useEffect } from "react";
-import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 
 // ViewScore
@@ -35,7 +32,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 /** Implements the Score view, which displays the result of the last round of
  *  play. No props are supported. */
-export default function ViewScore(aProps) {
+export default function ViewScore() {
 	const ouDispatch = useDispatch();
 	const oScoresHigh = useSelector(uSelScoresHigh);
 	const oSetup = useSelector(uSelSetup);

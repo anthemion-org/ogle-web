@@ -25,7 +25,6 @@ import PropTypes from "prop-types";
 
 LookBoard.propTypes = {
 	Board: PropTypes.object.isRequired,
-	// EntWord record:
 	Ent: PropTypes.object,
 	CkPause: PropTypes.bool,
 	uCallTog: PropTypes.func,

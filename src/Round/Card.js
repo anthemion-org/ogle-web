@@ -10,7 +10,7 @@
 
 import * as EntWord from "./EntWord.js";
 import * as Text from "../Util/Text.js";
-import * as Util from "../Util/Util.js";
+import * as Misc from "../Util/Misc.js";
 import * as Const from "../Const.js";
 
 // Card
@@ -24,8 +24,8 @@ export function uNewEmpty() {
 
 /** Creates a Card record with the specified values. */
 export function uNew(aTimeStart, aEnts, aScore, aCtBonusTime) {
-	Util.uCkThrow_Params({ aTimeStart, aScore, aCtBonusTime }, Number, "Card uNew");
-	Util.uCkThrow_Params({ aEnts }, Array, "Card uNew");
+	Misc.uCkThrow_Params({ aTimeStart, aScore, aCtBonusTime }, Number, "Card uNew");
+	Misc.uCkThrow_Params({ aEnts }, Array, "Card uNew");
 
 	const oCard = {
 		/** The UNIX time when this round started. This should be unique across all
@@ -48,7 +48,7 @@ export function uNew(aTimeStart, aEnts, aScore, aCtBonusTime) {
  *  it, or returns `null` if `aParse` is falsy. */
 export function uFromParse(aParse) {
 	if (!aParse) return null;
-	Util.uCkThrow_Params({ aParse }, Object, "Card uFromParse");
+	Misc.uCkThrow_Params({ aParse }, Object, "Card uFromParse");
 
 	const oEnts = aParse.Ents.map(a => EntWord.uFromParse(a));
 	return uNew(aParse.TimeStart, oEnts, aParse.Score, aParse.CtBonusTime);
@@ -57,7 +57,7 @@ export function uFromParse(aParse) {
 /** Creates a new Card record from an array of `tSelBoard` instances and returns
  *  it. This produces an Ogle card from `SearchBoard.uExec` output. */
 export function uFromSelsBoard(aSels) {
-	Util.uCkThrow_Params({ aSels }, Array, "Card uFromSelsBoard");
+	Misc.uCkThrow_Params({ aSels }, Array, "Card uFromSelsBoard");
 
 	const oEntsAll = aSels.map(a => a.uEntWord());
 	// This comparison function sorts longer words before shorter words when one
@@ -74,7 +74,7 @@ export function uFromSelsBoard(aSels) {
 
 /** Returns `true` if either word follows the other, or if they are identical. */
 function _uCkFollowEither(aWordL, aWordR) {
-	Util.uCkThrow_Params({ aWordL, aWordR }, String, "Card _uCkFollowEither");
+	Misc.uCkThrow_Params({ aWordL, aWordR }, String, "Card _uCkFollowEither");
 
 	return Text.uCkEqBegin(aWordL, aWordR);
 }
@@ -85,8 +85,8 @@ function _uCkFollowEither(aWordL, aWordR) {
  *  should be added even if it was followed. Set `aCkSkipAdd` to `true` to
  *  return the result without actually changing the card. */
 export function uAdd(aCard, aEnt, aCkAddFollow, aCkSkipAdd) {
-	Util.uCkThrow_Params({ aCard, aEnt }, Object, "Card uAdd");
-	Util.uCkThrow_Params({ aCkAddFollow, aCkSkipAdd }, Boolean, "Card uAdd");
+	Misc.uCkThrow_Params({ aCard, aEnt }, Object, "Card uAdd");
+	Misc.uCkThrow_Params({ aCkAddFollow, aCkSkipAdd }, Boolean, "Card uAdd");
 
 	const oTextAdd = EntWord.uTextAll(aEnt);
 	if (oTextAdd.length < Const.LenWordMin) return false;
@@ -127,7 +127,7 @@ export function uAdd(aCard, aEnt, aCkAddFollow, aCkSkipAdd) {
 
 /** Returns a deep copy of the specified Card record. */
 export function uClone(aCard) {
-	Util.uCkThrow_Params({ aCard }, Object, "Card uClone");
+	Misc.uCkThrow_Params({ aCard }, Object, "Card uClone");
 
 	return uNew(
 		aCard.TimeStart,

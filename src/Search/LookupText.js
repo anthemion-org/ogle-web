@@ -8,6 +8,8 @@
 //   import { tLookupText } from "./LookupText.js";
 //
 
+// For performance reasons, we should not `uCkThrow_Params` in this module!
+
 import * as Search from "../Util/Search.js";
 
 // tLookupText
@@ -17,15 +19,15 @@ import * as Search from "../Util/Search.js";
  *  state of that search, allowing it to be extended and shared as the board is
  *  enumerated. This class is mutable. */
 export class tLookupText {
-	/** Returns a new instance that searches for aText, while reusing the search
-	 *  state produced by a previous tLookupText instance. */
+	/** Returns a new instance that searches for `aText`, while reusing the search
+	 *  state produced by a previous `tLookupText` instance. */
 	static suFromPrev(aLookup, aText) {
 		return new tLookupText(aLookup._Words, aText, aLookup._jFore,
 			aLookup._jAft);
 	}
 
-	/** Creates an instances that searches array aWords for aText. Leave ajFore
-	 *  and ajAft undefined to start a new search. */
+	/** Creates an instances that searches array `aWords` for `aText`. Leave
+	 *  `ajFore` and `ajAft` undefined to start a new search. */
 	constructor(aWords, aText, ajFore, ajAft) {
 		/** The words to be searched. */
 		this._Words = aWords;
@@ -66,9 +68,9 @@ export class tLookupText {
 	}
 }
 
-/** Compares aTextLookup with aWord, and returns a negative number if it sorts
- *  before, a positive number if it sorts after, and zero if it matches the
- *  beginning or entirety of aWord. */
+/** Compares `aTextLookup` with `aWord`, and returns a negative number if it
+ *  sorts before, a positive number if it sorts after, and zero if it matches
+ *  the beginning or entirety of aWord. */
 function uCompare(aTextLookup, aWord) {
 	// aTextLookup represents the current board selection. Because the selection
 	// grows as the board is enumerated, we must stop when the search identifies a

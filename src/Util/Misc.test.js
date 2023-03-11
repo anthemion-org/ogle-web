@@ -1,9 +1,12 @@
-// Util.test.js
+// Misc.test.js
 // ============
 // Copyright ©2023 Jeremy Kelly
 // www.anthemion.org
 
-import * as Util from "../Util/Util.js";
+import * as Misc from "./Misc.js";
+
+// uCkThrow_Params
+// ---------------
 
 class tSuper {
 	constructor (aVal) { this.Val = aVal; }
@@ -18,7 +21,7 @@ class tSub extends tSuper {
 
 test("Util uCkThrow_Params: Expect Number", () => {
 	function uUseNum(aNum) {
-		Util.uCkThrow_Params({ aNum }, Number, "uUseNum");
+		Misc.uCkThrow_Params({ aNum }, Number, "uUseNum");
 	}
 
 	uUseNum(0);
@@ -47,7 +50,7 @@ test("Util uCkThrow_Params: Expect Number", () => {
 
 test("Util uCkThrow_Params: Expect two numbers", () => {
 	function uUseNums(aNum0, aNum1) {
-		Util.uCkThrow_Params({ aNum0, aNum1 }, Number, "uUseNums");
+		Misc.uCkThrow_Params({ aNum0, aNum1 }, Number, "uUseNums");
 	}
 
 	uUseNums(0, 1);
@@ -65,7 +68,7 @@ test("Util uCkThrow_Params: Expect two numbers", () => {
 
 test("Util uCkThrow_Params: Expect Number, no caller name", () => {
 	function uUseNum(aNum) {
-		Util.uCkThrow_Params({ aNum }, Number);
+		Misc.uCkThrow_Params({ aNum }, Number);
 	}
 
 	uUseNum(0);
@@ -80,7 +83,7 @@ test("Util uCkThrow_Params: Expect Number, no caller name", () => {
 
 test("Util uCkThrow_Params: Expect String", () => {
 	function uUseStr(aStr) {
-		Util.uCkThrow_Params({ aStr }, String, "uUseStr");
+		Misc.uCkThrow_Params({ aStr }, String, "uUseStr");
 	}
 
 	uUseStr("");
@@ -108,7 +111,7 @@ test("Util uCkThrow_Params: Expect String", () => {
 
 test("Util uCkThrow_Params: Expect Array", () => {
 	function uUseArr(aArr) {
-		Util.uCkThrow_Params({ aArr }, Array, "uUseArr");
+		Misc.uCkThrow_Params({ aArr }, Array, "uUseArr");
 	}
 
 	uUseArr([]);
@@ -136,7 +139,7 @@ test("Util uCkThrow_Params: Expect Array", () => {
 
 test("Util uCkThrow_Params: Expect object", () => {
 	function uUseObj(aObj) {
-		Util.uCkThrow_Params({ aObj }, Object, "uUseObj");
+		Misc.uCkThrow_Params({ aObj }, Object, "uUseObj");
 	}
 
 	uUseObj({});
@@ -160,10 +163,10 @@ test("Util uCkThrow_Params: Expect object", () => {
 
 test("Util uCkThrow_Params: Expect class instance", () => {
 	function uUseSuper(aInst) {
-		Util.uCkThrow_Params({ aInst }, tSuper, "uUseSuper");
+		Misc.uCkThrow_Params({ aInst }, tSuper, "uUseSuper");
 	}
 	function uUseSub(aInst) {
-		Util.uCkThrow_Params({ aInst }, tSub, "uUseSub");
+		Misc.uCkThrow_Params({ aInst }, tSub, "uUseSub");
 	}
 
 	uUseSuper(new tSuper(1));

@@ -9,7 +9,7 @@
 //
 
 import * as Rg from "../Util/Rg.js";
-import * as Util from "../Util/Util.js";
+import * as Misc from "../Util/Misc.js";
 
 /** Yield ranges to be offered to the user. */
 export const Vals = [
@@ -35,7 +35,7 @@ export function uDef() {
 /** Returns the `Vals` index that matches the specified Setup record, or the
  *  default index, if no match is found. */
 export function uIdxValMatchOrDef(aSetup) {
-	Util.uCkThrow_Params({ aSetup }, Object, "Yield uIdxValMatchOrDef");
+	Misc.uCkThrow_Params({ aSetup }, Object, "Yield uIdxValMatchOrDef");
 
 	for (let oj = 0; oj < Vals.length; ++oj)
 		if (Rg.uCkEq(Vals[oj], aSetup.Yield)) return oj;
@@ -44,7 +44,7 @@ export function uIdxValMatchOrDef(aSetup) {
 
 /** Returns a description of the yield range at the specified `Vals` index. */
 export function uDesc(ajYield) {
-	Util.uCkThrow_Params({ ajYield }, Number, "Yield uDesc");
+	Misc.uCkThrow_Params({ ajYield }, Number, "Yield uDesc");
 
 	const oYield = Vals[ajYield];
 	if (!isFinite(oYield.Start))

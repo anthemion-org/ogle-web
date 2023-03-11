@@ -8,6 +8,8 @@
 //   import Lex from "./Lex.js";
 //
 
+// For performance reasons, we should not `uCkThrow_Params` in this module!
+
 import * as Search from "../Util/Search.js";
 import * as Persist from "../Persist.js";
 

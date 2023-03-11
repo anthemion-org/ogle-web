@@ -9,14 +9,13 @@
 //
 
 import "./BackPage.css";
-import * as Misc from "../Util/Misc.js";
 
 import React from "react";
 
 // BackPage
 // --------
 
-export default function BackPage(aProps) {
+export default function BackPage() {
 	function ouRay(aCt, aj) {
 		const oWthSpan = 2 * Math.PI / aCt;
 		const oWthRay = oWthSpan / 2;

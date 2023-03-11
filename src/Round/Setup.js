@@ -12,7 +12,7 @@ import * as Yield from "./Yield.js";
 import * as Pace from "./Pace.js";
 import * as Rg from "../Util/Rg.js";
 import * as Text from "../Util/Text.js";
-import * as Util from "../Util/Util.js";
+import * as Misc from "../Util/Misc.js";
 
 // Setup
 // -----
@@ -28,8 +28,8 @@ import * as Util from "../Util/Util.js";
 
 /** Creates a Setup record from the specified yield and pace values. */
 export function uNew(aYield, aPaceStart, aPaceBonus) {
-	Util.uCkThrow_Params({ aYield }, Object, "Setup uNew");
-	Util.uCkThrow_Params({ aPaceStart, aPaceBonus }, Number, "Setup uNew");
+	Misc.uCkThrow_Params({ aYield }, Object, "Setup uNew");
+	Misc.uCkThrow_Params({ aPaceStart, aPaceBonus }, Number, "Setup uNew");
 
 	const oSetup = {
 		/** A Rg record giving the number of words allowed in the board. */
@@ -53,7 +53,7 @@ export function uDef() {
  *  it, or returns `null` if `aParse` is falsy. */
 export function uFromParse(aParse) {
 	if (!aParse) return null;
-	Util.uCkThrow_Params({ aParse }, Object, "Setup uFromParse");
+	Misc.uCkThrow_Params({ aParse }, Object, "Setup uFromParse");
 
 	return uNew(
 		Rg.uFromParse(aParse.Yield),
@@ -64,7 +64,7 @@ export function uFromParse(aParse) {
 
 /** Returns a short string that summarizes the values in a Setup record. */
 export function uTag(aSetup) {
-	Util.uCkThrow_Params({ aSetup }, Object, "Setup uTag");
+	Misc.uCkThrow_Params({ aSetup }, Object, "Setup uTag");
 
 	// This output must not change! High scores are marked with these values in
 	// the local storage, and changing them would cause those scores to be lost:
@@ -74,7 +74,7 @@ export function uTag(aSetup) {
 
 /** Returns a short string describing the yield within a Setup record. */
 export function uTextShortYield(aSetup) {
-	Util.uCkThrow_Params({ aSetup }, Object, "Setup uTextShortYield");
+	Misc.uCkThrow_Params({ aSetup }, Object, "Setup uTextShortYield");
 
 	if (!isFinite(aSetup.Yield.End))
 		return aSetup.Yield.Start + "+";
@@ -83,7 +83,7 @@ export function uTextShortYield(aSetup) {
 
 /** Returns a short string describing the pace within a Setup record. */
 export function uTextShortPace(aSetup) {
-	Util.uCkThrow_Params({ aSetup }, Object, "Setup uTextShortPace");
+	Misc.uCkThrow_Params({ aSetup }, Object, "Setup uTextShortPace");
 
 	return aSetup.PaceStart + " + " + Text.uFracNice(aSetup.PaceBonus);
 }

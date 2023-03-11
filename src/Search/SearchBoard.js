@@ -8,13 +8,15 @@
 //   import * as SearchBoard from "./SearchBoard.js";
 //
 
+// For performance reasons, we should not `uCkThrow_Params` in this module!
+
 import { tLookupText, OutsLookup } from "./LookupText.js";
 import { tSelBoard } from "../Search/SelBoard.js";
 import * as Rect from "../Util/Rect.js";
 import * as Const from "../Const.js";
 
-/** Returns an array of tSelBoard instances representing all words in aBoard
- *  that are found in aWords, including duplicates and followed words. */
+/** Returns an array of `tSelBoard` instances representing all words in `aBoard`
+ *  that are found in `aWords`, including duplicates and followed words. */
 export function uExec(aWords, aBoard) {
 	/** The word selections found during the search, including duplicates and
 	 *  followed words. */
@@ -29,14 +31,15 @@ export function uExec(aWords, aBoard) {
 		// search iterations later:
 		oLookup.uExec(true);
 
-		uExecPos(oSel, oLookup, oSelsWord);
+		_uExecPos(oSel, oLookup, oSelsWord);
 	}
 	return oSelsWord;
 }
 
-/** Uses the specified tSelBoard and tLookupText instances to find all word
- *  selections that begin with aSel, and adds them to array aSelsWord. */
-function uExecPos(aSelBoard, aLookup, aSelsWord) {
+/** Uses the specified `tSelBoard` board selection and `tLookupText` lookup
+ *  state to find all word selections that begin with the board selection, and
+ *  adds them to array `aSelsWord`. */
+function _uExecPos(aSelBoard, aLookup, aSelsWord) {
 	while (true) {
 		const oSelNext = aSelBoard.uCloneNext();
 		// All die sequences following this enumerator have been checked:
@@ -45,8 +48,8 @@ function uExecPos(aSelBoard, aLookup, aSelsWord) {
 		const oLookup = tLookupText.suFromPrev(aLookup, oSelNext.TextAll);
 		const oOutLookup = oLookup.uExec(true);
 
-		// No words can follow this descendant of aLookup, so continue with the next
-		// descendant:
+		// No words can follow this descendant of `aLookup`, so continue with the
+		// next descendant:
 		if (oOutLookup === OutsLookup.Miss) continue;
 
 		if (oSelNext.TextAll.length >= Const.LenWordMin) {
@@ -64,6 +67,6 @@ function uExecPos(aSelBoard, aLookup, aSelsWord) {
 		}
 
 		// Check the descendants of this selection:
-		uExecPos(oSelNext, oLookup, aSelsWord);
+		_uExecPos(oSelNext, oLookup, aSelsWord);
 	}
 }

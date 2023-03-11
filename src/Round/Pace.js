@@ -9,7 +9,7 @@
 //
 
 import * as Text from "../Util/Text.js";
-import * as Util from "../Util/Util.js";
+import * as Misc from "../Util/Misc.js";
 
 /** Pace values to be offered to the user. Each element stores the starting time
  *  and the bonus time. */
@@ -40,7 +40,7 @@ export function uDef() {
 /** Returns the `Vals` index that matches the specified Setup record, or the
  *  default index, if no match is found. */
 export function uIdxValMatchOrDef(aSetup) {
-	Util.uCkThrow_Params({ aSetup }, Object, "Pace uIdxValMatchOrDef");
+	Misc.uCkThrow_Params({ aSetup }, Object, "Pace uIdxValMatchOrDef");
 
 	for (let oj = 0; oj < Vals.length; ++oj) {
 		const [ oPaceStart, oPaceBonus ] = Vals[oj];
@@ -53,7 +53,7 @@ export function uIdxValMatchOrDef(aSetup) {
 
 /** Returns a description of the pace at the specified `Vals` index. */
 export function uDesc(ajPace) {
-	Util.uCkThrow_Params({ ajPace }, Number, "Pace uDesc");
+	Misc.uCkThrow_Params({ ajPace }, Number, "Pace uDesc");
 
 	const oPace = Vals[ajPace];
 	const oStart = Text.uProseNum(oPace[0]);

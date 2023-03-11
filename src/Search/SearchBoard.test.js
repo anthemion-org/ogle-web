@@ -60,7 +60,8 @@ test("SearchBoard uExec: Output", () => {
 
 test("SearchBoard uExec: Speed", () => {
 	const oGenRnd = new tGenRnd(SeedTextDef);
-	const oCt = 20;
+	// The average varied tremendously when this was '20':
+	const oCt = 200;
 
 	const oTimeStart = Date.now();
 	for (let o = 0; o < oCt; ++o) {
@@ -72,9 +73,9 @@ test("SearchBoard uExec: Speed", () => {
 	const oTimeEnd = Date.now();
 	const oTimePer = (oTimeEnd - oTimeStart) / oCt;
 
-	// console.log(`Search time: ${oTimePer}ms`);
+	console.log(`Search time: ${oTimePer}ms`);
 
-	// This will vary on different machines. On mine, `oTimePer` is less than
-	// 10ms:
-	expect(oTimePer).toBeLessThan(20);
+	// This will vary on different machines. On mine, `oTimePer` is usually around
+	// 7.3ms, though it can vary from 6.5ms to 8.2ms:
+	expect(oTimePer).toBeLessThan(10);
 });

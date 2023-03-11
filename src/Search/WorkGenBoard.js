@@ -10,7 +10,7 @@ import * as SearchBoard from "./SearchBoard.js";
 import * as Card from "../Round/Card.js";
 import { tGenRnd } from "../Util/Rnd.js";
 import * as Rg from "../Util/Rg.js";
-import * as Util from "../Util/Util.js";
+import * as Misc from "../Util/Misc.js";
 
 /** Set to `true` to make the web worker very slow, for use when testing the
  *  Play view before the board is displayed. */
@@ -21,6 +21,8 @@ const _CkSlow = false;
  * Ogle scorecard, or `null` values if no matching board could be created. */
 onmessage = async function (aMsg) {
 	try {
+		Misc.uCkThrow_Params({ aMsg }, Object, "WorkGenBoard onmessage");
+
 		const oGenRnd = new tGenRnd();
 		const oSetup = Setup.uFromParse(aMsg.data.Setup);
 
@@ -35,7 +37,7 @@ onmessage = async function (aMsg) {
 		let oCard;
 		let oj = 0;
 		while (true) {
-			if (_CkSlow) await Util.wWait(100);
+			if (_CkSlow) await Misc.wWait(100);
 
 			oBoard = Board.uNewRnd(oGenRnd, oConfigPools);
 			const oSels = SearchBoard.uExec(aMsg.data.WordsSearch, oBoard);

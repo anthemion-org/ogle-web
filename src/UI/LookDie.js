@@ -9,14 +9,21 @@
 //
 
 import "./Die.css";
-import * as Die from "../Board/Die.js";
-import * as MetrDie from "./MetrDie.js";
 import Feed from "../Feed.js";
 import * as Dir4 from "../Util/Dir4.js";
 import * as Pt2 from "../Util/Pt2.js";
 
 import React from "react";
 import PropTypes from "prop-types";
+
+// MetrDie
+// -------
+
+const MetrDie = {
+	/** The selection circle radius, in SVG user units. */
+	RadSel: 40
+};
+Object.freeze(MetrDie);
 
 // LookDie
 // -------

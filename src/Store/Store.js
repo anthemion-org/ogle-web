@@ -3,6 +3,10 @@
 // Copyright ©2023 Jeremy Kelly
 // www.anthemion.org
 
+// Would it be useful to add payload type checks to the reducers? They define
+// the action creators, and of all the function parameters in the app, those are
+// the ones most in need of checking. [refactor]
+
 import SliceApp from "./SliceApp";
 import SlicePlay from "./SlicePlay";
 import SliceScore from "./SliceScore";

@@ -9,7 +9,7 @@
 //
 
 import * as Setup from "./Setup.js";
-import * as Util from "../Util/Util.js";
+import * as Misc from "../Util/Misc.js";
 import * as Const from "../Const.js";
 
 import * as _ from "lodash";
@@ -55,7 +55,7 @@ export function uNewEmpty() {
 /** Returns `true` if the specified game qualifies as a high score, and if
  *  `aScoresHigh` does _not_ include it. */
 export function uCkScoreHigh(aSetup, aCardUser, aCardOgle, aScoresHigh) {
-	Util.uCkThrow_Params(
+	Misc.uCkThrow_Params(
 		{ aSetup, aCardUser, aCardOgle, aScoresHigh },
 		Object, "ScoresHigh uCkScoreHigh"
 	);
@@ -81,8 +81,8 @@ export function uCkScoreHigh(aSetup, aCardUser, aCardOgle, aScoresHigh) {
  *  scores associated with the specified Setup record tag, or an empty array, if
  *  no such scores have been recorded. */
 export function uScoresPlayTagSetup(aScoresHigh, aTagSetup) {
-	Util.uCkThrow_Params({ aScoresHigh }, Object, "ScoresHigh uScoresPlayTagSetup");
-	Util.uCkThrow_Params({ aTagSetup }, String, "ScoresHigh uScoresPlayTagSetup");
+	Misc.uCkThrow_Params({ aScoresHigh }, Object, "ScoresHigh uScoresPlayTagSetup");
+	Misc.uCkThrow_Params({ aTagSetup }, String, "ScoresHigh uScoresPlayTagSetup");
 
 	const oScores = aScoresHigh._ByTag[aTagSetup];
 	return oScores ? Array.from(oScores) : [];

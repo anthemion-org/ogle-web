@@ -15,16 +15,16 @@
 /** A fast, seedable random number generator that is not suitable for
  *  cryptographic use. This class is mutable. */
 export class tGenRnd {
-	/** Set aSeedText to a non-empty string to seed the generator, or leave it
+	/** Set `aSeedText` to a non-empty string to seed the generator, or leave it
 	 *  undefined to seed it with the current time. */
 	constructor(aSeedText) {
 		if (aSeedText) {
-			const ouGenSeed = uGenSeedXMUR3(aSeedText);
+			const ouGenSeed = _uGenSeedXMUR3(aSeedText);
 			this._SeedNum = ouGenSeed();
 		}
 		else this._SeedNum = Date.now();
 
-		this._GenBase = uGenNumMulberry32(this._SeedNum);
+		this._GenBase = _uGenNumMulberry32(this._SeedNum);
 	}
 
 	/** Returns an number greater than or equal to zero, and less than one. */
@@ -32,12 +32,12 @@ export class tGenRnd {
 		return this._GenBase();
 	}
 
-	/** Returns an integer greater than or equal to zero, and less than aCeil. */
+	/** Returns an integer greater than or equal to zero, and less than `aCeil`. */
 	uInt(aCeil) {
 		return Math.floor(this._GenBase() * aCeil);
 	}
 
-	/** Returns a random array element from aEls, throwing instead if it is
+	/** Returns a random array element from `aEls`, throwing instead if it is
 	 *  empty. */
 	uEl(aEls) {
 		if (!aEls.length)
@@ -56,9 +56,9 @@ export class tGenRnd {
 
 /** Accepts a string of any length greater than zero, and returns a function.
  *  The function generates numbers suitable for use as seeds. */
-function uGenSeedXMUR3(aSeedText) {
+function _uGenSeedXMUR3(aSeedText) {
 	if (!aSeedText.length)
-		throw Error("Rnd uGenSeedXMUR3: Invalid source string");
+		throw Error("Rnd _uGenSeedXMUR3: Invalid source string");
 
 	let i = 0;
 	let h = 1779033703 ^ aSeedText.length;
@@ -76,7 +76,7 @@ function uGenSeedXMUR3(aSeedText) {
 
 /** Accepts a numeric seed, and returns a function. The function generates
  *  random numbers that are greater than or equal to zero, and less than one. */
-function uGenNumMulberry32(aSeed) {
+function _uGenNumMulberry32(aSeed) {
 	return function () {
 		aSeed |= 0;
 		aSeed = aSeed + 0x6D2B79F5 | 0;
