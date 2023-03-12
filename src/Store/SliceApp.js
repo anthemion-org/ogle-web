@@ -30,18 +30,20 @@ export const Slice = createSlice({
 		//
 		// 'App' seems redundant in this name, but remember that the local storage
 		// keys must be unique across all slices:
-		StApp: Persist.uRead("StApp") ?? StsApp.Sets
+		StApp: Persist.uRead("StApp") ?? StsApp.Sets,
+		CkScram: false
 	},
 
 	reducers: {
 		Set_Cfg: (aSt, aAct) => { aSt.Cfg = aAct.payload; },
 		Set_Setup: (aSt, aAct) => { aSt.Setup = aAct.payload; },
-		Set_StApp: (aSt, aAct) => { aSt.StApp = aAct.payload; }
+		Set_StApp: (aSt, aAct) => { aSt.StApp = aAct.payload; },
+		Set_CkScram: (aSt, aAct) => { aSt.CkScram = aAct.payload; }
 	}
 });
 export default Slice;
 
-export const { Set_Cfg, Set_Setup, Set_StApp } = Slice.actions;
+export const { Set_Cfg, Set_Setup, Set_StApp, Set_CkScram } = Slice.actions;
 
 // Selectors
 // ---------
@@ -49,3 +51,4 @@ export const { Set_Cfg, Set_Setup, Set_StApp } = Slice.actions;
 export const uSelCfg = (aSt) => aSt.App.Cfg;
 export const uSelSetup = (aSt) => aSt.App.Setup;
 export const uSelStApp = (aSt) => aSt.App.StApp;
+export const uSelCkScram = (aSt) => aSt.App.CkScram;

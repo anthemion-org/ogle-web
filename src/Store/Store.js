@@ -33,7 +33,7 @@ export default Store;
 // Data should not be added to the store unless it is used by two or more
 // components. Shared data is likely to require persistence, so we will persist
 // everything by default:
-const _NamesPersistSkip = [];
+const _NamesPersistSkip = [ "CkScram" ];
 
 /** Returns an object containing all slice-level values in the store, without
  *  the slice objects themselves. */

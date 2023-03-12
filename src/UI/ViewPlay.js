@@ -20,7 +20,7 @@ import DlgHelp from "./DlgHelp.js";
 import DlgVerWord from "./DlgVerWord.js";
 import Lex from "../Search/Lex.js";
 import Feed from "../Feed.js";
-import { uSelSetup, Set_StApp } from "../Store/SliceApp.js";
+import { uSelSetup, uSelCkScram, Set_StApp } from "../Store/SliceApp.js";
 import {
 	uSelCkBoard,
 	uSelBoard,
@@ -51,6 +51,7 @@ export default function ViewPlay() {
 
 	const ouDispatch = useDispatch();
 	const oSetup = useSelector(uSelSetup);
+	const oCkScram = useSelector(uSelCkScram);
 	const oCkBoard = useSelector(uSelCkBoard);
 	const oBoard = useSelector(uSelBoard);
 	const oCardUser = useSelector(uSelCardUser);
@@ -143,6 +144,8 @@ export default function ViewPlay() {
 
 		return () => {
 			if (oIDTimer !== null) clearInterval(oIDTimer);
+			// In case of a tab conflict scram:
+			Feed.uStop_Tick();
 		}
 	}
 	useEffect(ouMan_Timer, [ouDispatch, oBoard, oStPlay, oCkVerWord]);

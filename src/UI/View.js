@@ -13,8 +13,9 @@ import ViewSetsConn from "./ViewSets";
 import ViewAbout from "./ViewAbout";
 import ViewPlay from "./ViewPlay";
 import ViewScore from "./ViewScore";
+import ViewScram from "./ViewScram";
 import StsApp from "../StsApp.js";
-import { uSelStApp } from "../Store/SliceApp.js";
+import { uSelStApp, uSelCkScram } from "../Store/SliceApp.js";
 
 import { React } from "react";
 import { useSelector } from "react-redux";
@@ -26,6 +27,10 @@ import { useSelector } from "react-redux";
  *  state. No props are supported. */
 export default function View(aProps) {
 	const oStApp = useSelector(uSelStApp);
+	const oCkScram = useSelector(uSelCkScram);
+
+	if (oCkScram) return <ViewScram {...aProps} />;
+
 	switch (oStApp) {
 		case StsApp.About:
 			return <ViewAbout {...aProps} />;

@@ -1,0 +1,23 @@
+/* ViewScram.css
+ * -------------
+ * Copyright ©2023 Jeremy Kelly
+ * www.anthemion.org */
+
+#ViewScram {
+	width: 500px;
+	padding: 0rem 1.5rem;
+}
+
+#ViewScram section {
+	font-size: 115%;
+	text-align: center;
+}
+
+/* Responsive layouts
+ * ------------------ */
+
+@media screen and (max-width: 600px) {
+	#ViewScram {
+		width: calc(100vw - 2rem);
+	}
+}

@@ -4,6 +4,8 @@
 // www.anthemion.org
 
 import Store from "./Store/Store.js";
+// Start the tab conflict system:
+import "./Store/ConflictTab.js";
 
 import React from "react";
 import ReactDOM from "react-dom";

@@ -69,7 +69,7 @@ onmessage = async function (aMsg) {
 // -------
 
 /** Set to zero to disable logging in this module. */
-const _LvlLog = 2;
+const _LvlLog = 0;
 
 /** Logs `aText` if `_LvlLog` is `aLvlLogMin` or greater. */
 function _Log(aLvlLogMin, aText) {
