@@ -31,6 +31,9 @@ export const Slice = createSlice({
 		// 'App' seems redundant in this name, but remember that the local storage
 		// keys must be unique across all slices:
 		StApp: Persist.uRead("StApp") ?? StsApp.Sets,
+		/** Set to `true` if this app instance has been scrammed. */
+		//
+		// See `ConflictTab.js` for more on this:
 		CkScram: false
 	},
 
