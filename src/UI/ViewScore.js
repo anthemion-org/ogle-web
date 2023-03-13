@@ -24,7 +24,7 @@ import * as ScoresHigh from "../Round/ScoresHigh.js";
 import * as Const from "../Const.js";
 import * as Misc from "../Util/Misc.js";
 
-import { React, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 // ViewScore

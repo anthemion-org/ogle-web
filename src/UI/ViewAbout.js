@@ -23,8 +23,7 @@ import { useDispatch } from "react-redux";
 // ViewAbout
 // ---------
 
-/** Implements the About view. Aside from those used by all `View` instances, no
- *  props are supported. */
+/** Implements the About view. No props are supported. */
 export default function ViewAbout() {
 	const ouDispatch = useDispatch();
 

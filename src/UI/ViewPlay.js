@@ -20,7 +20,7 @@ import DlgHelp from "./DlgHelp.js";
 import DlgVerWord from "./DlgVerWord.js";
 import Lex from "../Search/Lex.js";
 import Feed from "../Feed.js";
-import { uSelSetup, uSelCkScram, Set_StApp } from "../Store/SliceApp.js";
+import { uSelSetup, Set_StApp } from "../Store/SliceApp.js";
 import {
 	uSelCkBoard,
 	uSelBoard,
@@ -32,15 +32,14 @@ import {
 } from "../Store/SlicePlay.js";
 import * as Const from "../Const.js";
 
-import { React, useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 // ViewPlay
 // --------
 
 /** Implements the Play view, which displays the board, accepts user word
- *  entries, and manages the timer during play. Aside from the usual `View`
- *  props, no props are supported. */
+ *  entries, and manages the timer during play. No props are supported. */
 export default function ViewPlay() {
 	/** The time remaining, in milliseconds, when the user is considered to be low
 	 *  on time. */
@@ -51,7 +50,6 @@ export default function ViewPlay() {
 
 	const ouDispatch = useDispatch();
 	const oSetup = useSelector(uSelSetup);
-	const oCkScram = useSelector(uSelCkScram);
 	const oCkBoard = useSelector(uSelCkBoard);
 	const oBoard = useSelector(uSelBoard);
 	const oCardUser = useSelector(uSelCardUser);
@@ -277,9 +275,12 @@ export default function ViewPlay() {
 	// ----
 
 	/** Handles the Help button click in this dialog. */
-	function ouHandHelp(aEvt) {
-		ouSet_StPlay(StsPlay.Help);
-	}
+	const ouHandHelp = useCallback(
+		function (aEvt) {
+			ouSet_StPlay(StsPlay.Help);
+		},
+		[]
+	);
 
 	/** Handles the OK button click in the Help dialog. */
 	function ouHandOKHelp(aEvt) {
@@ -363,86 +364,104 @@ export default function ViewPlay() {
 
 	/** Returns `true` if the specified board position can be selected or
 	 *  unselected. */
-	function ouCkEnab(aPos) {
-		return !oEntUser || EntWord.uCkTogAt(oEntUser, aPos);
-	}
+	const ouCkEnab = useCallback(
+		function (aPos) {
+			return !oEntUser || EntWord.uCkTogAt(oEntUser, aPos);
+		},
+		[ oEntUser ]
+	);
 
 	/** Toggles the die selection at the specified board position. */
-	function ouTog_Die(aPos) {
-		if (!oBoard || !ouCkEnab(aPos)) return;
+	const ouTog_Die = useCallback(
+		function (aPos) {
+			if (!oBoard || !ouCkEnab(aPos)) return;
 
-		// Start new entry:
-		if (!oEntUser) {
+			// Start new entry:
+			if (!oEntUser) {
+				const oText = Board.uDie(oBoard, aPos).Text;
+				const oEntNew = EntWord.uFromPosText(aPos, oText);
+				ouSet_EntUser(oEntNew);
+				Feed.uSelDie();
+				return;
+			}
+
+			// Truncate existing entry:
+			if (EntWord.uCkAt(oEntUser, aPos)) {
+				const oEntPrev = EntWord.uClonePrev(oEntUser, aPos);
+				ouSet_EntUser(oEntPrev);
+				Feed.uUnselDie();
+				return;
+			}
+
+			// Extend existing entry:
 			const oText = Board.uDie(oBoard, aPos).Text;
-			const oEntNew = EntWord.uFromPosText(aPos, oText);
-			ouSet_EntUser(oEntNew);
+			const oEntAdd = EntWord.uFromPosText(aPos, oText, oEntUser);
+			ouSet_EntUser(oEntAdd);
 			Feed.uSelDie();
-			return;
-		}
-
-		// Truncate existing entry:
-		if (EntWord.uCkAt(oEntUser, aPos)) {
-			const oEntPrev = EntWord.uClonePrev(oEntUser, aPos);
-			ouSet_EntUser(oEntPrev);
-			Feed.uUnselDie();
-			return;
-		}
-
-		// Extend existing entry:
-		const oText = Board.uDie(oBoard, aPos).Text;
-		const oEntAdd = EntWord.uFromPosText(aPos, oText, oEntUser);
-		ouSet_EntUser(oEntAdd);
-		Feed.uSelDie();
-	}
+		},
+		[ oBoard, oEntUser, ouCkEnab ]
+	);
 
 	/** Clears the board selection. */
-	function ouClear_Ent() {
-		ouSet_EntUser(null);
-		Feed.uUnselDie();
-	}
+	const ouClear_Ent = useCallback(
+		function () {
+			ouSet_EntUser(null);
+			Feed.uUnselDie();
+		},
+		[]
+	);
 
 	/** Records the board selection as a word entry. */
-	function ouRecord_Ent() {
-		// There is no selection:
-		if (!oEntUser) {
-			// I was playing the 'unselect' feedback here, and also when the selection
-			// was too short to be entered:
-			//
-			//   Feed.uUnselDie();
-			//
-			// However, it was necessary to remove the `preventDefault` calls from the
-			// mouse and pointer event handlers, and that caused the unselect and
-			// entry sounds to be played together when a word was entered, unless the
-			// left mouse button happened to be down when the right was pressed. I
-			// don't care much about audio feedback in this event, so we will skip it
-			// for now. See the comments in `LookDie.js` for more on this:
-			return;
-		}
+	//
+	// We memoize this and other handlers to stop the `LookBoard` from updating on
+	// every tick. The Score button also uses this, but to stop similar updates
+	// there, we would have to memoize the `children` of that button. Not worth
+	// the trouble:
+	const ouRecord_Ent = useCallback(
+		function () {
+			// There is no selection:
+			if (!oEntUser) {
+				// I was playing the 'unselect' feedback here, and also when the
+				// selection was too short to be entered:
+				//
+				//   Feed.uUnselDie();
+				//
+				// However, it was necessary to remove the `preventDefault` calls from
+				// the mouse and pointer event handlers, and that caused the unselect
+				// and entry sounds to be played together when a word was entered,
+				// unless the left mouse button happened to be down when the right was
+				// pressed. I don't care much about audio feedback in this event, so we
+				// will skip it for now. See the comments in `LookDie.js` for more on
+				// this:
+				return;
+			}
 
-		// The selection is too short:
-		const oText = EntWord.uTextAll(oEntUser);
-		if (oText.length < Const.LenWordMin) {
-			return;
-		}
+			// The selection is too short:
+			const oText = EntWord.uTextAll(oEntUser);
+			if (oText.length < Const.LenWordMin) {
+				return;
+			}
 
-		// The word is not recognized:
-		if (!Lex.uCkKnown(oText)) {
-			ouSet_CkVerWord(true);
-			Feed.uEntInval();
-			return;
-		}
+			// The word is not recognized:
+			if (!Lex.uCkKnown(oText)) {
+				ouSet_CkVerWord(true);
+				Feed.uEntInval();
+				return;
+			}
 
-		// The word is recognized:
-		ouDispatch(Add_EntWordUser(oEntUser));
+			// The word is recognized:
+			ouDispatch(Add_EntWordUser(oEntUser));
 
-		// Note that we are _not_ adding the entry, just checking what will happen
-		// when it _is_ added:
-		const oCkVal = Card.uAdd(oCardUser, oEntUser, false, true);
-		if (oCkVal) Feed.uEntVal();
-		else Feed.uEntInval();
+			// Note that we are _not_ adding the entry, just checking what will happen
+			// when it _is_ added by the reducer:
+			const oCkVal = Card.uAdd(oCardUser, oEntUser, false, true);
+			if (oCkVal) Feed.uEntVal();
+			else Feed.uEntInval();
 
-		ouSet_EntUser(null);
-	}
+			ouSet_EntUser(null);
+		},
+		[ ouDispatch, oCardUser, oEntUser ]
+	);
 
 	// View content
 	// ------------

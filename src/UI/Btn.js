@@ -10,7 +10,7 @@
 
 import Feed from "../Feed.js";
 
-import { React, useState } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 
 // Btn
@@ -41,7 +41,7 @@ Btn.propTypes = {
  *    feedback;
  *
  *  Other props will be forwarded to the 'button' element. */
-export default function Btn(aProps) {
+function Btn(aProps) {
 	/** Set to `true` if this button has processed an 'onPointerDown' event at any
 	 *  time. */
 	const [ oCkDown, ouSet_CkDown ] = useState(false);
@@ -120,3 +120,4 @@ export default function Btn(aProps) {
 		</button>
 	);
 }
+export default React.memo(Btn);

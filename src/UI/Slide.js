@@ -20,7 +20,7 @@ import React from "react";
  *  vibrations. Unlike the built-in range control, a single click always changes
  *  the value, even if the click position is only slighly offset from the thumb.
  *  The usual range inputs props are supported. */
-export default function Slide(aProps) {
+function Slide(aProps) {
 	function ouHandPointOver(aEvt) {
 		Feed.uPointOver();
 	}
@@ -106,3 +106,4 @@ export default function Slide(aProps) {
 			onPointerMove={ouHandPointMove} onChange={ouHandChange} />
 	);
 }
+export default React.memo(Slide);

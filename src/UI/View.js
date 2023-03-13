@@ -25,24 +25,24 @@ import { useSelector } from "react-redux";
 
 /** Selects and displays the view that corresponds to the current application
  *  state. No props are supported. */
-export default function View(aProps) {
+export default function View() {
 	const oStApp = useSelector(uSelStApp);
 	const oCkScram = useSelector(uSelCkScram);
 
-	if (oCkScram) return <ViewScram {...aProps} />;
+	if (oCkScram) return <ViewScram />;
 
 	switch (oStApp) {
 		case StsApp.About:
-			return <ViewAbout {...aProps} />;
+			return <ViewAbout />;
 
 		case StsApp.Play:
-			return <ViewPlay {...aProps} />;
+			return <ViewPlay />;
 
 		case StsApp.Score:
-			return <ViewScore {...aProps} />;
+			return <ViewScore />;
 
 		case StsApp.Sets:
 		default:
-			return <ViewSetsConn {...aProps} />;
+			return <ViewSetsConn />;
 	}
 }

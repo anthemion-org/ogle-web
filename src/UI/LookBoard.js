@@ -47,7 +47,7 @@ LookBoard.propTypes = {
  *
  *  - uCallRecord: A function to be invoked if the board is right-clicked.
  */
-export default function LookBoard(aProps) {
+function LookBoard(aProps) {
 	/** Returns `true` if the specified board position can be selected or
 	 *  unselected. */
 	function ouCkEnab(aPos) {
@@ -145,3 +145,4 @@ export default function LookBoard(aProps) {
 		</div>
 	);
 }
+export default React.memo(LookBoard);

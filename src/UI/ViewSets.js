@@ -56,7 +56,7 @@ import { connect } from "react-redux";
  *  - uSet_Setup: A function that dispatches a new Setup record to the store.
  *    This prop is required.
  */
-class ViewSets extends React.Component {
+class ViewSets extends React.PureComponent {
 	constructor(aProps) {
 		super(aProps);
 
