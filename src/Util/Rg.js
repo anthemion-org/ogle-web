@@ -14,7 +14,7 @@ import * as _ from "lodash";
 
 // Rg
 // --
-// Each Rg record represents an integer range.
+// Each Rg record represents an integer range. This record is mutable.
 
 /** Creates an Rg record that spans the specified integer range, inclusive of
  *  both `aStart` and `aEnd`. Use `-Infinity` or `-Infinity` to define a range
@@ -39,6 +39,10 @@ export function uFromParse(aParse) {
 	const oStart = UtilJSON.uNumFromNumFix(aParse.Start, -Infinity);
 	const oEnd = UtilJSON.uNumFromNumFix(aParse.End, Infinity);
 	return uNew(oStart, oEnd);
+}
+
+export function uClone(aRg) {
+	return uNew(aRg.Start, aRg.End);
 }
 
 /** Returns a short string that summarizes the values in a Rg record. */

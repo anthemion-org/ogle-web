@@ -15,10 +15,14 @@ import * as Rect from "./Util/Rect.js";
 export const WthBoard = 5;
 /** The board height, in dice. */
 export const HgtBoard = 5;
+
 /** The board size, in dice. */
 export const SizeBoard = Pt2.uNew(WthBoard, HgtBoard);
+Object.freeze(SizeBoard);
+
 /** The board rectangle, in dice. */
 export const RectBoard = Rect.uNew(Pt2.uNew(0, 0), SizeBoard);
+Object.freeze(RectBoard);
 
 /** The number of dice in the board. */
 export const CtDie = WthBoard * HgtBoard;

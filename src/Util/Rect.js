@@ -12,16 +12,21 @@ import * as Pt2 from "./Pt2.js";
 
 // Rect
 // ----
-// Each Rect record represents a rectangle with integer coordinates.
+// Each Rect record represents a rectangle with integer coordinates. This record
+// is mutable.
 
 /** Creates an instance with the specified Pt2 position and size records. */
 export function uNew(aLeftTop, aSize) {
 	return {
 		/** The left-top corner of the rectangle. */
-		LeftTop: aLeftTop,
+		LeftTop: Pt2.uClone(aLeftTop),
 		/** The size of the rectangle. */
-		Size: aSize
+		Size: Pt2.uClone(aSize)
 	};
+}
+
+export function uClone(aRect) {
+	return uNew(aRect.LeftTop, aRect.Size);
 }
 
 /** Returns the Pt2 position of the top-right corner of a Rect record. Because

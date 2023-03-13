@@ -8,12 +8,12 @@
 //   import * as Arr2 from "../Util/Arr2.js";
 //
 
+import * as Pt2 from "../Util/Pt2.js";
 import * as Misc from "../Util/Misc.js";
 
 // Arr2
 // ----
-// Each Arr2 record represents a rectangular array. Records are backed by linear
-// arrays, for fast copying.
+// Each Arr2 record represents a rectangular array. This record is mutable.
 
 /** Creates an instance with the specified Pt2 size. If `aOpts` is defined, the
  *  new elements will be copied from linear array `aOpts.Src`, or set to default
@@ -22,8 +22,10 @@ import * as Misc from "../Util/Misc.js";
 export function uNew(aSize, aOpts) {
 	const oArr2 = {
 		/** The dimensions of the rectangle. */
-		Size: aSize,
+		Size: Pt2.uClone(aSize),
 		/** The linear array that backs the record. */
+		//
+		// We use a linear array for fast copying:
 		_Els: undefined
 	};
 

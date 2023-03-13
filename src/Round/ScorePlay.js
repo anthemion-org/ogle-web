@@ -22,6 +22,7 @@ import * as Const from "../Const.js";
 //
 // - `FracPerc`: The player's percent score, as a decimal fraction.
 //
+// This record is mutable.
 
 /** Returns a ScorePlay record with the specified values. */
 export function uNew(aTime, aName, aFracPerc) {

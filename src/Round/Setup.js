@@ -16,7 +16,8 @@ import * as Misc from "../Util/Misc.js";
 
 // Setup
 // -----
-// Each Setup record stores play options for one round of the game.
+// Each Setup record stores play options for one round of the game. This record
+// is immutable.
 //
 // In the desktop app, this type stored settings values that referenced specific
 // UI selections (particularly slider positions) and translated those on demand
@@ -33,7 +34,7 @@ export function uNew(aYield, aPaceStart, aPaceBonus) {
 
 	const oSetup = {
 		/** A Rg record giving the number of words allowed in the board. */
-		Yield: aYield,
+		Yield: Rg.uClone(aYield),
 		/** The number of seconds to be awarded at the start of the round. */
 		PaceStart: aPaceStart,
 		/** The number of seconds to be awarded for each letter over three. */

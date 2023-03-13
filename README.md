@@ -102,6 +102,8 @@ Longer words are abbreviated within identifiers, file and folder names, _et cete
 
 ### Programming conventions
 
+Define 'record' [todo]
+
 Function parameter checks [todo]
 	Primarily exported functions
 	Not fast
@@ -151,7 +153,9 @@ Overloading is most useful when constructing classes; a rectangle might be const
 
 #### Mutability and cloning
 
-JavaScript does not offer the detailed `const` protections found in C++, so returning a reference type from a function can expose internal data that should not be mutated by the caller. This is prevented most directly by using immutable types, but immutability can make some operations slower or harder to implement. In this project, every class is explicitly documented as ‘mutable’ or ‘immutable’. Functions that return mutable types must clone persistent data before returning it. When cloning is required, the mutable class implements a `uClone` method that returns a deep copy of the instance.
+JavaScript lacks the detailed `const` protections found in C++, so sharing object references with and from functions can expose internal data that should not be mutated by the caller. This is prevented most directly by using immutable types, but immutability can make some operations slower or harder to implement.
+
+In this project, every class or record is explicitly documented as ‘mutable’ or ‘immutable’. Functions that accept mutable object parameters must clone those objects before storing them in class instances, records, or globals, in case the caller mutates the arguments afterward. For similar reasons, functions must not return mutable objects from class instances, records, or globals; they must return clones instead. When cloning is required, the mutable type implements a `uClone` function that returns a deep copy of the instance.
 
 
 ## Project structure

@@ -10,7 +10,8 @@
 
 // Cfg
 // ---
-// The Cfg record stores the player's app-level configuration selections.
+// The Cfg record stores the player's app-level configuration selections. This
+// record is immutable.
 
 export function uNew(aNameTheme) {
 	const oCfg = {

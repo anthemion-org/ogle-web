@@ -13,7 +13,7 @@ import * as Misc from "../Util/Misc.js";
 
 // Die
 // ---
-// Each Die record represents one die within a board.
+// Each Die record represents one die within a board. This record is immutable.
 
 /** Creates a Die record with the specified text and orientation. Throws if
  *  `aDir4` is not a member of `Dir4.Vals`. */

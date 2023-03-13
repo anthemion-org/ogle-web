@@ -14,7 +14,7 @@ import * as _ from "lodash";
 
 // Pt2
 // ---
-// Each Pt2 record represents a two-dimensional point.
+// Each Pt2 record represents a two-dimensional point. This record is mutable.
 
 /** Creates a Pt2 record with the specified coordinates. */
 export function uNew(aX, aY) {
@@ -30,6 +30,10 @@ export function uFromParse(aParse) {
 		UtilJSON.uNumFromNumFix(aParse.X),
 		UtilJSON.uNumFromNumFix(aParse.Y)
 	);
+}
+
+export function uClone(aPt) {
+	return uNew(aPt.X, aPt.Y);
 }
 
 /** Returns `true` if either coordinate is `NaN`. */

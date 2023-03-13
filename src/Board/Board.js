@@ -16,7 +16,7 @@ import * as Const from "../Const.js";
 
 // Board
 // -----
-// Each Board record represents a single game board.
+// Each Board record represents a single game board. This record is immutable.
 
 /** Creates a Board record from the specified Die record array. */
 export function uNew(aDice) {

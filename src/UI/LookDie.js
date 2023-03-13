@@ -11,7 +11,6 @@
 import "./Die.css";
 import Feed from "../Feed.js";
 import * as Dir4 from "../Util/Dir4.js";
-import * as Pt2 from "../Util/Pt2.js";
 
 import React from "react";
 import PropTypes from "prop-types";

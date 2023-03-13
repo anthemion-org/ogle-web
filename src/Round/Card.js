@@ -15,7 +15,8 @@ import * as Const from "../Const.js";
 
 // Card
 // ----
-// Each Card record stores one player's results for a single round of play.
+// Each Card record stores one player's results for a single round of play. This
+// record is mutable.
 
 /** Creates a new, empty Card record. */
 export function uNewEmpty() {
@@ -40,7 +41,6 @@ export function uNew(aTimeStart, aEnts, aScore, aCtBonusTime) {
 		 *  time remaining to the player. */
 		CtBonusTime: aCtBonusTime
 	};
-	// Notice that this one isn't frozen; the class was mutable: [todo]
 	return oCard;
 }
 

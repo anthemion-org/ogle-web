@@ -19,7 +19,7 @@ import * as Const from "../Const.js";
 // -------
 // Each EntWord record stores the details of a single board selection, for use
 // when selecting text during play, and for displaying entries in the Score
-// view.
+// view. This record is immutable.
 
 /** Creates an entry from the specified position and text arrays. */
 export function uNew(aPosi, aTexts) {
@@ -34,7 +34,6 @@ export function uNew(aPosi, aTexts) {
 		 * case. */
 		Texts: aTexts
 	};
-	// Keep this?: [todo]
 	Object.freeze(oEnt);
 	return oEnt;
 }
