@@ -8,8 +8,6 @@
 //   import * as UtilJSON from "./Util/UtilJSON.js";
 //
 
-import * as _ from "lodash";
-
 /** Returns a string representation of `aVal` if it is infinite or `NaN`.
  *  Otherwise, returns the original value. */
 //

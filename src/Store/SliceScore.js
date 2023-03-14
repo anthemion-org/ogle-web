@@ -9,7 +9,6 @@
 //
 
 import * as ScoresHigh from "../Round/ScoresHigh.js";
-import * as ScorePlay from "../Round/ScorePlay.js";
 import * as Persist from "../Persist.js";
 
 import { createSlice } from "@reduxjs/toolkit";
@@ -32,14 +31,16 @@ export const Slice = createSlice({
 		Set_NamePlayLast: (aSt, aAct) => {
 			aSt.NamePlayLast = aAct.payload;
 		},
-		/** Adds a ScorePlay record to the high score data. */
+		/** Adds a ScorePlay record to the ScoresHigh record. */
 		Add_ScoreHigh: (aSt, aAct) => {
 			const oTagSetup = aAct.payload.TagSetup;
-			const oScore = aAct.payload.ScorePlay;
-
-			const oScoresOrig = aSt.ScoresHigh._ByTag[oTagSetup] ?? [];
-			const oScoresNew = ScorePlay.uCloneAdd_Scores(oScoresOrig, oScore);
-			aSt.ScoresHigh._ByTag[oTagSetup] = oScoresNew;
+			const oScorePlay = aAct.payload.ScorePlay;
+			// This function always produces a new object, even if `oScorePlay`
+			// doesn't qualify as a high score, but this action isn't sent unless
+			// `ScoresHigh.uCkScoreHigh` returned `true`, so we won't worry. It
+			// wouldn't break anything, anyway:
+			aSt.ScoresHigh = ScoresHigh.uCloneAdd_Score(aSt.ScoresHigh, oTagSetup,
+				oScorePlay);
 		}
 	}
 });

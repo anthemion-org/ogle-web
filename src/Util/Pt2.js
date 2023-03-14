@@ -10,7 +10,7 @@
 
 import * as UtilJSON from "./UtilJSON.js";
 
-import * as _ from "lodash";
+import _ from "lodash";
 
 // Pt2
 // ---

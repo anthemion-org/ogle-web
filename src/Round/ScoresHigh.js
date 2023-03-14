@@ -8,23 +8,27 @@
 //   import * as ScoresHigh from "./Round/ScoresHigh.js";
 //
 
+import * as ScorePlay from "./ScorePlay.js";
 import * as Setup from "./Setup.js";
 import * as Misc from "../Util/Misc.js";
 import * as Const from "../Const.js";
 
-import * as _ from "lodash";
+import _ from "lodash";
 
 // ScoresHigh
 // ----------
-// The ScoresHigh record stores all player high score data.
+// The ScoresHigh record stores all player high score data. This record is
+// immutable.
 
 export function uNewEmpty() {
-	return {
+	const oScores = {
 		/** An object that associates Setup record tag values with arrays of
 		  * ScorePlay records. These arrays are sorted and trimmed to length
 		  * `Const.CtStoreScoreHigh`. */
 		_ByTag: {}
 	};
+	Object.freeze(oScores);
+	return oScores;
 
 	// An example record:
 	//
@@ -81,9 +85,23 @@ export function uCkScoreHigh(aSetup, aCardUser, aCardOgle, aScoresHigh) {
  *  scores associated with the specified Setup record tag, or an empty array, if
  *  no such scores have been recorded. */
 export function uScoresPlayTagSetup(aScoresHigh, aTagSetup) {
-	Misc.uCkThrow_Params({ aScoresHigh }, Object, "ScoresHigh uScoresPlayTagSetup");
+	Misc.uCkThrow_Params({ aScoresHigh }, Object,
+		"ScoresHigh uScoresPlayTagSetup");
 	Misc.uCkThrow_Params({ aTagSetup }, String, "ScoresHigh uScoresPlayTagSetup");
 
 	const oScores = aScoresHigh._ByTag[aTagSetup];
 	return oScores ? Array.from(oScores) : [];
+}
+
+export function uCloneAdd_Score(aScoresHigh, aTagSetup, aScorePlay) {
+	Misc.uCkThrow_Params({ aScoresHigh, aScorePlay }, Object,
+		"ScoresHigh uCloneAdd_Score");
+	Misc.uCkThrow_Params({ aTagSetup }, String, "ScoresHigh uCloneAdd_Score");
+
+	const oScoresPlayOrig = aScoresHigh._ByTag[aTagSetup] ?? [];
+	const oScoresPlayNew = ScorePlay.uCloneAdd_Score(oScoresPlayOrig, aScorePlay);
+
+	const oScoresHighNew = _.cloneDeep(aScoresHigh);
+	oScoresHighNew._ByTag[aTagSetup] = oScoresPlayNew;
+	return oScoresHighNew;
 }

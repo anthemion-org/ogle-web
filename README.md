@@ -102,8 +102,6 @@ Longer words are abbreviated within identifiers, file and folder names, _et cete
 
 ### Programming conventions
 
-Define 'record' [todo]
-
 Function parameter checks [todo]
 	Primarily exported functions
 	Not fast
@@ -112,7 +110,7 @@ Function parameter checks [todo]
 
 #### State management
 
-[todo]
+Update [todo]
 
 Value stored in component state
 	Starting value read from local storage
@@ -124,6 +122,8 @@ State value updated by component
 
 
 #### Plain data and persistence
+
+Update [todo]
 
 Ogle persists user data as JSON in the browser’s local storage. The `Persist` module uses `JSON.parse` to deserialize the stored JSON. This produces two problems:
 
@@ -156,6 +156,15 @@ Overloading is most useful when constructing classes; a rectangle might be const
 JavaScript lacks the detailed `const` protections found in C++, so sharing object references with and from functions can expose internal data that should not be mutated by the caller. This is prevented most directly by using immutable types, but immutability can make some operations slower or harder to implement.
 
 In this project, every class or record is explicitly documented as ‘mutable’ or ‘immutable’. Functions that accept mutable object parameters must clone those objects before storing them in class instances, records, or globals, in case the caller mutates the arguments afterward. For similar reasons, functions must not return mutable objects from class instances, records, or globals; they must return clones instead. When cloning is required, the mutable type implements a `uClone` function that returns a deep copy of the instance.
+
+Immutable class instances and records are also frozen in their constructors or factory functions.
+
+[todo]
+freeze
+Redux
+	"TypeError: Cannot add property X, object is not extensible"
+
+Notice this 'defensive' type of cloning is not preferred by Redux
 
 
 ## Project structure
@@ -197,6 +206,9 @@ I translated some Inkscape SVG into JSX with [svg2jsx](https://svg2jsx.com/), th
 ## Design notes
 
 ### Classes versus closures
+
+Update [todo]
+	Define 'record'
 
 A class like `tPoolDie` could easily be replaced with a factory function that returns a die-generating function. Many JavaScript developers would consider that more idiomatic, but is it better? The class implementation:
 

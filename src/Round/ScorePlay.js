@@ -52,9 +52,9 @@ function _uCompare(aL, aR) {
 
 /** Returns a new ScorePlay array that is sorted with `_uCompare` and trimmed to
  *  length `Const.CtStoreScoreHigh`, after adding `aScorePlayNew`. */
-export function uCloneAdd_Scores(aScoresPlayOrig, aScorePlayNew) {
-	Misc.uCkThrow_Params({ aScoresPlayOrig }, Array, "ScorePlay uCloneAdd_Scores");
-	Misc.uCkThrow_Params({ aScorePlayNew }, Object, "ScorePlay uCloneAdd_Scores");
+export function uCloneAdd_Score(aScoresPlayOrig, aScorePlayNew) {
+	Misc.uCkThrow_Params({ aScoresPlayOrig }, Array, "ScorePlay uCloneAdd_Score");
+	Misc.uCkThrow_Params({ aScorePlayNew }, Object, "ScorePlay uCloneAdd_Score");
 
 	const oScores = [ ...aScoresPlayOrig, aScorePlayNew ];
 	oScores.sort(_uCompare);
