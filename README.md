@@ -153,18 +153,43 @@ Overloading is most useful when constructing classes; a rectangle might be const
 
 #### Mutability and cloning
 
-JavaScript lacks the detailed `const` protections found in C++, so sharing object references with and from functions can expose internal data that should not be mutated by the caller. This is prevented most directly by using immutable types, but immutability can make some operations slower or harder to implement.
+JavaScript lacks the detailed `const` protections found in C++, so sharing object references with and from functions can expose internal data that should not be mutated by the caller. This is prevented most directly by using immutable types, but immutability can make some operations slower, or harder to implement.
 
-In this project, every class or record is explicitly documented as ‘mutable’ or ‘immutable’. Functions that accept mutable object parameters must clone those objects before storing them in class instances, records, or globals, in case the caller mutates the arguments afterward. For similar reasons, functions must not return mutable objects from class instances, records, or globals; they must return clones instead. When cloning is required, the mutable type implements a `uClone` function that returns a deep copy of the instance.
+In this project, every class or record is explicitly documented as ‘immutable’ or ‘mutable’. Immutable class instances and records are frozen in their constructors or factory functions. Redux automatically freezes the objects returned by `useSelector`, so these are protected even though they are deserialized and instantiated elsewhere.
 
-Immutable class instances and records are also frozen in their constructors or factory functions.
+Functions that accept mutable object parameters must clone those objects before storing them in class instances, records, or globals, in case the caller mutates the arguments afterward. For similar reasons, functions must not return mutable objects from class instances, records, or globals; they must return clones instead. This is called ‘defensive copying’. When cloning is required, mutable types implement a `uClone` function that returns a deep copy of the instance.
 
-[todo]
-freeze
-Redux
-	"TypeError: Cannot add property X, object is not extensible"
+Note that Redux also makes an issue of mutability, but a different problem is posed there, and different solutions are provided.
 
-Notice this 'defensive' type of cloning is not preferred by Redux
+React uses reference equality to detect changes in complex object hierarchies without visiting and comparing every node. This is why immutability matters to React and Redux: mutating an instance would leave its reference unchanged, React would not detect the change, and the page would not be updated to reflect the new state.
+
+It is not desirable to update page content that hasn’t changed, so Redux Toolkit and Immer use ‘structural sharing’ when updating store data. When a value changes, its ancestor instances are replaced, but its sibling instances (along with any siblings of those ancestors) are _reused_ to show that they have not changed. This also avoids the expense of reallocating many objects with each change.
+
+So, if the store begins with these instances:
+
+```
+          A
+     +----+--+
+     |    |  |
+     B    C  D
+  +--+--+
+  |  |  |
+  E  F  G
+```
+
+A change to value `E` will produce:
+
+```
+          A'
+     +----+--+
+     |    |  |
+     B'   C  D
+  +--+--+
+  |  |  |
+  E' F  G
+```
+
+Defensive copying is about _ownership_ and _encapsulation_, rather than change detection. If a function were to accept an object as an parameter and then use structural sharing to embed that object directly into a larger shared hierarchy, it would honor React’s immutability requirements, at least temporarily. The caller would still be able to modify the object afterward, however, violating encapsulation and likely breaking the app. This would also break React, if the object hierarchy were passed as a prop.
 
 
 ## Project structure

@@ -22,18 +22,20 @@ import * as Const from "../Const.js";
 //
 // - `FracPerc`: The player's percent score, as a decimal fraction.
 //
-// This record is mutable.
+// This record is immutable.
 
 /** Returns a ScorePlay record with the specified values. */
 export function uNew(aTime, aName, aFracPerc) {
 	Misc.uCkThrow_Params({ aTime, aFracPerc }, Number, "ScorePlay uNew");
 	Misc.uCkThrow_Params({ aName }, String, "ScorePlay uNew");
 
-	return {
+	const oScore = {
 		TimeStart: aTime,
 		Name: aName,
 		FracPerc: aFracPerc
 	};
+	Object.freeze(oScore);
+	return oScore;
 }
 
 /** Compares ScorePlay records by FracPerc, in descending order, and then by

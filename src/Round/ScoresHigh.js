@@ -101,6 +101,7 @@ export function uCloneAdd_Score(aScoresHigh, aTagSetup, aScorePlay) {
 	const oScoresPlayOrig = aScoresHigh._ByTag[aTagSetup] ?? [];
 	const oScoresPlayNew = ScorePlay.uCloneAdd_Score(oScoresPlayOrig, aScorePlay);
 
+	// Are the copied ScorePlay records also frozen?: [refactor]
 	const oScoresHighNew = _.cloneDeep(aScoresHigh);
 	oScoresHighNew._ByTag[aTagSetup] = oScoresPlayNew;
 	return oScoresHighNew;
