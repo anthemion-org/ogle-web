@@ -22,7 +22,7 @@ import * as Misc from "../Util/Misc.js";
 export function uNew(aSize, aOpts) {
 	const oArr2 = {
 		/** The dimensions of the rectangle. */
-		Size: Pt2.uClone(aSize),
+		Size: aSize,
 		/** The linear array that backs the record. */
 		//
 		// We use a linear array for fast copying:

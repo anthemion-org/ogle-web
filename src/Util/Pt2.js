@@ -14,13 +14,13 @@ import _ from "lodash";
 
 // Pt2
 // ---
-// Each Pt2 record represents a two-dimensional point. This record is mutable.
-//
-// Maybe this one should be immutable? [refactor]
+// Each Pt2 record represents a two-dimensional point. This record is immutable.
 
 /** Creates a Pt2 record with the specified coordinates. */
 export function uNew(aX, aY) {
-	return { X: aX, Y: aY };
+	const oPt = { X: aX, Y: aY };
+	Object.freeze(oPt);
+	return oPt;
 }
 
 /** Creates a Pt2 record from an object produced by `JSON.parse`, and returns
@@ -32,10 +32,6 @@ export function uFromParse(aParse) {
 		UtilJSON.uNumFromNumFix(aParse.X),
 		UtilJSON.uNumFromNumFix(aParse.Y)
 	);
-}
-
-export function uClone(aPt) {
-	return uNew(aPt.X, aPt.Y);
 }
 
 /** Returns `true` if either coordinate is `NaN`. */

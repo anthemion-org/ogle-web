@@ -14,16 +14,14 @@ import _ from "lodash";
 
 // Rg
 // --
-// Each Rg record represents an integer range. This record is mutable.
-//
-// Maybe this one should be immutable? [refactor]
+// Each Rg record represents an integer range. This record is immutable.
 
 /** Creates an Rg record that spans the specified integer range, inclusive of
  *  both `aStart` and `aEnd`. Use `-Infinity` or `-Infinity` to define a range
  *  with no lower or upper bound. If `aStart` is greater than `aEnd`, the
  *  range will have zero length. */
 export function uNew(aStart, aEnd) {
-	return {
+	const oRg = {
 		/** The lowest value in the range, or `-Infinity` if there is no lower
 		 *  limit. */
 		Start: aStart,
@@ -31,6 +29,8 @@ export function uNew(aStart, aEnd) {
 		 *  limit. */
 		End: aEnd
 	};
+	Object.freeze(oRg);
+	return oRg;
 }
 
 /** Creates a Rg record from an object produced by `JSON.parse`, or returns
@@ -41,10 +41,6 @@ export function uFromParse(aParse) {
 	const oStart = UtilJSON.uNumFromNumFix(aParse.Start, -Infinity);
 	const oEnd = UtilJSON.uNumFromNumFix(aParse.End, Infinity);
 	return uNew(oStart, oEnd);
-}
-
-export function uClone(aRg) {
-	return uNew(aRg.Start, aRg.End);
 }
 
 /** Returns a short string that summarizes the values in a Rg record. */

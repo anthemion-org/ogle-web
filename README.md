@@ -191,6 +191,8 @@ A change to value `E` will produce:
 
 Defensive copying is about _correctness_, rather than change detection. If a function that accepts an object parameter were to use structural sharing to embed that object directly into a larger shared hierarchy, it would honor React’s immutability requirements, at least temporarily. The caller would still be able to modify the object later, however, violating encapsulation, probably breaking the app, and also breaking React’s change detection, if the object hierarchy were used as a prop.
 
+not the end of the story
+
 This would also break React’s change detection, if the object hierarchy were used as a prop.
 
 dc objects are mutable
@@ -202,6 +204,9 @@ which C++ does more elegantly with `const`
 Defensive copying is about _ownership_ and _encapsulation_. It determines _who_ can
 
 would not matter if all objects were immutable
+
+duck typing
+	records not necessarily frozen
 
 
 

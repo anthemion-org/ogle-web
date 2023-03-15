@@ -13,22 +13,18 @@ import * as Pt2 from "./Pt2.js";
 // Rect
 // ----
 // Each Rect record represents a rectangle with integer coordinates. This record
-// is mutable.
-//
-// Maybe this one should be immutable? [refactor]
+// is immutable.
 
 /** Creates an instance with the specified Pt2 position and size records. */
 export function uNew(aLeftTop, aSize) {
-	return {
+	const oRect = {
 		/** The left-top corner of the rectangle. */
-		LeftTop: Pt2.uClone(aLeftTop),
+		LeftTop: aLeftTop,
 		/** The size of the rectangle. */
-		Size: Pt2.uClone(aSize)
+		Size: aSize
 	};
-}
-
-export function uClone(aRect) {
-	return uNew(aRect.LeftTop, aRect.Size);
+	Object.freeze(oRect);
+	return oRect;
 }
 
 /** Returns the Pt2 position of the top-right corner of a Rect record. Because

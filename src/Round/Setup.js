@@ -34,7 +34,7 @@ export function uNew(aYield, aPaceStart, aPaceBonus) {
 
 	const oSetup = {
 		/** A Rg record giving the number of words allowed in the board. */
-		Yield: Rg.uClone(aYield),
+		Yield: aYield,
 		/** The number of seconds to be awarded at the start of the round. */
 		PaceStart: aPaceStart,
 		/** The number of seconds to be awarded for each letter over three. */
