@@ -15,6 +15,8 @@ import _ from "lodash";
 // Pt2
 // ---
 // Each Pt2 record represents a two-dimensional point. This record is mutable.
+//
+// Maybe this one should be immutable? [refactor]
 
 /** Creates a Pt2 record with the specified coordinates. */
 export function uNew(aX, aY) {

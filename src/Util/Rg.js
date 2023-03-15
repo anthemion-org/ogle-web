@@ -15,6 +15,8 @@ import _ from "lodash";
 // Rg
 // --
 // Each Rg record represents an integer range. This record is mutable.
+//
+// Maybe this one should be immutable? [refactor]
 
 /** Creates an Rg record that spans the specified integer range, inclusive of
  *  both `aStart` and `aEnd`. Use `-Infinity` or `-Infinity` to define a range

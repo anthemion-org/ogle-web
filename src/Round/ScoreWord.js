@@ -44,38 +44,26 @@ export class tScoreWord {
 	}
 }
 
-/** Stores properties representing the word score statuses. */
-export const StatsWord = {
-	/** The word was missed. */
-	Miss: "Miss",
-	/** The word was followed by another word. */
-	Follow: "Follow",
-	/** The word was scored. */
-	Score: "Score"
-};
-Object.freeze(StatsWord);
+/** Compares `tScoreWord` instances alphabetically by `Text`, and then by
+ *  ascending length. Score statuses are ignored, as are the specific board
+ *  positions used to define each entry. */
+function uCompareByText(aScoreWordL, aScoreWordR) {
+	Misc.uCkThrow_Params({ aScoreWordL, aScoreWordR }, tScoreWord,
+		"ScoreWord uCompareByText");
 
-/** Returns `true` if the specified value is a `StatsWord` member. */
-export function uCk_StatWord(aStatWord) {
-	return StatsWord.hasOwnProperty(aStatWord);
+	return Search.uCompareStrFast(aScoreWordL.Text, aScoreWordR.Text);
 }
 
-/** Throws if the specified value is not a `StatsWord` member. */
-export function uCkThrow_StatWord(aStatWord, aNameCaller) {
-	if (!uCk_StatWord(aStatWord))
-		throw Error(`${aNameCaller}: Invalid StatWord '${aStatWord}'`);
-}
+/** Compares `tScoreWord` instances by descending length, and then
+ *  alphabetically by `Text`. Score statuses are ignored, as are the specific
+ *  board positions used to define each entry. */
+function uCompareByLen(aScoreWordL, aScoreWordR) {
+	Misc.uCkThrow_Params({ aScoreWordL, aScoreWordR }, tScoreWord,
+		"ScoreWord uCompareByLen");
 
-/** Stores word score coverage data for one word length. This class is mutable. */
-export class tCover {
-	constructor() {
-		/** The total number of words with this length. */
-		this.CtTtl = 0;
-		/** The number of words with this length scored by Ogle. */
-		this.CtOgle = 0;
-		/** The number of words with this length scored by the user. */
-		this.CtUser = 0;
-	}
+	if (aScoreWordL.Text.length > aScoreWordR.Text.length) return -1;
+	if (aScoreWordL.Text.length < aScoreWordR.Text.length) return 1;
+	return Search.uCompareStrFast(aScoreWordL.Text, aScoreWordR.Text);
 }
 
 /** Uses the specified Card records to compile scoring data. Returns an array
@@ -84,8 +72,8 @@ export class tCover {
  *  - An array of `tScoreWord` instances representing all the words found in the
  *    cards;
  *
- *  - An object that associates word lengths with tCover instances, these giving
- *    the number of words of each length that were scored by each player.
+ *  - An object that associates word lengths with `tCover` instances, these
+ *    giving the number of words of each length that were scored by each player.
  */
 export function uScoresCoversFromCards(aCardOgle, aCardUser) {
 	Misc.uCkThrow_Params(
@@ -162,22 +150,42 @@ export function uScoresCoversFromCards(aCardOgle, aCardUser) {
 	return [ oScores, oCoversByLen ];
 }
 
-/** Compares `tScoreWord` instances alphabetically by `Text`, and then by
- *  ascending length. Score statuses are ignored, as are the specific board
- *  positions used to define each entry. */
-function uCompareByText(aL, aR) {
-	Misc.uCkThrow_Params({ aL, aR }, tScoreWord, "ScoreWord uCompareByText");
+// StatsWord
+// ---------
 
-	return Search.uCompareStrFast(aL.Text, aR.Text);
+/** Stores properties representing the word score statuses. */
+export const StatsWord = {
+	/** The word was missed. */
+	Miss: "Miss",
+	/** The word was followed by another word. */
+	Follow: "Follow",
+	/** The word was scored. */
+	Score: "Score"
+};
+Object.freeze(StatsWord);
+
+/** Returns `true` if the specified value is a `StatsWord` member. */
+export function uCk_StatWord(aStatWord) {
+	return StatsWord.hasOwnProperty(aStatWord);
 }
 
-/** Compares `tScoreWord` instances by descending length, and then
- *  alphabetically by `Text`. Score statuses are ignored, as are the specific
- *  board positions used to define each entry. */
-function uCompareByLen(aL, aR) {
-	Misc.uCkThrow_Params({ aL, aR }, tScoreWord, "ScoreWord uCompareByLen");
+/** Throws if the specified value is not a `StatsWord` member. */
+export function uCkThrow_StatWord(aStatWord, aNameCaller) {
+	if (!uCk_StatWord(aStatWord))
+		throw Error(`${aNameCaller}: Invalid StatWord '${aStatWord}'`);
+}
 
-	if (aL.Text.length > aR.Text.length) return -1;
-	if (aL.Text.length < aR.Text.length) return 1;
-	return Search.uCompareStrFast(aL.Text, aR.Text);
+// tCover
+// ------
+
+/** Stores word score coverage data for one word length. This class is mutable. */
+export class tCover {
+	constructor() {
+		/** The total number of words with this length. */
+		this.CtTtl = 0;
+		/** The number of words with this length scored by Ogle. */
+		this.CtOgle = 0;
+		/** The number of words with this length scored by the user. */
+		this.CtUser = 0;
+	}
 }

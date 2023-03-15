@@ -12,7 +12,7 @@
 // -------
 // We need a seedable generator to make our tests deterministic.
 
-/** A fast, seedable random number generator that is not suitable for
+/** A fast, seedable random number generator that is _not_ suitable for
  *  cryptographic use. This class is mutable. */
 export class tGenRnd {
 	/** Set `aSeedText` to a non-empty string to seed the generator, or leave it
