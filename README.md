@@ -18,9 +18,62 @@ Ogle has copyright ©2006-2023 Jeremy Kelly. You can view the source code here o
 The Ogle word lists derive from [SCOWL](https://wordlist.sourceforge.net/), copyright ©2000-2004 Kevin Atkinson. Use and distribution of SCOWL are subject to the terms of the [SCOWL License](Misc/scowl_license.txt).
 
 
-## Conventions
+## Project structure
 
-### Identifier naming conventions
+The project was created with _create-react-app_.
+
+The `src` folder includes these subfolders:
+
+- `Board` contains classes representing game boards and individual letter dice, plus board-generating code;
+
+- `Round` contains classes that represent a ‘round’ of play;
+
+- `Search` contains classes that represent the Ogle and user lexicons, plus board search functionality;
+
+- `UI` contains page-level React components;
+
+- `Util` contains general-purpose classes and utilities.
+
+In Ogle, *views* are top-level components that represent pages. Each view corresponds to a `StsApp` value. *Dialogs* are superimposed over views. `LookBoard` and `LookDie` display game boards and individual dice. I called these *looks* because ‘view’ was already taken.
+
+
+## Architecture
+
+#### State management
+
+[todo] Update for Redux
+
+Value stored in component state
+	Starting value read from local storage
+		Default value defined in component, used if not in local storage
+		Various 'Init' functions convert plain data to typed, return default if necessary
+State value updated by component
+	`useEffect` updates local storage when state value changes
+		Default value not saved, needn't persist
+
+
+### PWA setup
+
+For the convenience of mobile users, Ogle is now a progressive web app (PWA). I did not use the `cra-template-pwa` option when I ran `create-react-app`; I used the default template, and later added `service-worker.js` and `serviceWorkerRegistration.js`, as copied from the [cra-template/pwa](https://github.com/cra-template/pwa/tree/main/packages/cra-template-pwa/template/src) repository. Then I added a `register` call to `index.js`. Instructions can be found [here](https://dev.to/myfatemi04/turn-your-create-react-app-into-a-progressive-web-app-in-100-seconds-3c11).
+
+The PWA functionality works fairly well, but the ‘install’ process seems awkward, and there is a bug in the Android version of Chrome that sometimes causes the Play view to grow larger than the viewport, so that unwanted scrolling occurs. It cannot reasonably be said that the PWA experience is equivalent to that of a native app.
+
+
+### React hooks
+
+Aside from `ViewSets`, all components are implemented with hooks. That works well for simple components, but after using them a bit, I think class components would have been better. `useEffect` is particularly awkward and difficult to manage. The React team’s zealotry on this topic suggests that they care more about their ideology than about real-world development problems. JavaScript developers don’t care, because they earn _more_ with each layer of bullshit, not less. It’s only the employers and the users who suffer when a development fad appears.
+
+`useCallback` makes components harder to read, so I am skipping that until I encounter actual performance problems.
+
+Now used occasionally [todo]
+	`useCallback` proliferation
+		So many functions already nested
+	Class component methods need not be wrapped with `useCallback`
+
+
+## Programming conventions
+
+### Identifier naming
 
 The Ogle source code uses a new identifier naming convention I am developing. This convention was inspired by the [Split notation](https://www.anthemion.org/split_notation.html) I use with C# and C++, but JavaScript differs so much from those languages, it seems impossible to make the notations compatible.
 
@@ -100,30 +153,17 @@ const oBoard = Board.uFromParse(oParseBoard);
 Longer words are abbreviated within identifiers, file and folder names, _et cetera_. A word that is abbreviated once is abbreviated the _same way_ throughout the project.
 
 
-### Programming conventions
+### Function parameter checks
 
-Function parameter checks [todo]
+[todo]
 	Primarily exported functions
 	Not fast
 		Not in Search, Util modules
 
 
-#### State management
+### Plain data and persistence
 
-Update [todo]
-
-Value stored in component state
-	Starting value read from local storage
-		Default value defined in component, used if not in local storage
-		Various 'Init' functions convert plain data to typed, return default if necessary
-State value updated by component
-	`useEffect` updates local storage when state value changes
-		Default value not saved, needn't persist
-
-
-#### Plain data and persistence
-
-Update [todo]
+[todo] Update
 
 Ogle persists user data as JSON in the browser’s local storage. The `Persist` module uses `JSON.parse` to deserialize the stored JSON. This produces two problems:
 
@@ -142,7 +182,23 @@ For these reasons, every storable class provides a `suFromPlain` method that con
 - Restores the types of all property values, invoking other `suFromPlain` functions if values should be typed as classes themselves.
 
 
-#### Constructors and function overloading
+### Classes versus closures
+
+Update [todo]
+	Define 'record'
+
+A class like `tPoolDie` could easily be replaced with a factory function that returns a die-generating function. Many JavaScript developers would consider that more idiomatic, but is it better? The class implementation:
+
+- Cleanly separates initialization code from output-generating code;
+
+- Allows object state to be investigated in the debugger without expanding _Variables_ window entries, or visiting the factory function;
+
+- Allows additional methods to be added without restructuring the factory.
+
+The class does expose private data that could have been hidden in a closure, but private variables are marked with underscores in this project, and it’s not hard to remember that they are off-limits. The fact is: class implementations are always easier to understand, and often easier to maintain.
+
+
+### Constructors and function overloading
 
 All class variables are initialized and commented in the constructor. If meaningful values are not available, variables are set to `null`.
 
@@ -151,7 +207,7 @@ JavaScript does not allow function overloading in the traditional sense. Some de
 Overloading is most useful when constructing classes; a rectangle might be constructed from two points, or a point and two lengths, or a JSON string, _et cetera_. In this project, constructors are never overloaded; instead, each constructor accepts all the parameters it is possible to set from outside the class. Static factory functions with descriptive names are then used to invoke that constructor with varying inputs. See `Card.js` for an example; it provides three factory functions, including `uNewEmpty`, which creates a new card from no inputs. Factory functions often have roots that begin with `From`. The text following `From` identifies the input expected by that factory.
 
 
-#### Mutability and cloning
+### Mutability and cloning
 
 JavaScript lacks the detailed `const` protections found in C++, so sharing object references with and from functions can expose internal data that should not be mutated by the caller. This is prevented most directly by using immutable types, but immutability can make some operations slower, or harder to implement.
 
@@ -192,73 +248,7 @@ A change to value `E` will produce:
 Defensive copying is about _ownership_ and _encapsulation_, rather than change detection. It allows mutable types to be used while (to a limited extent) also controlling who gets to mutate those instances.
 
 
-## Project structure
-
-The project was created with _create-react-app_.
-
-The `src` folder includes these subfolders:
-
-- `Board` contains classes representing game boards and individual letter dice, plus board-generating code;
-
-- `Round` contains classes that represent a ‘round’ of play;
-
-- `Search` contains classes that represent the Ogle and user lexicons, plus board search functionality;
-
-- `UI` contains page-level React components;
-
-- `Util` contains general-purpose classes and utilities.
-
-In Ogle, *views* are top-level components that represent pages. Each view corresponds to a `StsApp` value. *Dialogs* are superimposed over views. `LookBoard` and `LookDie` display game boards and individual dice. I called these *looks* because ‘view’ was already taken.
-
-
-### PWA setup
-
-I did not use the `cra-template-pwa` option when I ran `create-react-app`; I used the default template, and later added `service-worker.js` and `serviceWorkerRegistration.js`, as copied from the [cra-template/pwa](https://github.com/cra-template/pwa/tree/main/packages/cra-template-pwa/template/src) repository. Then I added a `register` call to `index.js`. Instructions can be found [here](https://dev.to/myfatemi04/turn-your-create-react-app-into-a-progressive-web-app-in-100-seconds-3c11).
-
-
-## SVG in React
-
-I used Inkscape to create various SVG images, but Inkscape SVGs cannot be used in React without modification, even when they are deployed statically and embedded with the `img` tag. When that is attempted, Webpack complains that ‘Namespace tags are not supported by default’. Inkscape also produces very verbose SVG. Saving as ‘Optimized SVG’ helps only somewhat.
-
-I translated some Inkscape SVG into JSX with [svg2jsx](https://svg2jsx.com/), then I simplified and extended the JSX by hand. For simple images, it is easier to write the SVG from scratch.
-
-
-## Ogle search algorithm
-
-[todo]
-
-
-## Design notes
-
-### Classes versus closures
-
-Update [todo]
-	Define 'record'
-
-A class like `tPoolDie` could easily be replaced with a factory function that returns a die-generating function. Many JavaScript developers would consider that more idiomatic, but is it better? The class implementation:
-
-- Cleanly separates initialization code from output-generating code;
-
-- Allows object state to be investigated in the debugger without expanding _Variables_ window entries, or visiting the factory function;
-
-- Allows additional methods to be added without restructuring the factory.
-
-The class does expose private data that could have been hidden in a closure, but private variables are marked with underscores in this project, and it’s not hard to remember that they are off-limits. The fact is: class implementations are always easier to understand, and often easier to maintain.
-
-
-### React hooks
-
-Aside from `ViewSets`, all components are implemented with hooks. That works well for simple components, but after using them a bit, I think class components would have been better. `useEffect` is particularly awkward and difficult to manage. The React team’s zealotry on this topic suggests that they care more about their ideology than about real-world development problems. JavaScript developers don’t care, because they earn _more_ with each layer of bullshit, not less. It’s only the employers and the users who suffer when a development fad appears.
-
-`useCallback` makes components harder to read, so I am skipping that until I encounter actual performance problems.
-
-Now used occasionally [todo]
-	`useCallback` proliferation
-		So many functions already nested
-	Class component methods need not be wrapped with `useCallback`
-
-
-### Testing
+## Testing
 
 Selected functionality in this project is tested with [Jest](https://jestjs.io/).
 
@@ -267,6 +257,20 @@ Some developers believe that every function must be policed by a squad of mostly
 I would like to automate testing at the UI level, but it is usually too difficult to do that in a meaningful way. Ultimately, hands-on QA work is the only way to ensure that your app works.
 
 For testing purposes, it is sometimes necessary to export classes or functions that would otherwise be private to the implementing module. Instead of exporting these directly, I have packaged and exported them within `ForTest` objects. These should _not_ be used outside of testing.
+
+
+## Miscellanea
+
+### Word search algorithm
+
+[todo]
+
+
+### SVG in React
+
+I used Inkscape to create various SVG images, but Inkscape SVGs cannot be used in React without modification, even when they are deployed statically and embedded with the `img` tag. When that is attempted, Webpack complains that ‘Namespace tags are not supported by default’. Inkscape also produces very verbose SVG. Saving as ‘Optimized SVG’ helps only somewhat.
+
+I translated some Inkscape SVG into JSX with [svg2jsx](https://svg2jsx.com/), then I simplified and extended the JSX by hand. For simple images, it is easier to write the SVG from scratch.
 
 
 ## Credits

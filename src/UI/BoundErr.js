@@ -14,8 +14,8 @@ import React from "react";
 
 // BoundErr
 // --------
-// This component acts as a React error boundary.
 
+/** A React error boundary for the entire app. */
 export default class BoundErr extends React.Component {
 	constructor(aProps) {
 		super(aProps);
