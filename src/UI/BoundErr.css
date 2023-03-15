@@ -1,0 +1,29 @@
+/* BoundErr.css
+ * ============
+ * Copyright ©2023 Jeremy Kelly
+ * www.anthemion.org */
+
+#BoundErr {
+	width: 100%;
+	height: 100%;
+	padding: 1.25rem;
+
+	background-color: var(--ColorPattBackBase);
+	color: var(--ColorText);
+}
+
+#BoundErr h3 {
+	margin: 0 0 0.5em 0;
+}
+
+#BoundErr p {
+	margin: 0.5em 0;
+}
+
+#BoundErr hr {
+	margin: 1em 0;
+}
+
+#BoundErr #Msg {
+	font-weight: bold;
+}

@@ -159,7 +159,7 @@ In this project, every class or record is explicitly documented as ‘immutable�
 
 Functions that accept mutable object parameters must clone those objects before storing them in class instances, records, or globals, in case the caller mutates the arguments afterward. For similar reasons, functions must not return mutable objects from class instances, records, or globals; they must return clones instead. This is called ‘defensive copying’. When cloning is required, mutable types implement a `uClone` function that returns a deep copy of the instance.
 
-Note that React and Redux also make an issue of mutability, but different problems are posed there, and different solutions provided.
+As an aside, React and Redux also make an issue of mutability, but different problems are posed there, and different solutions provided.
 
 React uses reference equality to detect changes in object hierarchies without visiting and comparing every node. This is why immutability matters to React: mutating an instance would leave its reference unchanged, React would not detect the change, and the page would not be updated to reflect the new state.
 
@@ -189,25 +189,7 @@ A change to value `E` will produce:
   E' F  G
 ```
 
-Defensive copying is about _correctness_, rather than change detection. If a function that accepts an object parameter were to use structural sharing to embed that object directly into a larger shared hierarchy, it would honor React’s immutability requirements, at least temporarily. The caller would still be able to modify the object later, however, violating encapsulation, probably breaking the app, and also breaking React’s change detection, if the object hierarchy were used as a prop.
-
-not the end of the story
-
-This would also break React’s change detection, if the object hierarchy were used as a prop.
-
-dc objects are mutable
-
-Defensive allows us to decide who mutates the instance
-
-which C++ does more elegantly with `const`
-
-Defensive copying is about _ownership_ and _encapsulation_. It determines _who_ can
-
-would not matter if all objects were immutable
-
-duck typing
-	records not necessarily frozen
-
+Defensive copying is about _ownership_ and _encapsulation_, rather than change detection. It allows mutable types to be used while (to a limited extent) also controlling who gets to mutate those instances.
 
 
 ## Project structure

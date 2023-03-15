@@ -8,6 +8,7 @@
 //   import App from "./App.js";
 //
 
+import BoundErr from "./UI/BoundErr.js";
 import BackPage from "./UI/BackPage.js";
 import View from "./UI/View.js";
 import * as Theme from "./Theme.js";
@@ -24,8 +25,10 @@ export default function App() {
 
 	return (
 		<div id="ContainTheme" className={oNameClassTheme}>
-			<BackPage />
-			<View />
+			<BoundErr>
+				<BackPage />
+				<View />
+			</BoundErr>
 		</div>
 	);
 }
