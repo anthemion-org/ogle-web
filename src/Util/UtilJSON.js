@@ -8,8 +8,8 @@
 //   import * as UtilJSON from "./Util/UtilJSON.js";
 //
 
-/** Returns a string representation of `aVal` if it is infinite or `NaN`.
- *  Otherwise, returns the original value. */
+/** Returns a string representation of `aVal` if it is infinite or `NaN`, or the
+ *  original value, if it is not. */
 //
 // This is a `JSON.stringify` replacer function:
 //

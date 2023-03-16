@@ -23,7 +23,7 @@ export const Slice = createSlice({
 
 	initialState: {
 		/** The Cfg record for the app. */
-		Cfg: Persist.uRead("Cfg") ?? Cfg.uDef(),
+		Cfg: Cfg.uFromParse(Persist.uRead("Cfg")) ?? Cfg.uDef(),
 		/** The Setup record for the next, current, or just completed round. */
 		Setup: Setup.uFromParse(Persist.uRead("Setup")) ?? Setup.uDef(),
 		/** A `StsApp` value that determines which view is visible. */

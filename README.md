@@ -39,24 +39,24 @@ In Ogle, *views* are top-level components that represent pages. Each view corres
 
 ## Architecture
 
-#### State management
+#### State management and persistence
 
-[todo] Update for Redux
+Ogle uses Redux Toolkit to manage much of its state. Most of that data is persistent, so I used the store’s `subscribe` method to write state data to the browser’s local storage. This produces two criteria for adding data to the store, both of which must be met:
 
-Value stored in component state
-	Starting value read from local storage
-		Default value defined in component, used if not in local storage
-		Various 'Init' functions convert plain data to typed, return default if necessary
-State value updated by component
-	`useEffect` updates local storage when state value changes
-		Default value not saved, needn't persist
+1. The data must be used when rendering pages;
+
+2. The data must be read or written by multiple components, _or_ it must require persistence.
+
+Persistent data that are _not_ used for rendering should be persisted directly with the `Persist` module. Render data that is _not_ shared or persisted should be managed with `useState` or `setState`.
+
+The `Persist` module serializes data as JSON, which stupidly fails to accommodate `NaN` or `Infinity` values, so `Persist` uses the `UtilJSON.uNumFix` function to convert these to strings automatically. Every persistable type provides a `uFromParse` function that converts these JSON-damaged objects back to their correct forms.
 
 
-### PWA setup
+### PWA functionality
 
 For the convenience of mobile users, Ogle is now a progressive web app (PWA). I did not use the `cra-template-pwa` option when I ran `create-react-app`; I used the default template, and later added `service-worker.js` and `serviceWorkerRegistration.js`, as copied from the [cra-template/pwa](https://github.com/cra-template/pwa/tree/main/packages/cra-template-pwa/template/src) repository. Then I added a `register` call to `index.js`. Instructions can be found [here](https://dev.to/myfatemi04/turn-your-create-react-app-into-a-progressive-web-app-in-100-seconds-3c11).
 
-The PWA functionality works fairly well, but the ‘install’ process seems awkward, and there is a bug in the Android version of Chrome that sometimes causes the Play view to grow larger than the viewport, so that unwanted scrolling occurs. It cannot reasonably be said that the PWA experience is equivalent to that of a native app.
+The PWA works fairly well on Android, but the ‘install’ process seems awkward, and there is a bug in the Android version of Chrome that sometimes causes the Play view to grow larger than the viewport, so that unwanted scrolling occurs. It cannot reasonably be said that the PWA experience is equivalent to a native app.
 
 
 ### React hooks
@@ -159,27 +159,6 @@ Longer words are abbreviated within identifiers, file and folder names, _et cete
 	Primarily exported functions
 	Not fast
 		Not in Search, Util modules
-
-
-### Plain data and persistence
-
-[todo] Update
-
-Ogle persists user data as JSON in the browser’s local storage. The `Persist` module uses `JSON.parse` to deserialize the stored JSON. This produces two problems:
-
-- `JSON.parse` restores the properties of objects, but not their classes;
-
-- JSON cannot represent `NaN` or `Infinity` values. `JSON.stringify` stores these as `null`.
-
-For these reasons, every storable class provides a `suFromPlain` method that converts a ‘plain’ data object to a class instance. For purposes of this discussion, a ‘plain’ object has the same properties as the class it represents, with values that are primitive types, arrays, or other plain objects. The `suFromPlain` method:
-
-- Accepts plain instances _or_ instances that already have the correct type;
-
-- Returns `null` if the input is falsy;
-
-- Infers `NaN` and `Infinity` property values, as appropriate;
-
-- Restores the types of all property values, invoking other `suFromPlain` functions if values should be typed as classes themselves.
 
 
 ### Classes versus closures

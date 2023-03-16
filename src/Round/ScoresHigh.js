@@ -20,12 +20,12 @@ import _ from "lodash";
 // The ScoresHigh record stores all player high score data. This record is
 // immutable.
 
-export function uNewEmpty() {
+export function uNew(aByTag) {
 	const oScores = {
 		/** An object that associates Setup record tag values with arrays of
 		  * ScorePlay records. These arrays are sorted and trimmed to length
 		  * `Const.CtStoreScoreHigh`. */
-		_ByTag: {}
+		_ByTag: aByTag
 	};
 	Object.freeze(oScores);
 	return oScores;
@@ -54,6 +54,21 @@ export function uNewEmpty() {
 	//     }
 	//   }
 	//
+}
+
+export function uNewEmpty() {
+	return uNew({});
+}
+
+/** Creates a ScoresHigh record from an object produced by `JSON.parse`, or
+ *  returns `null` if `aParse` is falsy. */
+export function uFromParse(aParse) {
+	// This function does nothing at present, but it seems better to use it from
+	// the start, in case JSON-incompatible data is added later.
+
+	if (!aParse) return null;
+
+	return uNew(aParse._ByTag);
 }
 
 /** Returns `true` if the specified game qualifies as a high score, and if

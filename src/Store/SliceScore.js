@@ -24,7 +24,8 @@ export const Slice = createSlice({
 		 *  the empty string if the player choose to remain anonymous. */
 		NamePlayLast: Persist.uRead("NamePlayLast") ?? "",
 		/** A ScoresHigh record that contains all high score data. */
-		ScoresHigh: Persist.uRead("ScoresHigh") ?? ScoresHigh.uNewEmpty()
+		ScoresHigh: ScoresHigh.uFromParse(Persist.uRead("ScoresHigh"))
+			?? ScoresHigh.uNewEmpty()
 	},
 
 	reducers: {

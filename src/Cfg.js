@@ -22,6 +22,17 @@ export function uNew(aNameTheme) {
 	return oCfg;
 }
 
+/** Creates a Cfg record from an object produced by `JSON.parse`, or returns
+ *  `null` if `aParse` is falsy. */
+export function uFromParse(aParse) {
+	// This function does nothing at present, but it seems better to use it from
+	// the start, in case JSON-incompatible data is added later.
+
+	if (!aParse) return null;
+
+	return uNew(aParse.NameTheme);
+}
+
 /** Returns a new instance containing default values. */
 export function uDef() {
 	return uNew("Dk");

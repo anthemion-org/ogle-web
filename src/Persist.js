@@ -35,8 +35,8 @@ export function uWrite(anBase, aVal) {
 	// Write the value:
 	localStorage.setItem(
 		_PrefixNameStore + anBase,
-		// Whatver else happens, writing `null` for infinite or `NaN` values cannot
-		// be correct, as it cannot be deserialized accurately:
+		// Whatever happens during deserialization, writing `null` for infinite or
+		// `NaN` values cannot be correct, as it cannot be deserialized accurately:
 		JSON.stringify(aVal, UtilJSON.uNumFix)
 	);
 }
