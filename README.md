@@ -240,6 +240,11 @@ For testing purposes, it is sometimes necessary to export classes or functions t
 
 ## Miscellanea
 
+### Game design
+
+[todo] Time limit, scoring, followed words
+
+
 ### Word search algorithm
 
 [todo]

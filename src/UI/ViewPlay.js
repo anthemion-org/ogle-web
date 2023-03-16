@@ -76,7 +76,7 @@ export default function ViewPlay() {
 
 	/** Adds a `keydown` listener that handles key presses. Returns a function
 	 *  that removes that listener. */
-	function ouMan_ListenKeydown() {
+	function ouListen_Keydown() {
 		function ouHand(aEvt) {
 			switch (aEvt.code) {
 				// Close the displayed dialog, if there is one, and resume the game:
@@ -96,14 +96,14 @@ export default function ViewPlay() {
 			document.removeEventListener("keydown", ouHand);
 		}
 	}
-	useEffect(ouMan_ListenKeydown, [oCkVerWord]);
+	useEffect(ouListen_Keydown, [oCkVerWord]);
 
 	// Window focus management
 	// -----------------------
 
 	/** Adds a `visibilitychange` listener that pauses play when the browser
 	 *  window loses focus. Returns a function that removes that listener. */
-	function ouMan_ListenFocus() {
+	function ouListen_Focus() {
 		function ouHand(aEvt) {
 			if (document.hidden && (oStPlay === StsPlay.Play) && !oCkVerWord)
 				ouSet_StPlay(StsPlay.Pause);
@@ -120,7 +120,7 @@ export default function ViewPlay() {
 			document.removeEventListener("visibilitychange", ouHand);
 		}
 	}
-	useEffect(ouMan_ListenFocus, [oStPlay, oCkVerWord]);
+	useEffect(ouListen_Focus, [oStPlay, oCkVerWord]);
 
 	// Timer management
 	// ----------------
@@ -130,7 +130,7 @@ export default function ViewPlay() {
 
 	/** Starts a timer that advances the elapsed time, if the play state warrants
 	 *  it. Returns a function that stops that timer, if one was started. */
-	function ouMan_Timer() {
+	function ouRun_Timer() {
 		/** The timer work function, which advances the elapsed time. */
 		function ouExec() {
 			ouDispatch(Add_TimeElap(oPerTimer));
@@ -146,7 +146,7 @@ export default function ViewPlay() {
 			Feed.uStop_Tick();
 		}
 	}
-	useEffect(ouMan_Timer, [ouDispatch, oBoard, oStPlay, oCkVerWord]);
+	useEffect(ouRun_Timer, [ouDispatch, oBoard, oStPlay, oCkVerWord]);
 
 	/** Checks the play state and the elapsed time, and:
 	 *
@@ -157,14 +157,15 @@ export default function ViewPlay() {
 	 *  - Advances the app state;
 	 *
 	 * as appropriate. */
-	function ouMan_FeedAndStApp() {
+	function ouUpd_StFeed() {
 		// The tick timing has caused a lot of frustration, just like it did in the
-		// desktop app. JavaScript timers aren't any more precise than Windows
-		// timers, and that lack is very obvious when they are used to play audio.
+		// desktop app. JavaScript timers are less precise and much less accurate
+		// than Windows timers, and those problems are very obvious when timers are
+		// used to play audio.
 		//
-		// I tried a number of designs that manage the tick timing here, in the
+		// I tried a number of designs that managed the tick timing here in the
 		// effect, but none worked well. This approach delegates timing to the
-		// `Feed` class, which is much easier than managing that state here.
+		// `Feed` class, which produces much simpler code here.
 
 		if (!oBoard || (oStPlay !== StsPlay.Play) || oCkVerWord) {
 			ouSet_CkBlinkPause(false);
@@ -194,7 +195,7 @@ export default function ViewPlay() {
 		// already stopped when play is paused, so there is no need to do that when
 		// quitting play early.
 	}
-	useEffect(ouMan_FeedAndStApp, [ouDispatch, oSetup, oBoard, oStPlay,
+	useEffect(ouUpd_StFeed, [ouDispatch, oSetup, oBoard, oStPlay,
 		oCkVerWord, oCardUser.CtBonusTime, oTimeElap]);
 
 	// Board generation
