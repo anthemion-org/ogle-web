@@ -6,10 +6,10 @@
 import { ForTest } from "./Lex.js";
 import * as Persist from "../Persist.js";
 
-test("tLex: Add user words and merge", () => {
+test("_tLex: Add user words and merge", () => {
 	Persist.uWrite("WordsUser", []);
 
-	const oLex = new ForTest.tLex();
+	const oLex = new ForTest._tLex();
 	const oCtOrig = oLex.WordsSearch.length;
 
 	oLex.uAdd_WordUser("aaaaaaaa");
@@ -19,11 +19,11 @@ test("tLex: Add user words and merge", () => {
 	expect(oLex.WordsSearch.length).toBe(oCtOrig + 2);
 });
 
-test("tLex.uCkKnown: Old and new user words", () => {
+test("_tLex.uCkKnown: Old and new user words", () => {
 	const oWordUserOld = "oooooooo";
 	Persist.uWrite("WordsUser", [ oWordUserOld ]);
 
-	const oLex = new ForTest.tLex();
+	const oLex = new ForTest._tLex();
 
 	expect(oLex.uCkKnown("abacus")).toBe(true);
 	expect(oLex.uCkKnown(oWordUserOld)).toBe(true);

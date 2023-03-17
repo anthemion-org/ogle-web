@@ -41,14 +41,15 @@ export class tLookupText {
 
 	/** Searches _Words for _Text, narrowing the window until a match or a miss is
 	 *  identified. If aCkStopFrag is `true`, the search will also stop when a
-	 *  fragment is identified. Returns the reason the search stopped. */
+	 *  fragment is identified. Returns a `OutsLookup` value that gives the reason
+	 *  the search stopped. */
 	uExec(aCkStopFrag) {
 		if (this._Words.length < 1) return OutsLookup.Miss;
 
 		while (true) {
 			const ojMid = Math.floor((this._jFore + this._jAft) / 2);
 			const oWord = this._Words[ojMid];
-			const oCompare = uCompare(this._Text, oWord);
+			const oCompare = _uCompareStart(this._Text, oWord);
 			// _Text sorts before oWord:
 			if (oCompare < 0) this._jAft = ojMid;
 			// _Text sorts after oWord:
@@ -70,8 +71,8 @@ export class tLookupText {
 
 /** Compares `aTextLookup` with `aWord`, and returns a negative number if it
  *  sorts before, a positive number if it sorts after, and zero if it matches
- *  the beginning or entirety of aWord. */
-function uCompare(aTextLookup, aWord) {
+ *  the beginning or the entirety of aWord. */
+function _uCompareStart(aTextLookup, aWord) {
 	// aTextLookup represents the current board selection. Because the selection
 	// grows as the board is enumerated, we must stop when the search identifies a
 	// set of potential future matches. Going further would narrow and focus the

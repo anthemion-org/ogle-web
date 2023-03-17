@@ -11,6 +11,9 @@
 import * as Pt2 from "./Util/Pt2.js";
 import * as Rect from "./Util/Rect.js";
 
+// Game constants
+// --------------
+
 /** The board width, in dice. */
 export const WthBoard = 5;
 /** The board height, in dice. */
@@ -33,6 +36,9 @@ export const LenWordMin = 4;
 /** The longest possible word, in letters. Recall that the 'Qu' die counts as
  *  two letters, not one. */
 export const LenWordMax = CtDie * 2;
+
+// UI constants
+// ------------
 
 /** The maximum word length to track in the Coverage table within the Score
  *  view. */

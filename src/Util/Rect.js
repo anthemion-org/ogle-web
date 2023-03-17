@@ -9,6 +9,7 @@
 //
 
 import * as Pt2 from "./Pt2.js";
+import * as Misc from "./Misc.js";
 
 // Rect
 // ----
@@ -23,7 +24,7 @@ export function uNew(aLeftTop, aSize) {
 		/** The size of the rectangle. */
 		Size: aSize
 	};
-	Object.freeze(oRect);
+	if (Misc.CkDev) Object.freeze(oRect);
 	return oRect;
 }
 

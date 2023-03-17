@@ -9,20 +9,30 @@ import Lex from "./Lex.js";
 test("tLookupText: Enumeration", () => {
 	// 'ogles' is one of the built-in words:
 	const oLookupOFull = new tLookupText(Lex.WordsSearch, "o");
-	expect(oLookupOFull.uExec(false)).toBe(OutsLookup.Miss);
+
+	let oOut = oLookupOFull.uExec(false);
+	expect(oOut).toBe(OutsLookup.Miss);
 
 	const oLookupO = new tLookupText(Lex.WordsSearch, "o");
-	expect(oLookupO.uExec(true)).toBe(OutsLookup.Frag);
+	oOut = oLookupO.uExec(true);
+	expect(oOut).toBe(OutsLookup.Frag);
 
 	const oLookupOG = tLookupText.suFromPrev(oLookupO, "og");
-	expect(oLookupOG.uExec(true)).toBe(OutsLookup.Frag);
+	oOut = oLookupOG.uExec(true);
+	expect(oOut).toBe(OutsLookup.Frag);
 
 	const oLookupOGL = tLookupText.suFromPrev(oLookupOG, "ogl");
-	expect(oLookupOGL.uExec(true)).toBe(OutsLookup.Frag);
+	oOut = oLookupOGL.uExec(true);
+	expect(oOut).toBe(OutsLookup.Frag);
 
 	const oLookupOGLE = tLookupText.suFromPrev(oLookupOGL, "ogle");
-	expect(oLookupOGLE.uExec(true)).toBe(OutsLookup.Frag);
+	oOut = oLookupOGLE.uExec(true);
+	// The word list includes 'ogle' and various words (such as 'ogles') that
+	// follow it. Any of them could be encountered first, and this will change as
+	// words are added to or removed from the list:
+	expect([ OutsLookup.Frag, OutsLookup.Match ].includes(oOut)).toBe(true);
 
 	const oLookupOGLES = tLookupText.suFromPrev(oLookupOGLE, "ogles");
-	expect(oLookupOGLES.uExec(true)).toBe(OutsLookup.Match);
+	oOut = oLookupOGLES.uExec(true);
+	expect(oOut).toBe(OutsLookup.Match);
 });

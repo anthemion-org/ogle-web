@@ -9,6 +9,7 @@
 //
 
 import * as UtilJSON from "./UtilJSON.js";
+import * as Misc from "./Misc.js";
 
 import _ from "lodash";
 
@@ -29,7 +30,7 @@ export function uNew(aStart, aEnd) {
 		 *  limit. */
 		End: aEnd
 	};
-	Object.freeze(oRg);
+	if (Misc.CkDev) Object.freeze(oRg);
 	return oRg;
 }
 

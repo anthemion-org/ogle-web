@@ -67,6 +67,8 @@ export function uCopy(aArr2) {
  *  `uClone`. */
 export function uClone(aArr2) {
 	const oArr2 = uNew(aArr2.Size, { Src: aArr2._Els });
+	// Maybe we could check for the existance of `uClone`, and assume the elements
+	// are immutable if it is not found?: [refactor]
 	oArr2._Els = oArr2._Els.map(a => a.uClone());
 	return oArr2;
 }

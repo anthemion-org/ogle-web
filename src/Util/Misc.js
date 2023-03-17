@@ -37,11 +37,11 @@ export function uCkThrow_Params(aParams, aTypeExpect, aNameCaller) {
 	// check should work as usual, but error messages will reference the minified
 	// names of any custom classes.
 
-	// Right now I'm thinking of this function as more of a development and
-	// testing tool. The app already runs well in production, so any exceptions it
-	// throws are likely to be a nuisance for real users, rather than a help.
-	// Maybe we will remove this later, however:
-	if (uCkProduction()) return;
+	// Right now I see this as a development and testing tool. The app already
+	// runs well in production, so any exceptions it throws are likely to be a
+	// nuisance for real users, rather than a help. Maybe we will remove this
+	// later, however:
+	if (CkProduction) return;
 
 	const oEnts = Object.entries(aParams);
 	for (const [ on, oVal ] of oEnts) {
@@ -93,10 +93,15 @@ export function uCkThrow_Params(aParams, aTypeExpect, aNameCaller) {
 // Environment
 // -----------
 
-/** Returns `true` if the app is running in production. */
-export function uCkProduction() {
-	return (process.env.NODE_ENV === 'production');
-}
+// These environment checks were surprisingly slow when implemented as functions
+// with full-string comparisons:
+//
+/** Returns `true` if the app is running in the development environment. */
+export const CkDev = (process.env.NODE_ENV === "development");
+/** Returns `true` if the app is running in the test environment. */
+export const CkTest = (process.env.NODE_ENV === "test");
+/** Returns `true` if the app is running in the production environment. */
+export const CkProduction = (process.env.NODE_ENV === "production");
 
 /** Returns `true` if the app is running on a phone or tablet. */
 export function uCkMob() {

@@ -190,7 +190,7 @@ Overloading is most useful when constructing classes; a rectangle might be const
 
 JavaScript lacks the detailed `const` protections found in C++, so sharing object references with and from functions can expose internal data that should not be mutated by the caller. This is prevented most directly by using immutable types, but immutability can make some operations slower, or harder to implement.
 
-In this project, every class or record is explicitly documented as ‘immutable’ or ‘mutable’. Immutable class instances and records are frozen in their constructors or factory functions. Redux automatically freezes the objects returned by `useSelector`, so these are protected even though they are deserialized and instantiated elsewhere.
+In this project, every class or record is explicitly documented as ‘immutable’ or ‘mutable’. Immutable class instances and records are frozen in their constructors or factory functions. `Object.freeze` is amazingly slow, however, so some records (particularly Pt2) do this only in the development build. Redux automatically freezes the objects returned by `useSelector`, so these are protected even though they are deserialized and instantiated elsewhere.
 
 Functions that accept mutable object parameters must clone those objects before storing them in class instances, records, or globals, in case the caller mutates the arguments afterward. For similar reasons, functions must not return mutable objects from class instances, records, or globals; they must return clones instead. This is called ‘defensive copying’. When cloning is required, mutable types implement a `uClone` function that returns a deep copy of the instance.
 
@@ -231,9 +231,9 @@ Defensive copying is about _ownership_ and _encapsulation_, rather than change d
 
 Selected functionality in this project is tested with [Jest](https://jestjs.io/).
 
-Some developers believe that every function must be policed by a squad of mostly superfluous tests. I think those developers would be more pragmatic if they were writing the checks, rather than cashing them. There is no reason to create tests for simple functions that do not change.
+Some developers believe that every function should be policed by a squad of mostly superfluous, never-failing tests. I think those developers would be more pragmatic if they were writing the checks, rather than cashing them. There is no reason to create tests for simple functions that do not change.
 
-I would like to automate testing at the UI level, but it is usually too difficult to do that in a meaningful way. Ultimately, hands-on QA work is the only way to ensure that your app works.
+I would like to automate testing at the UI level, but it is usually too difficult to do that in a meaningful way. Ultimately, hands-on QA work is the only way to ensure that an app works.
 
 For testing purposes, it is sometimes necessary to export classes or functions that would otherwise be private to the implementing module. Instead of exporting these directly, I have packaged and exported them within `ForTest` objects. These should _not_ be used outside of testing.
 

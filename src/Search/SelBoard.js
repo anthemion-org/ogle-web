@@ -122,14 +122,25 @@ function _uPosNext(aSel, ajNeigh) {
  *  zero to seven. */
 function _uOff(ajDir) {
 	switch (ajDir) {
-		case 0: return Pt2.uNew(1, 0);
-		case 1: return Pt2.uNew(1, 1);
-		case 2: return Pt2.uNew(0, 1);
-		case 3: return Pt2.uNew(-1, 1);
-		case 4: return Pt2.uNew(-1, 0);
-		case 5: return Pt2.uNew(-1, -1);
-		case 6: return Pt2.uNew(0, -1);
-		case 7: return Pt2.uNew(1, -1);
+		case 0: return _Off0;
+		case 1: return _Off1;
+		case 2: return _Off2;
+		case 3: return _Off3;
+		case 4: return _Off4;
+		case 5: return _Off5;
+		case 6: return _Off6;
+		case 7: return _Off7;
 	}
 	throw Error("SelBoard _uOff: Invalid index");
 }
+
+// When Pt2 records are frozen, this produces a surprising performance
+// improvement in the word search:
+const _Off0 = Pt2.uNew(1, 0);
+const _Off1 = Pt2.uNew(1, 1);
+const _Off2 = Pt2.uNew(0, 1);
+const _Off3 = Pt2.uNew(-1, 1);
+const _Off4 = Pt2.uNew(-1, 0);
+const _Off5 = Pt2.uNew(-1, -1);
+const _Off6 = Pt2.uNew(0, -1);
+const _Off7 = Pt2.uNew(1, -1);

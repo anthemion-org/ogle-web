@@ -19,8 +19,8 @@ import * as Persist from "../Persist.js";
 /** Words in the built-in Ogle lexicon. */
 import WordsOgle from "./WordsOgle.json";
 
-// tLex
-// ----
+// _tLex
+// -----
 // 'Searchable' words include built-in words, plus user-entered words that have
 // been merged. Only these words can be found with the Ogle word search.
 //
@@ -37,12 +37,12 @@ import WordsOgle from "./WordsOgle.json";
 
 /** Manages the Ogle lexicon, including built-in Ogle words, and user-entered
  *  words. This class is mutable. */
-class tLex {
+class _tLex {
 	constructor() {
 		/** An array of strings representing all user-entered words. */
 		//
 		// There is no need for this data to be moved to the store; it is not used
-		// to render pages, and `tLex` is instantiated only once, when the app
+		// to render pages, and `_tLex` is instantiated only once, when the app
 		// loads.
 		//
 		// Jest mocks the `localStorage` object, so the `Persist` system will run,
@@ -106,9 +106,9 @@ class tLex {
 	}
 }
 
-const Lex = new tLex();
+const Lex = new _tLex();
 export default Lex;
 
 export const ForTest = {
-	tLex
+	_tLex
 };

@@ -9,6 +9,7 @@
 //
 
 import * as UtilJSON from "./UtilJSON.js";
+import * as Misc from "./Misc.js";
 
 import _ from "lodash";
 
@@ -19,7 +20,7 @@ import _ from "lodash";
 /** Creates a Pt2 record with the specified coordinates. */
 export function uNew(aX, aY) {
 	const oPt = { X: aX, Y: aY };
-	Object.freeze(oPt);
+	if (Misc.CkDev) Object.freeze(oPt);
 	return oPt;
 }
 
