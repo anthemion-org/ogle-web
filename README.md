@@ -63,7 +63,7 @@ The PWA works fairly well on Android, but it cannot reasonably be said that the 
 
 ### Class and function components
 
-Aside from `ViewSets` (and the error boundary) all components are implemented as functions, and most use hooks. That works well for simple components, but I think class components might have been better. `useEffect` is ugly, and pulls all sorts of non-rendering functionality into what were just render functions. Handlers (if they do almost anything relevant) also must be defined there. `useCallback` adds another layer of nesting and indentation to these now massive functions.
+Aside from `ViewSets` (and the error boundary) all components are implemented as functions, and most use hooks. That works well for simple components, but I think class components might have been better. `useEffect` is ugly, and it pulls all sorts of non-rendering functionality into what were just render functions. Handlers (if they do almost anything relevant) also must be defined there. `useCallback` adds another layer of nesting and indentation to these now massive functions.
 
 Bigger problems are produced by `useSelector` and `useDispatch`. These hooks — though convenient — couple the render code to specific selectors and actions, producing components that are _inherently less flexible_ than those wrapped by Redux’s (admittedly confusing) `connect` function. It’s easy to say that those are just bad hooks, and you can still use `connect` with your function components. If we eliminate the convenience of `useSelector` and `useDispatch`, however, I don’t see much reason to prefer functions over classes.
 
@@ -106,7 +106,7 @@ Every identifier begins with zero or more prefixes, in the following order, with
 | `j`    | Index variable                          |
 | `n`    | Property name variable                  |
 
-The `z` prefix has no set meaning. It can be used to resolve name collisions with reserved words or third-party code, or for any other reason.
+The `z` prefix has no set meaning; it can be used to resolve name collisions with reserved words or third-party code, or for any other reason.
 
 Using these prefixes, a class defining a static function that accepts an `async` function parameter might begin with:
 
@@ -147,13 +147,18 @@ Factory functions often have roots that begin with `From`; the noun is implicit,
 const oBoard = Board.uFromParse(oParseBoard);
 ```
 
-Long names produce long expressions that are hard to read (especially when wrapped) so longer words are abbreviated within identifiers, file and folder names, _et cetera_. A word that is abbreviated once is abbreviated everywhere (outside of comments) and always the _same way_ throughout the project.
+Long names produce long expressions that are hard to read (especially when wrapped) so longer words are abbreviated within identifiers, file and folder names, _et cetera_. A word that is abbreviated once is abbreviated everywhere (outside of comments) and _always the same way_ throughout the project.
 
 
 ### Function parameter checks
 
+The `Misc` module defines a `uCkThrow_Params` function that I am using to check
+
+type danger
+type insecurity
+
 [todo]
-	Primarily exported functions
+	Primarily exported business functions
 	Not fast
 		Not in Search, Util modules
 

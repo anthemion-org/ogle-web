@@ -21,6 +21,8 @@ import _ from "lodash";
 // immutable.
 
 export function uNew(aByTag) {
+	Misc.uCkThrow_Params({ aByTag }, Object, "ScoresHigh uNew");
+
 	const oScores = {
 		/** An object that associates Setup record tag values with arrays of
 		  * ScorePlay records. These arrays are sorted and trimmed to length
@@ -67,6 +69,7 @@ export function uFromParse(aParse) {
 	// the start, in case JSON-incompatible data is added later.
 
 	if (!aParse) return null;
+	Misc.uCkThrow_Params({ aParse }, Object, "ScoresHigh uFromParse");
 
 	return uNew(aParse._ByTag);
 }

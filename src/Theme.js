@@ -8,6 +8,8 @@
 //   import * as Theme from "./Theme.js";
 //
 
+import * as Misc from "./Util/Misc.js";
+
 const ThemeDk = { Name: "Dk", Desc: "Dark" };
 const ThemeLt = { Name: "Lt", Desc: "Light" };
 
@@ -24,5 +26,7 @@ export const Def = ThemeDk;
 /** Returns the name of the CSS class that implements the specified theme, or
  *  that of the default theme class, if `aNameTheme` is falsy. */
 export function ClassFromName(aNameTheme) {
+	Misc.uCkThrow_Params({ aNameTheme }, String, "Theme ClassFromName");
+
 	return "Theme" + (aNameTheme || Def.Name);
 }

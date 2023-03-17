@@ -13,11 +13,14 @@
 import { tLookupText, OutsLookup } from "./LookupText.js";
 import { tSelBoard } from "../Search/SelBoard.js";
 import * as Rect from "../Util/Rect.js";
+import * as Misc from "../Util/Misc.js";
 import * as Const from "../Const.js";
 
 /** Returns an array of `tSelBoard` instances representing all words in `aBoard`
  *  that are found in `aWords`, including duplicates and followed words. */
 export function uExec(aWords, aBoard) {
+	Misc.uCkThrow_Params({ aWords, aBoard }, Object, "SearchBoard uExec");
+
 	/** The word selections found during the search, including duplicates and
 	 *  followed words. */
 	const oSelsWord = [];

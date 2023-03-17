@@ -16,6 +16,7 @@
 // persisted directly.
 
 import * as UtilJSON from "./Util/UtilJSON.js";
+import * as Misc from "./Util/Misc.js";
 // This exposes 'package.json' to the client, which is said to have security
 // implications in some cases. Ours is already open to the public:
 import Pack from "../package.json";
@@ -27,6 +28,8 @@ const _PrefixNameStore = "Ogle";
  *  storage, after converting unserializable numbers to strings. Also updates
  *  the `VerApp` value in the store. */
 export function uWrite(anBase, aVal) {
+	Misc.uCkThrow_Params({ anBase }, String, "Persist uWrite");
+
 	// Write the version number. Note that this value is not drawn from the store:
 	localStorage.setItem(
 		_PrefixNameStore + "VerApp",
@@ -44,6 +47,8 @@ export function uWrite(anBase, aVal) {
 /** Prefixes `anBase` with `_PrefixNameStore`, then returns the associated value
  *  from local storage, or `aDef`, if the key is not found. */
 export function uRead(anBase, aDef = undefined) {
+	Misc.uCkThrow_Params({ anBase }, String, "Persist uRead");
+
 	const onFull = _PrefixNameStore + anBase;
 	const oJSON = localStorage.getItem(onFull);
 	// Because we are storing everything as a string, this lets us discern between

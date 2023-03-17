@@ -8,12 +8,16 @@
 //   import * as Cfg from "./Cfg.js";
 //
 
+import * as Misc from "./Util/Misc.js";
+
 // Cfg
 // ---
 // The Cfg record stores the player's app-level configuration selections. This
 // record is immutable.
 
 export function uNew(aNameTheme) {
+	Misc.uCkThrow_Params({ aNameTheme }, String, "Cfg uNew");
+
 	const oCfg = {
 		/** The name of the selected UI theme. */
 		NameTheme: aNameTheme
@@ -29,6 +33,7 @@ export function uFromParse(aParse) {
 	// the start, in case JSON-incompatible data is added later.
 
 	if (!aParse) return null;
+	Misc.uCkThrow_Params({ aParse }, Object, "Cfg uFromParse");
 
 	return uNew(aParse.NameTheme);
 }
@@ -40,5 +45,7 @@ export function uDef() {
 
 /** Returns a short string that summarizes the values in a Cfg record. */
 export function uTag(aCfg) {
+	Misc.uCkThrow_Params({ aCfg }, Object, "Cfg uTag");
+
 	return `NT:(${aCfg.NameTheme})`;
 }

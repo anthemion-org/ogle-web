@@ -18,7 +18,7 @@
  *  be prefixed with that text. Does nothing if the app is running in
  *  production.
  *
- *  Note: This function is not fast! It's fine for general use (including the
+ *  Beware, this function is not fast! It's fine for general use (including the
  *  UI) but it should not be used in the critical path of any high-performance
  *  code, particularly the low-level word search functions. */
 //
@@ -33,14 +33,10 @@
 //     ...
 //
 export function uCkThrow_Params(aParams, aTypeExpect, aNameCaller) {
-	// This function has not been tested with minified code. The `aTypeExpect`
-	// check should work as usual, but error messages will reference the minified
-	// names of any custom classes.
-
-	// Right now I see this as a development and testing tool. The app already
-	// runs well in production, so any exceptions it throws are likely to be a
-	// nuisance for real users, rather than a help. Maybe we will remove this
-	// later, however:
+	// As noted, this function is not fast, and it has not been tested with
+	// minified code; the `aTypeExpect` check should work as usual, but error
+	// messages will reference the minified names of any custom classes. I see
+	// this as a development and testing tool, in any event:
 	if (CkProduction) return;
 
 	const oEnts = Object.entries(aParams);
