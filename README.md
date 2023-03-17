@@ -6,7 +6,7 @@ Ogle is a free word-finding game for the web and mobile. It derives from a table
 
 I created the [first version](https://github.com/anthemion-org/ogle) of this app years back, when I was learning C#. I created this version when I was learning React.
 
-Ogle is a progressive web app, so you can install it on your phone much like any other app. If you navigate to the [play address](https://www.anthemion.org/play-ogle/), your phone should offer to install it. Your phone’s browser will also display _Install app_ (or similar) in its page menu.
+Ogle is a ‘progressive web app’, so you can install it on your phone much like any other app. If you navigate to the [play address](https://www.anthemion.org/play-ogle/), your phone should offer to install it. Your phone’s browser will also display _Install app_ (or similar) in its page menu.
 
 If you find a bug, write to [support@anthemion.org](mailto://support@anthemion.org).
 
@@ -24,24 +24,26 @@ The project was created with _create-react-app_.
 
 The `src` folder includes these subfolders:
 
-- `Board` contains classes representing game boards and individual letter dice, plus board-generating code;
+- `Board` contains types representing game boards and individual letter dice, plus board-generating code;
 
-- `Round` contains classes that represent a ‘round’ of play;
+- `Round` contains types that represent a ‘round’ of play;
 
-- `Search` contains classes that represent the Ogle and user lexicons, plus board search functionality;
+- `Search` contains types that represent the Ogle and user lexicons, plus word search functionality;
+
+- `Store` contains the Redux store and slices;
 
 - `UI` contains page-level React components;
 
-- `Util` contains general-purpose classes and utilities.
+- `Util` contains general-purpose types and utilities.
 
-In Ogle, *views* are top-level components that represent pages. Each view corresponds to a `StsApp` value. *Dialogs* are superimposed over views. `LookBoard` and `LookDie` display game boards and individual dice. I called these *looks* because ‘view’ was already taken.
+In this project, *views* are top-level components that represent pages. Most views correspond to `StsApp` values. *Dialogs* are smaller pages that are superimposed over views. Some people call these ‘modals’, even though they aren’t always modal. *Looks* are components that display complex data within a view or dialog. Some examples are `LookDie` (which renders a single letter die) and `LookBoard` (which renders the entire board).
 
 
 ## Architecture
 
 #### State management and persistence
 
-Ogle uses Redux Toolkit to manage much of its state. Most of that data is persistent, so I used the store’s `subscribe` method to write state data to the browser’s local storage. This produces two criteria for adding data to the store, both of which must be met:
+Ogle uses Redux Toolkit to manage much of its state. Most of that data is persistent, so I used the store’s `subscribe` method to write state data to the browser’s local storage after each update. This produces two criteria for adding data to the store, both of which should be met:
 
 1. The data must be used when rendering pages;
 
@@ -54,21 +56,16 @@ The `Persist` module serializes data as JSON, which stupidly fails to accommodat
 
 ### PWA functionality
 
-For the convenience of mobile users, Ogle is now a progressive web app (PWA). I did not use the `cra-template-pwa` option when I ran `create-react-app`; I used the default template, and later added `service-worker.js` and `serviceWorkerRegistration.js`, as copied from the [cra-template/pwa](https://github.com/cra-template/pwa/tree/main/packages/cra-template-pwa/template/src) repository. Then I added a `register` call to `index.js`. Instructions can be found [here](https://dev.to/myfatemi04/turn-your-create-react-app-into-a-progressive-web-app-in-100-seconds-3c11).
+For the convenience of mobile users, Ogle is a progressive web app (PWA). I did not use the `cra-template-pwa` option when I ran `create-react-app`; I used the default template, and later added `service-worker.js` and `serviceWorkerRegistration.js`, as copied from the [cra-template/pwa](https://github.com/cra-template/pwa/tree/main/packages/cra-template-pwa/template/src) repository. Then I added a `register` call to `index.js`. Instructions can be found [here](https://dev.to/myfatemi04/turn-your-create-react-app-into-a-progressive-web-app-in-100-seconds-3c11).
 
-The PWA works fairly well on Android, but the ‘install’ process seems awkward, and there is a bug in the Android version of Chrome that sometimes causes the Play view to grow larger than the viewport, so that unwanted scrolling occurs. It cannot reasonably be said that the PWA experience is equivalent to a native app.
+The PWA works fairly well on Android, but it cannot reasonably be said that the experience matches that of a native app. The ‘install’ process seems awkward, and there is a bug in the Android version of Chrome that sometimes causes the Play view to grow larger than the viewport, so that unwanted scrolling occurs.
 
 
-### React hooks
+### Class and function components
 
-Aside from `ViewSets`, all components are implemented with hooks. That works well for simple components, but after using them a bit, I think class components would have been better. `useEffect` is particularly awkward and difficult to manage. The React team’s zealotry on this topic suggests that they care more about their ideology than about real-world development problems. JavaScript developers don’t care, because they earn _more_ with each layer of bullshit, not less. It’s only the employers and the users who suffer when a development fad appears.
+Aside from `ViewSets` (and the error boundary) all components are implemented as functions, and most use hooks. That works well for simple components, but I think class components might have been better. `useEffect` is ugly, and pulls all sorts of non-rendering functionality into what were just render functions. Handlers (if they do almost anything relevant) also must be defined there. `useCallback` adds another layer of nesting and indentation to these now massive functions.
 
-`useCallback` makes components harder to read, so I am skipping that until I encounter actual performance problems.
-
-Now used occasionally [todo]
-	`useCallback` proliferation
-		So many functions already nested
-	Class component methods need not be wrapped with `useCallback`
+Bigger problems are produced by `useSelector` and `useDispatch`. These hooks — though convenient — couple the render code to specific selectors and actions, producing components that are _inherently less flexible_ than those wrapped by Redux’s (admittedly confusing) `connect` function. It’s easy to say that those are just bad hooks, and you can still use `connect` with your function components. If we eliminate the convenience of `useSelector` and `useDispatch`, however, I don’t see much reason to prefer functions over classes.
 
 
 ## Programming conventions
@@ -79,35 +76,35 @@ The Ogle source code uses a new identifier naming convention I am developing. Th
 
 Every identifier begins with zero or more prefixes, in the following order, with at most one prefix selected from each table:
 
-| Prefix | Meaning                                |
-|:------:|----------------------------------------|
-| `z`    | Special (see below)                    |
+| Prefix | Meaning                                 |
+|:------:|-----------------------------------------|
+| `_`    | ‘Private’ variable or function          |
+| `z`    | Special (see below)                     |
 
-| Prefix | Meaning                                |
-|:------:|----------------------------------------|
-| `g`    | Mutable import                         |
-| `_`    | Private class member                   |
-| `a`    | Function parameter                     |
-| `o`    | Local variable or function             |
+| Prefix | Meaning                                 |
+|:------:|-----------------------------------------|
+| `g`    | Mutable import                          |
+| `a`    | Function parameter                      |
+| `o`    | Local variable or function              |
 
-| Prefix | Meaning                                |
-|:------:|----------------------------------------|
-| `s`    | Class-static variable or function      |
+| Prefix | Meaning                                 |
+|:------:|-----------------------------------------|
+| `s`    | Class-static variable or function       |
 
-| Prefix | Meaning                                |
-|:------:|----------------------------------------|
-| `t`    | Class                                  |
-| `u`    | Function                               |
+| Prefix | Meaning                                 |
+|:------:|-----------------------------------------|
+| `t`    | Class                                   |
+| `u`    | Function                                |
 
-| Prefix | Meaning                                |
-|:------:|----------------------------------------|
-| `w`    | Asynchronous function or promise object|
+| Prefix | Meaning                                 |
+|:------:|-----------------------------------------|
+| `w`    | Asynchronous function or promise object |
 
-| Prefix | Meaning                                |
-|:------:|----------------------------------------|
-| `i`    | Generator/iterator function or object  |
-| `j`    | Index variable                         |
-| `n`    | Property name variable                 |
+| Prefix | Meaning                                 |
+|:------:|-----------------------------------------|
+| `i`    | Generator/iterator function or object   |
+| `j`    | Index variable                          |
+| `n`    | Property name variable                  |
 
 The `z` prefix has no set meaning. It can be used to resolve name collisions with reserved words or third-party code, or for any other reason.
 
@@ -121,7 +118,7 @@ class tBuff {
 
 React requires that component names be capitalized, so component classes are _not_ prefixed with `t`.
 
-Most prefixes are followed by a Pascal-cased string describing the business concern or other high-level concept that is being referenced. This is called the _root_. Because scope and other technical details are documented in the prefixes, the same root can be reused — without name collisions — as the concept is referenced in different ways. As an example, imagine a function that reads account data associated with a numeric index, logs the account retrieval, and then returns the data:
+Most prefixes are followed by a Pascal-cased string describing the business concern or other high-level concept that is being referenced. This is called the _root_. Because scope and other technical details are documented in the prefixes, the same root can be reused — without name collisions — as the concept is referenced in different ways. Imagine a function that reads account data associated with a numeric index, logs the account retrieval, and then returns the data:
 
 ```
 export function uAcct(ajAcct) {
@@ -133,9 +130,9 @@ export function uAcct(ajAcct) {
 
 The function `uAcct`, the array index `ajAcct`, and the returned object `oAcct` all reference the same entity, but the names do not conflict.
 
-Within the root, the noun or verb that defines the concept most basically is listed _first_. Modifiers follow in decreasing order of importance.
+Within the root, the noun or verb that defines the concept most basically is listed _first_, making it much easier to see what a given name represents. Modifiers follow in decreasing order of importance.
 
-Functions are often named with a verb. If that verb acts on a direct object, the verb and its modifiers are listed _first_, these are followed by an underscore, then the verb’s _object_ is given, along with its modifiers. This clarifies which modifiers apply to the verb and which to the object. As an example, a function that performs a ‘full update’ on the ‘read cache’ might be named:
+Functions are often named with a verb. If that verb acts on a direct object, the verb and its modifiers are listed _first_, these are followed by an underscore, then the verb’s _object_ is given, along with its modifiers. This clarifies which modifiers apply to the verb, and which to the object. As an example, a function that performs a ‘full update’ on the ‘read cache’ might be named:
 
 ```
 function uUpdFull_CacheRead() {
@@ -144,13 +141,13 @@ function uUpdFull_CacheRead() {
 
 Other times, functions are named only with nouns. When this is done, the noun is what the function _returns_.
 
-Factory functions often have roots that begin with `From`; the noun is implicit, since these static functions can be invoked only after specifying the class:
+Factory functions often have roots that begin with `From`; the noun is implicit, since these functions can be invoked only after specifying the containing class or module:
 
 ```
 const oBoard = Board.uFromParse(oParseBoard);
 ```
 
-Longer words are abbreviated within identifiers, file and folder names, _et cetera_. A word that is abbreviated once is abbreviated the _same way_ throughout the project.
+Long names produce long expressions that are hard to read (especially when wrapped) so longer words are abbreviated within identifiers, file and folder names, _et cetera_. A word that is abbreviated once is abbreviated everywhere (outside of comments) and always the _same way_ throughout the project.
 
 
 ### Function parameter checks
@@ -190,7 +187,7 @@ Overloading is most useful when constructing classes; a rectangle might be const
 
 JavaScript lacks the detailed `const` protections found in C++, so sharing object references with and from functions can expose internal data that should not be mutated by the caller. This is prevented most directly by using immutable types, but immutability can make some operations slower, or harder to implement.
 
-In this project, every class or record is explicitly documented as ‘immutable’ or ‘mutable’. Immutable class instances and records are frozen in their constructors or factory functions. `Object.freeze` is amazingly slow, however, so some records (particularly Pt2) do this only in the development build. Redux automatically freezes the objects returned by `useSelector`, so these are protected even though they are deserialized and instantiated elsewhere.
+In this project, every class or record is explicitly documented as ‘immutable’ or ‘mutable’. Immutable class instances and records are frozen in their constructors or factory functions. `Object.freeze` is amazingly slow, however, so Pt2 and other low-level records do this only in the development build. When Pt2 did freeze (and when `SelBoard._uOff` created a new Pt2 instance with each invocation) the word search took more than twice as long. Redux automatically freezes the objects returned by `useSelector`, so these are protected even though they are deserialized and instantiated elsewhere.
 
 Functions that accept mutable object parameters must clone those objects before storing them in class instances, records, or globals, in case the caller mutates the arguments afterward. For similar reasons, functions must not return mutable objects from class instances, records, or globals; they must return clones instead. This is called ‘defensive copying’. When cloning is required, mutable types implement a `uClone` function that returns a deep copy of the instance.
 
@@ -231,11 +228,17 @@ Defensive copying is about _ownership_ and _encapsulation_, rather than change d
 
 Selected functionality in this project is tested with [Jest](https://jestjs.io/).
 
-Some developers believe that every function should be policed by a squad of mostly superfluous, never-failing tests. I think those developers would be more pragmatic if they were writing the checks, rather than cashing them. There is no reason to create tests for simple functions that do not change.
+Some developers believe every function must be policed by a squad of mostly superfluous, never-failing tests. I think those developers would be more pragmatic if they were writing the checks, rather than cashing them. It makes more sense to reserve automated tests for functionality that:
 
-I would like to automate testing at the UI level, but it is usually too difficult to do that in a meaningful way. Ultimately, hands-on QA work is the only way to ensure that an app works.
+- Changes often, perhaps to meet performance requirements; or,
 
-For testing purposes, it is sometimes necessary to export classes or functions that would otherwise be private to the implementing module. Instead of exporting these directly, I have packaged and exported them within `ForTest` objects. These should _not_ be used outside of testing.
+- Is difficult to test, perhaps because it has a large range of inputs and outputs with a non-obvious mapping; or,
+
+- Is safety-critical.
+
+I would like to automate testing at the UI level, but it is difficult to do that in a meaningful way. Ultimately, hands-on QA work is the only way to ensure that the app works at this level.
+
+For testing purposes, it is sometimes necessary to export types or functions that would otherwise be private to the implementing module. Instead of exporting these directly, I have packaged and exported them within `ForTest` objects. These should _not_ be used outside of testing.
 
 
 ## Miscellanea
