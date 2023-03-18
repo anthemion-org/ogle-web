@@ -43,15 +43,15 @@ export class tConfigPoolText {
 export class tPoolText {
 	/** Derives a new counts object from `aCtsBaseByText`, with each count equal
 	 *  to `aCtMinStart` or greater. */
-	static _suCtsAdjFromBase(aCtsBaseByText, aCtMinStart) {
-		Misc.uCkThrow_Params({ aCtsBaseByText }, Object, "tPoolText._suCtsAdjFromBase");
-		Misc.uCkThrow_Params({ aCtMinStart }, Number, "tPoolText._suCtsAdjFromBase");
+	static _suCtsAdjustFromBase(aCtsBaseByText, aCtMinStart) {
+		Misc.uCkThrow_Params({ aCtsBaseByText }, Object, "tPoolText._suCtsAdjustFromBase");
+		Misc.uCkThrow_Params({ aCtMinStart }, Number, "tPoolText._suCtsAdjustFromBase");
 
-		const oCtsAdj = { ...aCtsBaseByText };
-		for (const on in oCtsAdj) {
-			if (oCtsAdj[on] < aCtMinStart) oCtsAdj[on] = aCtMinStart;
+		const oCtsAdjust = { ...aCtsBaseByText };
+		for (const on in oCtsAdjust) {
+			if (oCtsAdjust[on] < aCtMinStart) oCtsAdjust[on] = aCtMinStart;
 		}
-		return oCtsAdj;
+		return oCtsAdjust;
 	}
 
 	/** Returns the total value count in the specified entries object. */
@@ -77,7 +77,7 @@ export class tPoolText {
 		/** An object that associates text values with counts, which minimum
 		 *  starting counts applied. These counts will be decremented as the values
 		 *  are drawn. */
-		this._CtsByText = tPoolText._suCtsAdjFromBase(aCtsBaseByText,
+		this._CtsByText = tPoolText._suCtsAdjustFromBase(aCtsBaseByText,
 			aConfig.CtMinStart);
 		/** The total value count available to be drawn. */
 		this._Ct = tPoolText._suCt(this._CtsByText);

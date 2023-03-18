@@ -141,13 +141,45 @@ function uUpdFull_CacheRead() {
 
 Other times, functions are named only with nouns. When this is done, the noun is what the function _returns_.
 
+[todo]
+'Ck' for boolean
+	In place of 'is'/'has'
+	Nouns or functions that return nouns
+	Distinguishes adjective 'uCkReady' from verb 'uReady'
+		Similar to 'uStatReady', which is named after what it returns
+		Verb/noun ambiguity still possible
+
 Factory functions often have roots that begin with `From`; the noun is implicit, since these functions can be invoked only after specifying the containing class or module:
 
 ```
 const oBoard = Board.uFromParse(oParseBoard);
 ```
 
-Long names produce long expressions that are hard to read (especially when wrapped) so longer words are abbreviated within identifiers, file and folder names, _et cetera_. A word that is abbreviated once is abbreviated everywhere (outside of comments) and _always the same way_ throughout the project.
+Long names produce long expressions that are hard to read, especially when the length causes the line to wrap, so longer words are abbreviated within identifiers, file and folder names, _et cetera_. Some developers, after being confounded by a few poorly-chosen abbreviations, forswear identifier abbreviation altogether. Every person, every team, and every industry abbreviates things, so the question isn't _whether_ to abbreviate, it is _when_ and _how_ to abbreviate. The obvious answer: longer terms, and terms used more often both deserve abbreviation. Note here that the more you use a given term, the more you gain from abbreviation, and the safer it is to abbreviate, as the repetition makes the abbreviation easier to remember. My projects frequently use the word ‘Position’, so I abbreviate aggressively to produce ‘Pos’. When I use a less common word like ‘Possible’, I choose something longer (like ‘Possib’) or leave it unabbreviated. A word that is abbreviated once is abbreviated everywhere (outside of comments) and _always the same way_ throughout the project.
+
+An array (or other container) of values is fundamentally different from a single value,
+
+It is usually not necessary to indicate the type of the container within the root,
+
+It is important that names distinguish
+
+[todo]
+plurals
+arrays and other containers
+add ‘i’
+Distinguishes `Posi` from `Poss`
+
+When an object is used as a map (rather than a general-purpose data structure)
+'By'
+`CtsByText`
+
+
+[todo]
+‘elision’
+	`Pt2.uFromParse(aParse)`
+	Only if the type is used to prefix the function
+		Static methods
+		Module API exports
 
 
 ### Function parameter checks
@@ -159,34 +191,52 @@ As something of an experiment, the `Misc` module defines a `uCkThrow_Params` fun
 
 Many JavaScript developers share a bizarre prejudice against classes, and the more I read about their rationale, the more obvious it becomes that they don’t understand classes in the first place. This has unfortunate implications for the entire community.
 
-Let’s attempt an objective comparison of classes and plain objects. We’ll also cover methods, while acknowledging that these can also be used with plain objects.
+Let’s attempt an objective comparison of classes and plain objects. We’ll also cover methods, while acknowledging that these can be used (to some extent) with plain objects.
 
 
 #### Class advantages
 
-First, _type information is useful_. Whether you use TypeScript or not, type checks are a good way to verify the correctness of your program, and they are much easier when your objects contain type data. If they check anything at all, most JavaScript developers use a sort of ‘duck type checking’, where they receive an object, look for the members they need, and then throw if one is missing. That _is_ more flexible, but it’s also more work, and it produces noisy code.
+First, _type information is useful_. Whether you use TypeScript or not, type checks are a good way to verify the correctness of your program, and they are much easier when your objects contain type data (by way of the `constructor` property). If they check anything at all, most JavaScript developers use a sort of ‘duck type checking’, where they receive an object, look for the members they need, then throw if one is missing. That _is_ more flexible, but it’s also more work, and it produces noisy code.
 
-Type data also provides useful context for the developer. When you see the content of a plain object, do you know what the object represents? Maybe, or maybe the name of the object reference tells you, but it’s not always clear. The class name _tells you what the data represents_. It also provides an easy way to find the comments and methods associated with that data, and the places in your code where it may have been instantiated. IDEs like VSCode display some of this information when you mouse over class names, and they can offer code completion when you’re referencing class members. Incidentally, where do you comment the members of your plain object? I know, _JavaScript developers don’t write comments_.
+Type data also provides useful context for the developer. When you see the content of a plain object, do you know what the object represents? Maybe, or maybe the name of the object reference tells you, but it’s not always clear. The class name _tells you what the data represents_.
 
-Class names make it easier just to _talk_ about these objects, whether you’re commenting or discussing with collaborators.
+The class name also makes it easy to find the comments and methods associated with your data, and the places where it may have been instantiated. IDEs like VSCode display some of this information when you mouse over class names, and they can offer code completion when you’re referencing class members. Incidentally, where do you comment the members of your plain object? I know, _JavaScript developers don’t write comments_.
+
+Even _talking_ about these objects is easier when you can summarize them with class names. This is true whether you’re commenting or discussing with collaborators.
+
+Class declarations neatly package your data, the methods that operate on that data, and the documentation for both.
+
+
+#### Method advantages
+
+Classes (and more specifically, prototypal inheritance) also provide efficient support for methods. While it _is_ possible to attach methods to any object, it would be wasteful to associate a large API with many plain object instances, as the method properties would be duplicated in every instance.
+
+Methods provide a concise and expressive way to manipulate objects. Let’s make basic use of two APIs, one that works with plain objects:
+
+	import * as Arr2 from "Arr2Plain.js";
+
+	const oArr2 = Arr2.uNew(20, 30);
+	const oCt = Arr2.Ct(oArr2);
+
+and another that implements the same functionality with a class:
+
+	import tArr2 from "Arr2Class.js";
+
+	const oArr2 = new tArr2(20, 30);
+	const oCt = oArr2.Ct();
 
 
 
-
-	Syntax
-		Centralized definition
-			Easy to find
-			Self-documenting
-		Method advantages
-	Easy to define `toJSON` method that fixes JSON stupidity
 
 
 Class/object method advantages
 	Concise, expressive API invocation
 		Reference before dot is 'special' argument
 		Dereference defines method location and provides `this` with one identifier
+			`this` binding
 	Optional chaining invocation (`?.`)
-		return this.uPosEnd()?.uCkAdjacent(aPos);
+		const oPosi = oArr.uPosEnd()?.uPosiAdjacent();
+			Arr.uPosEnd(oArr)?.uPosiAdjacent(aPos);
 	Polymorphic
 		Procedural function requires module name plus separate argument for `this`
 			Couples invocation to module
@@ -204,6 +254,8 @@ Plain object advantages
 		Converse of 'expressive' invocation
 	Serialization
 		Redux compatibility
+	No `this` binding
+		Like telling an amputee that they needn’t trim their fingernails
 	Doesn't sequester functionality
 		Composition over inheritance
 		https://en.wikipedia.org/wiki/Composition_over_inheritance
@@ -226,8 +278,8 @@ The class does expose private data that could have been hidden in a closure, but
 
 Some class advantages can be faked, to an extent, with plain objects.
 	Record names
-	Factory methods
-		Comments
+	Factory functions
+		Member comments here
 
 [todo] Define 'record'
 	Identify parameters types in comments
