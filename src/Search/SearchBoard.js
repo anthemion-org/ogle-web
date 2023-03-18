@@ -39,9 +39,9 @@ export function uExec(aWords, aBoard) {
 	return oSelsWord;
 }
 
-/** Uses the specified `tSelBoard` board selection and `tLookupText` lookup
- *  state to find all word selections that begin with the board selection, and
- *  adds them to array `aSelsWord`. */
+/** Accepts `tSelBoard` and `tLookupText` instances that represent starting
+ *  board selection and lookup states, finds all word selections that follow
+ *  them, and then adds the word selections to array `aSelsWord`. */
 function _uExecPos(aSelBoard, aLookup, aSelsWord) {
 	while (true) {
 		const oSelNext = aSelBoard.uCloneNext();

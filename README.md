@@ -155,10 +155,63 @@ Long names produce long expressions that are hard to read (especially when wrapp
 As something of an experiment, the `Misc` module defines a `uCkThrow_Params` function that I am using to check parameter types in many functions. For the most part, I have reserved it for public class methods and API functions. The check is a bit slow, so it is excluded from the critical path within the word search, and from low-level types like Pt2. It is disabled entirely within the production environment.
 
 
-### Classes versus closures
+### Classes, methods, and plain objects
 
-Update [todo]
-	Define 'record'
+Many JavaScript developers share a bizarre prejudice against classes, and the more I read about their rationale, the more obvious it becomes that they don’t understand classes in the first place. This has unfortunate implications for the entire community.
+
+Let’s attempt an objective comparison of classes and plain objects. We’ll also cover methods, while acknowledging that these can also be used with plain objects.
+
+
+#### Class advantages
+
+First, _type information is useful_. Whether you use TypeScript or not, type checks are a good way to verify the correctness of your program, and they are much easier when your objects contain type data. If they check anything at all, most JavaScript developers use a sort of ‘duck type checking’, where they receive an object, look for the members they need, and then throw if one is missing. That _is_ more flexible, but it’s also more work, and it produces noisy code.
+
+Type data also provides useful context for the developer. When you see the content of a plain object, do you know what the object represents? Maybe, or maybe the name of the object reference tells you, but it’s not always clear. The class name _tells you what the data represents_. It also provides an easy way to find the comments and methods associated with that data, and the places in your code where it may have been instantiated. IDEs like VSCode display some of this information when you mouse over class names, and they can offer code completion when you’re referencing class members. Incidentally, where do you comment the members of your plain object? I know, _JavaScript developers don’t write comments_.
+
+Class names make it easier just to _talk_ about these objects, whether you’re commenting or discussing with collaborators.
+
+
+
+
+	Syntax
+		Centralized definition
+			Easy to find
+			Self-documenting
+		Method advantages
+	Easy to define `toJSON` method that fixes JSON stupidity
+
+
+Class/object method advantages
+	Concise, expressive API invocation
+		Reference before dot is 'special' argument
+		Dereference defines method location and provides `this` with one identifier
+	Optional chaining invocation (`?.`)
+		return this.uPosEnd()?.uCkAdjacent(aPos);
+	Polymorphic
+		Procedural function requires module name plus separate argument for `this`
+			Couples invocation to module
+			Can select different modules by replacing module reference with variable
+				Awkward to store this variable in object itself
+
+Typescript interfaces provide these advantages, but only with respect to data
+
+Plain object advantages
+	Simplicity
+	Duck typing
+	Explicit API invocation
+		Unambiguously locate every invocation
+			Import module object consistently
+		Converse of 'expressive' invocation
+	Serialization
+		Redux compatibility
+	Doesn't sequester functionality
+		Composition over inheritance
+		https://en.wikipedia.org/wiki/Composition_over_inheritance
+		Complex hierarchies don't happen that often
+			Experience with UI frameworks
+
+
+[todo]
 
 A class like `tPoolDie` could easily be replaced with a factory function that returns a die-generating function. Many JavaScript developers would consider that more idiomatic, but is it better? The class implementation:
 
@@ -168,7 +221,18 @@ A class like `tPoolDie` could easily be replaced with a factory function that re
 
 - Allows additional methods to be added without restructuring the factory.
 
-The class does expose private data that could have been hidden in a closure, but private variables are marked with underscores in this project, and it’s not hard to remember that they are off-limits. The fact is: class implementations are always easier to understand, and often easier to maintain.
+The class does expose private data that could have been hidden in a closure, but private variables are marked with underscores in this project, and it’s not hard to remember that they are off-limits. In this case, at least, the class implementation is easier to understand, and easier to maintain.
+
+
+Some class advantages can be faked, to an extent, with plain objects.
+	Record names
+	Factory methods
+		Comments
+
+[todo] Define 'record'
+	Identify parameters types in comments
+	Always factory functions
+		Comment contents there
 
 
 ### Constructors and function overloading
@@ -247,7 +311,7 @@ For testing purposes, it is sometimes necessary to export types or functions tha
 
 ### Word search algorithm
 
-[todo] Explain the word search algorithm here?
+[todo] Explain word search algorithm
 
 
 ### SVG in React
