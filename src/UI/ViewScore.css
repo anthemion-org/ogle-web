@@ -227,7 +227,7 @@
 	#ViewScore {
 		--HeightTrayBtn: 4.5rem;
 
-		width: 100vw;
+		width: auto;
 
 		margin-top: 0;
 		border: none;

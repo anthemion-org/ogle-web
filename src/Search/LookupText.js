@@ -39,10 +39,10 @@ export class tLookupText {
 		this._jAft = ajAft ?? aWords.length;
 	}
 
-	/** Searches _Words for _Text, narrowing the window until a match or a miss is
-	 *  identified. If aCkStopFrag is `true`, the search will also stop when a
-	 *  fragment is identified. Returns a `OutsLookup` value that gives the reason
-	 *  the search stopped. */
+	/** Searches `_Words` for `_Text`, narrowing the window until a match or a
+	 *  miss is identified. If `aCkStopFrag` is `true`, the search will also stop
+	 *  when a fragment is identified. Returns an `OutsLookup` value that tells
+	 *  why the search stopped. */
 	uExec(aCkStopFrag) {
 		if (this._Words.length < 1) return OutsLookup.Miss;
 
@@ -57,8 +57,8 @@ export class tLookupText {
 			else {
 				if (this._Text === oWord) return OutsLookup.Match;
 				if (aCkStopFrag) return OutsLookup.Frag;
-				// oWord begins with the letters in _Text, but it is longer, so the match
-				// (if any) must precede ojMid:
+				// `oWord` begins with the letters in `_Text`, but it is longer, so the
+				// match (if any) must precede `ojMid`:
 				this._jAft = ojMid;
 			}
 
@@ -70,19 +70,19 @@ export class tLookupText {
 }
 
 /** Compares `aTextLookup` with `aWord`, and returns a negative number if it
- *  sorts before, a positive number if it sorts after, and zero if it matches
- *  the beginning or the entirety of aWord. */
+ *  sorts before, a positive number if it sorts after, or zero if it matches the
+ *  beginning or the entirety of `aWord`. */
 function _uCompareStart(aTextLookup, aWord) {
-	// aTextLookup represents the current board selection. Because the selection
+	// `aTextLookup` represents the current board selection. Because the selection
 	// grows as the board is enumerated, we must stop when the search identifies a
 	// set of potential future matches. Going further would narrow and focus the
-	// window on the start of the word sequence beginning with aTextLookup, which
-	// could cause words near the end of that set to be missed when the selection
-	// grows.
+	// window on the start of the word sequence beginning with `aTextLookup`,
+	// which could cause words near the end of that set to be missed when the
+	// selection grows.
 	//
-	// When aTextLookup is longer than aWord, we match without truncating, as
-	// aWord is necessarily too short to match the sequences following
-	// aTextLookup:
+	// When `aTextLookup` is longer than `aWord`, we match without truncating, as
+	// `aWord` is necessarily too short to match the sequences following
+	// `aTextLookup`:
 	if (aWord.length > aTextLookup.length)
 		aWord = aWord.substr(0, aTextLookup.length);
 	return Search.uCompareStrFast(aTextLookup, aWord);

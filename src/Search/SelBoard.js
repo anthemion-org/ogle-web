@@ -27,9 +27,9 @@ import * as Const from "../Const.js";
  *  predecessors define the entire selection.
  *
  *  This class is mutable. Because most instances reference other instances,
- *  this class produces verbose output when serialized with 'JSON.stringify'.
+ *  this class produces verbose output when serialized with `JSON.stringify`.
  *  Simpler output is produced by EntWord records, which store similar data, but
- *  is not as fast. */
+ *  are not as fast. */
 export class tSelBoard {
 	/** Set `aSelPrev` to the instance that should precede this instance in the
 	 *  selection, or leave it undefined to start a new selection. */
@@ -40,8 +40,8 @@ export class tSelBoard {
 		this.Pos = aPos;
 		/** The selection instance that precedes this one, or `null` if this is the
 		 *  first. Recall that preceding instances in the selection chain will not
-		 *  have CksByPos or TextAll values that include later instances, such as
-		 *  this one defining this reference. */
+		 *  have `CksByPos` or `TextAll` values that include later instances, such
+		 *  as this one defining this reference. */
 		this.SelPrev = aSelPrev ?? null;
 
 		let oCksByPosPrev = aSelPrev
@@ -58,7 +58,7 @@ export class tSelBoard {
 		this.TextAll = aSelPrev ? (aSelPrev.TextAll + oText) : oText;
 
 		/** The index of the selection neighbor that should follow this one when
-		 *  enumerating. This index will increment as uNext is called. */
+		 *  enumerating. This index will increment as `uNext` is called. */
 		this._jNeighNext = 0;
 	}
 
@@ -74,7 +74,7 @@ export class tSelBoard {
 	 *
 	 *  By creating a top-level instance for a given board position, and then
 	 *  recursively invoking uNext on that instance, plus every instance returned
-	 *  by uNext, all die sequences beginning with the first position can be
+	 *  by `uNext`, all die sequences beginning with the first position can be
 	 *  enumerated.*/
 	uCloneNext() {
 		const oPosNext = _uPosNext(this, this._jNeighNext++);
@@ -118,8 +118,8 @@ function _uPosNext(aSel, ajNeigh) {
 	return null;
 }
 
-/** Returns the one-position offset for direction index ajDir, which ranges from
- *  zero to seven. */
+/** Returns the one-position offset for direction index `ajDir`, which ranges
+ *  from zero to seven. */
 function _uOff(ajDir) {
 	switch (ajDir) {
 		case 0: return _Off0;
@@ -134,7 +134,7 @@ function _uOff(ajDir) {
 	throw Error("SelBoard _uOff: Invalid index");
 }
 
-// When Pt2 records are frozen, this produces a surprising performance
+// When Pt2 records re frozen, this produces a surprising performance
 // improvement in the word search:
 const _Off0 = Pt2.uNew(1, 0);
 const _Off1 = Pt2.uNew(1, 1);

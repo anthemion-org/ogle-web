@@ -128,7 +128,7 @@ export function uAcct(ajAcct) {
 }
 ```
 
-The function `uAcct`, the array index `ajAcct`, and the returned object `oAcct` all reference the same entity, but the names do not conflict.
+The function `uAcct`, the array index `ajAcct`, and the returned object `oAcct` all reference the same business concern, yet the names do not conflict. In fact, their commonality is _emphasized_, rather than hidden, making it easier to spot conceptual mismatches.
 
 Within the root, the noun or verb that defines the concept most basically is listed _first_, making it much easier to see what a given name represents. Modifiers follow in decreasing order of importance.
 
@@ -152,15 +152,7 @@ Long names produce long expressions that are hard to read (especially when wrapp
 
 ### Function parameter checks
 
-The `Misc` module defines a `uCkThrow_Params` function that I am using to check
-
-type danger
-type insecurity
-
-[todo]
-	Primarily exported business functions
-	Not fast
-		Not in Search, Util modules
+As something of an experiment, the `Misc` module defines a `uCkThrow_Params` function that I am using to check parameter types in many functions. For the most part, I have reserved it for public class methods and API functions. The check is a bit slow, so it is excluded from the critical path within the word search, and from low-level types like Pt2. It is disabled entirely within the production environment.
 
 
 ### Classes versus closures
@@ -255,7 +247,7 @@ For testing purposes, it is sometimes necessary to export types or functions tha
 
 ### Word search algorithm
 
-[todo]
+[todo] Explain the word search algorithm here?
 
 
 ### SVG in React

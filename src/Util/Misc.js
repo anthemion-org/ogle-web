@@ -33,18 +33,19 @@
 //     ...
 //
 export function uCkThrow_Params(aParams, aTypeExpect, aNameCaller) {
-	// As noted, this function is not fast, and it has not been tested with
-	// minified code; the `aTypeExpect` check should work as usual, but error
-	// messages will reference the minified names of any custom classes. I see
-	// this as a development and testing tool, in any event:
+	// As noted, this function is not fast, and it also has not been tested with
+	// minified code; the `aTypeExpect` check should work as usual, but any error
+	// messages will reference the minified names of custom classes. I see this as
+	// more of a development and testing tool, in any event:
 	if (CkProduction) return;
 
+	// Is this why the function is so slow?:
 	const oEnts = Object.entries(aParams);
 	for (const [ on, oVal ] of oEnts) {
 		if ((oVal === undefined) || (oVal === null))
 			uThrowUnset(on);
 
-		// Lots of discussion about this here:
+		// Lots of discussion about querying type data here:
 		//
 		//   https://stackoverflow.com/a/332429/3728155
 		//
