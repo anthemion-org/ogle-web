@@ -120,6 +120,7 @@ class tBuff {
 ```
 
 [todo] Destructuring and spreading
+[todo] 'Unions'
 
 React requires that component names be capitalized, so component classes are _not_ prefixed with `t`.
 
@@ -138,13 +139,16 @@ export function uAcct(ajAcct) {
 
 The function `uAcct`, the array index `ajAcct`, and the returned object `oAcct` all reference the same business concern, yet the names do not conflict. In fact, their commonality is _emphasized_, rather than hidden, making it easier to spot conceptual mismatches.
 
-Continuing that theme: within the root, the noun or verb that defines the concept most basically is listed _first_, making it easier to see what a given identifier represents. Modifiers follow in _decreasing order of importance_. This ensures that the most important words remain visible. In this example, the fact that we accidentally copied a credit card number (rather than the hash of that number) should draw immediate attention:
+Continuing that theme: within the root, the noun or verb that defines the concept most basically is listed _first_, making it easier to see what a given identifier represents. Modifiers follow in _decreasing order of importance_. This ensures that the most important words remain visible. In the following example, the fact that we accidentally copied a credit card number (rather than the hash of that number) should draw immediate attention:
 
 	const oHashNumCardDef = aNumCardUser;
 
 When we names things the way most developers do, the problem is hidden:
 
 	const oDefCardNumHash = aUserCardNum;
+
+
+##### Function names
 
 Functions are often named with a verb. If that verb acts on a direct object, the verb and its modifiers are listed _first_, these are followed by an underscore, then the verb’s _object_ is given, along with its modifiers. This clarifies which modifiers apply to the verb, and which to the object. As an example, a function that performs a ‘full update’ on the ‘read cache’ might be named:
 
@@ -153,37 +157,28 @@ function uUpdFull_CacheRead() {
   ...
 ```
 
-Other times, functions are named only with nouns. When this is done, the noun is what the function _returns_.
+Other times, functions are named only with nouns. When this is done, the noun is _what the function returns_.
 
-[todo]
-'Ck' for boolean
-	In place of 'is'/'has'
-	Nouns or functions that return nouns
-	Distinguishes adjective 'uCkReady' from verb 'uReady'
-		Similar to 'uStatReady', which is named after what it returns
-		Verb/noun ambiguity still possible
+Roots representing boolean values (or functions that return booleans) begin with `Ck`. I intended this as a consistent replacement for the `is` and `has` terms that some developers use to prefix their boolean variables, but it is more useful than that. Consider a class method `uReady`. Does this method tell us _whether_ the instance is ready, or does it _cause_ the instance to become ready? In this case, it is the latter. If it were answering a ‘yes/no’ question like ‘is it ready?’, it would be called ‘uCkReady’.
 
-Factory functions often have roots that begin with `From`; the noun is implicit, since these functions can be invoked only after specifying the containing class or module:
+This honors the rule that standalone nouns in function names tell you _what_ is being returned. If the function were refactored later to return members from a ‘status’ enumeration, we would change its name to `uStatReady`. The meaning is clear in either case, and the `uReady` name remains available if the verb usage is also needed.
+
+English being what it is, it is still possible for ambiguities to arise. For instance, is ‘Cache’ a noun or a verb? When read as a noun, `uCache` perhaps returns a caching object. When read as a verb, the same function caches some unspecified value. It might help to suffix standalone verbs with an underscore (continuing the verb/underscore/object pattern described earlier) but I have never tried that. This problem isn’t especially common, but it is something to watch for, and sometimes I chose different names to avoid it.
+
+Factory functions often have roots that begin with `From`; the noun is implicit, since these functions are meant to be invoked after specifying the containing class or module:
 
 ```
-const oBoard = Board.uFromParse(oParseBoard);
+import * as Board from "./Board.js";
+
+function uExec(aParseBoard) {
+	const oBoard = Board.uFromParse(aParseBoard);
+	...
 ```
 
-[todo]
-‘elision’
-	`Pt2.uFromParse(aParse)`
-	Only if the type is used to prefix the function
-		Static methods
-		Module API exports
 
-When an object is used as a map (rather than a general-purpose data structure)
-'By'
-`CtsByText`
+#### Abbreviations and containers
 
-
-#### Abbreviations and numbers
-
-Long names produce long expressions that are hard to read, especially when the length causes the line to wrap, so longer words are abbreviated within identifiers, file and folder names, _et cetera_. Some developers, after being confounded by a few poorly-chosen abbreviations, forswear identifier abbreviation altogether. Every person, every team, and every industry abbreviates things, so the question is not _whether_ to abbreviate, it is _when_ and _how_ to abbreviate. The obvious answer: terms that are longer, or used more often, are more deserving of abbreviation. Note that the more you use a given term, the more you gain from abbreviation, and the safer it is to abbreviate, as the repetition makes it easier to remember. My projects frequently use the word ‘Position’, so I abbreviate aggressively to produce ‘Pos’. When I use a less common word like ‘Possible’, I choose something longer (maybe ‘Possib’) or leave it unabbreviated. A word that is abbreviated once is abbreviated everywhere in the project (outside of comments) and _always the same way_.
+Long names produce long expressions that are hard to read, especially when the length causes the line to wrap, so longer words are abbreviated within identifiers, file and folder names, _et cetera_. Some developers, after being confounded by a few poorly-chosen abbreviations, forswear identifier abbreviation altogether. Every person, every team, and every industry abbreviates things, so the question is not _whether_ to abbreviate, it is _when_ and _how_ to abbreviate. The obvious answer: terms that are longer, or used more often, are more deserving of abbreviation. Note that the more you use a given term, the more you gain by abbreviating it, and the safer it is to abbreviate, as the repetition makes it easier to remember. My projects frequently use the word ‘Position’, so I abbreviate aggressively to produce `Pos`. When I use a less common word like ‘Possible’, I choose something longer (maybe `Possib`) or leave it unabbreviated. A word that is abbreviated once is abbreviated everywhere in the project (outside of comments) and _always the same way_.
 
 An array (or other container) of values is fundamentally different from a single value,
 
@@ -195,7 +190,9 @@ arrays and other containers
 add ‘i’
 Distinguishes `Posi` from `Poss`
 
-It is _never acceptable_ to use an abbreviation to avoid a name collision. If names collide, you have failed to apply the prefixes correctly, or you have failed to include descriptive modifiers in your roots.
+It is _never acceptable_ to use or change an abbreviation to avoid a name collision. If names collide, you have failed to apply the prefixes correctly, or you have failed to include descriptive modifiers in your roots.
+
+Like other containers, maps (whether instances of the `Map` class, or plain objects used as maps) are named with a plural noun that describes what they contain. I suffix this with the word ‘By’ and a singular noun describing the input to the map. This produces something like `CtsByText`, much maps from ‘Text’ keys to ‘Ct’ values. This places the content of the container at the beginning of the name, while reminding the reader how the map is used.
 
 
 ### Function parameter checks
@@ -222,6 +219,8 @@ Even _talking_ about these objects is easier when you can summarize them with cl
 
 Class declarations neatly package your data, the methods that operate on that data, and the documentation for both.
 
+[todo] Private slots
+
 
 #### Method advantages
 
@@ -229,18 +228,21 @@ Classes (and more specifically, prototypal inheritance) also provide efficient s
 
 Methods provide a concise and expressive way to manipulate objects. Let’s make basic use of two APIs, one that works with plain objects:
 
-	import * as Arr2 from "Arr2Plain.js";
+```
+import * as Arr2 from "Arr2Plain.js";
 
-	const oArr2 = Arr2.uNew(20, 30);
-	const oCt = Arr2.Ct(oArr2);
+const oArr2 = Arr2.uNew(20, 30);
+const oCt = Arr2.Ct(oArr2);
+```
 
 and another that implements the same functionality with a class:
 
-	import tArr2 from "Arr2Class.js";
+```
+import tArr2 from "Arr2Class.js";
 
-	const oArr2 = new tArr2(20, 30);
-	const oCt = oArr2.Ct();
-
+const oArr2 = new tArr2(20, 30);
+const oCt = oArr2.Ct();
+```
 
 
 
@@ -279,8 +281,12 @@ Plain object advantages
 			Experience with UI frameworks
 
 
-[todo]
+#### Redux
 
+[todo]
+Having said all that, Redux makes it very difficult to represent state data with classes.
+
+[todo]
 A class like `tPoolDie` could easily be replaced with a factory function that returns a die-generating function. Many JavaScript developers would consider that more idiomatic, but is it better? The class implementation:
 
 - Cleanly separates initialization code from output-generating code;
