@@ -159,9 +159,9 @@ function uUpdFull_CacheRead() {
 
 Other times, functions are named only with nouns. When this is done, the noun is _what the function returns_.
 
-Roots representing boolean values (or functions that return booleans) begin with `Ck`. I intended this as a consistent replacement for the `is` and `has` terms that some developers use to prefix their boolean variables, but it is more useful than that. Consider a class method `uReady`. Does this method tell us _whether_ the instance is ready, or does it cause the instance to _become_ ready? In this case, it is the latter. If it were answering a ‘yes/no’ question like ‘is it ready?’, it would be called ‘uCkReady’.
+Roots representing boolean values (or functions that return booleans) begin with `Ck`. I intended this as a consistent replacement for the `is` and `has` terms that some developers use to prefix their boolean variables, but it is more useful than that. Consider a class method `uReady`. Does this method tell us _whether_ the instance is ready, or does it cause the instance to _become_ ready? In this case, it is the latter. If it were answering a ‘yes/no’ question, it would be called ‘uCkReady’.
 
-This honors the rule that standalone nouns in function names tell the reader _what_ is being returned. If the function were refactored later to return members from a status enumeration, we would change its name to `uStatReady`. The meaning is clear in either case, and the `uReady` name remains available if the verb usage is also required.
+This honors the rule that standalone nouns in function names tell the reader _what_ is being returned — in this case, a ‘check’. If the function were refactored to return members from a status enumeration, we would change its name to `uStatReady`. The meaning is clear in either case, and the `uReady` name remains available if the verb usage is also required.
 
 English being what it is, ambiguities can yet arise. For instance, is ‘Cache’ a noun or a verb? When read as a noun, `uCache` perhaps returns a caching object. When read as a verb, the same function caches some unspecified value. It might help to suffix standalone verbs with an underscore (continuing the ‘verb/underscore/object’ pattern described earlier) but I have never tried that. This problem isn’t especially common, but it is something to watch for, and sometimes I chose different names to avoid it.
 
@@ -178,20 +178,26 @@ function uExec(aParseBoard) {
 
 #### Abbreviations and containers
 
-Long names produce long expressions that are hard to read, especially when the length causes the line to wrap, so longer words are abbreviated within identifiers, file and folder names, _et cetera_. Some developers, after being confounded by a few poorly-chosen abbreviations, forswear identifier abbreviation altogether. Every person, every team, and every industry abbreviates things, so the question is not _whether_ to abbreviate, it is _when_ and _how_ to abbreviate. The obvious answer: terms that are longer, or used more often, are more deserving of abbreviation. Note that the more you use a given term, the more you gain by abbreviating it, and the safer it is to abbreviate, as the repetition makes it easier to remember. My projects frequently use the word ‘Position’, so I abbreviate aggressively to produce `Pos`. When I use a less common word like ‘Possible’, I choose something longer (maybe `Possib`) or leave it unabbreviated. A word that is abbreviated once must be abbreviated everywhere in the project (outside of comments) and _always the same way_.
+Long names produce long expressions that are hard to read, especially when their length causes the line to wrap, so longer words are abbreviated within identifiers, file and folder names, _et cetera_. Some developers, after being confounded by a few poorly-chosen abbreviations, forswear identifier abbreviation altogether. Every person, every team, and every industry abbreviates things, so the question is not _whether_ to abbreviate, it is _when_ and _how_ to abbreviate. The obvious answer: terms that are longer, or used more often, are more deserving of abbreviation. Note that the more you use a given term, the more you gain by abbreviating it, and the safer it is to abbreviate, as the repetition makes it easier to remember. My projects frequently use the word ‘Position’, so I abbreviate aggressively to produce `Pos`. When I use a less common word like ‘Possible’, I choose something longer (maybe `Possib`) or leave it unabbreviated. A word that is abbreviated once must be abbreviated everywhere in the project (outside of comments) and _always the same way_.
 
-Though they might contain the same type of data, a container of values differs fundamentally from a single value. For this reason, containers are given plural names that describe what they contain:
-
-```
-	let oID = aIDs[0];
-```
-
-It is usually unnecessary to indicate the type of the container within the root. However, I name maps (whether instances of the `Map` class, or plain objects used as maps) with a plural noun describing what the map contains, followed with ‘By’ and a singular noun describing the input to the map. This produces something like `CtsByText`, much maps from ‘Text’ keys to ‘Ct’ values. This places the content at the beginning of the name, like other containers, while reminding the reader how the map is used.
-
-It is sometimes necessary to pluralize a word that ends with ‘s’. Adding a second ‘s’ could produce something that looks like a different word or abbreviation (consider that `Pos` might become `Poss`) so I add the letter ‘i’ instead, which rarely causes that problem:
+Though they might contain the same type of data, a container of values differs fundamentally from a single value. For this reason, containers are given plural names:
 
 ```
-	const oPos = aPosi[0];
+let oID = aIDs[0];
+```
+
+It is usually unnecessary to indicate the type of the container. However, I name maps (whether instances of the `Map` class, or plain objects used as maps) with a plural noun describing what the map contains, followed with ‘By’ and a singular noun describing the input to the map. This produces something like `CtsByText`, much maps from ‘text’ keys to ‘count’ values. This places the content at the beginning of the name, like other container names, while reminding the reader how the map is used. It also places the value noun on the side from which the map will be read, and the key noun on the side from which it will be dereferenced:
+
+```
+const oCt = oCtsByID[aID];
+```
+
+If the name of the variable you’re writing to fails to match the left side, or if the value you’re using to dereference the map fails to match the right, you’re probably using the map incorrectly.
+
+It is sometimes necessary to pluralize a term that ends with ‘s’. Adding a second ‘s’ could produce something that looks like a different word or abbreviation (consider that `Pos` would become `Poss`) so I add the letter ‘i’, which seems to cause fewer problems:
+
+```
+const oPos = aPos[0];
 ```
 
 That’s a bit awkward, but I think the pluralization belongs in the root. It might be better to avoid abbreviations that end with ‘s’, or to pluralize these with ‘z’ instead.
