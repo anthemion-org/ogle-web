@@ -74,6 +74,9 @@ Bigger problems are produced by `useSelector` and `useDispatch`. These hooks —
 
 The Ogle source code uses a new identifier naming convention I am developing. This convention was inspired by the [Split notation](https://www.anthemion.org/split_notation.html) I use with C# and C++, but JavaScript differs so much from those languages, it seems impossible to make the notations compatible.
 
+
+#### Identifier prefixes
+
 Every identifier begins with zero or more prefixes, in the following order, with at most one prefix selected from each table:
 
 | Prefix | Meaning                                 |
@@ -116,7 +119,12 @@ class tBuff {
     ...
 ```
 
+[todo] Destructuring and spreading
+
 React requires that component names be capitalized, so component classes are _not_ prefixed with `t`.
+
+
+#### Identifier roots
 
 Most prefixes are followed by a Pascal-cased string describing the business concern or other high-level concept that is being referenced. This is called the _root_. Because scope and other technical details are documented in the prefixes, the same root can be reused — without name collisions — as the concept is referenced in different ways. Imagine a function that reads account data associated with a numeric index, logs the account retrieval, and then returns the data:
 
@@ -130,7 +138,13 @@ export function uAcct(ajAcct) {
 
 The function `uAcct`, the array index `ajAcct`, and the returned object `oAcct` all reference the same business concern, yet the names do not conflict. In fact, their commonality is _emphasized_, rather than hidden, making it easier to spot conceptual mismatches.
 
-Within the root, the noun or verb that defines the concept most basically is listed _first_, making it much easier to see what a given name represents. Modifiers follow in decreasing order of importance.
+Continuing that theme: within the root, the noun or verb that defines the concept most basically is listed _first_, making it easier to see what a given identifier represents. Modifiers follow in _decreasing order of importance_. This ensures that the most important words remain visible. In this example, the fact that we accidentally copied a credit card number (rather than the hash of that number) should draw immediate attention:
+
+	const oHashNumCardDef = aNumCardUser;
+
+When we names things the way most developers do, the problem is hidden:
+
+	const oDefCardNumHash = aUserCardNum;
 
 Functions are often named with a verb. If that verb acts on a direct object, the verb and its modifiers are listed _first_, these are followed by an underscore, then the verb’s _object_ is given, along with its modifiers. This clarifies which modifiers apply to the verb, and which to the object. As an example, a function that performs a ‘full update’ on the ‘read cache’ might be named:
 
@@ -155,13 +169,25 @@ Factory functions often have roots that begin with `From`; the noun is implicit,
 const oBoard = Board.uFromParse(oParseBoard);
 ```
 
-Long names produce long expressions that are hard to read, especially when the length causes the line to wrap, so longer words are abbreviated within identifiers, file and folder names, _et cetera_. Some developers, after being confounded by a few poorly-chosen abbreviations, forswear identifier abbreviation altogether. Every person, every team, and every industry abbreviates things, so the question isn't _whether_ to abbreviate, it is _when_ and _how_ to abbreviate. The obvious answer: longer terms, and terms used more often both deserve abbreviation. Note here that the more you use a given term, the more you gain from abbreviation, and the safer it is to abbreviate, as the repetition makes the abbreviation easier to remember. My projects frequently use the word ‘Position’, so I abbreviate aggressively to produce ‘Pos’. When I use a less common word like ‘Possible’, I choose something longer (like ‘Possib’) or leave it unabbreviated. A word that is abbreviated once is abbreviated everywhere (outside of comments) and _always the same way_ throughout the project.
+[todo]
+‘elision’
+	`Pt2.uFromParse(aParse)`
+	Only if the type is used to prefix the function
+		Static methods
+		Module API exports
+
+When an object is used as a map (rather than a general-purpose data structure)
+'By'
+`CtsByText`
+
+
+#### Abbreviations and numbers
+
+Long names produce long expressions that are hard to read, especially when the length causes the line to wrap, so longer words are abbreviated within identifiers, file and folder names, _et cetera_. Some developers, after being confounded by a few poorly-chosen abbreviations, forswear identifier abbreviation altogether. Every person, every team, and every industry abbreviates things, so the question is not _whether_ to abbreviate, it is _when_ and _how_ to abbreviate. The obvious answer: terms that are longer, or used more often, are more deserving of abbreviation. Note that the more you use a given term, the more you gain from abbreviation, and the safer it is to abbreviate, as the repetition makes it easier to remember. My projects frequently use the word ‘Position’, so I abbreviate aggressively to produce ‘Pos’. When I use a less common word like ‘Possible’, I choose something longer (maybe ‘Possib’) or leave it unabbreviated. A word that is abbreviated once is abbreviated everywhere in the project (outside of comments) and _always the same way_.
 
 An array (or other container) of values is fundamentally different from a single value,
 
 It is usually not necessary to indicate the type of the container within the root,
-
-It is important that names distinguish
 
 [todo]
 plurals
@@ -169,17 +195,7 @@ arrays and other containers
 add ‘i’
 Distinguishes `Posi` from `Poss`
 
-When an object is used as a map (rather than a general-purpose data structure)
-'By'
-`CtsByText`
-
-
-[todo]
-‘elision’
-	`Pt2.uFromParse(aParse)`
-	Only if the type is used to prefix the function
-		Static methods
-		Module API exports
+It is _never acceptable_ to use an abbreviation to avoid a name collision. If names collide, you have failed to apply the prefixes correctly, or you have failed to include descriptive modifiers in your roots.
 
 
 ### Function parameter checks
@@ -202,7 +218,7 @@ Type data also provides useful context for the developer. When you see the conte
 
 The class name also makes it easy to find the comments and methods associated with your data, and the places where it may have been instantiated. IDEs like VSCode display some of this information when you mouse over class names, and they can offer code completion when you’re referencing class members. Incidentally, where do you comment the members of your plain object? I know, _JavaScript developers don’t write comments_.
 
-Even _talking_ about these objects is easier when you can summarize them with class names. This is true whether you’re commenting or discussing with collaborators.
+Even _talking_ about these objects is easier when you can summarize them with class names. This is true whether you’re writing comments or discussing with collaborators.
 
 Class declarations neatly package your data, the methods that operate on that data, and the documentation for both.
 
