@@ -6,7 +6,7 @@ Ogle is a free word-finding game for the web and mobile. It derives from a table
 
 I created the [first version](https://github.com/anthemion-org/ogle) of this app years back, when I was learning C#. I created this version when I was learning React.
 
-Ogle is a ‘progressive web app’, so you can install it on your phone much like any other app. If you navigate to the [play address](https://www.anthemion.org/play-ogle/), your phone should offer to install it. Your phone’s browser will also display _Install app_ (or similar) in its page menu.
+Ogle is a progressive web app, so you can install it on your phone much like any other app. If you navigate to the [play address](https://www.anthemion.org/play-ogle/), your phone should offer to install it. Your phone’s browser will also display _Install app_ (or similar) in its page menu.
 
 If you find a bug, write to [support@anthemion.org](mailto://support@anthemion.org).
 
@@ -36,7 +36,7 @@ The `src` folder includes these subfolders:
 
 - `Util` contains general-purpose types and utilities.
 
-In this project, *views* are top-level components that represent pages. Most views correspond to `StsApp` values. *Dialogs* are smaller pages that are superimposed over views. Some people call these ‘modals’, even though they aren’t always modal. *Looks* are components that display complex data within a view or dialog. Some examples are `LookDie` (which renders a single letter die) and `LookBoard` (which renders the entire board).
+In this project, **views** are top-level components that represent pages. Most views correspond to `StsApp` values. **Dialogs** are smaller pages that are superimposed over views. Some people call these ‘modals’, even though they aren’t always modal. **Looks** are components that display complex data within a view or dialog. Some examples are `LookDie` (which renders a single letter die) and `LookBoard` (which renders the entire board).
 
 
 ## Architecture
@@ -63,9 +63,9 @@ The PWA works fairly well on Android, but it cannot reasonably be said that the 
 
 ### Class and function components
 
-Aside from `ViewSets` (and the error boundary) all components are implemented as functions, and most use hooks. That works well for simple components, but I think class components might have been better. `useEffect` is ugly, and it pulls all sorts of non-rendering functionality into what were just render functions. Handlers (if they do almost anything relevant) also must be defined there. `useCallback` adds another layer of nesting and indentation to these now massive functions.
+Aside from `ViewSets` (and the error boundary) all components are implemented as functions, and most use hooks. That works well for simple components, but I think class components might have been better. `useEffect` is ugly, and it pulls all sorts of non-rendering functionality into what was just a render function. Handlers (if they do almost anything relevant) also must be defined there. `useCallback` adds another layer of nesting and indentation to this now massive function.
 
-Bigger problems are produced by `useSelector` and `useDispatch`. These hooks — though convenient — couple the render code to specific selectors and actions, producing components that are _inherently less flexible_ than those wrapped by Redux’s (admittedly confusing) `connect` function. It’s easy to say that those are just bad hooks, and you can still use `connect` with your function components. If we eliminate the convenience of `useSelector` and `useDispatch`, however, I don’t see much reason to prefer functions over classes.
+Bigger problems are produced by `useSelector` and `useDispatch`. These hooks — though convenient — couple the render code to specific selectors and actions, producing components that are _inherently less flexible_ than those wrapped by Redux’s (admittedly confusing) `connect` function. It’s easy to say that those are just bad hooks, and you can still use `connect` with your function components. However, if we eliminate the convenience of `useSelector` and `useDispatch`, I don’t see much reason to prefer functions over classes.
 
 
 ## Programming conventions
@@ -86,7 +86,7 @@ Every identifier begins with zero or more prefixes, in the following order, with
 
 | Prefix | Meaning                                 |
 |:------:|-----------------------------------------|
-| `g`    | Mutable import                          |
+| `g`    | Mutable export/import                   |
 | `a`    | Function parameter                      |
 | `o`    | Local variable or function              |
 
@@ -159,7 +159,7 @@ function uUpdFull_CacheRead() {
 
 Other times, functions are named only with nouns. When this is done, the noun is _what the function returns_.
 
-Roots representing boolean values (or functions that return booleans) begin with `Ck`. I intended this as a consistent replacement for the `is` and `has` terms that some developers use to prefix their boolean variables, but it is more useful than that. Consider a class method `uReady`. Does this method tell us _whether_ the instance is ready, or does it cause the instance to _become_ ready? In this case, it is the latter. If it were answering a ‘yes/no’ question, it would be called ‘uCkReady’.
+Roots representing boolean values (or functions that return booleans) begin with `Ck`. I intended this as a consistent replacement for the `is` and `has` terms that some developers use to prefix their boolean variables, but it is more useful than that. Consider a class method `uReady`. Does this method tell us _whether_ the instance is ready, or does it cause the instance to _become_ ready? In this case, it is the latter. If it were answering a ‘yes/no’ question, it would be called `uCkReady`.
 
 This honors the rule that standalone nouns in function names tell the reader _what_ is being returned — in this case, a ‘check’. If the function were refactored to return members from a status enumeration, we would change its name to `uStatReady`. The meaning is clear in either case, and the `uReady` name remains available if the verb usage is also required.
 
@@ -180,19 +180,19 @@ function uExec(aParseBoard) {
 
 Long names produce long expressions that are hard to read, especially when their length causes the line to wrap, so longer words are abbreviated within identifiers, file and folder names, _et cetera_. Some developers, after being confounded by a few poorly-chosen abbreviations, forswear identifier abbreviation altogether. Every person, every team, and every industry abbreviates things, so the question is not _whether_ to abbreviate, it is _when_ and _how_ to abbreviate. The obvious answer: terms that are longer, or used more often, are more deserving of abbreviation. Note that the more you use a given term, the more you gain by abbreviating it, and the safer it is to abbreviate, as the repetition makes it easier to remember. My projects frequently use the word ‘Position’, so I abbreviate aggressively to produce `Pos`. When I use a less common word like ‘Possible’, I choose something longer (maybe `Possib`) or leave it unabbreviated. A word that is abbreviated once must be abbreviated everywhere in the project (outside of comments) and _always the same way_.
 
-Though they might contain the same type of data, a container of values differs fundamentally from a single value. For this reason, containers are given plural names:
+Though they might contain the same type of data, a container of values differs fundamentally from a single value. For this reason, containers must be given plural names:
 
 ```
 let oID = aIDs[0];
 ```
 
-It is usually unnecessary to indicate the type of the container. However, I name maps (whether instances of the `Map` class, or plain objects used as maps) with a plural noun describing what the map contains, followed with ‘By’ and a singular noun describing the input to the map. This produces something like `CtsByText`, much maps from ‘text’ keys to ‘count’ values. This places the content at the beginning of the name, like other container names, while reminding the reader how the map is used. It also places the value noun on the side from which the map will be read, and the key noun on the side from which it will be dereferenced:
+It is usually unnecessary to indicate the type of the container. However, I name maps (whether instances of the `Map` class, or plain objects used as maps) with a plural noun describing what the map contains, followed with ‘By’ and a singular noun describing the input to the map. The result is something like `CtsByID`, much maps from ‘ID’ keys to ‘count’ values. This places the content at the beginning of the name, like other container names, while reminding the reader how the map is used. It also places the value noun on the side from which the map will be read, and the key noun on the side from which it will be dereferenced:
 
 ```
 const oCt = oCtsByID[aID];
 ```
 
-If the name of the variable you’re writing to fails to match the left side, or if the value you’re using to dereference the map fails to match the right, you’re probably using the map incorrectly.
+If the name of the variable you’re writing to fails to match the left side, or if the variable you’re using to dereference the map fails to match the right, you’re probably using the map incorrectly.
 
 It is sometimes necessary to pluralize a term that ends with ‘s’. Adding a second ‘s’ could produce something that looks like a different word or abbreviation (consider that `Pos` would become `Poss`) so I add the letter ‘i’, which seems to cause fewer problems:
 
@@ -214,12 +214,27 @@ As something of an experiment, the `Misc` module defines a `uCkThrow_Params` fun
 
 Many JavaScript developers share a bizarre prejudice against classes, and the more I read about their rationale, the more obvious it becomes that they don’t understand classes in the first place. This has unfortunate implications for the entire community.
 
+[todo]
+Common misconceptions
+	Classes mean inheritance
+		For efficient method access, not necessary (though possible) to do more
+	Prototypal inheritance is better than classes
+		SERIOUSLY?
+	Classes mean `new`
+		Static factory methods
+	Classes mean mutable data
+		No more than plain objects
+		Subclass must be immutable if parent is
+			Liskov substitution
+
 Let’s attempt an objective comparison of classes and plain objects. We’ll also cover methods, while acknowledging that these can be used (to some extent) with plain objects.
+
+[todo] 'Class' synonymous with prototypal inheritance
 
 
 #### Class advantages
 
-First, _type information is useful_. Whether you use TypeScript or not, type checks are a good way to verify the correctness of your program, and they are much easier when your objects contain type data (by way of the `constructor` property). If they check anything at all, most JavaScript developers use a sort of ‘duck type checking’, where they receive an object, look for the members they need, then throw if one is missing. That _is_ more flexible, but it’s also more work, and it produces noisy code.
+First, _type information is useful_. Whether you use TypeScript or not, type checks are a good way to verify the correctness of your program, and — even without compile-time checking — they are much easier when your objects contain type data (by way of the `constructor` property). If they check anything at all, most JavaScript developers use a sort of ‘duck type checking’, where they receive an object, look for the members they need, then throw if one is missing. That _is_ more flexible, but it’s also more work, and it produces noisy code.
 
 Type data also provides useful context for the developer. When you see the content of a plain object, do you know what the object represents? Maybe, or maybe the name of the object reference tells you, but it’s not always clear. The class name _tells you what the data represents_.
 
@@ -239,37 +254,47 @@ Classes (and more specifically, prototypal inheritance) also provide efficient s
 Methods provide a concise and expressive way to manipulate objects. Let’s make basic use of two APIs, one that works with plain objects:
 
 ```
-import * as Arr2 from "Arr2Plain.js";
-
-const oArr2 = Arr2.uNew(20, 30);
-const oCt = Arr2.Ct(oArr2);
-```
-
-and another that implements the same functionality with a class:
-
-```
 import tArr2 from "Arr2Class.js";
 
 const oArr2 = new tArr2(20, 30);
 const oCt = oArr2.Ct();
 ```
 
+and another implemented with a class:
 
+```
+import * as Arr2 from "Arr2Plain.js";
 
+const oArr2 = Arr2.uNew(20, 30);
+const oCt = Arr2.Ct(oArr2);
+```
+
+When implementing in class, `this` necessary
+	Handler binding
+`this` not necessary in closure, but method properties duplicated
+	Attaching Pt2 API in `uNew` made 'SearchBoard uExec: Speed' run ~7.5% longer
+	Most likely construction time, but memory could be relevant
+	Okay for most types
+	Still not serializable
+
+Method objects never serializable
+	Can disable action check in Redux
+		Still have to restore methods when reading from selector
+			Can't change prototype
 
 Class/object method advantages
 	Concise, expressive API invocation
 		Reference before dot is 'special' argument
 		Dereference defines method location and provides `this` with one identifier
 			`this` binding
-	Optional chaining invocation (`?.`)
-		const oPosi = oArr.uPosEnd()?.uPosiAdjacent();
-			Arr.uPosEnd(oArr)?.uPosiAdjacent(aPos);
 	Polymorphic
 		Procedural function requires module name plus separate argument for `this`
 			Couples invocation to module
 			Can select different modules by replacing module reference with variable
 				Awkward to store this variable in object itself
+	Optional chaining invocation (`?.`)
+		const oPosi = oArr.uPosEnd()?.uPosiAdjacent();
+			Arr.uPosEnd(oArr)?.uPosiAdjacent(aPos);
 
 Typescript interfaces provide these advantages, but only with respect to data
 
@@ -289,6 +314,8 @@ Plain object advantages
 		https://en.wikipedia.org/wiki/Composition_over_inheritance
 		Complex hierarchies don't happen that often
 			Experience with UI frameworks
+
+Can encapsulate with closures
 
 
 #### Redux
