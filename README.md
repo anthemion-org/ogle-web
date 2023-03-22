@@ -120,20 +120,24 @@ class tBuff {
 ```
 
 
-##### Problems and exceptions
+##### Prefix exceptions
+
+At times, it is impractical to prefix the way I would like:
 
 - Many developers define parameters or other variables that sometimes reference functions, and sometimes reference non-function values. I think this is usually a bad idea, because it is impossible to name these accurately, even without prefixes. I considered a prefix for identifiers that _sometimes_ reference functions, but it doesn’t seem worth it;
 
 - React requires that component names be capitalized, so component classes _cannot_ be prefixed with `t`;
 
-- Some prefixes do not work well with destructuring, particularly `a` and `o`. When using named parameters:
+- Some prefixes do not work well with destructuring, particularly `a` and `o`.
+
+When using destructuring to implement named parameters:
 
 ```
 function uAdd({ Card, Ent, CkAddFollow, CkSkipAdd }) {
 	...
 ```
 
-they must be renamed in the destructuring pattern, which is very noisy:
+applying the `a` prefix requires that parameters be renamed in the destructuring pattern, which is very noisy:
 
 ```
 function uAdd({ Card: aCard, Ent: aEnt, CkAddFollow: aCkAddFollow,
@@ -141,14 +145,14 @@ function uAdd({ Card: aCard, Ent: aEnt, CkAddFollow: aCkAddFollow,
 	...
 ```
 
-Note that it would _not_ be correct to apply the `a` prefix within the pattern:
+Note that it would _not_ be correct to apply the prefix within the pattern:
 
 ```
 function uAdd({ aCard, aEnt, aCkAddFollow, aCkSkipAdd }) {
 	...
 ```
 
-as the names would look like function parameters from the _caller’s_ function:
+as the names would look like function parameters when specified by the caller:
 
 ```
 uAdd({ aCard: oCard, aEnt: oEnt, aCkAddFollow: true, aCkSkipAdd: true })
@@ -156,9 +160,9 @@ uAdd({ aCard: oCard, aEnt: oEnt, aCkAddFollow: true, aCkSkipAdd: true })
 
 It is appropriate to omit prefixes in these cases. This _can_ cause names to collide with non-function class members (most of which use no prefix) but since classes are unpopular in the JavaScript world (see below) that is less of a problem.
 
-Obviously, third-party code also fails to use the prefixes, and that is fine. Working with third-party code always requires adaptation, to different names and metaphors, different programming styles, _et cetera_. The notation does not exist to give OCD sufferers an outlet for their manic energies. It is meant to make things _better_, not _perfect_.
+Obviously, third-party code also fails to use the prefixes, and that is fine. Working with such code always requires adaptation, to different names and metaphors, different programming styles, _et cetera_. The notation does not exist to give OCD sufferers an outlet for their manic energies. It is meant to make things _better_, not _perfect_.
 
-Having said that, _I’m not convinced that the notation works in this language_. It’s very helpful in C# and C++, but it disagrees in some ways with the flexibility of JavaScript, which after all is JavaScript’s only good quality. I’m still thinking about it.
+Having said that, _I’m not convinced that the notation works in this language_. It’s very helpful in C# and C++, but it disagrees to some extent with the flexibility of JavaScript — which after all is the language’s only good quality. I’m still thinking about it.
 
 
 #### Identifier roots
@@ -242,7 +246,11 @@ const oPos = aPos[0];
 
 That’s a bit awkward, but I think the pluralization belongs in the root. It might be better to avoid abbreviations that end with ‘s’, or to pluralize these with ‘z’ instead.
 
-It is _never acceptable_ to use or change an abbreviation to avoid a name collision. If names collide, you have failed to apply the prefixes correctly, or you have failed to include descriptive modifiers in your roots.
+It is _never acceptable_ to use or change an abbreviation to avoid a name collision. If names collide:
+
+- You have failed to apply the prefixes correctly (though possibly because you were forced to — see [Prefix exceptions](#####prefix-exceptions) above); or,
+
+- You have failed to include descriptive modifiers in your roots.
 
 
 ### Function parameter checks
