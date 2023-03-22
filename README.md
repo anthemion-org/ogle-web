@@ -119,10 +119,46 @@ class tBuff {
     ...
 ```
 
-[todo] Destructuring and spreading
-[todo] 'Unions'
 
-React requires that component names be capitalized, so component classes are _not_ prefixed with `t`.
+##### Problems and exceptions
+
+- Many developers define parameters or other variables that sometimes reference functions, and sometimes reference non-function values. I think this is usually a bad idea, because it is impossible to name these accurately, even without prefixes. I considered a prefix for identifiers that _sometimes_ reference functions, but it doesn’t seem worth it;
+
+- React requires that component names be capitalized, so component classes _cannot_ be prefixed with `t`;
+
+- Some prefixes do not work well with destructuring, particularly `a` and `o`. When using named parameters:
+
+```
+function uAdd({ Card, Ent, CkAddFollow, CkSkipAdd }) {
+	...
+```
+
+they must be renamed in the destructuring pattern, which is very noisy:
+
+```
+function uAdd({ Card: aCard, Ent: aEnt, CkAddFollow: aCkAddFollow,
+	CkSkipAdd: aCkSkipAdd }) {
+	...
+```
+
+Note that it would _not_ be correct to apply the `a` prefix within the pattern:
+
+```
+function uAdd({ aCard, aEnt, aCkAddFollow, aCkSkipAdd }) {
+	...
+```
+
+as the names would look like function parameters from the _caller’s_ function:
+
+```
+uAdd({ aCard: oCard, aEnt: oEnt, aCkAddFollow: true, aCkSkipAdd: true })
+```
+
+It is appropriate to omit prefixes in these cases. This _can_ cause names to collide with non-function class members (most of which use no prefix) but since classes are unpopular in the JavaScript world (see below) that is less of a problem.
+
+Obviously, third-party code also fails to use the prefixes, and that is fine. Working with third-party code always requires adaptation, to different names and metaphors, different programming styles, _et cetera_. The notation does not exist to give OCD sufferers an outlet for their manic energies. It is meant to make things _better_, not _perfect_.
+
+Having said that, _I’m not convinced that the notation works in this language_. It’s very helpful in C# and C++, but it disagrees in some ways with the flexibility of JavaScript, which after all is JavaScript’s only good quality. I’m still thinking about it.
 
 
 #### Identifier roots
@@ -141,11 +177,15 @@ The function `uAcct`, the array index `ajAcct`, and the returned object `oAcct` 
 
 Continuing that theme: within the root, the noun or verb that defines the concept most basically is listed _first_, making it easier to see what a given identifier represents. Modifiers follow in _decreasing order of importance_. This ensures that the most important words remain visible. In the following example, the fact that we accidentally copied a credit card number (rather than the hash of that number) should draw immediate attention:
 
-	const oHashNumCardDef = aNumCardUser;
+```
+const oHashNumCardDef = aNumCardUser;
+```
 
 When we name things the way most developers do, the problem is hidden:
 
-	const oDefCardNumHash = aUserCardNum;
+```
+const oDefCardNumHash = aUserCardNum;
+```
 
 
 ##### Function roots
@@ -171,8 +211,8 @@ Factory functions often have roots that begin with ‘From’; the noun is impli
 import * as Board from "./Board.js";
 
 function uExec(aParseBoard) {
-	const oBoard = Board.uFromParse(aParseBoard);
-	...
+  const oBoard = Board.uFromParse(aParseBoard);
+  ...
 ```
 
 
