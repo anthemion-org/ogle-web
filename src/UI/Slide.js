@@ -9,7 +9,7 @@
 //
 
 import "./Slide.css";
-import Feed from "../Feed.js";
+import MgrFeed from "../MgrFeed.js";
 
 import React from "react";
 
@@ -22,7 +22,7 @@ import React from "react";
  *  The usual range inputs props are supported. */
 function Slide(aProps) {
 	function ouHandPointOver(aEvt) {
-		Feed.uPointOver();
+		MgrFeed.uPointOver();
 	}
 
 	// Different rules are used in ouHandPointDown and ouHandPointMove to
@@ -84,7 +84,7 @@ function Slide(aProps) {
 	}
 
 	function ouHandChange(aEvt) {
-		Feed.uSelDie();
+		MgrFeed.uSelDie();
 
 		if (aProps.onChange) aProps.onChange(aEvt);
 	}

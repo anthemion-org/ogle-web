@@ -1,11 +1,11 @@
-// Feed.js
-// =======
+// MgrFeed.js
+// ==========
 // Copyright ©2022 Jeremy Kelly
 // www.anthemion.org
 
 // Import with:
 //
-//   import Feed from "../Feed.js";
+//   import MgrFeed from "../MgrFeed.js";
 //
 
 // Audio on mobile devices
@@ -76,7 +76,7 @@ import * as Misc from "./Util/Misc.js";
 
 /** Provides audio or haptic feedback appropriate for various application
  *  events. This class is mutable. */
-class tFeed {
+class tMgrFeed {
 	constructor() {
 		/** Set to `true` if the app is running on a mobile device. */
 		this._CkMob = Misc.uCkMob();
@@ -258,5 +258,5 @@ export const StsLoop = {
 };
 Object.freeze(StsLoop);
 
-const Feed = new tFeed();
-export default Feed;
+const MgrFeed = new tMgrFeed();
+export default MgrFeed;

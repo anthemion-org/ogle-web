@@ -9,7 +9,7 @@
 //
 
 import "./Die.css";
-import Feed from "../Feed.js";
+import MgrFeed from "../MgrFeed.js";
 import * as Dir4 from "../Util/Dir4.js";
 
 import React from "react";
@@ -58,7 +58,7 @@ LookDie.propTypes = {
  */
 export default function LookDie(aProps) {
 	function ouHandPointOver(aEvt) {
-		if (!aProps.CkDisp) Feed.uPointOver();
+		if (!aProps.CkDisp) MgrFeed.uPointOver();
 	}
 
 	function ouHandPointDown(aEvt) {

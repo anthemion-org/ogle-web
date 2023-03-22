@@ -63,9 +63,9 @@ The PWA works fairly well on Android, but it cannot reasonably be said that the 
 
 ### Class and function components
 
-Aside from `ViewSets` (and the error boundary) all components are implemented as functions, and most use hooks. That works well for simple components, but I think class components might have been better. `useEffect` is ugly, and it pulls all sorts of non-rendering functionality into what was just a render function. Handlers (if they do almost anything relevant) also must be defined there. `useCallback` adds another layer of nesting and indentation to this now massive function.
+Aside from `ViewSets` (and the error boundary) all components are implemented as functions, and most use hooks. That works well for simple components, but class components might have been better. `useEffect` is ugly, and it pulls all sorts of non-rendering functionality into what was just a render function. Handlers (if they do almost anything relevant) also must be defined there. `useCallback` adds another layer of nesting and indentation to this now massive function.
 
-Bigger problems are produced by `useSelector` and `useDispatch`. These hooks — though convenient — couple the render code to specific selectors and actions, producing components that are _inherently less flexible_ than those wrapped by Redux’s (admittedly confusing) `connect` function. It’s easy to say that those are just bad hooks, and you can still use `connect` with your function components. However, if we eliminate the convenience of `useSelector` and `useDispatch`, I don’t see much reason to prefer functions over classes.
+Bigger problems are produced by `useSelector` and `useDispatch`. These hooks — though convenient — couple the render code to specific selectors and actions, producing components that are _inherently less flexible_ than those wrapped by Redux’s (admittedly confusing) `connect` function. It’s easy to say that those are just bad hooks, and you can still use `connect` with your function components. However, if we eliminate the convenience of `useSelector` and `useDispatch`, there isn’t as much reason to prefer functions over classes.
 
 
 ## Programming conventions
@@ -122,15 +122,15 @@ class tBuff {
 
 ##### Prefix exceptions
 
-At times, it is impractical to prefix the way I would like:
+At times, it is impractical to apply certain prefixes:
 
-- Many developers define parameters or other variables that sometimes reference functions, and sometimes reference non-function values. I think this is usually a bad idea, because it is impossible to name these accurately, even without prefixes. I considered a prefix for identifiers that _sometimes_ reference functions, but it doesn’t seem worth it;
+- Many developers define parameters or other variables that sometimes reference functions, and sometimes reference non-function values, and there is no way to prefix these correctly. I think it is usually wrong to use variables this way, because it is impossible to name them accurately, even without prefixes. I considered a prefix for identifiers that _sometimes_ reference functions, but it doesn’t seem worth it;
 
 - React requires that component names be capitalized, so component classes _cannot_ be prefixed with `t`;
 
 - Some prefixes do not work well with destructuring, particularly `a` and `o`.
 
-When using destructuring to implement named parameters:
+When destructuring is used to implement named parameters:
 
 ```
 function uAdd({ Card, Ent, CkAddFollow, CkSkipAdd }) {
@@ -179,7 +179,7 @@ export function uAcct(ajAcct) {
 
 The function `uAcct`, the array index `ajAcct`, and the returned object `oAcct` all reference the same business concern, yet the names do not conflict. In fact, their commonality is _emphasized_, rather than hidden, making it easier to spot conceptual mismatches.
 
-Continuing that theme: within the root, the noun or verb that defines the concept most basically is listed _first_, making it easier to see what a given identifier represents. Modifiers follow in _decreasing order of importance_. This ensures that the most important words remain visible. In the following example, the fact that we accidentally copied a credit card number (rather than the hash of that number) should draw immediate attention:
+To maintain that emphasis, the noun or verb that defines the concept most basically is listed _first_ within the root, making it easier to see what a given identifier represents. Modifiers follow in _decreasing order of importance_. This ensures that the most important words remain visible. In the following example, the fact that we accidentally copied a credit card number (rather than the hash of that number) should draw immediate attention:
 
 ```
 const oHashNumCardDef = aNumCardUser;
@@ -191,6 +191,15 @@ When we name things the way most developers do, the problem is hidden:
 const oDefCardNumHash = aUserCardNum;
 ```
 
+It is sometimes acceptable to omit the root, producing an identifier of prefixes only, as in the loop index below:
+
+```
+for (let oj = 0; oj < aEls.length; ++oj) {
+  ...
+```
+
+This should be reserved for short functions, where the context is simple and obvious.
+
 
 ##### Function roots
 
@@ -201,13 +210,19 @@ function uUpdFull_CacheRead() {
   ...
 ```
 
-Other times, functions are named only with nouns. When this is done, the noun is _what the function returns_.
+These ‘verb’ functions usually produce side effects.
 
-Roots representing boolean values (or functions that return booleans) begin with `Ck`. I intended this as a consistent replacement for the `is` and `has` terms that some developers use to prefix their boolean variables, but it is more useful than that. Consider a class method `uReady`. Does this method tell us _whether_ the instance is ready, or does it cause the instance to _become_ ready? In this case, it is the latter. If it were answering a ‘yes/no’ question, it would be called `uCkReady`.
+Other times, functions are named only with nouns. When this is done, the noun is _what the function returns_. These ‘noun’ functions usually do _not_ produce side effects, though they can. When the result is assigned to a variable, that variable generally has a similar root, making it easier to spot crossed wires:
 
-This honors the rule that standalone nouns in function names tell the reader _what_ is being returned — in this case, a ‘check’. If the function were refactored to return members from a status enumeration, we would change its name to `uStatReady`. The meaning is clear in either case, and the `uReady` name remains available if the verb usage is also required.
+```
+const oBuff = aStm.uBuff();
+```
 
-English being what it is, ambiguities can yet arise. For instance, is ‘Cache’ a noun or a verb? When read as a noun, `uCache` perhaps returns a caching object. When read as a verb, the same function caches some unspecified value. It might help to suffix standalone verbs with an underscore (continuing the ‘verb/underscore/object’ pattern described earlier) but I have never tried that. This problem isn’t especially common, but it is something to watch for, and sometimes I chose different names to avoid it.
+Roots representing boolean values typically begin with `Ck`. This provides a consistent replacement for the `is` and `has` prefixes that some developers use for boolean identifiers.
+
+When a function returns a boolean, the `Ck` root honors the rule that noun names tell the reader _what_ is being returned — specifically, a ‘check’ of some sort. This avoids many ambiguities. Consider a method named `uReady`. Does this method tell us _whether_ the instance is ready, or does it cause the instance to _become_ ready? If the method were answering a ‘yes/no’ question, it would be called `uCkReady`, so the verb usage must be intended. Distinguishing ‘noun’ functions from ‘verb’ functions makes both names more meaningful, and it allows `uReady` and `uCkReady` to be defined in the same instance without a name collision.
+
+English being what it is, ambiguities can yet arise. For instance, is ‘Cache’ a noun or a verb? When read as a noun, `uCache` perhaps returns a caching object. When read as a verb, the same function caches some unspecified value. It might help to suffix standalone verbs with an underscore (continuing the ‘verb/underscore/object’ pattern described earlier) but I have never tried that. Most ambiguities are solved by the ‘verb/noun’ distinction, but this is something to watch for, and sometimes I chose different names to avoid it.
 
 Factory functions often have roots that begin with ‘From’; the noun is implicit, as these functions are meant to be invoked after specifying the containing class or module:
 
@@ -230,7 +245,7 @@ Though they might contain the same type of data, a container of values differs f
 let oID = aIDs[0];
 ```
 
-It is usually unnecessary to indicate the type of the container. However, I name maps (whether instances of the `Map` class, or plain objects used as maps) with a plural noun describing what the map contains, followed with ‘By’ and a singular noun describing the input to the map. The result is something like `CtsByID`, much maps from ‘ID’ keys to ‘count’ values. This places the content at the beginning of the name, like other container names, while reminding the reader how the map is used. It also places the value noun on the side from which the map will be read, and the key noun on the side from which it will be dereferenced:
+It is usually unnecessary to indicate the type of the container. However, I name maps (whether instances of the `Map` class, or plain objects used as maps) with a plural noun describing what the map contains, suffixed with ‘By’, and followed by a singular noun describing the input to the map. The result is something like `CtsByID`, which maps from ‘ID’ keys to ‘count’ values. This places the content at the beginning of the name, like other container names, while reminding the reader how the map is used. It also places the value noun on the side from which the map will be read, and the key noun on the side from which it will be dereferenced:
 
 ```
 const oCt = oCtsByID[aID];
@@ -244,18 +259,18 @@ It is sometimes necessary to pluralize a term that ends with ‘s’. Adding a s
 const oPos = aPos[0];
 ```
 
-That’s a bit awkward, but I think the pluralization belongs in the root. It might be better to avoid abbreviations that end with ‘s’, or to pluralize these with ‘z’ instead.
+That’s a bit awkward, but the pluralization belongs in the root, not in a prefix. It might be better to avoid abbreviations that end with ‘s’, or to pluralize these with ‘z’ instead.
 
 It is _never acceptable_ to use or change an abbreviation to avoid a name collision. If names collide:
 
-- You have failed to apply the prefixes correctly (though possibly because you were forced to — see [Prefix exceptions](#####prefix-exceptions) above); or,
+- You have failed to apply the prefixes correctly (though possibly because you were forced to — see [Prefix exceptions](#prefix-exceptions) above); or,
 
 - You have failed to include descriptive modifiers in your roots.
 
 
 ### Function parameter checks
 
-As something of an experiment, the `Misc` module defines a `uCkThrow_Params` function that I am using to check parameter types in many functions. For the most part, I have reserved it for public class methods and API functions. The check is a bit slow, so it is excluded from the critical path within the word search, and from low-level types like Pt2. It is disabled entirely within the production environment.
+As something of an experiment, the `Misc` module defines a `uCkThrow_Params` function that is used to check parameter types in many functions. For the most part, I have reserved it for public class methods and API functions. The check is a bit slow, so it is excluded from the critical path within the word search, and from low-level types like Pt2. It is disabled entirely within the production environment.
 
 
 ### Classes, methods, and plain objects

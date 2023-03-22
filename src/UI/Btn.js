@@ -8,7 +8,7 @@
 //   import Btn from "./Btn.js";
 //
 
-import Feed from "../Feed.js";
+import MgrFeed from "../MgrFeed.js";
 
 import React, { useState } from "react";
 import PropTypes from "prop-types";
@@ -47,7 +47,7 @@ function Btn(aProps) {
 	const [ oCkDown, ouSet_CkDown ] = useState(false);
 
 	function ouHandPointOver(aEvt) {
-		Feed.uPointOver();
+		MgrFeed.uPointOver();
 
 		if (aProps.onPointOver) aProps.onPointOver(aEvt);
 	}
@@ -92,7 +92,7 @@ function Btn(aProps) {
 		// 'onPointerUp'. For now, this is all I can do:
 		if (!oCkDown) return;
 
-		if (!aProps.CkDisabFeedClick) Feed.uSelDie();
+		if (!aProps.CkDisabFeedClick) MgrFeed.uSelDie();
 
 		if (aProps.onClick) aProps.onClick(aEvt);
 	}

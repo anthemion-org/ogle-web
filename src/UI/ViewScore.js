@@ -15,7 +15,7 @@ import Btn from "./Btn.js";
 import StsApp from "../StsApp.js";
 import * as Setup from "../Round/Setup.js";
 import { StatsWord, uScoresCoversFromCards } from "../Round/ScoreWord.js";
-import Feed from "../Feed.js";
+import MgrFeed from "../MgrFeed.js";
 import { uSelSetup, Set_StApp } from "../Store/SliceApp.js";
 import { uSelBoard, uSelCardOgle, uSelCardUser } from "../Store/SlicePlay.js";
 import { uSelScoresHigh, Add_ScoreHigh } from "../Store/SliceScore.js";
@@ -86,7 +86,7 @@ export default function ViewScore() {
 			const oScore = oScores[oEl.dataset.idxWord];
 			ouSet_ScoreWord(oScore);
 
-			Feed.uSelDie();
+			MgrFeed.uSelDie();
 		}
 	}
 

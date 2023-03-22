@@ -19,7 +19,7 @@ import LookBoard from "./LookBoard.js";
 import DlgHelp from "./DlgHelp.js";
 import DlgVerWord from "./DlgVerWord.js";
 import Lex from "../Search/Lex.js";
-import Feed from "../Feed.js";
+import MgrFeed from "../MgrFeed.js";
 import { uSelSetup, Set_StApp } from "../Store/SliceApp.js";
 import {
 	uSelCkBoard,
@@ -143,7 +143,7 @@ export default function ViewPlay() {
 		return () => {
 			if (oIDTimer !== null) clearInterval(oIDTimer);
 			// In case of a tab conflict scram:
-			Feed.uStop_Tick();
+			MgrFeed.uStop_Tick();
 		}
 	}
 	useEffect(ouRun_Timer, [ouDispatch, oBoard, oStPlay, oCkVerWord]);
@@ -165,28 +165,28 @@ export default function ViewPlay() {
 		//
 		// I tried a number of designs that managed the tick timing here in the
 		// effect, but none worked well. This approach delegates timing to the
-		// `Feed` class, which produces much simpler code here.
+		// `MgrFeed` class, which produces much simpler code here.
 
 		if (!oBoard || (oStPlay !== StsPlay.Play) || oCkVerWord) {
 			ouSet_CkBlinkPause(false);
-			Feed.uStop_Tick();
+			MgrFeed.uStop_Tick();
 			return;
 		}
 
 		const oTimeRemain = uTimeRemain(oSetup, oCardUser.CtBonusTime, oTimeElap);
 		if (oTimeRemain < 1) {
-			Feed.uStop_Tick();
+			MgrFeed.uStop_Tick();
 			ouDispatch(Set_StApp(StsApp.Score));
 			return;
 		}
 
 		if (oTimeRemain < oTimeRemainLow) {
 			ouSet_CkBlinkPause(true);
-			Feed.uLoopFast_Tick();
+			MgrFeed.uLoopFast_Tick();
 		}
 		else {
 			ouSet_CkBlinkPause(false);
-			Feed.uLoopSlow_Tick();
+			MgrFeed.uLoopSlow_Tick();
 		}
 
 		// Note that we cannot return a clean-up function; doing so would cause the
@@ -382,7 +382,7 @@ export default function ViewPlay() {
 				const oText = Board.uDie(oBoard, aPos).Text;
 				const oEntNew = EntWord.uFromPosText(aPos, oText);
 				ouSet_EntUser(oEntNew);
-				Feed.uSelDie();
+				MgrFeed.uSelDie();
 				return;
 			}
 
@@ -390,7 +390,7 @@ export default function ViewPlay() {
 			if (EntWord.uCkAt(oEntUser, aPos)) {
 				const oEntPrev = EntWord.uClonePrev(oEntUser, aPos);
 				ouSet_EntUser(oEntPrev);
-				Feed.uUnselDie();
+				MgrFeed.uUnselDie();
 				return;
 			}
 
@@ -398,7 +398,7 @@ export default function ViewPlay() {
 			const oText = Board.uDie(oBoard, aPos).Text;
 			const oEntAdd = EntWord.uFromPosText(aPos, oText, oEntUser);
 			ouSet_EntUser(oEntAdd);
-			Feed.uSelDie();
+			MgrFeed.uSelDie();
 		},
 		[ oBoard, oEntUser, ouCkEnab ]
 	);
@@ -407,7 +407,7 @@ export default function ViewPlay() {
 	const ouClear_Ent = useCallback(
 		function () {
 			ouSet_EntUser(null);
-			Feed.uUnselDie();
+			MgrFeed.uUnselDie();
 		},
 		[]
 	);
@@ -425,7 +425,7 @@ export default function ViewPlay() {
 				// I was playing the 'unselect' feedback here, and also when the
 				// selection was too short to be entered:
 				//
-				//   Feed.uUnselDie();
+				//   MgrFeed.uUnselDie();
 				//
 				// However, it was necessary to remove the `preventDefault` calls from
 				// the mouse and pointer event handlers, and that caused the unselect
@@ -446,7 +446,7 @@ export default function ViewPlay() {
 			// The word is not recognized:
 			if (!Lex.uCkKnown(oText)) {
 				ouSet_CkVerWord(true);
-				Feed.uEntInval();
+				MgrFeed.uEntInval();
 				return;
 			}
 
@@ -456,8 +456,8 @@ export default function ViewPlay() {
 			// Note that we are _not_ adding the entry, just checking what will happen
 			// when it _is_ added by the reducer:
 			const oCkVal = Card.uAdd(oCardUser, oEntUser, false, true);
-			if (oCkVal) Feed.uEntVal();
-			else Feed.uEntInval();
+			if (oCkVal) MgrFeed.uEntVal();
+			else MgrFeed.uEntInval();
 
 			ouSet_EntUser(null);
 		},
