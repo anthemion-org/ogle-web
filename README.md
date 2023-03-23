@@ -77,12 +77,11 @@ The Ogle source code uses a new identifier naming convention I am developing. Th
 
 #### Identifier prefixes
 
-Every identifier begins with zero or more prefixes, in the following order, with at most one prefix selected from each table:
+Every identifier begins with zero or more prefixes, in the following order, with at most one prefix from each table:
 
 | Prefix | Meaning                                 |
 |:------:|-----------------------------------------|
 | `_`    | ‘Private’ variable or function          |
-| `z`    | Special (see below)                     |
 
 | Prefix | Meaning                                 |
 |:------:|-----------------------------------------|
@@ -104,9 +103,13 @@ Every identifier begins with zero or more prefixes, in the following order, with
 |:------:|-----------------------------------------|
 | `w`    | Asynchronous function or promise object |
 
-The `z` prefix has no set meaning; it can be used to resolve name collisions with reserved words or third-party code, or for any other reason.
+| Prefix | Meaning                                 |
+|:------:|-----------------------------------------|
+| `z`    | Special (see below)                     |
 
-Using these prefixes, a class defining a ‘private’ function that accepts an `async` function parameter might begin with:
+Most prefixes identify a scope or a ‘mode of address’ — a distinct way of referencing some data. Other prefixes mark technical details that require special attention. The `z` prefix has no set meaning; it can be used to resolve name collisions with third-party code, or for any other reason.
+
+Using these prefixes, a class defining a ‘private’ function (really one that we would _like_ to be private) that accepts an `async` function parameter might begin with:
 
 ```
 class tBuff {
@@ -114,58 +117,10 @@ class tBuff {
     ...
 ```
 
-[todo] Name collisions
-
-
-##### Prefix exceptions
-
-At times, it is impractical to apply certain prefixes:
-
-- Many developers define parameters or other variables that sometimes reference functions, and sometimes reference non-function values, and there is no way to prefix these correctly. It is usually wrong to use variables this way, because it is impossible to name them accurately, no matter what your notation. I considered a prefix for identifiers that _sometimes_ reference functions, but it doesn’t seem worth it;
-
-- React requires that component names be capitalized, so component classes _cannot_ be prefixed with `t`;
-
-- Some prefixes do not work well with destructuring, particularly `a` and `o`.
-
-When destructuring is used to implement named parameters:
-
-```
-function uAdd({ Card, Ent, CkAddFollow, CkSkipAdd }) {
-  ...
-```
-
-applying the `a` prefix requires that parameters be renamed in the destructuring pattern, which is very noisy:
-
-```
-function uAdd({
-  Card: aCard, Ent: aEnt, CkAddFollow: aCkAddFollow, CkSkipAdd: aCkSkipAdd
-}) {
-  ...
-```
-
-Note that it would _not_ be correct to apply the prefix within the pattern:
-
-```
-function uAdd({ aCard, aEnt, aCkAddFollow, aCkSkipAdd }) {
-  ...
-```
-
-as the names would look like function parameters (on the caller side) when specified by the caller:
-
-```
-uAdd({ aCard: oCard, aEnt: oEnt, aCkAddFollow: true, aCkSkipAdd: true })
-```
-
-It is appropriate to omit prefixes in these cases. This _can_ cause names to collide with imports (some of which use no prefix).
-
-Obviously, third-party code also fails to use the prefixes, and that is fine. Working with such code always requires adaptation, to different names and metaphors, different programming styles, _et cetera_. The notation does not exist to give OCD sufferers an outlet for their manic energies. It is meant to make things _better_, not _perfect_.
-
-Having said that, _I’m not convinced that the notation works in this language_. It’s very helpful in C# and C++, but it disagrees to some extent with the flexibility of JavaScript — which after all is the language’s only good quality. I’m still thinking about it.
-
 
 #### Identifier roots
 
-Most prefixes are followed by a Pascal-cased string describing the business concern or other high-level concept that is being referenced. This is called the _root_. Because scope and other technical details are documented in the prefixes, the same root can be reused — without name collisions — as the concept is referenced in different ways. Imagine a function that reads account data associated with a numeric index, logs the account retrieval, and then returns the data:
+After the prefixes, most identifiers include a Pascal-cased string that describes the business concern or other high-level concept that is being referenced. This is called the _root_. Because each identifier’s scope and mode of address is documented in the prefixes, the same root can be reused — without name collisions — as the concept is referenced in different ways. Imagine a function that reads account data associated with a numeric index, logs the account retrieval, and then returns the data:
 
 ```
 export function uAcct(ajAcct) {
@@ -175,7 +130,7 @@ export function uAcct(ajAcct) {
 }
 ```
 
-The function `uAcct`, the array index `ajAcct`, and the returned object `oAcct` all reference the same business concern, yet the names do not conflict. In fact, their commonality is _emphasized_, rather than hidden, making it easier to spot conceptual mismatches.
+The function `uAcct`, the array index `ajAcct`, and the returned object `oAcct` all reference the same entity in different ways, yet the names do not conflict. In fact, their commonality is _emphasized_, rather than hidden, making it easier to spot conceptual mismatches.
 
 To maintain that emphasis, the noun or verb that defines the concept most basically is listed _first_ within the root, making it easier to see what a given identifier represents. Modifiers follow in _decreasing order of importance_. This ensures that the most important words remain visible. In the following example, the fact that we accidentally copied a credit card number (rather than the hash of that number) should draw immediate attention:
 
@@ -264,6 +219,52 @@ It is _never acceptable_ to use or change an abbreviation to avoid a name collis
 - You have failed to apply the prefixes correctly (though possibly because you were forced to — see [Prefix exceptions](#prefix-exceptions) above); or,
 
 - You have failed to include descriptive modifiers in your roots.
+
+
+#### Notation exceptions
+
+At times, it is impractical to apply certain prefixes:
+
+- Many developers define parameters or other variables that sometimes reference functions, and sometimes reference non-function values, and there is no way to prefix these correctly. It is usually wrong to use variables this way, because it is impossible to name them accurately, no matter what your notation. I considered a prefix for identifiers that _sometimes_ reference functions, but it doesn’t seem worth it;
+
+- React requires that component names be capitalized, so component classes _cannot_ be prefixed with `t`;
+
+- Some prefixes do not work well with destructuring, particularly `a` and `o`.
+
+When destructuring is used to implement named parameters:
+
+```
+function uAdd({ Card, Ent, CkAddFollow, CkSkipAdd }) {
+  ...
+```
+
+applying the `a` prefix requires that parameters be renamed in the destructuring pattern, which is very noisy:
+
+```
+function uAdd({
+  Card: aCard, Ent: aEnt, CkAddFollow: aCkAddFollow, CkSkipAdd: aCkSkipAdd
+}) {
+  ...
+```
+
+Note that it would _not_ be correct to apply the prefix within the pattern:
+
+```
+function uAdd({ aCard, aEnt, aCkAddFollow, aCkSkipAdd }) {
+  ...
+```
+
+as the names would look like function parameters (on the caller side) when specified by the caller:
+
+```
+uAdd({ aCard: oCard, aEnt: oEnt, aCkAddFollow: true, aCkSkipAdd: true })
+```
+
+It is appropriate to omit prefixes in these cases. This _can_ cause names to collide with imports (some of which use no prefix).
+
+Obviously, third-party code also fails to use the prefixes, and that is fine. Working with such code always requires adaptation, to different names and metaphors, different programming styles, _et cetera_. The notation does not exist to give OCD sufferers an outlet for their manic energies. It is meant to make things _better_, not _perfect_.
+
+Having said that, _I’m not convinced that the prefixes work in this language_. They are very helpful in C# and C++, but they disagree to some extent with the flexibility of JavaScript — which after all is the language’s only good quality. I’m still thinking about it.
 
 
 ### Function parameter checks
