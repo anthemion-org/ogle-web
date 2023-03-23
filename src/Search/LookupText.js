@@ -21,7 +21,7 @@ import * as Search from "../Util/Search.js";
 export class tLookupText {
 	/** Returns a new instance that searches for `aText`, while reusing the search
 	 *  state produced by a previous `tLookupText` instance. */
-	static suFromPrev(aLookup, aText) {
+	static uFromPrev(aLookup, aText) {
 		return new tLookupText(aLookup._Words, aText, aLookup._jFore,
 			aLookup._jAft);
 	}

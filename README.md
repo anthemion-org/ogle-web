@@ -86,13 +86,8 @@ Every identifier begins with zero or more prefixes, in the following order, with
 
 | Prefix | Meaning                                 |
 |:------:|-----------------------------------------|
-| `g`    | Mutable export/import                   |
 | `a`    | Function parameter                      |
 | `o`    | Local variable or function              |
-
-| Prefix | Meaning                                 |
-|:------:|-----------------------------------------|
-| `s`    | Class-static variable or function       |
 
 | Prefix | Meaning                                 |
 |:------:|-----------------------------------------|
@@ -101,30 +96,32 @@ Every identifier begins with zero or more prefixes, in the following order, with
 
 | Prefix | Meaning                                 |
 |:------:|-----------------------------------------|
-| `w`    | Asynchronous function or promise object |
-
-| Prefix | Meaning                                 |
-|:------:|-----------------------------------------|
 | `i`    | Generator/iterator function or object   |
 | `j`    | Index variable                          |
 | `n`    | Property name variable                  |
 
+| Prefix | Meaning                                 |
+|:------:|-----------------------------------------|
+| `w`    | Asynchronous function or promise object |
+
 The `z` prefix has no set meaning; it can be used to resolve name collisions with reserved words or third-party code, or for any other reason.
 
-Using these prefixes, a class defining a static function that accepts an `async` function parameter might begin with:
+Using these prefixes, a class defining a ‘private’ function that accepts an `async` function parameter might begin with:
 
 ```
 class tBuff {
-  static suFromRead(auwRead) {
+  _uFromRead(auwRead) {
     ...
 ```
+
+[todo] Name collisions
 
 
 ##### Prefix exceptions
 
 At times, it is impractical to apply certain prefixes:
 
-- Many developers define parameters or other variables that sometimes reference functions, and sometimes reference non-function values, and there is no way to prefix these correctly. I think it is usually wrong to use variables this way, because it is impossible to name them accurately, even without prefixes. I considered a prefix for identifiers that _sometimes_ reference functions, but it doesn’t seem worth it;
+- Many developers define parameters or other variables that sometimes reference functions, and sometimes reference non-function values, and there is no way to prefix these correctly. It is usually wrong to use variables this way, because it is impossible to name them accurately, no matter what your notation. I considered a prefix for identifiers that _sometimes_ reference functions, but it doesn’t seem worth it;
 
 - React requires that component names be capitalized, so component classes _cannot_ be prefixed with `t`;
 
@@ -134,31 +131,32 @@ When destructuring is used to implement named parameters:
 
 ```
 function uAdd({ Card, Ent, CkAddFollow, CkSkipAdd }) {
-	...
+  ...
 ```
 
 applying the `a` prefix requires that parameters be renamed in the destructuring pattern, which is very noisy:
 
 ```
-function uAdd({ Card: aCard, Ent: aEnt, CkAddFollow: aCkAddFollow,
-	CkSkipAdd: aCkSkipAdd }) {
-	...
+function uAdd({
+  Card: aCard, Ent: aEnt, CkAddFollow: aCkAddFollow, CkSkipAdd: aCkSkipAdd
+}) {
+  ...
 ```
 
 Note that it would _not_ be correct to apply the prefix within the pattern:
 
 ```
 function uAdd({ aCard, aEnt, aCkAddFollow, aCkSkipAdd }) {
-	...
+  ...
 ```
 
-as the names would look like function parameters when specified by the caller:
+as the names would look like function parameters (on the caller side) when specified by the caller:
 
 ```
 uAdd({ aCard: oCard, aEnt: oEnt, aCkAddFollow: true, aCkSkipAdd: true })
 ```
 
-It is appropriate to omit prefixes in these cases. This _can_ cause names to collide with non-function class members (most of which use no prefix) but since classes are unpopular in the JavaScript world (see below) that is less of a problem.
+It is appropriate to omit prefixes in these cases. This _can_ cause names to collide with imports (some of which use no prefix).
 
 Obviously, third-party code also fails to use the prefixes, and that is fine. Working with such code always requires adaptation, to different names and metaphors, different programming styles, _et cetera_. The notation does not exist to give OCD sufferers an outlet for their manic energies. It is meant to make things _better_, not _perfect_.
 
@@ -222,7 +220,7 @@ Roots representing boolean values typically begin with `Ck`. This provides a con
 
 When a function returns a boolean, the `Ck` root honors the rule that noun names tell the reader _what_ is being returned — specifically, a ‘check’ of some sort. This avoids many ambiguities. Consider a method named `uReady`. Does this method tell us _whether_ the instance is ready, or does it cause the instance to _become_ ready? If the method were answering a ‘yes/no’ question, it would be called `uCkReady`, so the verb usage must be intended. Distinguishing ‘noun’ functions from ‘verb’ functions makes both names more meaningful, and it allows `uReady` and `uCkReady` to be defined in the same instance without a name collision.
 
-English being what it is, ambiguities can yet arise. For instance, is ‘Cache’ a noun or a verb? When read as a noun, `uCache` perhaps returns a caching object. When read as a verb, the same function caches some unspecified value. It might help to suffix standalone verbs with an underscore (continuing the ‘verb/underscore/object’ pattern described earlier) but I have never tried that. Most ambiguities are solved by the ‘verb/noun’ distinction, but this is something to watch for, and sometimes I chose different names to avoid it.
+English being what it is, ambiguities can yet arise. For instance, is ‘Cache’ a noun or a verb? When read as a noun, `uCache` perhaps returns a caching object. When read as a verb, the same function caches some unspecified value. It might help to suffix standalone verbs with an underscore (continuing the ‘verb/underscore/object’ pattern described earlier) but I have never tried that. Most ambiguities are solved by the verb/noun distinction, but this is something to watch for, and sometimes I chose different names to avoid it.
 
 Factory functions often have roots that begin with ‘From’; the noun is implicit, as these functions are meant to be invoked after specifying the containing class or module:
 
@@ -356,8 +354,8 @@ Class/object method advantages
 			Can select different modules by replacing module reference with variable
 				Awkward to store this variable in object itself
 	Optional chaining invocation (`?.`)
-		const oPosi = oArr.uPosEnd()?.uPosiAdjacent();
-			Arr.uPosEnd(oArr)?.uPosiAdjacent(aPos);
+		const oPosi = oArr.uPosEnd()?.uiPosiAdjacent();
+			Arr.uPosEnd(oArr)?.uiPosiAdjacent(aPos);
 
 Typescript interfaces provide these advantages, but only with respect to data
 
@@ -381,11 +379,6 @@ Plain object advantages
 Can encapsulate with closures
 
 
-#### Redux
-
-[todo]
-Having said all that, Redux makes it very difficult to represent state data with classes.
-
 [todo]
 A class like `tPoolDie` could easily be replaced with a factory function that returns a die-generating function. Many JavaScript developers would consider that more idiomatic, but is it better? The class implementation:
 
@@ -397,6 +390,11 @@ A class like `tPoolDie` could easily be replaced with a factory function that re
 
 The class does expose private data that could have been hidden in a closure, but private variables are marked with underscores in this project, and it’s not hard to remember that they are off-limits. In this case, at least, the class implementation is easier to understand, and easier to maintain.
 
+
+#### Redux
+
+[todo]
+Having said all that, Redux makes it difficult to represent state data with classes.
 
 Some class advantages can be faked, to an extent, with plain objects.
 	Record names
@@ -480,12 +478,24 @@ For testing purposes, it is sometimes necessary to export types or functions tha
 
 ### Game design
 
-[todo] Time limit, scoring, followed words
+[todo]
+Time limit
+	Exciting
+	Unproductive games shorter
+	Feasible only in computer game
+Scoring
+	One point for all words
+		Computer score overwhelming otherwise
+	Followed words
+Other ideas
+	'Triple word score'
+	Dynamic board
+	Searching is fun part
 
 
 ### Word search algorithm
 
-[todo] Explain word search algorithm
+[todo]
 
 
 ### SVG in React

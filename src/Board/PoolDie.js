@@ -20,13 +20,13 @@ export class tConfigPoolDie {
 	/** Returns a new instance containing default values. This is the original
 	 *  configuration, which usually produces a score of 60-100, but often exceeds
 	 *  200. */
-	static suDef() {
+	static uDef() {
 		return new tConfigPoolDie(1.0, 4.0, 0.1, 1.0, 4.0, 0.1);
 	}
 
 	/** Returns a new instance containing values appropriate for boards with a
 	 *  score of 40 or less. */
-	static suUnder40() {
+	static uUnder40() {
 		// The greatest vowel and consonant base frequencies are '11.0' and '8.7',
 		// so setting the starts and the drops to these values produces flat
 		// distributions.
@@ -37,12 +37,12 @@ export class tConfigPoolDie {
 	}
 
 	/** Returns a new instance appropriate for the specified Setup record. */
-	static suFromSetup(aSetup) {
-		Misc.uCkThrow_Params({ aSetup }, Object, "tConfigPoolDie.suFromSetup");
+	static uFromSetup(aSetup) {
+		Misc.uCkThrow_Params({ aSetup }, Object, "tConfigPoolDie.uFromSetup");
 
 		let oConfig;
-		if (aSetup.Yield.End < 40) oConfig = tConfigPoolDie.suUnder40()
-		else oConfig = tConfigPoolDie.suDef();
+		if (aSetup.Yield.End < 40) oConfig = tConfigPoolDie.uUnder40()
+		else oConfig = tConfigPoolDie.uDef();
 		return oConfig;
 	}
 

@@ -51,7 +51,7 @@ const WordsExpDef = [
 
 test("SearchBoard uExec: Output", () => {
 	const oGenRnd = new tGenRnd(SeedTextDef);
-	const oConfigPoolDie = tConfigPoolDie.suDef();
+	const oConfigPoolDie = tConfigPoolDie.uDef();
 	const oBoard = Board.uNewRnd(oGenRnd, oConfigPoolDie);
 	const oSelsWord = SearchBoard.uExec(Lex.WordsSearch, oBoard);
 	const oWords = oSelsWord.map(a => a.TextAll).sort(Search.uCompareStrFast);
@@ -66,7 +66,7 @@ test("SearchBoard uExec: Speed", () => {
 
 	const oTimeStart = Date.now();
 	for (let o = 0; o < oCt; ++o) {
-		const oConfigPoolDie = tConfigPoolDie.suDef();
+		const oConfigPoolDie = tConfigPoolDie.uDef();
 		const oBoard = Board.uNewRnd(oGenRnd, oConfigPoolDie);
 		const oSelsWord = SearchBoard.uExec(Lex.WordsSearch, oBoard);
 	}

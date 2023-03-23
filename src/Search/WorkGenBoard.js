@@ -30,7 +30,7 @@ onmessage = async function (aMsg) {
 			+ Setup.uTextShortPace(oSetup);
 		_Log(2, `Generating '${oTextSetup}' board...`);
 
-		const oConfigPools = tConfigPoolDie.suFromSetup(oSetup);
+		const oConfigPools = tConfigPoolDie.uFromSetup(oSetup);
 		_Log(2, "~ " + oConfigPools.uDesc());
 
 		let oBoard;

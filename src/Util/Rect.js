@@ -48,7 +48,7 @@ export function uCkContain(aRect, aPos) {
 /** Returns a generator object that iterates all Pt2 positions contained by
  *  a Rect record. Positions are iterated from left to right, and then from
  *  top to bottom. */
-export function* uPosi(aRect) {
+export function* uiPosi(aRect) {
 	const oTopRight = uTopRight(aRect);
 	for (let oY = aRect.LeftTop.Y; oY <= oTopRight.Y; ++oY)
 		for (let oX = aRect.LeftTop.X; oX <= oTopRight.X; ++oX)

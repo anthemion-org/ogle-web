@@ -24,7 +24,7 @@ export function uExec(aWords, aBoard) {
 	/** The word selections found during the search, including duplicates and
 	 *  followed words. */
 	const oSelsWord = [];
-	const oiPosi = Rect.uPosi(Const.RectBoard);
+	const oiPosi = Rect.uiPosi(Const.RectBoard);
 	for (const oPos of oiPosi) {
 		const oSel = new tSelBoard(aBoard, oPos);
 		const oLookup = new tLookupText(aWords, oSel.TextAll);
@@ -48,7 +48,7 @@ function _uExecPos(aSelBoard, aLookup, aSelsWord) {
 		// All die sequences following this enumerator have been checked:
 		if (!oSelNext) return;
 
-		const oLookup = tLookupText.suFromPrev(aLookup, oSelNext.TextAll);
+		const oLookup = tLookupText.uFromPrev(aLookup, oSelNext.TextAll);
 		const oOutLookup = oLookup.uExec(true);
 
 		// No words can follow this descendant of `aLookup`, so continue with the
@@ -63,7 +63,7 @@ function _uExecPos(aSelBoard, aLookup, aSelsWord) {
 				// happens, to prevent the search window from narrowing so far that
 				// sequences following the fragment cannot be identified. A fragment
 				// might also be a match, however, so check again without stopping:
-				const oLookupFrag = tLookupText.suFromPrev(aLookup, oSelNext.TextAll);
+				const oLookupFrag = tLookupText.uFromPrev(aLookup, oSelNext.TextAll);
 				if (oLookupFrag.uExec(false) === OutsLookup.Match)
 					aSelsWord.push(oSelNext);
 			}

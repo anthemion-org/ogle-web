@@ -24,11 +24,11 @@ test.each([
 	expect(Rect.uCkContain(oRect, aPos)).toBe(aCk);
 });
 
-test("Rect uPosi", () => {
+test("Rect uiPosi", () => {
 	const oLeftTop = Pt2.uNew(1, 1);
 	const oSize = Pt2.uNew(3, 4);
 	const oRect = Rect.uNew(oLeftTop, oSize);
-	const oPosi = [ ...Rect.uPosi(oRect) ];
+	const oPosi = [ ...Rect.uiPosi(oRect) ];
 
 	const oPosiExp = [];
 	for (let oY = 1; oY < 5; ++oY)

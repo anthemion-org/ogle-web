@@ -17,22 +17,22 @@ test("tLookupText: Enumeration", () => {
 	oOut = oLookupO.uExec(true);
 	expect(oOut).toBe(OutsLookup.Frag);
 
-	const oLookupOG = tLookupText.suFromPrev(oLookupO, "og");
+	const oLookupOG = tLookupText.uFromPrev(oLookupO, "og");
 	oOut = oLookupOG.uExec(true);
 	expect(oOut).toBe(OutsLookup.Frag);
 
-	const oLookupOGL = tLookupText.suFromPrev(oLookupOG, "ogl");
+	const oLookupOGL = tLookupText.uFromPrev(oLookupOG, "ogl");
 	oOut = oLookupOGL.uExec(true);
 	expect(oOut).toBe(OutsLookup.Frag);
 
-	const oLookupOGLE = tLookupText.suFromPrev(oLookupOGL, "ogle");
+	const oLookupOGLE = tLookupText.uFromPrev(oLookupOGL, "ogle");
 	oOut = oLookupOGLE.uExec(true);
 	// The word list includes 'ogle' and various words (such as 'ogles') that
 	// follow it. Any of them could be encountered first, and this will change as
 	// words are added to or removed from the list:
 	expect([ OutsLookup.Frag, OutsLookup.Match ].includes(oOut)).toBe(true);
 
-	const oLookupOGLES = tLookupText.suFromPrev(oLookupOGLE, "ogles");
+	const oLookupOGLES = tLookupText.uFromPrev(oLookupOGLE, "ogles");
 	oOut = oLookupOGLES.uExec(true);
 	expect(oOut).toBe(OutsLookup.Match);
 });

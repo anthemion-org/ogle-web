@@ -72,7 +72,7 @@ function LookBoard(aProps) {
 
 	function ouBacksDie() {
 		const oEls = [];
-		const oiPosi = Rect.uPosi(Const.RectBoard);
+		const oiPosi = Rect.uiPosi(Const.RectBoard);
 		for (const oPos of oiPosi) {
 			const oKey = oPos.X + "/" + oPos.Y;
 			const oCkDisp = !aProps.uCallTog;
@@ -86,7 +86,7 @@ function LookBoard(aProps) {
 
 	function ouConnsSel() {
 		const oEls = [];
-		const oiPosi = Rect.uPosi(Const.RectBoard);
+		const oiPosi = Rect.uiPosi(Const.RectBoard);
 		for (const oPos of oiPosi) {
 			const oKey = oPos.X + "/" + oPos.Y;
 			const oPosFrom = aProps.Ent && EntWord.uPosPrev(aProps.Ent, oPos);
@@ -99,7 +99,7 @@ function LookBoard(aProps) {
 
 	function ouLooksDie() {
 		const oEls = [];
-		const oiPosi = Rect.uPosi(Const.RectBoard);
+		const oiPosi = Rect.uiPosi(Const.RectBoard);
 		for (const oPos of oiPosi) {
 			const oKey = oPos.X + "/" + oPos.Y;
 			const oDie = Board.uDie(aProps.Board, oPos);

@@ -13,7 +13,7 @@ const SeedText = "OGLE";
 
 test("tPoolDie: Draw all", () => {
 	const oGenRnd = new tGenRnd(SeedText);
-	const oConfigPoolDie = tConfigPoolDie.suDef();
+	const oConfigPoolDie = tConfigPoolDie.uDef();
 	const oPoolDie = new tPoolDie(oGenRnd, oConfigPoolDie);
 
 	for (let oj = 0; oj < 25; ++oj)
