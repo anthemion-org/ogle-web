@@ -1,6 +1,6 @@
 {
 	"name": "ogle-web",
-	"version": "0.2.0",
+	"version": "0.2.2",
 	"homepage": "https://www.anthemion.org/play-ogle/",
 	"private": true,
 	"dependencies": {

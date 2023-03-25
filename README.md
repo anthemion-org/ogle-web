@@ -109,7 +109,7 @@ Every identifier begins with zero or more prefixes, in the following order, with
 
 Most prefixes identify a scope or a ‘mode of address’ — a distinct way of referencing some data. Other prefixes mark technical details that require special attention. The `z` prefix has no set meaning; it can be used to resolve name collisions with third-party code, or for any other reason.
 
-Using these prefixes, a class defining a ‘private’ function (really one that we would _like_ to be private) that accepts an `async` function parameter might begin with:
+Using these prefixes, a class defining a ‘private’ function (really one we would _like_ to be private) that accepts an `async` function parameter might begin with:
 
 ```
 class tBuff {
@@ -173,7 +173,7 @@ const oBuff = aStm.uBuff();
 
 Roots representing boolean values typically begin with `Ck`. This provides a consistent replacement for the `is` and `has` prefixes that some developers use for boolean identifiers.
 
-When a function returns a boolean, the `Ck` root honors the rule that noun names tell the reader _what_ is being returned — specifically, a ‘check’ of some sort. This avoids many ambiguities. Consider a method named `uReady`. Does this method tell us _whether_ the instance is ready, or does it cause the instance to _become_ ready? If the method were answering a ‘yes/no’ question, it would be called `uCkReady`, so the verb usage must be intended. Distinguishing ‘noun’ functions from ‘verb’ functions makes both names more meaningful, and it allows `uReady` and `uCkReady` to be defined in the same instance without a name collision.
+When a function returns a boolean, the `Ck` root honors the rule that noun names tell the reader _what_ is being returned — specifically, a ‘check’ of some sort. This avoids many ambiguities. Consider a method named `uReady`. Does this method tell us _whether_ the instance is ready, or does it cause the instance to _become_ ready? In this case, if the method were answering a ‘yes/no’ question, it would be called `uCkReady`, so the verb usage must be intended. Distinguishing ‘noun’ functions from ‘verb’ functions makes both names more meaningful, and it allows `uReady` and `uCkReady` to be defined in the same instance without colliding.
 
 English being what it is, ambiguities can yet arise. For instance, is ‘Cache’ a noun or a verb? When read as a noun, `uCache` perhaps returns a caching object. When read as a verb, the same function caches some unspecified value. It might help to suffix standalone verbs with an underscore (continuing the ‘verb/underscore/object’ pattern described earlier) but I have never tried that. Most ambiguities are solved by the verb/noun distinction, but this is something to watch for, and sometimes I chose different names to avoid it.
 
@@ -190,7 +190,7 @@ function uExec(aParseBoard) {
 
 #### Abbreviations and containers
 
-Long names produce long expressions that are hard to read, especially when their length causes the line to wrap, so longer words are abbreviated within identifiers, file and folder names, _et cetera_. Some developers, after being confounded by a few poorly-chosen abbreviations, forswear identifier abbreviation altogether. Every person, every team, and every industry abbreviates things, so the question is not _whether_ to abbreviate, it is _when_ and _how_ to abbreviate. The obvious answer: terms that are longer, or used more often, are more deserving of abbreviation. Note that the more you use a given term, the more you gain by abbreviating it, and the safer it is to abbreviate, as the repetition makes it easier to remember. My projects frequently use the word ‘Position’, so I abbreviate aggressively to produce `Pos`. When I use a less common word like ‘Possible’, I choose something longer (maybe `Possib`) or leave it unabbreviated. A word that is abbreviated once must be abbreviated everywhere in the project (outside of comments) and _always the same way_.
+Long names produce long expressions that are hard to read, especially when their length causes the line to wrap, so longer words are abbreviated within identifiers, file and folder names, _et cetera_. Some developers, after being confounded by a few poorly-chosen abbreviations, forswear identifier abbreviation altogether. I sympathize, truly, but every team and every industry abbreviates things, so the question is not _whether_ to abbreviate, it is _when_ and _how_ to abbreviate. The obvious answer: terms that are longer, or used more often, are more deserving of abbreviation. Note that the more you use a given term, the more you gain by abbreviating it, and the safer it is to abbreviate, as the repetition makes it easier to remember. My projects frequently use the word ‘Position’, so I abbreviate aggressively to produce `Pos`. When using a less common word, it is better to choose something longer, or leave it unabbreviated. A word that is abbreviated once must be abbreviated everywhere in the project (outside of comments) and _always the same way_.
 
 Though they might contain the same type of data, a container of values differs fundamentally from a single value. For this reason, containers must be given plural names:
 
@@ -198,7 +198,7 @@ Though they might contain the same type of data, a container of values differs f
 let oID = aIDs[0];
 ```
 
-It is usually unnecessary to indicate the type of the container. However, I name maps (whether instances of the `Map` class, or plain objects used as maps) with a plural noun describing what the map contains, suffixed with ‘By’, and followed by a singular noun describing the input to the map. The result is something like `CtsByID`, which maps from ‘ID’ keys to ‘count’ values. This places the content at the beginning of the name, like other container names, while reminding the reader how the map is used. It also places the value noun on the side from which the map will be read, and the key noun on the side from which it will be dereferenced:
+It is usually unnecessary to indicate the type of the container. However, I name maps (whether instances of the `Map` class, or plain objects used as maps) with a plural noun describing what the map contains, suffixed with ‘By’, and followed with a singular noun that describes the input to the map. The result is something like `CtsByID`, which maps from ‘ID’ keys to ‘count’ values. This places the content at the beginning of the name, like other container names, while reminding the reader how the map is used. It also places the value noun on the side from which the map will be read, and the key noun on the side from which it will be dereferenced:
 
 ```
 const oCt = oCtsByID[aID];
@@ -212,11 +212,11 @@ It is sometimes necessary to pluralize a term that ends with ‘s’. Adding a s
 const oPos = aPos[0];
 ```
 
-That’s a bit awkward, but the pluralization belongs in the root, not in a prefix. It might be better to avoid abbreviations that end with ‘s’, or to pluralize these with ‘z’ instead.
+That’s a bit awkward, but the pluralization belongs in the root. It might be better to avoid abbreviations that end with ‘s’, or to pluralize these with ‘z’ instead.
 
 It is _never acceptable_ to use or change an abbreviation to avoid a name collision. If names collide:
 
-- You have failed to apply the prefixes correctly (though possibly because you were forced to — see [Prefix exceptions](#prefix-exceptions) above); or,
+- You have failed to apply the prefixes correctly (though possibly because you were forced to — see [Notation exceptions](#Notation-exceptions) below); or,
 
 - You have failed to include descriptive modifiers in your roots.
 
@@ -262,7 +262,7 @@ uAdd({ aCard: oCard, aEnt: oEnt, aCkAddFollow: true, aCkSkipAdd: true })
 
 It is appropriate to omit prefixes in these cases. This _can_ cause names to collide with imports (some of which use no prefix).
 
-Obviously, third-party code also fails to use the prefixes, and that is fine. Working with such code always requires adaptation, to different names and metaphors, different programming styles, _et cetera_. The notation does not exist to give OCD sufferers an outlet for their manic energies. It is meant to make things _better_, not _perfect_.
+Obviously, third-party code also fails to use the prefixes, and that is fine. Working with such code always requires adaptation, to different names and metaphors, different programming styles, _et cetera_. The notation does not exist to give OCD sufferers an outlet for their manic energies; it is meant to make things _better_, not _perfect_.
 
 Having said that, _I’m not convinced that the prefixes work in this language_. They are very helpful in C# and C++, but they disagree to some extent with the flexibility of JavaScript — which after all is the language’s only good quality. I’m still thinking about it.
 
@@ -289,7 +289,7 @@ Common misconceptions
 		Subclass must be immutable if parent is
 			Liskov substitution
 
-Let’s attempt an objective comparison of classes and plain objects. We’ll also cover methods, while acknowledging that these can be used (to some extent) with plain objects.
+Let’s attempt an objective comparison of classes and plain objects. We’ll also cover methods, while acknowledging that these can be used (awkwardly) with plain objects.
 
 [todo] 'Class' synonymous with prototypal inheritance
 
