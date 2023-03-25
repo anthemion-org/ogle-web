@@ -49,8 +49,8 @@ test("tGenRnd: Flatness", () => {
 	const oCtValBin = oCtVal / oCtBin;
 	for (let oj = 0; oj < oCtBin; ++oj) {
 		const oVal = oVals[oCtValBin * oj];
-		const oValExp = (1.0 / oCtBin) * oj;
+		const oValExpect = (1.0 / oCtBin) * oj;
 		// Just guessing on the tolerance here:
-		expect(oVal).toBeCloseTo(oValExp, 1);
+		expect(oVal).toBeCloseTo(oValExpect, 1);
 	}
 });

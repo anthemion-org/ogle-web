@@ -311,6 +311,8 @@ Class declarations neatly package your data, the methods that operate on that da
 
 #### Method advantages
 
+Fancy objects
+
 Classes (and more specifically, prototypal inheritance) also provide efficient support for methods. While it _is_ possible to attach methods to any object, it would be wasteful to associate a large API with many plain object instances, as the method properties would be duplicated in every instance.
 
 Methods provide a concise and expressive way to manipulate objects. Let’s make basic use of two APIs, one that works with plain objects:
@@ -331,12 +333,18 @@ const oArr2 = Arr2.uNew(20, 30);
 const oCt = Arr2.Ct(oArr2);
 ```
 
+
+'SearchBoard uExec: Speed' tests
+	Define Pt2 API inside literal, capture 'uNew' parameters: 40% longer
+	Attach Pt2 API and 'bind' to 'this' after object creation: 38% longer
+		Mostly binding time
+	Define Pt2 API inside literal, use 'this': 33% longer
+	Only five methods
+	Memory could also be relevant
+
 When implementing in class, `this` necessary
-	Handler binding
-`this` not necessary in closure, but method properties duplicated
-	Attaching Pt2 API in `uNew` made 'SearchBoard uExec: Speed' run ~7.5% longer
-	Most likely construction time, but memory could be relevant
-	Okay for most types
+	`this` not necessary in closure, but method properties duplicated
+	Might be okay for some types
 	Still not serializable
 
 Method objects never serializable

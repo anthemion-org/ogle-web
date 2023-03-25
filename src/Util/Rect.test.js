@@ -30,10 +30,10 @@ test("Rect uiPosi", () => {
 	const oRect = Rect.uNew(oLeftTop, oSize);
 	const oPosi = [ ...Rect.uiPosi(oRect) ];
 
-	const oPosiExp = [];
-	for (let oY = 1; oY < 5; ++oY)
-		for (let oX = 1; oX < 4; ++oX)
-			oPosiExp.push(Pt2.uNew(oX, oY));
+	const oPosiExpect = [];
+	for (let oY = 1; oY <= 4; ++oY)
+		for (let oX = 1; oX <= 3; ++oX)
+			oPosiExpect.push(Pt2.uNew(oX, oY));
 
-	expect(oPosi).toEqual(oPosiExp);
+	expect(oPosi).toEqual(oPosiExpect);
 });
