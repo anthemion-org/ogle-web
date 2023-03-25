@@ -17,9 +17,9 @@ import * as Const from "../Const.js";
 
 // EntWord
 // -------
-// Each EntWord record stores the details of a single board selection, for use
-// when selecting text during play, and for displaying entries in the Score
-// view. This record is immutable.
+// Each EntWord stereotype stores the details of a single board selection, for
+// use when selecting text during play, and for displaying entries in the Score
+// view. This stereotype is immutable.
 
 /** Creates an entry from the specified position and text arrays. */
 export function uNew(aPosi, aTexts) {
@@ -38,7 +38,7 @@ export function uNew(aPosi, aTexts) {
 	return oEnt;
 }
 
-/** Creates an EntWord record from an object produced by `JSON.parse`, and
+/** Creates an EntWord stereotype from an object produced by `JSON.parse`, and
  *  returns it, or returns `null` if `aParse` is falsy. */
 export function uFromParse(aPlain) {
 	if (!aPlain) return null;
@@ -48,8 +48,8 @@ export function uFromParse(aPlain) {
 	return uNew(oPosi, aPlain.Texts);
 }
 
-/** Returns an EntWord record that ends with the specified position and text.
- *  Define `aEntPrev` to create a record that extends that one. */
+/** Returns an EntWord stereotype that ends with the specified position and
+ *  text. Define `aEntPrev` to create a stereotype that extends that one. */
 export function uFromPosText(aPos, aText, aEntPrev) {
 	Misc.uCkThrow_Params({ aPos }, Object, "EntWord uFromPosText");
 	Misc.uCkThrow_Params({ aText }, String, "EntWord uFromPosText");
@@ -90,7 +90,7 @@ export function uCkTogAt(aEntWord, aPos) {
 }
 
 /** Returns the position that precedes the specified position in `aEntWord`,
- *  or `null` if the position is not part of that record, or if there is no
+ *  or `null` if the position is not part of that stereotype, or if there is no
  *  predecessor. */
 export function uPosPrev(aEntWord, aPos) {
 	Misc.uCkThrow_Params({ aEntWord, aPos }, Object, "EntWord uPosPrev");
@@ -116,7 +116,7 @@ export function uTextAll(aEntWord) {
 	return aEntWord.Texts.join("").toLowerCase();
 }
 
-/** Returns an EntWord record that selects the positions in `aEntWord`, but
+/** Returns an EntWord stereotype that selects the positions in `aEntWord`, but
  *  stops just before `aPos`. Returns `null` instead if the position is not part
  *  of `aEntWord`, or if there is no predecessor. */
 export function uClonePrev(aEntWord, aPos) {
@@ -131,7 +131,7 @@ export function uClonePrev(aEntWord, aPos) {
 	return null;
 }
 
-/** Compares two EntWord records by their `uTextAll` values, sorting longer
+/** Compares two EntWord stereotypes by their `uTextAll` values, sorting longer
  *  words before shorter words when one follow the other. This makes it easier
  *  to exclude followed words when processing raw search output with
  *  `Card.uAdd`. The specific board positions used to define each entry are

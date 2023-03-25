@@ -27,7 +27,8 @@ DlgVerWord.propTypes = {
 /** The Word Verification dialog, to be displayed when enters a word that is not
  *  recognized by Ogle. The following props are supported:
  *
- *  - Ent: An EntWord record representing the user entry. This prop is required;
+ *  - Ent: An EntWord stereotype representing the user entry. This prop is
+ *    required;
  *
  *  - uHandAdd: The handler to be invoked if the user accepts the word. This
  *    prop is required;

@@ -32,7 +32,7 @@ export function uDef() {
 	return Vals[jValDef];
 }
 
-/** Returns the `Vals` index that matches the specified Setup record, or the
+/** Returns the `Vals` index that matches the specified Setup stereotype, or the
  *  default index, if no match is found. */
 export function uIdxValMatchOrDef(aSetup) {
 	Misc.uCkThrow_Params({ aSetup }, Object, "Yield uIdxValMatchOrDef");

@@ -40,10 +40,10 @@ LookDie.propTypes = {
 /** Displays the text and other foreground for one die within the board, and
  *  forwards mouse input. The following props are supported:
  *
- *  - Pos: A Pt2 record representing the board position that contains this
+ *  - Pos: A Pt2 stereotype representing the board position that contains this
  *    instance. This prop is required;
  *
- *  - Die: The Die record at this board position. This prop is required;
+ *  - Die: The Die stereotype at this board position. This prop is required;
  *
  *  - CkSel: Set to `true` if this die is selected;
  *

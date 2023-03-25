@@ -398,11 +398,11 @@ The class does expose private data that could have been hidden in a closure, but
 Having said all that, Redux makes it difficult to represent state data with classes.
 
 Some class advantages can be faked, to an extent, with plain objects.
-	Record names
+	Stereotype names
 	Factory functions
 		Member comments here
 
-[todo] Define 'record'
+[todo] Define 'stereotype'
 	Identify parameters types in comments
 	Always factory functions
 		Comment contents there
@@ -421,9 +421,9 @@ Overloading is most useful when constructing classes; a rectangle might be const
 
 JavaScript lacks the detailed `const` protections found in C++, so sharing object references with and from functions can expose internal data that should not be mutated by the caller. This is prevented most directly by using immutable types, but immutability can make some operations slower, or harder to implement.
 
-In this project, every class or record is explicitly documented as ‘immutable’ or ‘mutable’. Immutable class instances and records are frozen in their constructors or factory functions. `Object.freeze` is amazingly slow, however, so Pt2 and other low-level records do this only in the development build. When Pt2 did freeze (and when `SelBoard._uOff` created a new Pt2 instance with each invocation) the word search took more than twice as long. Redux automatically freezes the objects returned by `useSelector`, so these are protected even though they are deserialized and instantiated elsewhere.
+In this project, every class or stereotype is explicitly documented as ‘immutable’ or ‘mutable’. Immutable class instances and stereotypes are frozen in their constructors or factory functions. `Object.freeze` is amazingly slow, however, so Pt2 and other low-level stereotypes do this only in the development build. When Pt2 did freeze (and when `SelBoard._uOff` created a new Pt2 instance with each invocation) the word search took more than twice as long. Redux automatically freezes the objects returned by `useSelector`, so these are protected even though they are deserialized and instantiated elsewhere.
 
-Functions that accept mutable object parameters must clone those objects before storing them in class instances, records, or globals, in case the caller mutates the arguments afterward. For similar reasons, functions must not return mutable objects from class instances, records, or globals; they must return clones instead. This is called ‘defensive copying’. When cloning is required, mutable types implement a `uClone` function that returns a deep copy of the instance.
+Functions that accept mutable object parameters must clone those objects before storing them in class instances, stereotypes, or globals, in case the caller mutates the arguments afterward. For similar reasons, functions must not return mutable objects from class instances, stereotypes, or globals; they must return clones instead. This is called ‘defensive copying’. When cloning is required, mutable types implement a `uClone` function that returns a deep copy of the instance.
 
 As an aside, React and Redux also make an issue of mutability, but different problems are posed there, and different solutions provided.
 

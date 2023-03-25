@@ -13,10 +13,10 @@ import * as Misc from "./Misc.js";
 
 // Rect
 // ----
-// Each Rect record represents a rectangle with integer coordinates. This record
-// is immutable.
+// Each Rect stereotype represents a rectangle with integer coordinates. This
+// stereotype is immutable.
 
-/** Creates an instance with the specified Pt2 position and size records. */
+/** Creates an instance with the specified Pt2 position and size stereotypes. */
 export function uNew(aLeftTop, aSize) {
 	const oRect = {
 		/** The left-top corner of the rectangle. */
@@ -28,9 +28,9 @@ export function uNew(aLeftTop, aSize) {
 	return oRect;
 }
 
-/** Returns the Pt2 position of the top-right corner of a Rect record. Because
- *  the rectangle has integer coordinates, this corner is 'Size - (1, 1)' from
- *  `LeftTop`, not `Size` from it. */
+/** Returns the Pt2 position of the top-right corner of a Rect stereotype.
+ *  Because the rectangle has integer coordinates, this corner is 'Size - (1,
+ *  1)' from `LeftTop`, not `Size` from it. */
 export function uTopRight(aRect) {
 	return Pt2.uNew(
 		(aRect.LeftTop.X + aRect.Size.X - 1),
@@ -46,7 +46,7 @@ export function uCkContain(aRect, aPos) {
 }
 
 /** Returns a generator object that iterates all Pt2 positions contained by
- *  a Rect record. Positions are iterated from left to right, and then from
+ *  a Rect stereotype. Positions are iterated from left to right, and then from
  *  top to bottom. */
 export function* uiPosi(aRect) {
 	const oTopRight = uTopRight(aRect);

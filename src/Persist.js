@@ -60,7 +60,7 @@ export function uRead(anBase, aDef = undefined) {
 	// string 'Infinity' is a likely value for some fields, and the original Ogle
 	// code did not need or use `UtilJSON.uNumFix`, so there are `null` values in
 	// production that can't be interpreted without context that is lacking here.
-	// Records that store numbers perform this conversion with `uFromParse`
+	// Stereotypes that store numbers perform this conversion with `uFromParse`
 	// functions:
 	return JSON.parse(oJSON);
 }

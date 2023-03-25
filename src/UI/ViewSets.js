@@ -31,30 +31,30 @@ import { connect } from "react-redux";
 // are specific to game play. These are updated with the `uSet_Cfg` and
 // `uSet_Setup` dispatch props, which write to the `Setup` slice.
 //
-// The setup selections are represented with a Setup record. This view reads the
-// instance from the store, which records data in 'real' terms that are usable
-// in other parts of the app. Many controls (particularly the sliders in this
-// view) reference values in 'nominal' terms, such as indices, which identify
-// user selections without being directly usable when playing the game. The
-// `Yield.Vals` and `Pace.Vals` arrays associate nominal selections with real
-// values. That allows the view (and its particular way of selecting or
+// The setup selections are represented with a Setup stereotype. This view reads
+// the instance from the store, which records data in 'real' terms that are
+// usable in other parts of the app. Many controls (particularly the sliders in
+// this view) reference values in 'nominal' terms, such as indices, which
+// identify user selections without being directly usable when playing the game.
+// The `Yield.Vals` and `Pace.Vals` arrays associate nominal selections with
+// real values. That allows the view (and its particular way of selecting or
 // identifying values) to change without affecting the modules that consume real
 // values.
 
 /** Implements the Settings view, which is displayed when Ogle starts. The
  *  following props are required:
  *
- *  - Cfg: A Cfg record containing the player's app configuration selections.
- *    This prop is required;
- *
- *  - uSet_Cfg: A function that dispatches a new Cfg record to the store. This
- *    prop is required.
- *
- *  - Setup: A Setup record containing the player's game configuration
+ *  - Cfg: A Cfg stereotype containing the player's app configuration
  *    selections. This prop is required;
  *
- *  - uSet_Setup: A function that dispatches a new Setup record to the store.
+ *  - uSet_Cfg: A function that dispatches a new Cfg stereotype to the store.
  *    This prop is required.
+ *
+ *  - Setup: A Setup stereotype containing the player's game configuration
+ *    selections. This prop is required;
+ *
+ *  - uSet_Setup: A function that dispatches a new Setup stereotype to the
+ *    store. This prop is required.
  */
 class ViewSets extends React.PureComponent {
 	constructor(aProps) {
@@ -70,7 +70,7 @@ class ViewSets extends React.PureComponent {
 		this.uHandPlay = this.uHandPlay.bind(this);
 	}
 
-	/** Converts a Setup record into an object containing `jYield` and `jPace`
+	/** Converts a Setup stereotype into an object containing `jYield` and `jPace`
 	 *  selection indices. These reference elements in `Yield.Vals` and
 	 *  `Pace.Vals`.*/
 	uSelsFromSetup(aSetup) {
@@ -81,7 +81,7 @@ class ViewSets extends React.PureComponent {
 	}
 
 	/** Converts an object containing `jYield` and `jPace` selection indices into
-	 *  a Setup record. */
+	 *  a Setup stereotype. */
 	uSetupFromSels(aSelsSetup) {
 		const oYield = Yield.Vals[aSelsSetup.jYield];
 		const [oPaceStart, oPaceBonus] = Pace.Vals[aSelsSetup.jPace];

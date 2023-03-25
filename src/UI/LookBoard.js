@@ -35,11 +35,11 @@ LookBoard.propTypes = {
 /** Displays the board, and accepts user play input. The following props are
  *  supported:
  *
- *  - Board: A Board record representing the board to be displayed. This prop
- *    is required;
+ *  - Board: A Board stereotype representing the board to be displayed. This
+ *    prop is required;
  *
- *  - Ent: An EntWord record representing the board selection, or a falsy value
- *    if there is no selection;
+ *  - Ent: An EntWord stereotype representing the board selection, or a falsy
+ *    value if there is no selection;
  *
  *  - uCallTog: A function to be invoked if a die is left-clicked;
  *

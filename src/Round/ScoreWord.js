@@ -66,8 +66,8 @@ function uCompareByLen(aScoreWordL, aScoreWordR) {
 	return Search.uCompareStrFast(aScoreWordL.Text, aScoreWordR.Text);
 }
 
-/** Uses the specified Card records to compile scoring data. Returns an array
- *  containing:
+/** Uses the specified Card stereotypes to compile scoring data. Returns an
+ *  array containing:
  *
  *  - An array of `tScoreWord` instances representing all the words found in the
  *    cards;

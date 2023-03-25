@@ -36,7 +36,7 @@ export class tConfigPoolDie {
 		return new tConfigPoolDie(11.0, 11.0, 0.1, 8.7, 8.7, 0.1);
 	}
 
-	/** Returns a new instance appropriate for the specified Setup record. */
+	/** Returns a new instance appropriate for the specified Setup stereotype. */
 	static uFromSetup(aSetup) {
 		Misc.uCkThrow_Params({ aSetup }, Object, "tConfigPoolDie.uFromSetup");
 
@@ -72,9 +72,9 @@ export class tConfigPoolDie {
 	}
 }
 
-/** Stores two pools of text values, which can be drawn randomly as Die records
- *  to produce a board. Set `aConfig` to a `tConfigPoolDie` instance that
- *  determines counts within the pools. This class is mutable. */
+/** Stores two pools of text values, which can be drawn randomly as Die
+ *  stereotypes to produce a board. Set `aConfig` to a `tConfigPoolDie` instance
+ *  that determines counts within the pools. This class is mutable. */
 export class tPoolDie {
 	constructor(aGenRnd, aConfig) {
 		Misc.uCkThrow_Params({ aGenRnd }, Object, "tPoolDie constructor");
@@ -138,8 +138,8 @@ export class tPoolDie {
 		this._TextsConson = new tPoolText(aGenRnd, oCtsConson, aConfig.Conson);
 	}
 
-	/** Selects and returns a random Die record, after decrementing the vowel or
-	 *  consonant count, as appropriate. */
+	/** Selects and returns a random Die stereotype, after decrementing the vowel
+	 *  or consonant count, as appropriate. */
 	uDraw() {
 		const oCtText = this._CtVow + this._CtConson;
 		if (oCtText < 1)

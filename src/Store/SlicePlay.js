@@ -23,12 +23,12 @@ export const Slice = createSlice({
 	name: "Play",
 
 	initialState: {
-		/** A Board record representing the board that is being played, or `null` if
+		/** A Board stereotype representing the board that is being played, or `null` if
 		 *  the board has yet to be generated for the current round. */
 		Board: Board.uFromParse(Persist.uRead("Board")) ?? null,
-		/** Ogle's Card record for the current round. */
+		/** Ogle's Card stereotype for the current round. */
 		CardOgle: Card.uFromParse(Persist.uRead("CardOgle")) ?? Card.uNewEmpty(),
-		/** The user's Card record for the current round. */
+		/** The user's Card stereotype for the current round. */
 		CardUser: Card.uFromParse(Persist.uRead("CardUser")) ?? Card.uNewEmpty(),
 		/** The elapsed play time, in milliseconds. */
 		TimeElap: Persist.uRead("TimeElap") ?? 0
@@ -40,9 +40,9 @@ export const Slice = createSlice({
 			aSt.Board = aAct.payload.Board;
 			aSt.CardOgle = aAct.payload.CardOgle;
 		},
-		/** Adds an EntWord record to the user's scorecard. */
+		/** Adds an EntWord stereotype to the user's scorecard. */
 		Add_EntWordUser: (aSt, aAct) => {
-			// We could change `uAdd` to return a new Card record, but
+			// We could change `uAdd` to return a new Card stereotype, but
 			// `uFromSelsBoard` would become even slower than it is now:
 			const oCardNew = Card.uClone(aSt.CardUser);
 			Card.uAdd(oCardNew, aAct.payload, false, false);

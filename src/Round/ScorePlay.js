@@ -13,8 +13,8 @@ import * as Const from "../Const.js";
 
 // ScorePlay
 // ---------
-// Each ScorePlay record stores player score data for one round. It is an object
-// containing:
+// Each ScorePlay stereotype stores player score data for one round. It is an
+// object containing:
 //
 // - `TimeStart`: The UNIX time when the game started;
 //
@@ -22,9 +22,9 @@ import * as Const from "../Const.js";
 //
 // - `FracPerc`: The player's percent score, as a decimal fraction.
 //
-// This record is immutable.
+// This stereotype is immutable.
 
-/** Returns a ScorePlay record with the specified values. */
+/** Returns a ScorePlay stereotype with the specified values. */
 export function uNew(aTime, aName, aFracPerc) {
 	Misc.uCkThrow_Params({ aTime, aFracPerc }, Number, "ScorePlay uNew");
 	Misc.uCkThrow_Params({ aName }, String, "ScorePlay uNew");
@@ -38,7 +38,7 @@ export function uNew(aTime, aName, aFracPerc) {
 	return oScore;
 }
 
-/** Compares ScorePlay records by FracPerc, in descending order, and then by
+/** Compares ScorePlay stereotypes by FracPerc, in descending order, and then by
  *  time, in ascending order. */
 function _uCompare(aL, aR) {
 	Misc.uCkThrow_Params({ aL, aR }, Object, "ScorePlay _uCompare");

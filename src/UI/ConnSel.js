@@ -24,11 +24,11 @@ ConnSel.propTypes = {
 /** Draws a selection connecting line between one die and another. The following
  *  props are supported:
  *
- *  - Pos: A Pt2 record representing the board position that contains this
+ *  - Pos: A Pt2 stereotype representing the board position that contains this
  *    instance. If PosFrom is defined, this is the end position of the
  *    connector. This prop is required;
  *
- *  - PosFrom: A Pt2 record representing the board position where the
+ *  - PosFrom: A Pt2 stereotype representing the board position where the
  *    connecting line originates, if this instance is part of a selection, and
  *    if it is not the first die in the selection. 'undefined' otherwise.
  */

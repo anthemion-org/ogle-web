@@ -61,7 +61,7 @@ export default function ViewPlay() {
 	// lost, but that isn't a problem unless the Word Verification dialog was
 	// open, and even then I'm not bothered.
 
-	/** An EntWord record representing the user's current board selection, or
+	/** An EntWord stereotype representing the user's current board selection, or
 	 *  `null` if there is no selection. */
 	const [oEntUser, ouSet_EntUser] = useState(null);
 	/** A `StsPlay` value representing the current play state. */

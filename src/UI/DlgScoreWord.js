@@ -31,8 +31,8 @@ DlgScoreWord.propTypes = {
 /** The Word Score dialog, to be displayed when a word entry is clicked in the
  *  Score view. The following props are supported:
  *
- *  - Board: A Board record representing the board to be displayed. This prop
- *    is required;
+ *  - Board: A Board stereotype representing the board to be displayed. This
+ *    prop is required;
  *
  *  - ScoreWord: A tScoreWord instance representing the word entry to be
  *    displayed. This prop is required;

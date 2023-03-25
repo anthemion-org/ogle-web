@@ -23,7 +23,7 @@ export const Slice = createSlice({
 		/** The name last entered by any player when a high score was recorded, or
 		 *  the empty string if the player choose to remain anonymous. */
 		NamePlayLast: Persist.uRead("NamePlayLast") ?? "",
-		/** A ScoresHigh record that contains all high score data. */
+		/** A ScoresHigh stereotype that contains all high score data. */
 		ScoresHigh: ScoresHigh.uFromParse(Persist.uRead("ScoresHigh"))
 			?? ScoresHigh.uNewEmpty()
 	},
@@ -32,7 +32,7 @@ export const Slice = createSlice({
 		Set_NamePlayLast: (aSt, aAct) => {
 			aSt.NamePlayLast = aAct.payload;
 		},
-		/** Adds a ScorePlay record to the ScoresHigh record. */
+		/** Adds a ScorePlay stereotype to the ScoresHigh stereotype. */
 		Add_ScoreHigh: (aSt, aAct) => {
 			const oTagSetup = aAct.payload.TagSetup;
 			const oScorePlay = aAct.payload.ScorePlay;

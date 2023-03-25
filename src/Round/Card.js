@@ -15,15 +15,15 @@ import * as Const from "../Const.js";
 
 // Card
 // ----
-// Each Card record stores one player's results for a single round of play. This
-// record is mutable.
+// Each Card stereotype stores one player's results for a single round of play.
+// This stereotype is mutable.
 
-/** Creates a new, empty Card record. */
+/** Creates a new, empty Card stereotype. */
 export function uNewEmpty() {
 	return uNew(Date.now(), [], 0, 0);
 }
 
-/** Creates a Card record with the specified values. */
+/** Creates a Card stereotype with the specified values. */
 export function uNew(aTimeStart, aEnts, aScore, aCtBonusTime) {
 	Misc.uCkThrow_Params({ aTimeStart, aScore, aCtBonusTime }, Number, "Card uNew");
 	Misc.uCkThrow_Params({ aEnts }, Array, "Card uNew");
@@ -32,8 +32,8 @@ export function uNew(aTimeStart, aEnts, aScore, aCtBonusTime) {
 		/** The UNIX time when this round started. This should be unique across all
 		 *  rounds on a given browser. */
 		TimeStart: aTimeStart,
-		/** An array of EntWord records representing the word entries recorded by
-		 *  this player. */
+		/** An array of EntWord stereotypes representing the word entries recorded
+		 *  by this player. */
 		Ents: Array.from(aEnts),
 		/** The score recorded by this player. */
 		Score: aScore,
@@ -44,8 +44,8 @@ export function uNew(aTimeStart, aEnts, aScore, aCtBonusTime) {
 	return oCard;
 }
 
-/** Creates a Card record from an object produced by `JSON.parse`, and returns
- *  it, or returns `null` if `aParse` is falsy. */
+/** Creates a Card stereotype from an object produced by `JSON.parse`, and
+ *  returns it, or returns `null` if `aParse` is falsy. */
 export function uFromParse(aParse) {
 	if (!aParse) return null;
 	Misc.uCkThrow_Params({ aParse }, Object, "Card uFromParse");
@@ -54,8 +54,8 @@ export function uFromParse(aParse) {
 	return uNew(aParse.TimeStart, oEnts, aParse.Score, aParse.CtBonusTime);
 }
 
-/** Creates a new Card record from an array of `tSelBoard` instances and returns
- *  it. This produces an Ogle card from `SearchBoard.uExec` output. */
+/** Creates a new Card stereotype from an array of `tSelBoard` instances and
+ *  returns it. This produces an Ogle card from `SearchBoard.uExec` output. */
 export function uFromSelsBoard(aSels) {
 	Misc.uCkThrow_Params({ aSels }, Array, "Card uFromSelsBoard");
 
@@ -79,10 +79,10 @@ function _uCkFollowEither(aWordL, aWordR) {
 	return Text.uCkEqBegin(aWordL, aWordR);
 }
 
-/** Adds an EntWord record to the specified Card record, if it meets the length
- *  minimum, and if it is not already followed or a duplicate, then returns
- *  `true` if the entry was added. Set `aCkAddFollow` to `true` if the entry
- *  should be added even if it was followed. Set `aCkSkipAdd` to `true` to
+/** Adds an EntWord stereotype to the specified Card stereotype, if it meets the
+ *  length minimum, and if it is not already followed or a duplicate, then
+ *  returns `true` if the entry was added. Set `aCkAddFollow` to `true` if the
+ *  entry should be added even if it was followed. Set `aCkSkipAdd` to `true` to
  *  return the result without actually changing the card. */
 export function uAdd(aCard, aEnt, aCkAddFollow, aCkSkipAdd) {
 	Misc.uCkThrow_Params({ aCard, aEnt }, Object, "Card uAdd");
@@ -125,7 +125,7 @@ export function uAdd(aCard, aEnt, aCkAddFollow, aCkSkipAdd) {
 	return (oCtBonus > 0);
 }
 
-/** Returns a deep copy of the specified Card record. */
+/** Returns a deep copy of the specified Card stereotype. */
 export function uClone(aCard) {
 	Misc.uCkThrow_Params({ aCard }, Object, "Card uClone");
 

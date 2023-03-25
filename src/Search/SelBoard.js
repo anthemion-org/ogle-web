@@ -28,8 +28,8 @@ import * as Const from "../Const.js";
  *
  *  This class is mutable. Because most instances reference other instances,
  *  this class produces verbose output when serialized with `JSON.stringify`.
- *  Simpler output is produced by EntWord records, which store similar data, but
- *  are not as fast. */
+ *  Simpler output is produced by EntWord stereotypes, which store similar data,
+ *  but are not as fast. */
 export class tSelBoard {
 	/** Set `aSelPrev` to the instance that should precede this instance in the
 	 *  selection, or leave it undefined to start a new selection. */
@@ -47,7 +47,7 @@ export class tSelBoard {
 		let oCksByPosPrev = aSelPrev
 			? Arr2.uCopy(aSelPrev.CksByPos)
 			: Arr2.uNew(Const.SizeBoard, { Def: false });
-		/** An Arr2 record of booleans that marks selected board position. */
+		/** An Arr2 stereotype of booleans that marks selected board position. */
 		this.CksByPos = oCksByPosPrev;
 		Arr2.uSet(this.CksByPos, aPos, true);
 
@@ -81,7 +81,7 @@ export class tSelBoard {
 		return oPosNext ? new tSelBoard(this.Board, oPosNext, this) : null;
 	}
 
-	/** Returns an EntWord record representing this selection. */
+	/** Returns an EntWord stereotype representing this selection. */
 	uEntWord() {
 		let oSel = this;
 		const oPosi = [];
@@ -134,7 +134,7 @@ function _uOff(ajDir) {
 	throw Error("SelBoard _uOff: Invalid index");
 }
 
-// When Pt2 records re frozen, this produces a surprising performance
+// When Pt2 stereotypes re frozen, this produces a surprising performance
 // improvement in the word search:
 const _Off0 = Pt2.uNew(1, 0);
 const _Off1 = Pt2.uNew(1, 1);

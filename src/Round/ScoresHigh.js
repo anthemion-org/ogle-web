@@ -17,22 +17,22 @@ import _ from "lodash";
 
 // ScoresHigh
 // ----------
-// The ScoresHigh record stores all player high score data. This record is
-// immutable.
+// The ScoresHigh stereotype stores all player high score data. This stereotype
+// is immutable.
 
 export function uNew(aByTag) {
 	Misc.uCkThrow_Params({ aByTag }, Object, "ScoresHigh uNew");
 
 	const oScores = {
-		/** An object that associates Setup record tag values with arrays of
-		  * ScorePlay records. These arrays are sorted and trimmed to length
+		/** An object that associates Setup stereotype tag values with arrays of
+		  * ScorePlay stereotypes. These arrays are sorted and trimmed to length
 		  * `Const.CtStoreScoreHigh`. */
 		_ByTag: aByTag
 	};
 	Object.freeze(oScores);
 	return oScores;
 
-	// An example record:
+	// An example stereotype:
 	//
 	//   {
 	//     _ByTag: {
@@ -62,7 +62,7 @@ export function uNewEmpty() {
 	return uNew({});
 }
 
-/** Creates a ScoresHigh record from an object produced by `JSON.parse`, or
+/** Creates a ScoresHigh stereotype from an object produced by `JSON.parse`, or
  *  returns `null` if `aParse` is falsy. */
 export function uFromParse(aParse) {
 	// This function does nothing at present, but it seems better to use it from
@@ -99,9 +99,9 @@ export function uCkScoreHigh(aSetup, aCardUser, aCardOgle, aScoresHigh) {
 	return oScores.some(a => a.FracPerc < oFracPerc);
 }
 
-/** Returns the array of ScorePlay records in `aScoresHigh` containing the
- *  scores associated with the specified Setup record tag, or an empty array, if
- *  no such scores have been recorded. */
+/** Returns the array of ScorePlay stereotypes in `aScoresHigh` containing the
+ *  scores associated with the specified Setup stereotype tag, or an empty
+ *  array, if no such scores have been recorded. */
 export function uScoresPlayTagSetup(aScoresHigh, aTagSetup) {
 	Misc.uCkThrow_Params({ aScoresHigh }, Object,
 		"ScoresHigh uScoresPlayTagSetup");
@@ -119,7 +119,7 @@ export function uCloneAdd_Score(aScoresHigh, aTagSetup, aScorePlay) {
 	const oScoresPlayOrig = aScoresHigh._ByTag[aTagSetup] ?? [];
 	const oScoresPlayNew = ScorePlay.uCloneAdd_Score(oScoresPlayOrig, aScorePlay);
 
-	// Are the copied ScorePlay records also frozen?: [refactor]
+	// Are the copied ScorePlay stereotypes also frozen?: [refactor]
 	const oScoresHighNew = _.cloneDeep(aScoresHigh);
 	oScoresHighNew._ByTag[aTagSetup] = oScoresPlayNew;
 	return oScoresHighNew;

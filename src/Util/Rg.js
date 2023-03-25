@@ -15,11 +15,11 @@ import _ from "lodash";
 
 // Rg
 // --
-// Each Rg record represents an integer range. This record is immutable.
+// Each Rg stereotype represents an integer range. This stereotype is immutable.
 
-/** Creates an Rg record that spans the specified integer range, inclusive of
- *  both `aStart` and `aEnd`. Use `-Infinity` or `-Infinity` to define a range
- *  with no lower or upper bound. If `aStart` is greater than `aEnd`, the
+/** Creates an Rg stereotype that spans the specified integer range, inclusive
+ *  of both `aStart` and `aEnd`. Use `-Infinity` or `-Infinity` to define a
+ *  range with no lower or upper bound. If `aStart` is greater than `aEnd`, the
  *  range will have zero length. */
 export function uNew(aStart, aEnd) {
 	const oRg = {
@@ -34,7 +34,7 @@ export function uNew(aStart, aEnd) {
 	return oRg;
 }
 
-/** Creates a Rg record from an object produced by `JSON.parse`, or returns
+/** Creates a Rg stereotype from an object produced by `JSON.parse`, or returns
  *  `null` if `aParse` is falsy. */
 export function uFromParse(aParse) {
 	if (!aParse) return null;
@@ -44,7 +44,7 @@ export function uFromParse(aParse) {
 	return uNew(oStart, oEnd);
 }
 
-/** Returns a short string that summarizes the values in a Rg record. */
+/** Returns a short string that summarizes the values in a Rg stereotype. */
 export function uTag(aRg) {
 	return `S:${aRg.Start} E:${aRg.End}`;
 }

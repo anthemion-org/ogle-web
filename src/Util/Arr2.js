@@ -13,7 +13,8 @@ import * as Misc from "../Util/Misc.js";
 
 // Arr2
 // ----
-// Each Arr2 record represents a rectangular array. This record is mutable.
+// Each Arr2 stereotype represents a rectangular array. This stereotype is
+// mutable.
 
 /** Creates an instance with the specified Pt2 size. If `aOpts` is defined, the
  *  new elements will be copied from linear array `aOpts.Src`, or set to default
@@ -23,7 +24,7 @@ export function uNew(aSize, aOpts) {
 	const oArr2 = {
 		/** The dimensions of the rectangle. */
 		Size: aSize,
-		/** The linear array that backs the record. */
+		/** The linear array that backs the stereotype. */
 		//
 		// We use a linear array for fast copying:
 		_Els: undefined
@@ -46,24 +47,24 @@ export function uNew(aSize, aOpts) {
 	return oArr2;
 }
 
-/** Returns the value in an Arr2 record at the specified Pt2 position. */
+/** Returns the value in an Arr2 stereotype at the specified Pt2 position. */
 export function uGet(aArr2, aPos) {
 	const oj = _uIdxCk(aArr2, aPos, "uGet");
 	return aArr2._Els[oj];
 }
 
-/** Sets the value in an Arr2 record at the specified Pt2 position. */
+/** Sets the value in an Arr2 stereotype at the specified Pt2 position. */
 export function uSet(aArr2, aPos, aVal) {
 	const oj = _uIdxCk(aArr2, aPos, "uSet");
 	aArr2._Els[oj] = aVal;
 }
 
-/** Returns a shallow copy of an Arr2 record. */
+/** Returns a shallow copy of an Arr2 stereotype. */
 export function uCopy(aArr2) {
 	return uNew(aArr2.Size, { Src: aArr2._Els });
 }
 
-/** Returns a deep copy of an Arr2 record. The array elements must implement
+/** Returns a deep copy of an Arr2 stereotype. The array elements must implement
  *  `uClone`. */
 export function uClone(aArr2) {
 	const oArr2 = uNew(aArr2.Size, { Src: aArr2._Els });

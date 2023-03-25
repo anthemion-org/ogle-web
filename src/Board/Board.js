@@ -16,22 +16,23 @@ import * as Const from "../Const.js";
 
 // Board
 // -----
-// Each Board record represents a single game board. This record is immutable.
+// Each Board stereotype represents a single game board. This stereotype is
+// immutable.
 
-/** Creates a Board record from the specified Die record array. */
+/** Creates a Board stereotype from the specified Die stereotype array. */
 export function uNew(aDice) {
 	Misc.uCkThrow_Params({ aDice }, Array, "Board uNew");
 
 	const oBoard = {
-		/** An array of Die records, arranged row-after-row. */
+		/** An array of Die stereotypes, arranged row-after-row. */
 		_Dice: aDice
 	};
 	Object.freeze(oBoard);
 	return oBoard;
 }
 
-/** Creates a Board record from an object produced by `JSON.parse`, and returns
- *  it, or returns `null` if `aParse` is falsy. */
+/** Creates a Board stereotype from an object produced by `JSON.parse`, and
+ *  returns it, or returns `null` if `aParse` is falsy. */
 export function uFromParse(aParse) {
 	if (!aParse) return null;
 	Misc.uCkThrow_Params({ aParse }, Object, "Board uFromParse");
@@ -40,7 +41,7 @@ export function uFromParse(aParse) {
 	return uNew(oDice);
 }
 
-/** Returns a new, random Board record, with dice produced by the specified
+/** Returns a new, random Board stereotype, with dice produced by the specified
  *  `tConfigPoolDie` instance. */
 export function uNewRnd(aGenRnd, aConfigPoolDie) {
 	Misc.uCkThrow_Params({ aGenRnd }, tGenRnd, "Board uNewRnd");
@@ -53,7 +54,7 @@ export function uNewRnd(aGenRnd, aConfigPoolDie) {
 	return uNew(oDice);
 }
 
-/** Returns the die at the specified Pt2 position within a Board record,
+/** Returns the die at the specified Pt2 position within a Board stereotype,
  *  throwing if either coordinate is out of range. */
 export function uDie(aBoard, aPos) {
 	// For performance reasons, we must not `uCkThrow_Params` here!

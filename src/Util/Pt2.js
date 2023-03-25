@@ -15,17 +15,18 @@ import _ from "lodash";
 
 // Pt2
 // ---
-// Each Pt2 record represents a two-dimensional point. This record is immutable.
+// Each Pt2 stereotype represents a two-dimensional point. This stereotype is
+// immutable.
 
-/** Creates a Pt2 record with the specified coordinates. */
+/** Creates a Pt2 stereotype with the specified coordinates. */
 export function uNew(aX, aY) {
 	const oPt = { X: aX, Y: aY };
 	if (Misc.CkDev) Object.freeze(oPt);
 	return oPt;
 }
 
-/** Creates a Pt2 record from an object produced by `JSON.parse`, and returns
- *  it, or returns `null` if `aParse` is falsy. */
+/** Creates a Pt2 stereotype from an object produced by `JSON.parse`, and
+ *  returns it, or returns `null` if `aParse` is falsy. */
 export function uFromParse(aParse) {
 	if (!aParse) return null;
 
@@ -40,7 +41,7 @@ export function uCkNaN(aPt) {
 	return isNaN(aPt.X) || isNaN(aPt.Y);
 }
 
-/** Returns `true` if the specified records are equal. */
+/** Returns `true` if the specified stereotypes are equal. */
 export function uCkEq(aPtL, aPtR) {
 	return _.eq(aPtL.X, aPtR.X) && _.eq(aPtL.Y, aPtR.Y);
 }

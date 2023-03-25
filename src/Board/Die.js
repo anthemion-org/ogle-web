@@ -13,9 +13,10 @@ import * as Misc from "../Util/Misc.js";
 
 // Die
 // ---
-// Each Die record represents one die within a board. This record is immutable.
+// Each Die stereotype represents one die within a board. This stereotype is
+// immutable.
 
-/** Creates a Die record with the specified text and orientation. Throws if
+/** Creates a Die stereotype with the specified text and orientation. Throws if
  *  `aDir4` is not a member of `Dir4.Vals`. */
 export function uNew(aText, aDir4) {
 	Misc.uCkThrow_Params({ aText }, String, "Die uNew");
@@ -33,8 +34,8 @@ export function uNew(aText, aDir4) {
 	return oDie;
 }
 
-/** Creates a Die record from an object produced by `JSON.parse`, and returns
- *  it, or returns `null` if `aParse` is falsy. */
+/** Creates a Die stereotype from an object produced by `JSON.parse`, and
+ *  returns it, or returns `null` if `aParse` is falsy. */
 export function uFromParse(aParse) {
 	if (!aParse) return null;
 	Misc.uCkThrow_Params({ aParse }, Object, "Die uFromParse");

@@ -12,8 +12,8 @@ import * as Misc from "./Util/Misc.js";
 
 // Cfg
 // ---
-// The Cfg record stores the player's app-level configuration selections. This
-// record is immutable.
+// The Cfg stereotype stores the player's app-level configuration selections.
+// This stereotype is immutable.
 
 export function uNew(aNameTheme) {
 	Misc.uCkThrow_Params({ aNameTheme }, String, "Cfg uNew");
@@ -26,7 +26,7 @@ export function uNew(aNameTheme) {
 	return oCfg;
 }
 
-/** Creates a Cfg record from an object produced by `JSON.parse`, or returns
+/** Creates a Cfg stereotype from an object produced by `JSON.parse`, or returns
  *  `null` if `aParse` is falsy. */
 export function uFromParse(aParse) {
 	// This function does nothing at present, but it seems better to use it from
@@ -43,7 +43,7 @@ export function uDef() {
 	return uNew("Dk");
 }
 
-/** Returns a short string that summarizes the values in a Cfg record. */
+/** Returns a short string that summarizes the values in a Cfg stereotype. */
 export function uTag(aCfg) {
 	Misc.uCkThrow_Params({ aCfg }, Object, "Cfg uTag");
 
