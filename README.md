@@ -274,24 +274,19 @@ As something of an experiment, the `Misc` module defines a `uCkThrow_Params` fun
 
 ### Classes, methods, and plain objects
 
-Many JavaScript developers share a bizarre prejudice against classes, and the more I read about their rationale, the more obvious it becomes that they don’t understand classes in the first place. This has unfortunate implications for the entire community.
+Many JavaScript developers share a bizarre prejudice against classes, and the more I learn about their rationale, the more obvious it becomes that they don’t understand classes in the first place. This has unfortunate implications for the entire community.
 
-[todo]
-Common misconceptions
-	Classes mean inheritance
-		For efficient method access, not necessary (though possible) to do more
-	Prototypal inheritance is better than classes
-		SERIOUSLY?
-	Classes mean `new`
-		Static factory methods
-	Classes mean mutable data
-		No more than plain objects
-		Subclass must be immutable if parent is
-			Liskov substitution
+Let’s start by demolishing some common misconceptions:
 
-Let’s attempt an objective comparison of classes and plain objects. We’ll also cover methods, while acknowledging that these can be used (awkwardly) with plain objects.
+- _Traditional prototypal inheritance is better than classes_: This one is staggering, and I’ve seen it more than once. Class declarations _produce traditional prototypal inheritance relations_. The two approaches are essentially synonymous, and the few non-syntactic changes introduced by the declaration are certainly improvements;
 
-[todo] 'Class' synonymous with prototypal inheritance
+- _Classes mean lots of inheritance_: JavaScript classes do use prototypal inheritance to share non-static methods with instances, but it is not necessary to exceed this single layer of inheritance. That is a design choice, and much benefit can be gained without ever using `extends`. I seldom created deep inheritance hierarchies even when I used C++, C#, and Java;
+
+- _Factory functions are better than `new`_: Factories _are_ better in many cases, but you can still use them with classes. My preference is to define a simple, low-logic constructor that accepts all the arguments necessary to initialize any instance, and then `new` that constructor from static factory methods with descriptive names and specialized logic, for use by clients of the class. To implement truly idiot-proof encapsulation, it _was_ necessary to use closures, but that can now be accomplished with private slots;
+
+- _Classes mean mutable data_: Class instances need not be mutable, any more than plain objects. In this project, many classes are frozen in the constructor. That won’t work if you start subclassing (the subclass constructor won’t be able to add properties after calling `super`) but `Object.freeze` can be moved to a factory, if necessary. If a subclass is immutable, the Liskov substitution principle implies that the superclass must be immutable as well. Your reasons for making the subclass immutable probably apply to the parent class already, so I don’t see a problem here.
+
+Now we’ll attempt an objective comparison of classes and plain objects. We’ll also compare methods with ordinary functions, while acknowledging that methods can be attached (somewhat awkwardly) to plain objects.
 
 
 #### Class advantages
@@ -334,7 +329,7 @@ const oCt = Arr2.Ct(oArr2);
 ```
 
 
-'SearchBoard uExec: Speed' tests
+'SearchBoard uExec: Speed' tests, relative to stereotype implementation
 	Define Pt2 API inside literal, capture 'uNew' parameters: 40% longer
 	Attach Pt2 API and 'bind' to 'this' after object creation: 38% longer
 		Mostly binding time
@@ -429,7 +424,7 @@ Overloading is most useful when constructing classes; a rectangle might be const
 
 JavaScript lacks the detailed `const` protections found in C++, so sharing object references with and from functions can expose internal data that should not be mutated by the caller. This is prevented most directly by using immutable types, but immutability can make some operations slower, or harder to implement.
 
-In this project, every class or stereotype is explicitly documented as ‘immutable’ or ‘mutable’. Immutable class instances and stereotypes are frozen in their constructors or factory functions. `Object.freeze` is amazingly slow, however, so Pt2 and other low-level stereotypes do this only in the development build. When Pt2 did freeze (and when `SelBoard._uOff` created a new Pt2 instance with each invocation) the word search took more than twice as long. Redux automatically freezes the objects returned by `useSelector`, so these are protected even though they are deserialized and instantiated elsewhere.
+In this project, every class or stereotype is explicitly documented as ‘immutable’ or ‘mutable’. Most immutable class instances and stereotypes are frozen in their constructors or factory functions. `Object.freeze` is amazingly slow, however, so Pt2 and other low-level stereotypes do this only in the development build. In Node, when Pt2 did freeze, the word search took more than twice as long. When I created non-writable Pt2 instances by passing property descriptors to `Object.create`, the search took _ten times_ as long. Redux automatically freezes the objects returned by `useSelector`, so these are protected even though they are deserialized and instantiated elsewhere.
 
 Functions that accept mutable object parameters must clone those objects before storing them in class instances, stereotypes, or globals, in case the caller mutates the arguments afterward. For similar reasons, functions must not return mutable objects from class instances, stereotypes, or globals; they must return clones instead. This is called ‘defensive copying’. When cloning is required, mutable types implement a `uClone` function that returns a deep copy of the instance.
 
