@@ -274,19 +274,19 @@ As something of an experiment, the `Misc` module defines a `uCkThrow_Params` fun
 
 ### Classes, methods, and plain objects
 
-Many JavaScript developers share a bizarre prejudice against classes, and the more I learn about their rationale, the more obvious it becomes that they don’t understand classes in the first place. This has unfortunate implications for the entire community.
+Many JavaScript developers share a bizarre prejudice against classes, and the more I learn about their rationale, the more obvious it becomes that they _don’t understand classes_ in the first place. This has unfortunate implications for the entire community.
 
 Let’s start by demolishing some common misconceptions:
 
 - _Traditional prototypal inheritance is better than classes_: This one is staggering, and I’ve seen it more than once. Class declarations _produce traditional prototypal inheritance relations_. The two approaches are essentially synonymous, and the few non-syntactic changes introduced by the declaration are certainly improvements;
 
-- _Classes mean lots of inheritance_: JavaScript classes do use prototypal inheritance to share non-static methods with instances, but it is not necessary to exceed this single layer of inheritance. That is a design choice, and much benefit can be gained without ever using `extends`. I seldom created deep inheritance hierarchies even when I used C++, C#, and Java;
+- _Classes mean lots of inheritance_: JavaScript classes do use prototypal inheritance to share non-static methods with instances, but it is not necessary to exceed this single layer of inheritance. That is a design choice, and much benefit can be gained without ever typing `extends`. I seldom created deep inheritance hierarchies even when I used C++, C#, and Java;
 
 - _Factory functions are better than `new`_: Factories _are_ better in many cases, but you can still use them with classes. My preference is to define a simple, low-logic constructor that accepts all the arguments necessary to initialize any instance, and then `new` that constructor from static factory methods with descriptive names and specialized logic, for use by clients of the class. To implement truly idiot-proof encapsulation, it _was_ necessary to use closures, but that can now be accomplished with private slots;
 
-- _Classes mean mutable data_: Class instances need not be mutable, any more than plain objects. In this project, many classes are frozen in the constructor. That won’t work if you start subclassing (the subclass constructor won’t be able to add properties after calling `super`) but `Object.freeze` can be moved to a factory, if necessary. If a subclass is immutable, the Liskov substitution principle implies that the superclass must be immutable as well. Your reasons for making the subclass immutable probably apply to the parent class already, so I don’t see a problem here.
+- _Classes mean mutable data_: Class instances need not be mutable, any more than plain objects. In this project, many classes are frozen in the constructor. That won’t work if you start subclassing (the subclass constructor won’t be able to add properties after calling `super`) but `Object.freeze` can be moved to a factory, if necessary. If a subclass is immutable, the Liskov substitution principle requires that the superclass be immutable as well. Your reasons for making the subclass immutable probably apply to the parent class already, so I’m not bothered by that.
 
-Now we’ll attempt an objective comparison of classes and plain objects. We’ll also compare methods with ordinary functions, while acknowledging that methods can be attached (somewhat awkwardly) to plain objects.
+Now we’ll attempt an objective comparison of classes and plain objects. We’ll also compare methods with ordinary functions, while acknowledging that methods can be attached (somewhat awkwardly) to plain objects to produce ‘fancy objects’.
 
 
 #### Class advantages
@@ -299,18 +299,22 @@ The class name also makes it easy to find the comments and methods associated wi
 
 Even _talking_ about these objects is easier when you can summarize them with class names. This is true whether you’re writing comments or discussing with collaborators.
 
-Class declarations neatly package your data, the methods that operate on that data, and the documentation for both.
+Classes — and more specifically, prototypal inheritance — also provide efficient support for method APIs, because they allow a single set of method instances to be shared throughout the class. Methods can be attached directly to plain objects, but this causes separate instances to be allocated _for every object_. Even `bind` creates a new function instance, one that wraps the function from which it was called. This could waste a lot of memory. It is also very slow. This project requires high performance in the word search, so I tested a number of ‘fancy object’ creation strategies in the Pt2 module, which is used extensively in that search:
 
-[todo] Private slots
+- Defining the API within the Pt2 object literal in `uNew` caused the ‘SearchBoard uExec: Speed’ test to run 33% longer;
+
+- Using `bind` to attach the API after the object is defined caused the test to run 38% longer;
+
+- Converting `uNew` to a closure-producing factory caused the test to run 40% longer.
+
+There are only five methods in the Pt2 API, so these results are not encouraging.
+
+Classes provide efficient support for methods. They also neatly package your data, the methods that operate on that data, and the documentation for both.
 
 
 #### Method advantages
 
-Fancy objects
-
-Classes (and more specifically, prototypal inheritance) also provide efficient support for methods. While it _is_ possible to attach methods to any object, it would be wasteful to associate a large API with many plain object instances, as the method properties would be duplicated in every instance.
-
-Methods provide a concise and expressive way to manipulate objects. Let’s make basic use of two APIs, one that works with plain objects:
+Why should we care about methods? Because they provide a concise and expressive way to manipulate objects. Let’s make basic use of two APIs, one that works with plain objects:
 
 ```
 import tArr2 from "Arr2Class.js";
