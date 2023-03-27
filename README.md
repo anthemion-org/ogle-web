@@ -214,9 +214,9 @@ const oPos = aPos[0];
 
 That’s a bit awkward, but the pluralization belongs in the root. It might be better to avoid abbreviations that end with ‘s’, or to pluralize these with ‘z’ instead.
 
-It is _never acceptable_ to use or change an abbreviation to avoid a name collision. If names collide:
+It is _never acceptable_ to use or change an abbreviation to avoid a name collision. If names do collide:
 
-- You have failed to apply the prefixes correctly (though possibly because you were forced to — see [Notation exceptions](#Notation-exceptions) below); or,
+- You have failed to apply the correct prefixes (possibly because you were forced to — see [Notation exceptions](#Notation-exceptions) below); or,
 
 - You have failed to include descriptive modifiers in your roots.
 
@@ -225,7 +225,7 @@ It is _never acceptable_ to use or change an abbreviation to avoid a name collis
 
 At times, it is impractical to apply certain prefixes:
 
-- Many developers define parameters or other variables that sometimes reference functions, and sometimes reference non-function values, and there is no way to prefix these correctly. It is usually wrong to use variables this way, because it is impossible to name them accurately, no matter what your notation. I considered a prefix for identifiers that _sometimes_ reference functions, but it doesn’t seem worth it;
+- Many developers define parameters or other variables that sometimes reference functions, and sometimes reference non-function values, and there is no way to prefix these correctly. Though this is a common practice, it is usually wrong to use variables this way, because they cannot be named accurately, no matter what your notation. I considered a prefix for identifiers that _sometimes_ reference functions, but it doesn’t seem worth it;
 
 - React requires that component names be capitalized, so component classes _cannot_ be prefixed with `t`;
 
@@ -299,11 +299,11 @@ The class name also makes it easy to find the comments and methods associated wi
 
 Even _talking_ about these objects is easier when you can summarize them with class names. This is true whether you’re writing comments or discussing with collaborators.
 
-Classes — and more specifically, prototypal inheritance — also provide efficient support for method APIs, because they allow a single set of method instances to be shared throughout the class. Methods can be attached directly to plain objects, but this causes separate instances to be allocated _for every object_. Even `bind` creates a new function instance, one that wraps the function from which it was called. This could waste a lot of memory. It is also very slow. This project requires high performance in the word search, so I tested a number of ‘fancy object’ creation strategies in the Pt2 module, which is used extensively in that search:
+Classes — and more specifically, prototypal inheritance — also provide efficient support for method APIs, because they allow a single set of method instances to be shared throughout the class. Methods can be attached directly to plain objects, but this causes separate instances to be allocated _for every object_. Even `bind` creates a new function instance, one that wraps the function from which it was called. This could waste a lot of memory, and it is also very slow. This project requires high performance in the word search, so I tested a number of ‘fancy object’ creation strategies in the Pt2 module, which is used extensively in that search. The first two allow methods to target the object with `this`, while the last captures object state in a closure, making `this` unnecessary:
 
-- Defining the API within the Pt2 object literal in `uNew` caused the ‘SearchBoard uExec: Speed’ test to run 33% longer;
+- Defining the API within the Pt2 object literal returned from `uNew` caused the ‘SearchBoard uExec: Speed’ test (averaged over five trials, each set to 2000 iterations) to run 33% longer than the ‘stereotype’ implementation;
 
-- Using `bind` to attach the API after the object is defined caused the test to run 38% longer;
+- Using `bind` to attach the externally-defined API after the object was instantiated caused the test to run 38% longer;
 
 - Converting `uNew` to a closure-producing factory caused the test to run 40% longer.
 
@@ -314,58 +314,75 @@ Classes provide efficient support for methods. They also neatly package your dat
 
 #### Method advantages
 
-Why should we care about methods? Because they provide a concise and expressive way to manipulate objects. Let’s make basic use of two APIs, one that works with plain objects:
+Why should we care about methods? Because they provide a concise and expressive way to manipulate objects. Let’s make basic use of two APIs, one a procedural API that works with plain objects:
 
 ```
-import tArr2 from "Arr2Class.js";
+import * as Arr2 from "Arr2.js";
 
-const oArr2 = new tArr2(20, 30);
-const oCt = oArr2.Ct();
+function uUpd(aArr2) {
+	for (let oX = 0; oX < Arr2.uWth(aArr2); ++oX) {
+		for (let oY = 0; oY < Arr2.uHgt(aArr2); ++oY) {
+			const oEl = Arr2.uEl(aArr2, oX, oY);
+			...
 ```
 
-and another implemented with a class:
+and another that uses methods:
 
 ```
-import * as Arr2 from "Arr2Plain.js";
-
-const oArr2 = Arr2.uNew(20, 30);
-const oCt = Arr2.Ct(oArr2);
+function uUpd(aArr2) {
+	for (let oX = 0; oX < aArr2.uWth(); ++oX) {
+		for (let oY = 0; oY < aArr2.uHgt(); ++oY) {
+			const oEl = aArr2.uEl(oX, oY);
+			...
 ```
 
+Method invocations like `aArr2.uWth()` are obviously more compact than `Arr2.uWth(aArr2)`, unless the procedural API is imported with something like:
 
-'SearchBoard uExec: Speed' tests, relative to stereotype implementation
-	Define Pt2 API inside literal, capture 'uNew' parameters: 40% longer
-	Attach Pt2 API and 'bind' to 'this' after object creation: 38% longer
-		Mostly binding time
-	Define Pt2 API inside literal, use 'this': 33% longer
-	Only five methods
-	Memory could also be relevant
+```
+import { uWth, uHgt, uEl } from "Arr2.js";
+```
 
-When implementing in class, `this` necessary
-	`this` not necessary in closure, but method properties duplicated
-	Might be okay for some types
-	Still not serializable
+which is certain to produce name collisions.
 
-Method objects never serializable
-	Can disable action check in Redux
-		Still have to restore methods when reading from selector
-			Can't change prototype
+The method invocation is also inherently polymorphic, meaning that any object that provides the necessary methods (in this case, `uWth`, `uHgt`, and `uEl`) can be passed to an algorithm that calls those methods. When using a procedural API, the calling code must couple itself to a _specific_ API. Other types cannot be processed without something like:
 
-Class/object method advantages
-	Concise, expressive API invocation
-		Reference before dot is 'special' argument
-		Dereference defines method location and provides `this` with one identifier
-			`this` binding
-	Polymorphic
-		Procedural function requires module name plus separate argument for `this`
-			Couples invocation to module
-			Can select different modules by replacing module reference with variable
-				Awkward to store this variable in object itself
-	Optional chaining invocation (`?.`)
+```
+function uUpd(aType, aArr2) {
+	for (let oX = 0; oX < aType.uWth(aArr2); ++oX) {
+		for (let oY = 0; oY < aType.uHgt(aArr2); ++oY) {
+			const oEl = aType.uEl(aArr2, oX, oY);
+			...
+```
+
+and even that fails if the algorithm operates on a collection of heterogenous types.
+
+
+
+functional programmers would pass API to algorithm
+
+
 		const oPosi = oArr.uPosEnd()?.uiPosiAdjacent();
 			Arr.uPosEnd(oArr)?.uiPosiAdjacent(aPos);
 
+
+
+Reference before dot is 'special' argument
+
+
+	Optional chaining invocation (`?.`)
+
 Typescript interfaces provide these advantages, but only with respect to data
+
+
+[todo]
+
+
+No object with methods completely serializable
+	Can disable action check in Redux
+		Still have to restore methods when reading from selector
+			Can't change prototype
+				Have to attach methods, or copy object
+
 
 Plain object advantages
 	Simplicity
@@ -383,6 +400,8 @@ Plain object advantages
 		https://en.wikipedia.org/wiki/Composition_over_inheritance
 		Complex hierarchies don't happen that often
 			Experience with UI frameworks
+	Functional
+		Advocates usually end up talking about immutability
 
 Can encapsulate with closures
 
@@ -477,7 +496,7 @@ Some developers believe every function must be policed by a squad of mostly supe
 
 - Is safety-critical.
 
-I would like to automate testing at the UI level, but it is difficult to do that in a meaningful way. Ultimately, hands-on QA work is the only way to ensure that the app works at this level.
+I would like to automate testing at the UI level, but it is difficult to do that in a meaningful way. Ultimately, hands-on QA work is the only way to do real UI testing.
 
 For testing purposes, it is sometimes necessary to export types or functions that would otherwise be private to the implementing module. Instead of exporting these directly, I have packaged and exported them within `ForTest` objects. These should _not_ be used outside of testing.
 
