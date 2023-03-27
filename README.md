@@ -278,13 +278,13 @@ Many JavaScript developers share a bizarre prejudice against classes, and the mo
 
 Let’s start by demolishing some common misconceptions:
 
-- _Traditional prototypal inheritance is better than classes_: This one is staggering, and I’ve seen it more than once. Class declarations _produce traditional prototypal inheritance relations_. The two approaches are essentially synonymous, and the few non-syntactic changes introduced by the declaration are certainly improvements;
+- _Prototypal inheritance is better than classes_: This one is staggering, and I’ve seen it more than once. Class declarations _produce traditional prototypal inheritance relations_. The two approaches are essentially synonymous, and the few non-syntactic changes introduced by the declaration are certainly improvements;
 
 - _Classes mean lots of inheritance_: JavaScript classes do use prototypal inheritance to share non-static methods with instances, but it is not necessary to exceed this single layer of inheritance. That is a design choice, and much benefit can be gained without ever typing `extends`. I seldom created deep inheritance hierarchies even when I used C++, C#, and Java;
 
 - _Factory functions are better than `new`_: Factories _are_ better in many cases, but you can still use them with classes. My preference is to define a simple, low-logic constructor that accepts all the arguments necessary to initialize any instance, and then `new` that constructor from static factory methods with descriptive names and specialized logic, for use by clients of the class. To implement truly idiot-proof encapsulation, it _was_ necessary to use closures, but that can now be accomplished with private slots;
 
-- _Classes mean mutable data_: Class instances need not be mutable, any more than plain objects. In this project, many classes are frozen in the constructor. That won’t work if you start subclassing (the subclass constructor won’t be able to add properties after calling `super`) but `Object.freeze` can be moved to a factory, if necessary. If a subclass is immutable, the Liskov substitution principle requires that the superclass be immutable as well. Your reasons for making the subclass immutable probably apply to the parent class already, so I’m not bothered by that.
+- _Classes mean mutable data_: Class instances need not be mutable, any more than plain objects. In this project, many classes are frozen in the constructor. That won’t work if you start subclassing (the subclass constructor won’t be able to add properties after calling `super`) but `Object.freeze` can be moved to a factory, if necessary. If a subclass is immutable, the Liskov substitution principle requires that the superclass be immutable as well. Our reasons for making the subclass immutable probably apply to the parent class already, so I’m not bothered by that.
 
 Now we’ll attempt an objective comparison of classes and plain objects. We’ll also compare methods with ordinary functions, while acknowledging that methods can be attached (somewhat awkwardly) to plain objects to produce ‘fancy objects’.
 
@@ -301,7 +301,7 @@ Even _talking_ about these objects is easier when you can summarize them with cl
 
 Classes — and more specifically, prototypal inheritance — also provide efficient support for method APIs, because they allow a single set of method instances to be shared throughout the class. Methods can be attached directly to plain objects, but this causes separate instances to be allocated _for every object_. Even `bind` creates a new function instance, one that wraps the function from which it was called. This could waste a lot of memory, and it is also very slow. This project requires high performance in the word search, so I tested a number of ‘fancy object’ creation strategies in the Pt2 module, which is used extensively in that search. The first two allow methods to target the object with `this`, while the last captures object state in a closure, making `this` unnecessary:
 
-- Defining the API within the Pt2 object literal returned from `uNew` caused the ‘SearchBoard uExec: Speed’ test (averaged over five trials, each set to 2000 iterations) to run 33% longer than the ‘stereotype’ implementation;
+- Defining the API within the Pt2 object literal returned from `uNew` caused the ‘SearchBoard uExec: Speed’ test (over five trials, each set to 2000 iterations) to run 33% longer than the ‘stereotype’ implementation;
 
 - Using `bind` to attach the externally-defined API after the object was instantiated caused the test to run 38% longer;
 
@@ -317,41 +317,38 @@ Classes provide efficient support for methods. They also neatly package your dat
 Why should we care about methods? Because they provide a concise and expressive way to manipulate objects. Let’s make basic use of two APIs, one a procedural API that works with plain objects:
 
 ```
-import * as Arr2 from "Arr2.js";
+import * as Serv from "Serv.js";
 
-function uUpd(aArr2) {
-	for (let oX = 0; oX < Arr2.uWth(aArr2); ++oX) {
-		for (let oY = 0; oY < Arr2.uHgt(aArr2); ++oY) {
-			const oEl = Arr2.uEl(aArr2, oX, oY);
-			...
+function uStart(aServ) {
+  const oSess = Serv.uSess(aServ);
+  const oBuff = Serv.uBuffRead(aServ);
+  ...
 ```
 
 and another that uses methods:
 
 ```
-function uUpd(aArr2) {
-	for (let oX = 0; oX < aArr2.uWth(); ++oX) {
-		for (let oY = 0; oY < aArr2.uHgt(); ++oY) {
-			const oEl = aArr2.uEl(oX, oY);
-			...
+function uStart(aServ) {
+  const oSess = aServ.uSess();
+  const oBuff = aServ.uBuffRead();
+  ...
 ```
 
-Method invocations like `aArr2.uWth()` are obviously more compact than `Arr2.uWth(aArr2)`, unless the procedural API is imported with something like:
+Method invocations like `aServ.uSess()` are obviously more compact than `Serv.uSess(aServ)`, unless the procedural API is imported with something like:
 
 ```
-import { uWth, uHgt, uEl } from "Arr2.js";
+import { uSess, uBuffRead } from "Serv.js";
 ```
 
 which is certain to produce name collisions.
 
-The method invocation is also inherently polymorphic, meaning that any object that provides the necessary methods (in this case, `uWth`, `uHgt`, and `uEl`) can be passed to an algorithm that calls those methods. When using a procedural API, the calling code must couple itself to a _specific_ API. Other types cannot be processed without something like:
+The method invocation is also inherently polymorphic, meaning that any object with the necessary methods (in this case, `uSess` and `uBuffRead`) can be passed to an algorithm that calls those methods. When using a procedural API, the calling code must couple itself to a _specific_ API. Other types cannot be processed without something like:
 
 ```
-function uUpd(aType, aArr2) {
-	for (let oX = 0; oX < aType.uWth(aArr2); ++oX) {
-		for (let oY = 0; oY < aType.uHgt(aArr2); ++oY) {
-			const oEl = aType.uEl(aArr2, oX, oY);
-			...
+function uStart(aTypeServ, aServ) {
+  const oSess = aTypeServ.uSess(aServ);
+  const oBuff = aTypeServ.uBuffRead(aServ);
+  ...
 ```
 
 and even that fails if the algorithm operates on a collection of heterogenous types.
