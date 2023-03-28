@@ -9,11 +9,11 @@ import * as Misc from "./Misc.js";
 // ---------------
 
 class tSuper {
-	constructor (aVal) { this.Val = aVal; }
+	constructor(aVal) { this.Val = aVal; }
 }
 
 class tSub extends tSuper {
-	constructor (aVal, aExtra) {
+	constructor(aVal, aExtra) {
 		super(aVal);
 		this.Extra = aExtra;
 	}

@@ -41,13 +41,13 @@ export function uCkNaN(aPt) {
 	return isNaN(aPt.X) || isNaN(aPt.Y);
 }
 
-/** Returns `true` if the specified stereotypes are equal. */
+/** Returns `true` if the specified points are equivalent. */
 export function uCkEq(aPtL, aPtR) {
 	return _.eq(aPtL.X, aPtR.X) && _.eq(aPtL.Y, aPtR.Y);
 }
 
-/** Returns `true` if the horizontal and vertical distances between the points
- *  are less than or equal to one, without the points being equal. */
+/** Returns `true` if the specified points are horizontally, vertically, or
+ *  diagonally adjacent. */
 export function uCkAdjacent(aPtL, aPtR) {
 	if (uCkNaN(aPtL) || uCkNaN(aPtR)) return false;
 
@@ -56,12 +56,13 @@ export function uCkAdjacent(aPtL, aPtR) {
 		&& !uCkEq(aPtL, aPtR);
 }
 
-/** Returns a new instance that is the sum of the points. */
+/** Returns a new instance that is the sum of the specified points. */
 export function uSum(aPtL, aPtR) {
 	return uNew((aPtL.X + aPtR.X), (aPtL.Y + aPtR.Y));
 }
 
-/** Returns a new instance that is equal to `aPtL` less `aPtR`. */
+/** Returns a new instance that equals the first specified point less the
+ *  second. */
 export function uDiff(aPtL, aPtR) {
 	return uNew((aPtL.X - aPtR.X), (aPtL.Y - aPtR.Y));
 }

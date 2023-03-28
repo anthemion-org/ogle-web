@@ -6,14 +6,14 @@ Ogle is a free word-finding game for the web and mobile. It derives from a table
 
 I created the [first version](https://github.com/anthemion-org/ogle) of this app years back, when I was learning C#. I created this version when I was learning React.
 
-Ogle is a progressive web app, so you can install it on your phone much like any other app. If you navigate to the [play address](https://www.anthemion.org/play-ogle/), your phone should offer to install it. Your phone’s browser will also display _Install app_ (or similar) in its page menu.
+Ogle is a progressive web app, so you can install it on your phone somewhat like a native app. If you navigate to the [play address](https://www.anthemion.org/play-ogle/), your phone should offer to install it. Your phone’s browser will also display _Install app_ (or similar) in its page menu.
 
 If you find a bug, write to [support@anthemion.org](mailto://support@anthemion.org).
 
 
 ## License
 
-Ogle has copyright ©2006-2023 Jeremy Kelly. You can view the source code here or copy it to your device, but — for now, at least — _you may not reuse or redistribute it_. I may open-source it some day.
+Ogle has copyright ©2006-2023 Jeremy Kelly. You may view the source code here, or copy it to your device, but _you may not reuse or redistribute it_. I may open-source it some day.
 
 The Ogle word lists derive from [SCOWL](https://wordlist.sourceforge.net/), copyright ©2000-2004 Kevin Atkinson. Use and distribution of SCOWL are subject to the terms of the [SCOWL License](Misc/scowl_license.txt).
 
@@ -58,7 +58,7 @@ The `Persist` module serializes data as JSON, which stupidly fails to accommodat
 
 For the convenience of mobile users, Ogle is a progressive web app (PWA). I did not use the `cra-template-pwa` option when I ran `create-react-app`; I used the default template, and later added `service-worker.js` and `serviceWorkerRegistration.js`, as copied from the [cra-template/pwa](https://github.com/cra-template/pwa/tree/main/packages/cra-template-pwa/template/src) repository. Then I added a `register` call to `index.js`. Instructions can be found [here](https://dev.to/myfatemi04/turn-your-create-react-app-into-a-progressive-web-app-in-100-seconds-3c11).
 
-The PWA works fairly well on Android, but it cannot reasonably be said that the experience matches that of a native app. The ‘install’ process seems awkward, and there is a bug in the Android version of Chrome that sometimes causes the Play view to grow larger than the viewport, so that unwanted scrolling occurs.
+The PWA works fairly well on Android, but the experience does not match that of a native app. The ‘install’ process seems awkward, and there is a bug in the Android version of Chrome that sometimes causes the Play view to grow larger than the viewport, so that unwanted scrolling occurs.
 
 
 ### Class and function components
@@ -72,7 +72,7 @@ Bigger problems are produced by `useSelector` and `useDispatch`. These hooks —
 
 ### Identifier naming
 
-The Ogle source code uses a new identifier naming convention I am developing. This convention was inspired by the [Split notation](https://www.anthemion.org/split_notation.html) I use with C# and C++, but JavaScript differs so much from those languages, it seems impossible to make the notations compatible.
+The Ogle source code uses an identifier naming convention I have been developing for a while. It was inspired by the [Split notation](https://www.anthemion.org/split_notation.html) I use with C# and C++, but JavaScript differs so much from those languages, it seems impossible to make the notations compatible.
 
 
 #### Identifier prefixes
@@ -116,6 +116,8 @@ class tBuff {
   _uFromRead(auwRead) {
     ...
 ```
+
+[todo] Many nested functions in JavaScript, these diminish benefit of `a` and `o`
 
 
 #### Identifier roots
@@ -191,6 +193,8 @@ function uExec(aParseBoard) {
 #### Abbreviations and containers
 
 Long names produce long expressions that are hard to read, especially when their length causes the line to wrap, so longer words are abbreviated within identifiers, file and folder names, _et cetera_. Some developers, after being confounded by a few poorly-chosen abbreviations, forswear identifier abbreviation altogether. I sympathize, truly, but every team and every industry abbreviates things, so the question is not _whether_ to abbreviate, it is _when_ and _how_ to abbreviate. The obvious answer: terms that are longer, or used more often, are more deserving of abbreviation. Note that the more you use a given term, the more you gain by abbreviating it, and the safer it is to abbreviate, as the repetition makes it easier to remember. My projects frequently use the word ‘Position’, so I abbreviate aggressively to produce `Pos`. When using a less common word, it is better to choose something longer, or leave it unabbreviated. A word that is abbreviated once must be abbreviated everywhere in the project (outside of comments) and _always the same way_.
+
+[todo] What about 'L' and 'R'?
 
 Though they might contain the same type of data, a container of values differs fundamentally from a single value. For this reason, containers must be given plural names:
 
@@ -321,7 +325,7 @@ import * as Serv from "Serv.js";
 
 function uStart(aServ) {
   const oSess = Serv.uSess(aServ);
-  const oBuff = Serv.uBuffRead(aServ);
+  const oBuff = Serv.uBuffRead(aServ, oSess);
   ...
 ```
 
@@ -330,7 +334,7 @@ and another that uses methods:
 ```
 function uStart(aServ) {
   const oSess = aServ.uSess();
-  const oBuff = aServ.uBuffRead();
+  const oBuff = aServ.uBuffRead(oSess);
   ...
 ```
 
@@ -342,12 +346,12 @@ import { uSess, uBuffRead } from "Serv.js";
 
 which is certain to produce name collisions.
 
-The method invocation is also inherently polymorphic, meaning that any object with the necessary methods (in this case, `uSess` and `uBuffRead`) can be passed to an algorithm that calls those methods. When using a procedural API, the calling code must couple itself to a _specific_ API. Other types cannot be processed without something like:
+The method invocation is also inherently polymorphic, allowing any object with the necessary methods (in this case, `uSess` and `uBuffRead`) to be manipulated by an algorithm that calls those methods. When using a procedural API, the calling code must couple itself to a _specific_ API. Other types cannot be processed without something like:
 
 ```
 function uStart(aTypeServ, aServ) {
   const oSess = aTypeServ.uSess(aServ);
-  const oBuff = aTypeServ.uBuffRead(aServ);
+  const oBuff = aTypeServ.uBuffRead(aServ, oSess);
   ...
 ```
 

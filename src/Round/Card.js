@@ -67,8 +67,7 @@ export function uFromSelsBoard(aSels) {
 
 	const oCard = uNewEmpty();
 	// Slow, but easy:
-	for (const oEnt of oEntsAll)
-		uAdd(oCard, oEnt, true, false)
+	oEntsAll.forEach(oEnt => uAdd(oCard, oEnt, true, false));
 	return oCard;
 }
 

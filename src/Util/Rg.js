@@ -62,7 +62,7 @@ export function uLen(aRg) {
 	return aRg.End - aRg.Start + 1;
 }
 
-/** Returns `true` if the specified ranges are equal. */
+/** Returns `true` if the specified ranges are equivalent. */
 export function uCkEq(aRgL, aRgR) {
 	return _.eq(aRgL.Start, aRgR.Start) && _.eq(aRgL.End, aRgR.End);
 }
