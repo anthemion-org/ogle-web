@@ -15,7 +15,7 @@ If you find a bug, write to [support@anthemion.org](mailto://support@anthemion.o
 
 Ogle has copyright ©2006-2023 Jeremy Kelly. You may view the source code here, or copy it to your device, but _you may not reuse or redistribute it_. I may open-source it some day.
 
-The Ogle word lists derive from [SCOWL](https://wordlist.sourceforge.net/), copyright ©2000-2004 Kevin Atkinson. Use and distribution of SCOWL are subject to the terms of the [SCOWL License](Misc/scowl_license.txt).
+The Ogle word list derives from [SCOWL](https://wordlist.sourceforge.net/), copyright ©2000-2004 Kevin Atkinson. Use and distribution of SCOWL are subject to the terms of the [SCOWL License](Misc/scowl_license.txt).
 
 
 ## Project structure
@@ -36,7 +36,7 @@ The `src` folder includes these subfolders:
 
 - `Util` contains general-purpose types and utilities.
 
-In this project, **views** are top-level components that represent pages. Most views correspond to `StsApp` values. **Dialogs** are smaller pages that are superimposed over views. Some people call these ‘modals’, even though they aren’t always modal. **Looks** are components that display complex data within a view or dialog. Some examples are `LookDie` (which renders a single letter die) and `LookBoard` (which renders the entire board).
+In this project, **views** are top-level components that represent pages or windows. Most views correspond to `StsApp` values. **Dialogs** are smaller windows that are superimposed over views. Some people call these ‘modals’, even though they aren’t always modal. **Looks** are components that display complex data within a view or dialog. Some examples are `LookDie` (which renders a single letter die) and `LookBoard` (which renders the entire board).
 
 
 ## Architecture
@@ -194,8 +194,6 @@ function uExec(aParseBoard) {
 
 Long names produce long expressions that are hard to read, especially when their length causes the line to wrap, so longer words are abbreviated within identifiers, file and folder names, _et cetera_. Some developers, after being confounded by a few poorly-chosen abbreviations, forswear identifier abbreviation altogether. I sympathize, truly, but every team and every industry abbreviates things, so the question is not _whether_ to abbreviate, it is _when_ and _how_ to abbreviate. The obvious answer: terms that are longer, or used more often, are more deserving of abbreviation. Note that the more you use a given term, the more you gain by abbreviating it, and the safer it is to abbreviate, as the repetition makes it easier to remember. My projects frequently use the word ‘Position’, so I abbreviate aggressively to produce `Pos`. When using a less common word, it is better to choose something longer, or leave it unabbreviated. A word that is abbreviated once must be abbreviated everywhere in the project (outside of comments) and _always the same way_.
 
-[todo] What about 'L' and 'R'?
-
 Though they might contain the same type of data, a container of values differs fundamentally from a single value. For this reason, containers must be given plural names:
 
 ```
@@ -295,15 +293,15 @@ Now we’ll attempt an objective comparison of classes and plain objects. We’l
 
 #### Class advantages
 
-First, _type information is useful_. Whether you use TypeScript or not, type checks are a good way to verify the correctness of your program, and — even without compile-time checking — they are much easier when your objects contain type data (by way of the `constructor` property). If they check anything at all, most JavaScript developers use a sort of ‘duck type checking’, where they receive an object, look for the members they need, then throw if one is missing. That _is_ more flexible, but it’s also more work, and it produces noisy code.
+First, _type information is useful_. Whether you use TypeScript or not, type checks are a good way to verify the correctness of your program, and — even without compile-time checking — they are much easier when your objects contain type data (by way of the `constructor` property). If they check anything at all, most JavaScript developers perform ‘duck type checking’, where they receive an object, look for the members they need, then throw if one is missing. That _is_ more flexible, but it’s also more work, and it produces noisy code.
 
-Type data also provides useful context for the developer. When you see the content of a plain object, do you know what the object represents? Maybe, or maybe the name of the object reference tells you, but it’s not always clear. The class name _tells you what the data represents_.
+Type data also provides useful context for the developer. When you see the content of a plain object, do you know what the object represents? Maybe, or maybe the name of the object reference tells you, but it’s not always clear. The class name _tells you what kind of data this is_ — something the reference name often only hints at. Even _talking_ about these objects is easier when you can summarize them with class names. This is true whether you’re writing comments or discussing with collaborators.
 
 The class name also makes it easy to find the comments and methods associated with your data, and the places where it may have been instantiated. IDEs like VSCode display some of this information when you mouse over class names, and they can offer code completion when you’re referencing class members. Incidentally, where do you comment the members of your plain object? I know, _JavaScript developers don’t write comments_.
 
-Even _talking_ about these objects is easier when you can summarize them with class names. This is true whether you’re writing comments or discussing with collaborators.
+Typescript interfaces can provide some of these advantages, but they describe the requirements of a _system_ (by restricting the arguments that may be passed through a given parameter, for instance) rather than metadata that attaches to and describes a specific _object_.
 
-Classes — and more specifically, prototypal inheritance — also provide efficient support for method APIs, because they allow a single set of method instances to be shared throughout the class. Methods can be attached directly to plain objects, but this causes separate instances to be allocated _for every object_. Even `bind` creates a new function instance, one that wraps the function from which it was called. This could waste a lot of memory, and it is also very slow. This project requires high performance in the word search, so I tested a number of ‘fancy object’ creation strategies in the Pt2 module, which is used extensively in that search. The first two allow methods to target the object with `this`, while the last captures object state in a closure, making `this` unnecessary:
+Finally, classes — and more specifically, prototypal inheritance — provide efficient support for method APIs by allowing a single set of method instances to be shared throughout the class. Methods can be attached directly to plain objects, but this causes separate instances to be allocated _for every object_. Even `bind` creates a new function instance, one that wraps the function from which it was called. This could waste a lot of memory, and it is also very slow. This project requires high performance in the word search, so I tested a number of ‘fancy object’ creation strategies in the Pt2 module, which is used extensively in that search. The first two allow methods to target the object with `this`, while the last captures object state in a closure, making `this` unnecessary:
 
 - Defining the API within the Pt2 object literal returned from `uNew` caused the ‘SearchBoard uExec: Speed’ test (over five trials, each set to 2000 iterations) to run 33% longer than the ‘stereotype’ implementation;
 
@@ -358,36 +356,21 @@ function uStart(aTypeServ, aServ) {
 and even that fails if the algorithm operates on a collection of heterogenous types.
 
 
+#### Plain object advantages
 
-functional programmers would pass API to algorithm
+Plain objects do have many advantages. They are easy to understand, and they are directly supported by the language. They facilitate duck typing, which is a simple and flexible approach to reuse, even if it fails to help when verifying correctness.
 
+They _should_ be easily serializable, unlike class instances, fancy objects, or state-capturing closures, which cannot be deserialized without factory functions, and sometimes require extra work for serialization as well. Unfortunately, the JavaScript ecosystem fails to realize this advantage:
 
-		const oPosi = oArr.uPosEnd()?.uiPosiAdjacent();
-			Arr.uPosEnd(oArr)?.uiPosiAdjacent(aPos);
+- JSON fails to support `NaN` and `Infinite` values, so it is necessary to add special handling for these values (`UtilJSON.uNumFix` and `uFromParse` in this project), or to use a different format;
 
+- `JSON.stringify` cannot handle reference cycles, and though `stringify` can serialize shared instances, `JSON.parse` deserializes them as distinct instances. That doesn’t harm correctness if the instances are immutable, and it presumably doesn’t waste much memory, since large amounts of data are unlikely to be serialized as JSON. It _does_ make it impossible to optimize equality checks with simple reference comparisons, however.
 
-
-Reference before dot is 'special' argument
-
-
-	Optional chaining invocation (`?.`)
-
-Typescript interfaces provide these advantages, but only with respect to data
+It’s hard to count this as an advantage in many real-world applications.
 
 
-[todo]
 
 
-No object with methods completely serializable
-	Can disable action check in Redux
-		Still have to restore methods when reading from selector
-			Can't change prototype
-				Have to attach methods, or copy object
-
-
-Plain object advantages
-	Simplicity
-	Duck typing
 	Explicit API invocation
 		Unambiguously locate every invocation
 			Import module object consistently
@@ -396,6 +379,7 @@ Plain object advantages
 		Redux compatibility
 	No `this` binding
 		Like telling an amputee that they needn’t trim their fingernails
+	Can encapsulate with closures
 	Doesn't sequester functionality
 		Composition over inheritance
 		https://en.wikipedia.org/wiki/Composition_over_inheritance
@@ -404,7 +388,11 @@ Plain object advantages
 	Functional
 		Advocates usually end up talking about immutability
 
-Can encapsulate with closures
+No object with methods completely serializable
+	Can disable action check in Redux
+		Still have to restore methods when reading from selector
+			Can't change prototype
+				Have to attach methods, or replace object
 
 
 [todo]
@@ -416,13 +404,16 @@ A class like `tPoolDie` could easily be replaced with a factory function that re
 
 - Allows additional methods to be added without restructuring the factory.
 
-The class does expose private data that could have been hidden in a closure, but private variables are marked with underscores in this project, and it’s not hard to remember that they are off-limits. In this case, at least, the class implementation is easier to understand, and easier to maintain.
+The class does expose private data that could have been hidden in a closure, but private variables are clearly marked in this project, and it’s not hard to remember that they are off-limits. In this case, at least, the class implementation is easier to understand, and easier to maintain.
 
 
 #### Redux
 
 [todo]
 Having said all that, Redux makes it difficult to represent state data with classes.
+
+Selectors replace both types and instances
+	Not practical or performant to manage all state in store
 
 Some class advantages can be faked, to an extent, with plain objects.
 	Stereotype names
@@ -497,7 +488,7 @@ Some developers believe every function must be policed by a squad of mostly supe
 
 - Is safety-critical.
 
-I would like to automate testing at the UI level, but it is difficult to do that in a meaningful way. Ultimately, hands-on QA work is the only way to do real UI testing.
+I would like to automate testing at the UI level, but it is difficult to do that in a meaningful way. Ultimately, hands-on QA work is the only way to test your UI.
 
 For testing purposes, it is sometimes necessary to export types or functions that would otherwise be private to the implementing module. Instead of exporting these directly, I have packaged and exported them within `ForTest` objects. These should _not_ be used outside of testing.
 
