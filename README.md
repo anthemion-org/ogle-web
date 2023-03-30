@@ -278,13 +278,13 @@ As something of an experiment, the `Misc` module defines a `uCkThrow_Params` fun
 
 Many JavaScript developers share a bizarre prejudice against classes, and the more I learn about their rationale, the more obvious it becomes that they _don’t understand classes_ in the first place. This has unfortunate implications for the entire community.
 
-Let’s start by demolishing some common misconceptions:
+Let’s start by vaporizing some common misconceptions:
 
 - _Prototypal inheritance is better than classes_: This one is staggering, and I’ve seen it more than once. Class declarations _produce traditional prototypal inheritance relations_. The two approaches are essentially synonymous, and the few non-syntactic changes introduced by the declaration are certainly improvements;
 
-- _Classes mean lots of inheritance_: JavaScript classes do use prototypal inheritance to share non-static methods with instances, but it is not necessary to exceed this single layer of inheritance. That is a design choice, and much benefit can be gained without ever typing `extends`. I seldom created deep inheritance hierarchies even when I used C++, C#, and Java;
+- _Classes mean lots of inheritance_: JavaScript classes do use prototypal inheritance to share non-static methods with instances, but it is not necessary to exceed this single layer of inheritance. That is a design choice, and much benefit can be gained without ever typing `extends`. I have seldom created deep inheritance hierarchies, even after years of UI development with C++, C#, and Java;
 
-- _Factory functions are better than `new`_: Factories _are_ better in many cases, but you can still use them with classes. My preference is to define a simple, low-logic constructor that accepts all the arguments necessary to initialize any instance, and then `new` that constructor from static factory methods with descriptive names and specialized logic, for use by clients of the class. To implement truly idiot-proof encapsulation, it _was_ necessary to use closures, but that can now be accomplished with private slots;
+- _Factory functions are better than `new`_: Factories _are_ better in many cases, but you can still use them with classes. My preference is to define a simple, low-logic constructor that accepts all the arguments necessary to initialize any instance, and then `new` that constructor from static factory methods with descriptive names and specialized logic, for use by clients of the class. For truly foolproof encapsulation, it _was_ necessary to use closures, but that can now be accomplished with private slots;
 
 - _Classes mean mutable data_: Class instances need not be mutable, any more than plain objects. In this project, many classes are frozen in the constructor. That won’t work if you start subclassing (the subclass constructor won’t be able to add properties after calling `super`) but `Object.freeze` can be moved to a factory, if necessary. If a subclass is immutable, the Liskov substitution principle requires that the superclass be immutable as well. Our reasons for making the subclass immutable probably apply to the parent class already, so I’m not bothered by that.
 
@@ -299,7 +299,7 @@ Type data also provides useful context for the developer. When you see the conte
 
 The class name also makes it easy to find the comments and methods associated with your data, and the places where it may have been instantiated. IDEs like VSCode display some of this information when you mouse over class names, and they can offer code completion when you’re referencing class members. Incidentally, where do you comment the members of your plain object? I know, _JavaScript developers don’t write comments_.
 
-Typescript interfaces can provide some of these advantages, but they describe the requirements of a _system_ (by restricting the arguments that may be passed through a given parameter, for instance) rather than metadata that attaches to and describes a specific _object_.
+Typescript interfaces can provide some of these advantages, but they describe the requirements of a _system_ (by restricting the arguments that may be passed through a given parameter, for instance). Classes, by contrast, produce metadata that attaches to and describes specific _objects_. Both are useful, but these are not the same.
 
 Finally, classes — and more specifically, prototypal inheritance — provide efficient support for method APIs by allowing a single set of method instances to be shared throughout the class. Methods can be attached directly to plain objects, but this causes separate instances to be allocated _for every object_. Even `bind` creates a new function instance, one that wraps the function from which it was called. This could waste a lot of memory, and it is also very slow. This project requires high performance in the word search, so I tested a number of ‘fancy object’ creation strategies in the Pt2 module, which is used extensively in that search. The first two allow methods to target the object with `this`, while the last captures object state in a closure, making `this` unnecessary:
 
@@ -310,6 +310,8 @@ Finally, classes — and more specifically, prototypal inheritance — provide e
 - Converting `uNew` to a closure-producing factory caused the test to run 40% longer.
 
 There are only five methods in the Pt2 API, so these results are not encouraging.
+
+Speaking of closures, a class like `tPoolDie` could be replaced with a factory that returns a die-generating function, with the state in the class being converted to a closure. Many JavaScript developers would consider that more idiomatic, but is it better? The class implementation has an obvious structure that requires no knowledge of closures, it cleanly separates initialization code from the class’s API, and it allows instance state to be viewed in the debugger without expanding _Variables_ window entries, or visiting the factory function.
 
 Classes provide efficient support for methods. They also neatly package your data, the methods that operate on that data, and the documentation for both.
 
@@ -360,51 +362,31 @@ and even that fails if the algorithm operates on a collection of heterogenous ty
 
 Plain objects do have many advantages. They are easy to understand, and they are directly supported by the language. They facilitate duck typing, which is a simple and flexible approach to reuse, even if it fails to help when verifying correctness.
 
-They _should_ be easily serializable, unlike class instances, fancy objects, or state-capturing closures, which cannot be deserialized without factory functions, and sometimes require extra work for serialization as well. Unfortunately, the JavaScript ecosystem fails to realize this advantage:
+They _should_ be easily serializable, unlike class instances, fancy objects, or state-capturing closures, which cannot be deserialized without factory functions, and which sometimes require help when serializing as well. Unfortunately, the format of choice for most developers fails to realize this advantage:
 
-- JSON fails to support `NaN` and `Infinite` values, so it is necessary to add special handling for these values (`UtilJSON.uNumFix` and `uFromParse` in this project), or to use a different format;
+- JSON fails to support `NaN` and `Infinite` values, so it becomes necessary to add special handling (`UtilJSON.uNumFix` and `uFromParse` in this project) for these values;
 
-- `JSON.stringify` cannot handle reference cycles, and though `stringify` can serialize shared instances, `JSON.parse` deserializes them as distinct instances. That doesn’t harm correctness if the instances are immutable, and it presumably doesn’t waste much memory, since large amounts of data are unlikely to be serialized as JSON. It _does_ make it impossible to optimize equality checks with simple reference comparisons, however.
+- JSON cannot represent reference cycles, and though it can serialize shared instances, it does this by duplicating them. That doesn’t harm correctness, if the instances are immutable, and it probably doesn’t waste much memory, since large datasets are unlikely to be serialized as JSON. It _does_ make it impossible to optimize equality checks with simple reference comparisons, however.
 
-It’s hard to count this as an advantage in many real-world applications.
+It’s hard to count this as a win. Plain objects _do_ meet Redux’s serializability requirements, however.
 
+When not attached as methods, object APIs must be implemented procedurally, and the target object must be passed to each procedure as it is used. This is less concise than a method invocation (see above) but it does allow calls to the API to be identified unambiguously, with a text search of the import name. Tools like VSCode offer ‘Find All References’ functionality that can find some method invocations, but these features _don’t work consistently_. Therefore, unless a method is named uniquely across all APIs, calls cannot be identified without knowing the type of each object that invokes the name, which can be difficult during code analysis. Note that this is the converse of the polymorphism advantage attributed to methods earlier.
 
+Procedural APIs do not rely on `this`, so a certain amount of binding confusion also disappears. `this` is the _way_ that methods achieve their concision, so that is a bit like telling an amputee that they get to save money on fingernail clippers. In any event, cases where `this` _would_ have been bound:
 
+```
+const oWork = new tWork();
+...
+const oHandClick = oWork.uReset.bind(oWork);
+```
 
-	Explicit API invocation
-		Unambiguously locate every invocation
-			Import module object consistently
-		Converse of 'expressive' invocation
-	Serialization
-		Redux compatibility
-	No `this` binding
-		Like telling an amputee that they needn’t trim their fingernails
-	Can encapsulate with closures
-	Doesn't sequester functionality
-		Composition over inheritance
-		https://en.wikipedia.org/wiki/Composition_over_inheritance
-		Complex hierarchies don't happen that often
-			Experience with UI frameworks
-	Functional
-		Advocates usually end up talking about immutability
+are now likely to require that an instance be captured in a closure:
 
-No object with methods completely serializable
-	Can disable action check in Redux
-		Still have to restore methods when reading from selector
-			Can't change prototype
-				Have to attach methods, or replace object
-
-
-[todo]
-A class like `tPoolDie` could easily be replaced with a factory function that returns a die-generating function. Many JavaScript developers would consider that more idiomatic, but is it better? The class implementation:
-
-- Cleanly separates initialization code from output-generating code;
-
-- Allows object state to be investigated in the debugger without expanding _Variables_ window entries, or visiting the factory function;
-
-- Allows additional methods to be added without restructuring the factory.
-
-The class does expose private data that could have been hidden in a closure, but private variables are clearly marked in this project, and it’s not hard to remember that they are off-limits. In this case, at least, the class implementation is easier to understand, and easier to maintain.
+```
+const oWork = Work.uNew();
+...
+const oHandClick = () => Work.uReset(oWork);
+```
 
 
 #### Redux
@@ -419,6 +401,12 @@ Some class advantages can be faked, to an extent, with plain objects.
 	Stereotype names
 	Factory functions
 		Member comments here
+
+No object with methods completely serializable
+	Can disable action check in Redux
+		Still have to restore methods when reading from selector
+			Can't change prototype
+				Have to attach methods, or replace object
 
 [todo] Define 'stereotype'
 	Identify parameters types in comments
