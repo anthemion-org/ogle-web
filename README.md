@@ -117,8 +117,6 @@ class tBuff {
     ...
 ```
 
-[todo] Many nested functions in JavaScript, these diminish benefit of `a` and `o`
-
 
 #### Identifier roots
 
@@ -264,9 +262,11 @@ uAdd({ aCard: oCard, aEnt: oEnt, aCkAddFollow: true, aCkSkipAdd: true })
 
 It is appropriate to omit prefixes in these cases. This _can_ cause names to collide with imports (some of which use no prefix).
 
-Obviously, third-party code also fails to use the prefixes, and that is fine. Working with such code always requires adaptation, to different names and metaphors, different programming styles, _et cetera_. The notation does not exist to give OCD sufferers an outlet for their manic energies; it is meant to make things _better_, not _perfect_.
+Obviously, third-party code also fails to use the prefixes, and that is fine. Working with such code always requires adaptation, to different names and metaphors, different programming styles, _et cetera_. The notation does not exist to give OCD sufferers an outlet for their manic energies. It is meant to make things _better_, not _perfect_.
 
 Having said that, _I’m not convinced that the prefixes work in this language_. They are very helpful in C# and C++, but they disagree to some extent with the flexibility of JavaScript — which after all is the language’s only good quality. I’m still thinking about it.
+
+[todo] Many nested functions in JavaScript, these diminish benefit of `a` and `o`
 
 
 ### Function parameter checks
@@ -288,7 +288,7 @@ Let’s start by vaporizing some common misconceptions:
 
 - _Classes mean mutable data_: Class instances need not be mutable, any more than plain objects. In this project, many classes are frozen in the constructor. That won’t work if you start subclassing (the subclass constructor won’t be able to add properties after calling `super`) but `Object.freeze` can be moved to a factory, if necessary. If a subclass is immutable, the Liskov substitution principle requires that the superclass be immutable as well. Our reasons for making the subclass immutable probably apply to the parent class already, so I’m not bothered by that.
 
-Now we’ll attempt an objective comparison of classes and plain objects. We’ll also compare methods with ordinary functions, while acknowledging that methods can be attached (somewhat awkwardly) to plain objects to produce ‘fancy objects’.
+Let’s attempt an objective comparison of classes and plain objects. We’ll also compare method APIs to procedural APIs, and we’ll do this separately, since methods _can_ be attached to plain objects to produce what I call **fancy objects**.
 
 
 #### Class advantages
@@ -301,11 +301,11 @@ The class name also makes it easy to find the comments and methods associated wi
 
 Typescript interfaces can provide some of these advantages, but they describe the requirements of a _system_ (by restricting the arguments that may be passed through a given parameter, for instance). Classes, by contrast, produce metadata that attaches to and describes specific _objects_. Both are useful, but these are not the same.
 
-Finally, classes — and more specifically, prototypal inheritance — provide efficient support for method APIs by allowing a single set of method instances to be shared throughout the class. Methods can be attached directly to plain objects, but this causes separate instances to be allocated _for every object_. Even `bind` creates a new function instance, one that wraps the function from which it was called. This could waste a lot of memory, and it is also very slow. This project requires high performance in the word search, so I tested a number of ‘fancy object’ creation strategies in the Pt2 module, which is used extensively in that search. The first two allow methods to target the object with `this`, while the last captures object state in a closure, making `this` unnecessary:
+Classes — and more specifically, prototypal inheritance — provide efficient support for method APIs by allowing a single set of method instances to be shared throughout the class. Methods can be attached directly to plain objects, but this causes separate instances to be allocated _for every object_. Even `bind` creates a new function instance, one that wraps the function from which it was called. This could waste a lot of memory, and it is also very slow. This project requires high performance in the word search, so I tested a number of fancy object creation strategies in the Pt2 module, which is used extensively in that search. The first two allow methods to target the object with `this`, while the last captures object state in a closure, making `this` unnecessary:
 
 - Defining the API within the Pt2 object literal returned from `uNew` caused the ‘SearchBoard uExec: Speed’ test (over five trials, each set to 2000 iterations) to run 33% longer than the ‘stereotype’ implementation;
 
-- Using `bind` to attach the externally-defined API after the object was instantiated caused the test to run 38% longer;
+- Using `bind` to attach an externally-defined API after the object was instantiated caused the test to run 38% longer. Note that `bind` is _slower_ than the function definitions themselves;
 
 - Converting `uNew` to a closure-producing factory caused the test to run 40% longer.
 
@@ -376,7 +376,6 @@ Procedural APIs do not rely on `this`, so a certain amount of binding confusion 
 
 ```
 const oWork = new tWork();
-...
 const oHandClick = oWork.uReset.bind(oWork);
 ```
 
@@ -384,29 +383,33 @@ are now likely to require that an instance be captured in a closure:
 
 ```
 const oWork = Work.uNew();
-...
 const oHandClick = () => Work.uReset(oWork);
 ```
 
 
 #### Redux
 
-[todo]
 Having said all that, Redux makes it difficult to represent state data with classes.
 
-Selectors replace both types and instances
+First, Redux requires that everything in the store be serializable. It generates warnings when it detects non-serializable objects, and of course it does nothing to restore methods or class metadata that are lost during serialization. It is possible to [disable those warnings](https://redux-toolkit.js.org/usage/usage-guide#working-with-non-serializable-data) by adding Redux middleware, but the documentation discourages this, [saying](https://redux.js.org/faq/organizing-state#can-i-put-functions-promises-or-other-non-serializable-items-in-my-store-state) “things like persistence and time-travel debugging” may not work if it is done.
+
+The Redux FAQ explains that these features rely on serialization, and claims that classes make serialization “tricky”. I have implemented serialization methods that support typed objects, shared instances, and reference cycles, and while it _was_ a bit tricky, it was not a big problem. It could have been done in Redux, and with less effort than was expended on the many strange quirks of the `connect` function, to pick one confounding example. Redux’s class incompatibility was a _design decision_, not a technical inevitability.
+
+Careful observers will realize that selectors _supplant both types and instances_ in React code. Instead of passing objects from one function to another, React developers define _selectors_, each of which returns a portion of the store that _would_ have been represented and shared as an instance. Put simply, Redux is part of the functional programmer’s conspiracy to sap and impurify our precious bodily fluids.
+
+[todo] Selectors replace both types and instances
 	Not practical or performant to manage all state in store
+
+Anyway, this project uses JSON to persist store data in local storage, so even if the Redux serialization warnings _were_ disabled, it would be necessary to convert the plain objects returned by `JSON.parse` into class instances. Alternatively, plain objects could be used in the store, and then converted to or perhaps wrapped with class instances when selected.
+
+As explained earlier, it is not especially performant to attach methods to plain objects, nor is it performant to change an object’s prototype after it is created.
+
+
 
 Some class advantages can be faked, to an extent, with plain objects.
 	Stereotype names
 	Factory functions
 		Member comments here
-
-No object with methods completely serializable
-	Can disable action check in Redux
-		Still have to restore methods when reading from selector
-			Can't change prototype
-				Have to attach methods, or replace object
 
 [todo] Define 'stereotype'
 	Identify parameters types in comments
