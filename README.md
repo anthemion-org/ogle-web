@@ -287,7 +287,7 @@ I think this is a problem, so let’s attempt an objective comparison of classes
 
 First, though, let’s vaporize some common misconceptions:
 
-- _Prototypal inheritance is better than classes_: I’ve seen this bizarre claim more than once. Class declarations _produce traditional prototypal inheritance relations_. The two approaches are essentially synonymous, and the few non-syntactic changes introduced by the declaration are certainly improvements. The fact that some developers criticize classes without understanding this astounds me;
+- _Prototypal inheritance is better than classes_: I’ve seen this bizarre claim more than once. Class declarations _produce traditional prototypal inheritance relations_. The two approaches are essentially synonymous, and the few non-syntactic changes introduced by the declaration are certainly improvements. The fact that some developers criticize classes _without understanding this_ astounds me;
 
 - _Classes mean lots of inheritance_: JavaScript classes do use prototypal inheritance to share non-static methods with instances, but it is not necessary to exceed this single layer of inheritance. That is a design choice, and much benefit can be gained without ever typing `extends`. I developed with C++, C#, and Java for many years, and I seldom created deep inheritance hierarchies;
 
@@ -406,31 +406,24 @@ In this project, plain objects could be used in the store, and then converted to
 
 Ultimately, despite my preference for classes, I chose to use plain objects with procedural APIs in the Redux store. These aren’t free-form objects, however; the types are named and documented much as if they were classes, and their content is rigidly specified.
 
-I am calling these **stereotypes** to distinguish them from _ad hoc_ objects that are not widely shared. An example is found in the `Util/Rect.js` module. Every stereotype defines one or more factory functions, including one called `uNew`, which is called by other factories (if there are such). Stereotype members are assigned and documented in `uNew`, and instances are usually frozen there as well. Functions that would have been implemented as methods accept a stereotype instance as their first parameter, to stand in for `this`.
-
-
-### Constructors and function overloading
-
-All class variables are initialized and commented in the constructor. If meaningful values are not available, variables are set to `null`.
-
-JavaScript does not allow function overloading in the traditional sense. Some developers emulate overloading by checking parameter values and types at the start of the function, in order to define missing parameters, or call different implementations. That can become surprisingly complex, however.
-
-Overloading is most useful when constructing classes; a rectangle might be constructed from two points, or a point and two lengths, or a JSON string, _et cetera_. In this project, constructors are never overloaded; instead, each constructor accepts all the parameters it is possible to set from outside the class. Static factory functions with descriptive names are then used to invoke that constructor with varying inputs. See `Card.js` for an example; it provides three factory functions, including `uNewEmpty`, which creates a new card from no inputs. Factory functions often have roots that begin with `From`. The text following `From` identifies the input expected by that factory.
+I am calling these **stereotypes** to distinguish them from _ad hoc_ objects that are not widely shared. An example is found in the `Util/Rect.js` module. Every stereotype defines one or more factory functions, including one called `uNew`, which is called by other factories (if there are such). Stereotype members are documented in `uNew`, and instances are usually frozen there as well. Functions that would have been implemented as methods accept a stereotype instance as their first parameter, to stand in for `this`.
 
 
 ### Mutability and cloning
 
 JavaScript lacks the detailed `const` protections found in C++, so sharing object references with and from functions can expose internal data that should not be mutated by the caller. This is prevented most directly by using immutable types, but immutability can make some operations slower, or harder to implement.
 
-In this project, every class or stereotype is explicitly documented as ‘immutable’ or ‘mutable’. Most immutable class instances and stereotypes are frozen in their constructors or factory functions. `Object.freeze` is amazingly slow, however, so Pt2 and other low-level stereotypes do this only in the development build. In Node, when Pt2 did freeze, the word search took more than twice as long. When I created non-writable Pt2 instances by passing property descriptors to `Object.create`, the search took _ten times_ as long. Redux automatically freezes the objects returned by `useSelector`, so these are protected even though they are deserialized and instantiated elsewhere.
+In this project, every class or stereotype is explicitly documented as ‘immutable’ or ‘mutable’. Most immutable class instances and stereotypes are frozen in their constructors or factory functions. `Object.freeze` is amazingly slow, however, so Pt2 and other low-level stereotypes do this only in the development build. In Node, when Pt2 did freeze, the word search took more than twice as long. When I created non-writable Pt2 instances by passing property descriptors to `Object.create`, the search took _ten times_ as long. Redux automatically freezes the objects returned by `useSelector`, so these are protected even though they are instantiated elsewhere.
 
-Functions that accept mutable object parameters must clone those objects before storing them in class instances, stereotypes, or globals, in case the caller mutates the arguments afterward. For similar reasons, functions must not return mutable objects from class instances, stereotypes, or globals; they must return clones instead. This is called ‘defensive copying’. When cloning is required, mutable types implement a `uClone` function that returns a deep copy of the instance.
+Functions that accept mutable object parameters must clone those objects before storing them in class instances, stereotypes, or globals, in case the caller mutates the arguments afterward. For similar reasons, functions must not return mutable objects from class instances, stereotypes, or globals; they must return clones instead. This is called **defensive copying**. When cloning is required of them, mutable types implement a `uClone` function that returns a deep copy of the instance.
 
-As an aside, React and Redux also make an issue of mutability, but different problems are posed there, and different solutions provided.
+As an aside, React also make an issue of mutability, but different problems are posed there, and different solutions provided.
 
-React uses reference equality to detect changes in object hierarchies without visiting and comparing every node. This is why immutability matters to React: mutating an instance would leave its reference unchanged, React would not detect the change, and the page would not be updated to reflect the new state.
+React uses reference equality to detect changes in object hierarchies without visiting and comparing every node. That is why immutability matters to React: mutating an instance would leave its reference unchanged, React would not detect the change, and the page would not be updated to reflect the new state.
 
-It is not desirable to update page content that hasn’t changed, so Redux Toolkit uses Immer to enforce ‘structural sharing’ when updating store data. When a value changes, its ancestor instances are replaced, but its sibling instances (along with any siblings of those ancestors) are _reused_ to show that they have not changed. This also avoids the expense of reallocating every object in the tree.
+When a property changes somewhere in the Redux store, it is necessary to replace the containing object, plus the object containing _that_ object, and so on, until the root of the store is reached. When replacing one of these ancestor objects, it is tempting to clone and replace every object that it contains, but that would cause the _entire tree_ to be replaced, and every control on the page would then be re-rendered.
+
+To avoid updating page content that hasn’t changed, Redux Toolkit uses Immer to enforce ‘structural sharing’ when updating store data. When a value changes, its ancestor instances are replaced, but its sibling instances (along with any siblings of those ancestors) are _reused_ to show that they have not changed. This also avoids the expense of reallocating every object in the tree.
 
 So, if the store begins with these instances:
 
@@ -456,14 +449,14 @@ A change to value `E` will produce:
   E' F  G
 ```
 
-Defensive copying is about _ownership_ and _encapsulation_, rather than change detection. It allows mutable types to be used while (to a limited extent) also controlling who gets to mutate those instances.
+So, React is concerned with fast change detection. Defensive copying, by contrast, is about _ownership_ and _encapsulation_. This copying allows mutable types to be used while (to a limited extent) also controlling who gets to mutate those instances.
 
 
 ## Testing
 
 Selected functionality in this project is tested with [Jest](https://jestjs.io/).
 
-Some developers believe every function must be policed by a squad of mostly superfluous, never-failing tests. I think those developers would be more pragmatic if they were writing the checks, rather than cashing them. It makes more sense to reserve automated tests for functionality that:
+Some developers believe every function must be policed by a squad of mostly superfluous, never-failing tests. I think those developers would be more pragmatic if they were writing the checks, rather than cashing them. Automated tests can be reserved for functionality that:
 
 - Changes often, perhaps to meet performance requirements; or,
 
