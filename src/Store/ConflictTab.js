@@ -15,9 +15,8 @@ import * as Persist from "../Persist.js";
 // Tab conflict check
 // ------------------
 // In earlier versions, opening Ogle in a second tab would cause both instances
-// to run with separate copies of the store, the second equal to the local
-// storage data when its tab was opened. Both would continue to write to the
-// local storage. This created two problems:
+// to run with separate copies of the store. Both would write to local storage
+// as the app was used. This created two problems:
 //
 // 1) The user could 'cheat' by finishing the round in one tab, and then copying
 //    words from the Score view into the still-active Play view in the other

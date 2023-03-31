@@ -360,15 +360,15 @@ and even that fails if the algorithm operates on a collection of heterogenous ty
 
 #### Plain object advantages
 
-Plain objects do have many advantages. They are easy to understand, and they are directly supported by the language. They facilitate duck typing, which is a simple and flexible approach to reuse, even if it fails to help when verifying correctness.
+Plain objects do have some advantages. They are easy to understand, and they are directly supported by the language. They facilitate duck typing, which is a simple and flexible approach to reuse, even if it fails to help when verifying correctness.
 
-They _should_ be easily serializable, unlike class instances, fancy objects, or state-capturing closures, which cannot be deserialized without factory functions, and which sometimes require help when serializing as well. Unfortunately, the format of choice for most developers fails to realize this advantage:
+They _should_ be easily serializable, unlike class instances, fancy objects, or state-capturing closures, which cannot be deserialized without factory functions, and which sometimes also require help when serializing. Unfortunately, the format of choice fails to realize this advantage:
 
 - JSON fails to support `NaN` and `Infinite` values, so it becomes necessary to add special handling (`UtilJSON.uNumFix` and `uFromParse` in this project) for these values;
 
 - JSON cannot represent reference cycles, and though it can serialize shared instances, it does this by duplicating them. That doesn’t harm correctness, if the instances are immutable, and it probably doesn’t waste much memory, since large datasets are unlikely to be serialized as JSON. It _does_ make it impossible to optimize equality checks with simple reference comparisons, however.
 
-It’s hard to count this as a win. Plain objects _do_ meet Redux’s serializability requirements, however.
+When we deserialize data, we want the same data that we started with, so it’s hard to count this as a win. Plain objects _do_ meet Redux’s serializability requirements, however.
 
 When not attached as methods, object APIs must be implemented procedurally, and the target object must be passed to each procedure as it is used. This is less concise than a method invocation (see above) but it does allow calls to the API to be identified unambiguously, with a text search of the import name. Tools like VSCode offer ‘Find All References’ functionality that can find some method invocations, but these features _don’t work consistently_. Therefore, unless a method is named uniquely across all APIs, calls cannot be identified without knowing the type of each object that invokes the name, which can be difficult during code analysis. Note that this is the converse of the polymorphism advantage attributed to methods earlier.
 
@@ -391,30 +391,17 @@ const oHandClick = () => Work.uReset(oWork);
 
 Having said all that, Redux makes it difficult to represent state data with classes.
 
-First, Redux requires that everything in the store be serializable. It generates warnings when it detects non-serializable objects, and of course it does nothing to restore methods or class metadata that are lost during serialization. It is possible to [disable those warnings](https://redux-toolkit.js.org/usage/usage-guide#working-with-non-serializable-data) by adding Redux middleware, but the documentation discourages this, [saying](https://redux.js.org/faq/organizing-state#can-i-put-functions-promises-or-other-non-serializable-items-in-my-store-state) “things like persistence and time-travel debugging” may not work if it is done.
+First, Redux requires that everything in the store be serializable, presumably with `JSON.stringify` and `JSON.parse`. Redux generates warnings when it detects non-serializable objects, and of course it does nothing to restore methods or class metadata that are lost during serialization. It is possible to [disable those warnings](https://redux-toolkit.js.org/usage/usage-guide#working-with-non-serializable-data) by adding Redux middleware, but the documentation discourages this, [saying](https://redux.js.org/faq/organizing-state#can-i-put-functions-promises-or-other-non-serializable-items-in-my-store-state) “things like persistence and time-travel debugging” may not work after.
 
-The Redux FAQ explains that these features rely on serialization, and claims that classes make serialization “tricky”. I have implemented serialization methods that support typed objects, shared instances, and reference cycles, and while it _was_ a bit tricky, it was not a big problem. It could have been done in Redux, and with less effort than was expended on the many strange quirks of the `connect` function, to pick one confounding example. Redux’s class incompatibility was a _design decision_, not a technical inevitability.
+The Redux FAQ explains that these features rely on serialization, and claims that classes make serialization “tricky”. In another project, I implemented a serialization system that supports typed objects, shared instances, and reference cycles, and while it _was_ a bit tricky, it was not a big problem. It could have been done in Redux, and with less effort than was expended on the many strange quirks of the `connect` function, to pick one confounding example. Redux’s class incompatibility was a _design decision_, not a technical inevitability.
 
-Careful observers will realize that selectors _supplant both types and instances_ in React code. Instead of passing objects from one function to another, React developers define _selectors_, each of which returns a portion of the store that _would_ have been represented and shared as an instance. Put simply, Redux is part of the functional programmer’s conspiracy to sap and impurify our precious bodily fluids.
+It’s not actually clear what the documentation means by “things like persistence” (perhaps the `rt2zz/redux-persist` package?) but even if that is disregarded, and if time-travel debugging is not wanted, it seems possible that something else could break in a future version of Redux, if class instances are used.
 
-[todo] Selectors replace both types and instances
-	Not practical or performant to manage all state in store
+Plain objects could be used in the store, and then converted to class instances or fancy objects when selected. These slow operations would be acceptable at the selector level, which passes smaller amounts of data, but this approach seems awkward, and it would be necessary to convert class instances to plain objects before using them as Redux action objects. Moreover, this wouldn’t allow method APIs to be used within Redux reducers.
 
-Anyway, this project uses JSON to persist store data in local storage, so even if the Redux serialization warnings _were_ disabled, it would be necessary to convert the plain objects returned by `JSON.parse` into class instances. Alternatively, plain objects could be used in the store, and then converted to or perhaps wrapped with class instances when selected.
+Ultimately, I chose to use procedural APIs for types in the Redux store. Because this project uses the store to persist data, this includes all persistent types as well. These aren’t free-form objects, however; much as if they were classes, I define specific content for each
 
-As explained earlier, it is not especially performant to attach methods to plain objects, nor is it performant to change an object’s prototype after it is created.
-
-
-
-Some class advantages can be faked, to an extent, with plain objects.
-	Stereotype names
-	Factory functions
-		Member comments here
-
-[todo] Define 'stereotype'
-	Identify parameters types in comments
-	Always factory functions
-		Comment contents there
+I am calling these **stereotypes**, to distinguish them from _ad hoc_ objects that are not widely shared. An example is found in the `Util/Rect.js` module. Every stereotype defines one or more factory functions, including one called `uNew`, which is called by other factories, if there are such. Stereotype members are assigned and documented in `uNew`, and instances are usually frozen there as well. Functions that would have been implemented as methods accept a stereotype instance as their first parameter, to stand in for `this`.
 
 
 ### Constructors and function overloading
