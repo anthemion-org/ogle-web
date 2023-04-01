@@ -1,7 +1,7 @@
 # Ogle: _Word-finding game for the web_
 
 
-[Contents](#contents)
+Contents
 
 [Introduction](#introduction)
 
@@ -9,36 +9,36 @@
 
 [Project structure](#project-structure)
 
-[Architecture](#architecture)
-[State management and persistence](#state-management-and-persistence)
-[PWA functionality](#pwa-functionality)
+[Architecture](#architecture)  
+[State management and persistence](#state-management-and-persistence)  
+[PWA functionality](#pwa-functionality)  
 [Class and function components](#class-and-function-components)
 
-[Programming conventions](#programming-conventions)
-[Identifier naming](#identifier-naming)
+[Programming conventions](#programming-conventions)  
+[Identifier naming](#identifier-naming)  
 [Function parameter checks](#function-parameter-checks)
 
-[Classes, methods, and plain objects](#classes-methods-and-plain-objects)
-[Misconceptions about classes](#misconceptions-about-classes)
-[Class advantages](#class-advantages)
-[Method advantages](#method-advantages)
-[Plain object advantages](#plain-object-advantages)
-[Redux](#redux)
+[Classes, methods, and plain objects](#classes-methods-and-plain-objects)  
+[Misconceptions about classes](#misconceptions-about-classes)  
+[Class advantages](#class-advantages)  
+[Method advantages](#method-advantages)  
+[Plain object advantages](#plain-object-advantages)  
+[Classes with Redux](#classes-with-redux)
 
-[Mutability and cloning](#mutability-and-cloning)
+[Mutability and cloning](#mutability-and-cloning)  
 [Immutability in React](#immutability-in-react)
 
 [Testing](#testing)
 
-[Miscellanea](#miscellanea)
-[Game design](#game-design)
-[Word search algorithm](#word-search-algorithm)
+[Miscellanea](#miscellanea)  
+[Game design](#game-design)  
+[Word search algorithm](#word-search-algorithm)  
 [SVG in React](#svg-in-react)
 
-[Credits](Credits)
-[Sanitize CSS reset](#sanitize-css-reset)
-[‘bryc’ random number utilities](#‘bryc’-random-number-utilities)
-[SCOWL word list](#scowl-word-list)
+[Credits](Credits)  
+[Sanitize CSS reset](#sanitize-css-reset)  
+[‘bryc’ random number utilities](#bryc-random-number-utilities)  
+[SCOWL word list](#scowl-word-list)  
 [Other resources](#other-resources)
 
 
@@ -240,7 +240,7 @@ const oHandClick = () => Work.uReset(oWork);
 ```
 
 
-#### Redux
+#### Classes with Redux
 
 Classes have many advantages, which is why they have been used in mainstream languages for _longer than most JavaScript developers have been alive_. Having said that, Redux makes it difficult to represent state data with classes.
 
