@@ -1,4 +1,48 @@
-# Ogle: Word-finding game for the web
+# Ogle: _Word-finding game for the web_
+
+
+[Contents](#contents)
+
+[Introduction](#introduction)
+
+[License](#license)
+
+[Project structure](#project-structure)
+
+[Architecture](#architecture)
+[State management and persistence](#state-management-and-persistence)
+[PWA functionality](#pwa-functionality)
+[Class and function components](#class-and-function-components)
+
+[Programming conventions](#programming-conventions)
+[Identifier naming](#identifier-naming)
+[Function parameter checks](#function-parameter-checks)
+
+[Classes, methods, and plain objects](#classes-methods-and-plain-objects)
+[Misconceptions about classes](#misconceptions-about-classes)
+[Class advantages](#class-advantages)
+[Method advantages](#method-advantages)
+[Plain object advantages](#plain-object-advantages)
+[Redux](#redux)
+
+[Mutability and cloning](#mutability-and-cloning)
+[Immutability in React](#immutability-in-react)
+
+[Testing](#testing)
+
+[Miscellanea](#miscellanea)
+[Game design](#game-design)
+[Word search algorithm](#word-search-algorithm)
+[SVG in React](#svg-in-react)
+
+[Credits](Credits)
+[Sanitize CSS reset](#sanitize-css-reset)
+[‘bryc’ random number utilities](#‘bryc’-random-number-utilities)
+[SCOWL word list](#scowl-word-list)
+[Other resources](#other-resources)
+
+
+## Introduction
 
 Ogle is a free word-finding game for the web and mobile. It derives from a tabletop game you’ve probably played, but the pace is much faster. [_Play it now_.](https://www.anthemion.org/play-ogle/)
 
@@ -114,7 +158,7 @@ Typescript interfaces can provide some of these advantages, but they describe th
 
 Classes — and more specifically, prototypal inheritance — also provide efficient support for method APIs by allowing a single set of method instances to be shared throughout the class. Methods can be attached directly to plain objects to produce what we will call **fancy objects**, but this requires that separate instances be allocated _for every object_. Even `bind` creates a new function instance, one that wraps the function from which it was called. This could waste a lot of memory, and it is relatively slow. This project requires high performance in the word search, so I tested a number of fancy object creation strategies in the Pt2 module, which is used extensively in that search. The first two allow methods to target the object with `this`, while the last captures object state in a closure, making `this` unnecessary:
 
-- Defining the API within the Pt2 object literal returned from `uNew` caused the ‘SearchBoard uExec: Speed’ test (over five trials, each set to 2000 iterations) to run 33% longer than the ‘stereotype’ implementation;
+- Defining the API within the Pt2 object literal returned from `uNew` caused the ‘SearchBoard uExec: Speed’ test (running in Node, over five trials, each set to 2000 iterations) to run 33% longer than the ‘stereotype’ implementation;
 
 - Using `bind` to attach an externally-defined API after the object was instantiated caused the test to run 38% longer. Note that `bind` is slower than the function definitions themselves;
 
@@ -179,7 +223,7 @@ Plain objects _should_ be easily serializable, unlike class instances, fancy obj
 
 When we deserialize data, we want the same data that we started with, so these problems are significant. Plain objects _do_ meet Redux’s serializability requirements, however, and if we replaced JSON, we would find plain objects easier to deserialize than the alternatives. Maybe this is half a win.
 
-When not attached as methods, object APIs must be implemented procedurally, and the target object must be passed to each procedure as it is used. This is less concise than a method invocation (see above) but it does allow calls to the API to be identified unambiguously, with a text search of the import name. Tools like VSCode offer ‘Find All References’ functionality that can find some method invocations, but I’ve used these features for years, and _they do not work consistently_. Therefore, unless a method is named uniquely across all APIs, calls cannot be identified without knowing the type of each object that invokes the name, which can be difficult during code analysis. This is the unfortunate converse of the polymorphism advantage we attributed to methods earlier.
+When not attached as methods, object APIs must be implemented procedurally, and the target object must be passed to each procedure as it is used. This is less concise than a method invocation ([see above](#method-advantages)) but it does allow calls to the API to be identified unambiguously, with a text search of the import name. Tools like VSCode offer ‘Find All References’ functionality that can find some method invocations, but I’ve used these features for years, and _they do not work consistently_. Therefore, unless a method is named uniquely across all APIs, calls cannot be identified without knowing the type of each object that invokes the name, which can be difficult during code analysis. This is the unfortunate converse of the polymorphism advantage we attributed to methods earlier.
 
 Procedural APIs do not rely on `this`, so a certain amount of binding confusion disappears. `this` is the _way_ that methods achieve their concision, so that is a bit like telling an amputee that they get to save money on fingernail clippers. In any event, cases where `this` _would_ have been bound:
 
