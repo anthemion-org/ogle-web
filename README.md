@@ -74,7 +74,7 @@ Ultimately, hooks don’t seem that much better. Mostly, they’re just _differe
 
 ### Identifier naming
 
-The Ogle source code uses an identifier naming convention I have been developing for a while. It is called _HINT_, and it is documented [on my website](https://www.anthemion.org/hint_system.html).
+The Ogle source code uses an identifier naming convention I have been developing for a while. It is called _HINT_, and you will find it documented [on my website](https://www.anthemion.org/hint_system.html).
 
 
 ### Function parameter checks
@@ -122,7 +122,7 @@ Classes — and more specifically, prototypal inheritance — also provide effic
 
 There are only five methods in the Pt2 API, so these results are not encouraging.
 
-Speaking of closures, the `tPoolDie` class in this project generates random sequences of letter dice with specific probability distributions, for use when creating boards. That class _could_ be replaced with a factory that returns a die-generating function, with the state in the class being converted to a closure. Many JavaScript developers would consider that more idiomatic, but is it better? The class implementation has an obvious structure that requires no knowledge of closures, it cleanly separates initialization code from the class’s API, and it allows instance state to be viewed in the debugger without expanding _Variables_ window entries, or visiting the factory function. The closure is merely ‘interesting’.
+Speaking of closures, the `tPoolDie` class in this project generates random sequences of letter dice with specific probability distributions, for use when creating boards. That class _could_ be replaced with a factory that returns a die-generating function, with the state in the class being converted to a closure. Many JavaScript developers would consider that more idiomatic, but is it better? The class implementation has an obvious structure that requires no knowledge of closures, it cleanly separates initialization code from the class’s API, and it allows instance state to be viewed in the debugger without expanding _Variables_ window entries, or visiting the factory function. The closure is merely interesting.
 
 
 #### Method advantages
@@ -171,13 +171,13 @@ and even that fails if the algorithm operates on a collection of heterogenous ty
 
 Plain objects do have some advantages. They are much simpler and easier to understand than classes. They facilitate duck typing, which is a flexible and direct approach to reuse, even if it fails to help when verifying correctness.
 
-Plain objects _should_ be easily serializable, unlike class instances, fancy objects, or state-capturing closures, which cannot be deserialized without factory functions, and which sometimes require help when serializing as well. Unfortunately, JavaScript’s format of choice fails to realize this advantage:
+Plain objects _should_ be easily serializable, unlike class instances, fancy objects, or state-capturing closures, which cannot be deserialized without factory functions, and which sometimes also require help when serializing. Unfortunately, JavaScript’s format of choice fails to realize this advantage:
 
 - JSON fails to support `NaN` and `Infinite` values, so it becomes necessary to add special handling for these values;
 
 - JSON cannot represent reference cycles, and though it can serialize shared instances, it does this by duplicating them. That doesn’t harm correctness if the instances are immutable, and it probably doesn’t waste much memory, since large datasets are unlikely to be serialized as JSON. It _does_ make it impossible to optimize equality checks with simple reference comparisons, however.
 
-When we deserialize data, we want the same data that we started with, so it’s hard to count this as a win. Plain objects _do_ meet Redux’s serializability requirements, however.
+When we deserialize data, we want the same data that we started with, so these problems are significant. Plain objects _do_ meet Redux’s serializability requirements, however, and if we replaced JSON, we would find plain objects easier to deserialize than the alternatives. Maybe this is half a win.
 
 When not attached as methods, object APIs must be implemented procedurally, and the target object must be passed to each procedure as it is used. This is less concise than a method invocation (see above) but it does allow calls to the API to be identified unambiguously, with a text search of the import name. Tools like VSCode offer ‘Find All References’ functionality that can find some method invocations, but I’ve used these features for years, and _they do not work consistently_. Therefore, unless a method is named uniquely across all APIs, calls cannot be identified without knowing the type of each object that invokes the name, which can be difficult during code analysis. This is the unfortunate converse of the polymorphism advantage we attributed to methods earlier.
 
@@ -202,13 +202,13 @@ Classes have many advantages, which is why they have been used in mainstream lan
 
 First, Redux requires that everything in the store be serializable, presumably with `JSON.stringify` and `JSON.parse`. Redux generates warnings when it detects non-serializable objects, and of course it does nothing to restore methods or class metadata that are lost during serialization. It is possible to [disable those warnings](https://redux-toolkit.js.org/usage/usage-guide#working-with-non-serializable-data) by adding Redux middleware, but the documentation discourages this, [saying](https://redux.js.org/faq/organizing-state#can-i-put-functions-promises-or-other-non-serializable-items-in-my-store-state) “things like persistence and time-travel debugging” may not work after.
 
-The Redux FAQ explains that these features rely on serialization, and argues that classes make serialization “tricky”. In another project, I implemented a serialization system that supports typed objects, shared instances, and reference cycles, and while it _was_ a bit tricky, it was not especially difficult. It could have been done in Redux, and with less effort than was expended on the strange quirks of the `connect` function, to pick one confounding example. Redux’s class incompatibility was a _design decision_, not a technical inevitability. But because the JavaScript community is so negative about classes, there probably wasn’t much incentive to support them. And because a popular library like Redux fails to support them, JavaScript developers have another excuse to dislike classes.
+The Redux FAQ explains that these features rely on serialization, and argues that classes make serialization “tricky”. In another project, I implemented a serialization system that supports typed objects, shared instances, and reference cycles, and while it _was_ a bit tricky, it was not a big problem. It could have been done in Redux, and with less effort than was expended on the many strange quirks of the `connect` function, to pick one confounding example. Redux’s class incompatibility was a _design decision_, not a technical inevitability. But because the JavaScript community is so negative about classes, there probably wasn’t much incentive to support them. And because a popular library like Redux fails to support them, JavaScript developers have another excuse to dislike classes.
 
 It’s not clear what the Redux documentation means by “things like persistence” (perhaps the `rt2zz/redux-persist` package?) but even if that is disregarded, and if time-travel debugging is not wanted, it seems possible that something else could break in a future version of Redux, if class instances are used.
 
 In this project, plain objects could be used in the store, and then converted to class instances or fancy objects when selected. These slow operations would be acceptable at the selector level, which passes smaller amounts of data, but this approach seems awkward, and it would be necessary to convert class instances to plain objects before using them as Redux action objects. Moreover, this wouldn’t allow method APIs to be used within Redux reducers.
 
-Ultimately, despite my preference for classes, I chose to use plain objects with procedural APIs in the Redux store. These aren’t free-form objects, however; the types are named and documented much as if they were classes, and their content is rigidly specified.
+Ultimately, despite the many advantages classes offer, I chose to use plain objects with procedural APIs in the Redux store. These aren’t free-form objects, however; the types are named and documented much as if they were classes, and their content is rigidly specified.
 
 I am calling these **stereotypes** to distinguish them from _ad hoc_ objects that are not widely shared. An example is found in the `Util/Rect.js` module. Every stereotype defines one or more factory functions, including one called `uNew`, which is called by other factories (if there are such). Stereotype members are documented in `uNew`, and instances are usually frozen there as well. Functions that would have been implemented as methods accept a stereotype instance as their first parameter, to stand in for `this`.
 
@@ -220,6 +220,9 @@ JavaScript lacks the detailed `const` protections found in C++, so sharing objec
 In this project, every class or stereotype is explicitly documented as ‘immutable’ or ‘mutable’. Most immutable class instances and stereotypes are frozen in their constructors or factory functions. `Object.freeze` is amazingly slow, however, so Pt2 and other low-level stereotypes do this only in the development build. In Node, when Pt2 did freeze, the word search took more than twice as long. When I created non-writable Pt2 instances by passing property descriptors to `Object.create`, the search took _ten times_ as long. Redux automatically freezes the objects returned by `useSelector`, so these are protected even though they are instantiated elsewhere.
 
 Functions that accept mutable object parameters must clone those objects before storing them in class instances, stereotypes, or globals, in case the caller mutates the arguments afterward. For similar reasons, functions must not return mutable objects from class instances, stereotypes, or globals; they must return clones instead. This is called **defensive copying**. When cloning is required of them, mutable types implement a `uClone` function that returns a deep copy of the instance.
+
+
+#### Immutability in React
 
 As an aside, React also make an issue of mutability, but different problems are posed there, and different solutions provided.
 
