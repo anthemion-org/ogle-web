@@ -74,201 +74,7 @@ Ultimately, hooks don’t seem that much better. Mostly, they’re just _differe
 
 ### Identifier naming
 
-The Ogle source code uses an identifier naming convention I have been developing for a while. It was inspired by the [Split notation](https://www.anthemion.org/split_notation.html) I use with C# and C++, but JavaScript differs so much from those languages, it seems impossible to make the notations compatible.
-
-
-#### Identifier prefixes
-
-Every identifier begins with zero or more prefixes, in the following order, with at most one prefix from each table:
-
-| Prefix | Meaning                                 |
-|:------:|-----------------------------------------|
-| `_`    | ‘Private’ variable or function          |
-
-| Prefix | Meaning                                 |
-|:------:|-----------------------------------------|
-| `a`    | Function parameter                      |
-| `o`    | Local variable or function              |
-
-| Prefix | Meaning                                 |
-|:------:|-----------------------------------------|
-| `t`    | Class                                   |
-| `u`    | Function                                |
-
-| Prefix | Meaning                                 |
-|:------:|-----------------------------------------|
-| `i`    | Generator/iterator function or object   |
-| `j`    | Index variable                          |
-| `n`    | Property name variable                  |
-
-| Prefix | Meaning                                 |
-|:------:|-----------------------------------------|
-| `w`    | Asynchronous function or promise object |
-
-| Prefix | Meaning                                 |
-|:------:|-----------------------------------------|
-| `z`    | Special (see below)                     |
-
-Most prefixes identify a scope or a ‘mode of address’ — a distinct way of referencing some data. Other prefixes mark technical details that require special attention. The `z` prefix has no set meaning; it can be used to resolve name collisions with third-party code, or for any other reason.
-
-Using these prefixes, a class defining a ‘private’ function (really one we would _like_ to be private) that accepts an `async` function parameter might begin with:
-
-```
-class tBuff {
-  _uFromRead(auwRead) {
-    ...
-```
-
-
-#### Identifier roots
-
-After the prefixes, most identifiers include a Pascal-cased string that describes the business concern or other high-level concept that is being referenced. This is called the _root_. Because each identifier’s scope and mode of address is documented in the prefixes, the same root can be reused — without name collisions — as the concept is referenced in different ways. Imagine a function that reads account data associated with a numeric index, logs the account retrieval, and then returns the data:
-
-```
-export function uAcct(ajAcct) {
-  const oAcct = Accts[ajAcct];
-  uLog_AccessAcct(oAcct);
-  return oAcct;
-}
-```
-
-The function `uAcct`, the array index `ajAcct`, and the returned object `oAcct` all reference the same entity in different ways, yet the names do not conflict. In fact, their commonality is _emphasized_, rather than hidden, making it easier to spot conceptual mismatches.
-
-To maintain that emphasis, the noun or verb that defines the concept most basically is listed _first_ within the root, making it easier to see what a given identifier represents. Modifiers follow in _decreasing order of importance_. This ensures that the most important words remain visible. In the following example, the fact that we accidentally copied a credit card number (rather than the hash of that number) should draw immediate attention:
-
-```
-const oHashNumCardDef = aNumCardUser;
-```
-
-When we name things the way most developers do, the problem is hidden:
-
-```
-const oDefCardNumHash = aUserCardNum;
-```
-
-It is sometimes acceptable to omit the root, producing an identifier of prefixes only, as in the loop index below:
-
-```
-for (let oj = 0; oj < aEls.length; ++oj) {
-  ...
-```
-
-This should be reserved for short functions, where the context is simple and obvious.
-
-
-##### Function roots
-
-Functions are often named with a verb. If that verb acts on a direct object, the verb and its modifiers are listed _first_, these are followed by an underscore, then the verb’s _object_ is given, along with its modifiers. This clarifies which modifiers apply to the verb, and which to the object. As an example, a function that performs a ‘full update’ on the ‘read cache’ might be named:
-
-```
-function uUpdFull_CacheRead() {
-  ...
-```
-
-These ‘verb’ functions usually produce side effects.
-
-Other times, functions are named only with nouns. When this is done, the noun is _what the function returns_. These ‘noun’ functions usually do _not_ produce side effects, though they can. When the result is assigned to a variable, that variable generally has a similar root, making it easier to spot crossed wires:
-
-```
-const oBuff = aStm.uBuff();
-```
-
-Roots representing boolean values typically begin with `Ck`. This provides a consistent replacement for the `is` and `has` prefixes that some developers use for boolean identifiers.
-
-When a function returns a boolean, the `Ck` root honors the rule that noun names tell the reader _what_ is being returned — specifically, a ‘check’ of some sort. This avoids many ambiguities. Consider a method named `uReady`. Does this method tell us _whether_ the instance is ready, or does it cause the instance to _become_ ready? In this case, if the method were answering a ‘yes/no’ question, it would be called `uCkReady`, so the verb usage must be intended. Distinguishing ‘noun’ functions from ‘verb’ functions makes both names more meaningful, and it allows `uReady` and `uCkReady` to be defined in the same instance without colliding.
-
-English being what it is, ambiguities can yet arise. For instance, is ‘Cache’ a noun or a verb? When read as a noun, `uCache` perhaps returns a caching object. When read as a verb, the same function caches some unspecified value. It might help to suffix standalone verbs with an underscore (continuing the ‘verb/underscore/object’ pattern described earlier) but I have never tried that. Most ambiguities are solved by the verb/noun distinction, but this is something to watch for, and sometimes I chose different names to avoid it.
-
-Factory functions often have roots that begin with ‘From’; the noun is implicit, as these functions are meant to be invoked after specifying the containing class or module:
-
-```
-import * as Board from "./Board.js";
-
-function uExec(aParseBoard) {
-  const oBoard = Board.uFromParse(aParseBoard);
-  ...
-```
-
-
-#### Abbreviations and containers
-
-Long names produce long expressions that are hard to read, especially when their length causes the line to wrap, so longer words are abbreviated within identifiers, file and folder names, _et cetera_. Some developers, after being confounded by a few poorly-chosen abbreviations, forswear identifier abbreviation altogether. I sympathize, truly, but every team and every industry abbreviates things, so the question is not _whether_ to abbreviate, it is _when_ and _how_ to abbreviate. The obvious answer: terms that are longer, or used more often, are more deserving of abbreviation. Note that the more you use a given term, the more you gain by abbreviating it, and the safer it is to abbreviate, as the repetition makes it easier to remember. My projects frequently use the word ‘Position’, so I abbreviate aggressively to produce `Pos`. When using a less common word, it is better to choose something longer, or leave it unabbreviated. A word that is abbreviated once must be abbreviated everywhere in the project (outside of comments) and _always the same way_.
-
-Though they might contain the same type of data, a container of values differs fundamentally from a single value. For this reason, containers must be given plural names:
-
-```
-let oID = aIDs[0];
-```
-
-It is usually unnecessary to indicate the type of the container. However, I name maps (whether instances of the `Map` class, or plain objects used as maps) with a plural noun describing what the map contains, suffixed with ‘By’, and followed with a singular noun that describes the input to the map. The result is something like `CtsByID`, which maps from ‘ID’ keys to ‘count’ values. This places the content at the beginning of the name, like other container names, while reminding the reader how the map is used. It also places the value noun on the side from which the map will be read, and the key noun on the side from which it will be dereferenced:
-
-```
-const oCt = oCtsByID[aID];
-```
-
-If the name of the variable you’re writing to fails to match the left side, or if the variable you’re using to dereference the map fails to match the right, you’re probably using the map incorrectly.
-
-It is sometimes necessary to pluralize a term that ends with ‘s’. Adding a second ‘s’ could produce something that looks like a different word or abbreviation (consider that `Pos` would become `Poss`) so I add the letter ‘i’, which seems to cause fewer problems:
-
-```
-const oPos = aPos[0];
-```
-
-That’s a bit awkward, but the pluralization belongs in the root. It might be better to avoid abbreviations that end with ‘s’, or to pluralize these with ‘z’ instead.
-
-It is _never acceptable_ to use or change an abbreviation to avoid a name collision. If names do collide:
-
-- You have failed to apply the correct prefixes (possibly because you were forced to — see [Notation exceptions](#Notation-exceptions) below); or,
-
-- You have failed to include descriptive modifiers in your roots.
-
-
-#### Notation exceptions
-
-At times, it is impractical to apply certain prefixes:
-
-- Many developers define parameters or other variables that sometimes reference functions, and sometimes reference non-function values, and there is no way to prefix these correctly. Though this is a common practice, it is usually wrong to use variables this way, because they cannot be named accurately, no matter what your notation. I considered a prefix for identifiers that _sometimes_ reference functions, but it doesn’t seem worth it;
-
-- React requires that component names be capitalized, so component classes _cannot_ be prefixed with `t`;
-
-- Some prefixes do not work well with destructuring, particularly `a` and `o`.
-
-When destructuring is used to implement named parameters:
-
-```
-function uAdd({ Card, Ent, CkAddFollow, CkSkipAdd }) {
-  ...
-```
-
-applying the `a` prefix requires that parameters be renamed in the destructuring pattern, which is very noisy:
-
-```
-function uAdd({
-  Card: aCard, Ent: aEnt, CkAddFollow: aCkAddFollow, CkSkipAdd: aCkSkipAdd
-}) {
-  ...
-```
-
-Note that it would _not_ be correct to apply the prefix within the pattern:
-
-```
-function uAdd({ aCard, aEnt, aCkAddFollow, aCkSkipAdd }) {
-  ...
-```
-
-as the names would look like function parameters (on the caller side) when specified by the caller:
-
-```
-uAdd({ aCard: oCard, aEnt: oEnt, aCkAddFollow: true, aCkSkipAdd: true })
-```
-
-It is appropriate to omit prefixes in these cases. This _can_ cause names to collide with imports (some of which use no prefix).
-
-Obviously, third-party code also fails to use the prefixes, and that is fine. Working with such code always requires adaptation, to different names and metaphors, different programming styles, _et cetera_. The notation does not exist to give OCD sufferers an outlet for their manic energies. It is meant to make things _better_, not _perfect_.
-
-Having said that, _I’m not convinced that the prefixes work in this language_. They are very helpful in C# and C++, but they disagree to some extent with the flexibility of JavaScript — which after all is the language’s only good quality. I’m still thinking about it.
-
-[todo] Many nested functions in JavaScript, these diminish benefit of `a` and `o`
+The Ogle source code uses an identifier naming convention I have been developing for a while. It is called _HINT_, and it is documented [on my website](https://www.anthemion.org/hint_system.html).
 
 
 ### Function parameter checks
@@ -285,7 +91,7 @@ I think this is a problem, so let’s attempt an objective comparison of classes
 
 #### Misconceptions about classes
 
-First, though, let’s vaporize some common misconceptions:
+First though, let’s vaporize some common misconceptions:
 
 - _Prototypal inheritance is better than classes_: I’ve seen this bizarre claim more than once. Class declarations _produce traditional prototypal inheritance relations_. The two approaches are essentially synonymous, and the few non-syntactic changes introduced by the declaration are certainly improvements. The fact that some developers criticize classes _without understanding this_ astounds me;
 
@@ -316,9 +122,7 @@ Classes — and more specifically, prototypal inheritance — also provide effic
 
 There are only five methods in the Pt2 API, so these results are not encouraging.
 
-Speaking of closures, the `tPoolDie` class in this project generates random sequences of letter dice with specific probability distributions, for use when creating boards. That class _could_ be replaced with a factory that returns a die-generating function, with the state in the class being converted to a closure. Many JavaScript developers would consider that more idiomatic, but is it better? The class implementation has an obvious structure that requires no knowledge of closures, it cleanly separates initialization code from the class’s API, and it allows instance state to be viewed in the debugger without expanding _Variables_ window entries, or visiting the factory function. The closure is merely interesting.
-
-Classes provide efficient support for methods. They also neatly package your data, the methods that operate on that data, and the documentation for both.
+Speaking of closures, the `tPoolDie` class in this project generates random sequences of letter dice with specific probability distributions, for use when creating boards. That class _could_ be replaced with a factory that returns a die-generating function, with the state in the class being converted to a closure. Many JavaScript developers would consider that more idiomatic, but is it better? The class implementation has an obvious structure that requires no knowledge of closures, it cleanly separates initialization code from the class’s API, and it allows instance state to be viewed in the debugger without expanding _Variables_ window entries, or visiting the factory function. The closure is merely ‘interesting’.
 
 
 #### Method advantages
