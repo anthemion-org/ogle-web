@@ -116,7 +116,7 @@ The Ogle source code uses an identifier naming convention I have been developing
 
 ### Function parameter checks
 
-As something of an experiment, the `Misc` module defines a `uCkThrow_Params` function that is used to check parameter types in many functions. For the most part, I have reserved these checks for public class methods and API functions. The function is a bit slow, so it is excluded from the critical path in the word search, and from low-level types like Pt2. It is disabled entirely within the production environment.
+As something of an experiment, the `Misc` module defines a `uCkThrow_Params` function that is used to check parameter types in many functions. That function throws if the parameter is `undefined` or `null`, or if it fails to match the expected type. For the most part, I have reserved these checks for public class methods and API functions. The function is a bit slow, so it is excluded from the critical path in the word search, and from low-level types like Pt2. It is disabled entirely within the production environment.
 
 
 ### Classes, methods, and plain objects
