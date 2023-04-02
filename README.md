@@ -1,7 +1,5 @@
 # Ogle: _Word-finding game for the web_
 
-## Introduction
-
 Ogle is a free word-finding game for the web and mobile. It derives from a tabletop game you’ve probably played, but the pace is much faster. [_Play it now_.](https://www.anthemion.org/play-ogle/)
 
 ![Ogle screenshots](Art/screens_ogle.png)
