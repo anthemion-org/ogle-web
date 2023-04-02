@@ -1,7 +1,7 @@
 # Ogle: _Word-finding game for the web_
 
 
-Contents
+## Contents
 
 [Introduction](#introduction)
 
@@ -10,36 +10,34 @@ Contents
 [Project structure](#project-structure)
 
 [Architecture](#architecture)  
-[State management and persistence](#state-management-and-persistence)  
-[PWA functionality](#pwa-functionality)  
-[Class and function components](#class-and-function-components)
+  [State management and persistence](#state-management-and-persistence)  
+  [PWA functionality](#pwa-functionality)  
+  [Class and function components](#class-and-function-components)
 
 [Programming conventions](#programming-conventions)  
-[Identifier naming](#identifier-naming)  
-[Function parameter checks](#function-parameter-checks)
-
-[Classes, methods, and plain objects](#classes-methods-and-plain-objects)  
-[Misconceptions about classes](#misconceptions-about-classes)  
-[Class advantages](#class-advantages)  
-[Method advantages](#method-advantages)  
-[Plain object advantages](#plain-object-advantages)  
-[Classes with Redux](#classes-with-redux)
-
-[Mutability and cloning](#mutability-and-cloning)  
-[Immutability in React](#immutability-in-react)
+  [Identifier naming](#identifier-naming)  
+  [Function parameter checks](#function-parameter-checks)
+  [Classes, methods, and plain objects](#classes-methods-and-plain-objects)  
+    [Misconceptions about classes](#misconceptions-about-classes)  
+    [Class advantages](#class-advantages)  
+    [Method advantages](#method-advantages)  
+    [Plain object advantages](#plain-object-advantages)  
+    [Classes with Redux](#classes-with-redux)
+  [Mutability and cloning](#mutability-and-cloning)  
+    [Immutability in React](#immutability-in-react)
 
 [Testing](#testing)
 
 [Miscellanea](#miscellanea)  
-[Game design](#game-design)  
-[Word search algorithm](#word-search-algorithm)  
-[SVG in React](#svg-in-react)
+  [Game design](#game-design)  
+  [Word search algorithm](#word-search-algorithm)  
+  [SVG in React](#svg-in-react)
 
 [Credits](Credits)  
-[Sanitize CSS reset](#sanitize-css-reset)  
-[‘bryc’ random number utilities](#bryc-random-number-utilities)  
-[SCOWL word list](#scowl-word-list)  
-[Other resources](#other-resources)
+  [Sanitize CSS reset](#sanitize-css-reset)  
+  [‘bryc’ random number utilities](#bryc-random-number-utilities)  
+  [SCOWL word list](#scowl-word-list)  
+  [Other resources](#other-resources)
 
 
 ## Introduction
