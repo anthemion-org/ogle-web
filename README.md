@@ -1,8 +1,5 @@
 # Ogle: _Word-finding game for the web_
 
-
-## Contents
-
 [Introduction](#introduction)
 
 [License](#license)
