@@ -27,6 +27,7 @@ npm-debug.log*
 
 # Miscellanea:
 /Temp
+**/desktop.ini
 .spellignore
 .DS_Store
 .env.local
